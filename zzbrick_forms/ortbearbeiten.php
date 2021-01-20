@@ -1,10 +1,15 @@
 <?php
 
-// Zugzwang Project
-// deutsche-schachjugend.de
-// club module
-// Copyright (c) 2016-2017, 2019-2020 Gustaf Mossakowski <gustaf@koenige.org>
-// edit places
+/**
+ * Zugzwang Project
+ * form script: edit places
+ *
+ * https://www.zugzwang.org/modules/clubs
+ *
+ * @author Gustaf Mossakowski <gustaf@koenige.org>
+ * @copyright Copyright © 2016-2017, 2019-2021 Gustaf Mossakowski
+ * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+ */
 
 
 if (empty($brick['vars'])) wrap_quit(404);
@@ -46,7 +51,7 @@ $zz['if']['add']['explanation'] = '';
 $zz['geo_map_html'] = false;
 $zz_conf['export'] = false;
 if (empty($_SESSION['login_id'])) {
-	$zz['hooks']['after_insert'] = 'my_add_revision_oeffentlich';
+	$zz['hooks']['after_insert'] = 'mf_clubs_add_revision_public';
 }
 
 $zz['fields'][2]['title'] = 'Spielort';

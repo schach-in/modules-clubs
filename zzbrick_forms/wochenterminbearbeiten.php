@@ -1,10 +1,15 @@
 <?php
 
-// Zugzwang Project
-// deutsche-schachjugend.de
-// club module
-// Copyright (c) 2017, 2019 Gustaf Mossakowski <gustaf@koenige.org>
-// edit weekly dates
+/**
+ * Zugzwang Project
+ * form script: edit weekly events
+ *
+ * https://www.zugzwang.org/modules/clubs
+ *
+ * @author Gustaf Mossakowski <gustaf@koenige.org>
+ * @copyright Copyright © 2017, 2019, 2021 Gustaf Mossakowski
+ * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+ */
 
 
 if (empty($brick['vars'])) wrap_quit(404);
@@ -91,6 +96,6 @@ if (count($orte) > 1) {
 }
 
 if (empty($_SESSION['login_id'])) {
-	$zz['hooks']['after_insert'] = 'my_add_revision_oeffentlich';
+	$zz['hooks']['after_insert'] = 'mf_clubs_add_revision_public';
 	$zz['fields'][10]['if']['add']['value'] = 'nein';
 }
