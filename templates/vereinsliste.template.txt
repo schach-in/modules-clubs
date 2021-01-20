@@ -1,0 +1,84 @@
+# Zugzwang Project
+# deutsche-schachjugend.de
+# Copyright (c) 2016-2017, 2019 Gustaf Mossakowski <gustaf@koenige.org>
+# Vereinsliste pro Verband
+#
+# List of fields:
+# org_id, organisation, mutter_org_id, vereine { org_id, organisation, kennung }
+#
+%%% item beschreibung markdown %%%
+%%% condition if website %%%
+<p><a href="%%% item website %%%">%%% item website wrap_punycode_decode %%%</a></p>
+%%% condition endif %%%
+<div class="statistics">
+<table>
+<thead>
+<tr class="sortable">
+<th>Verein</th>
+<th><abbr title="Spielort auf Karte?">Karte?</abbr></th>
+<th class="maincol">Mitglieder</th>
+<th colspan="2">jugendlich U25</th>
+<th colspan="2">weiblich</th>
+<th>DWZ-Liste</th>
+%%% condition if mit_auszeichnungen %%%
+<th>Auszeichnung</th>
+%%% condition endif %%%
+</tr>
+</thead>
+<tbody>
+%%% loop vereine %%%
+<tr class="level%%% item _level %%% %%% loopposition uneven "un" %%%even">
+<td>%%% condition unless aufloesung %%%<a href="%%% page vereinebase %%%/%%% item kennung %%%/">%%% condition endif %%%
+%%% condition if anzeigenamen %%%
+%%% loop anzeigenamen %%%
+%%% item anzeigename %%%
+%%% loopposition first|middle " / " %%%
+%%% loop end %%%
+%%% condition else %%%
+%%% item organisation %%%
+%%% condition endif %%%
+%%% condition unless spielort %%% &middot; Karte%%% condition endif %%%%%% condition unless aufloesung %%%</a>%%% condition endif %%%</td>
+<td>%%% item spielort %%%</td>
+<td class="number maincol">%%% item members wrap_number %%%</td>
+<td class="number"><span class="sortonly">%%% item members_u25 %%% </span>%%% condition if members_u25 %%%
+%%% item members_u25 wrap_number %%%
+%%% condition else %%%–%%% condition endif %%%</td>
+<td class="number percent"><span class="sortonly">%%% item members_female %%% </span>%%% condition if members_u25 %%%
+%%% item anteil_members_u25 wrap_percent %%%
+%%% condition else %%%–%%% condition endif %%%</td>
+<td class="number"><span class="sortonly">%%% item zps_code %%% </span>%%% condition if members_female %%%
+%%% item members_female wrap_number %%%
+%%% condition else %%%–%%% condition endif %%%</td>
+<td class="number percent">%%% condition if auszeichnungen %%%%%% loop auszeichnungen 1 %%%<span class="sortonly">%%% item dauer_von %%% </span>%%% loop end %%%%%% condition endif %%%
+%%% condition if members_female %%%
+%%% item anteil_members_female wrap_percent %%%
+%%% condition else %%%–%%% condition endif %%%</td>
+<td>%%% condition unless aufloesung %%%
+<a href="http://www.schachbund.de/verein/%%% item zps_code %%%.html">%%% item zps_code %%%</a>
+%%% condition endif %%%</td>
+%%% condition if auszeichnungen %%%
+<td>%%% loop auszeichnungen %%%
+%%% item dauer_von %%%%%% item dauer_bis "–%s" %%%
+%%% loopposition first|middle ", " %%%
+%%% loop end %%%</td>
+%%% condition endif %%%
+</tr>
+%%% loopposition first "</tbody><tbody id='js-clubs'>" %%%
+%%% loop end %%%
+</tbody>
+</table>
+</div>
+
+%%% item parent_orgs %%%
+
+<p><a href="../">Anzeige auf der Karte</a></p>
+
+<script type="text/javascript" src="%%% setting behaviour_path %%%/vxjs/src/core.js"></script>
+<script type="text/javascript" src="%%% setting behaviour_path %%%/vxjs/src/widgets/sortable.js"></script>
+<script type="text/javascript">
+	var sortTableObject = vxJS.widget.sorTable(document.getElementById('js-clubs'), {
+		columnFormat: [
+			null, null, 'float', 'float', 'float', null
+		]
+	});
+</script>

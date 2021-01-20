@@ -1,0 +1,14 @@
+# Zugzwang Project
+# deutsche-schachjugend.de
+# Copyright (c) 2016 Gustaf Mossakowski <gustaf@koenige.org>
+# Parent organisations of an organisation
+#
+<h2>Verband</h2>
+
+<ul class="orghierarchy">
+%%% loop parent_orgs %%%
+<li><span itemprop="parentOrganization"><a href="%%% page vereinebase %%%/%%% item kennung %%%/">%%% item organisation %%%</a></span>
+%%% loopposition first|middle "<ul>" %%%
+%%% loop end %%%
+%%% loop parent_orgs_count %%%</li></ul>
+%%% loop end %%%

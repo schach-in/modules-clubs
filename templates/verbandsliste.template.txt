@@ -1,0 +1,45 @@
+# Zugzwang Project
+# deutsche-schachjugend.de
+# Copyright (c) 2016-2017 Gustaf Mossakowski <gustaf@koenige.org>
+# Statistik zu Vereinen und Schulschachgruppen
+#
+%%% condition if website %%%
+<p><a href="%%% item website %%%">%%% item website wrap_punycode_decode %%%</a></p>
+%%% condition endif %%%
+<div class="statistics">
+<table>
+<thead>
+<tr>
+<th>Verband</th>
+<th class="maincol">Vereine</th>
+<th colspan="2">Spielorte</th>
+<th class="maincol">Mitglieder</th>
+<th colspan="2">jugendlich U25</th>
+<th colspan="2">weiblich</th>
+</tr>
+</thead>
+<tbody>
+%%% loop children %%%
+<tr class="level%%% item _level %%% %%% loopposition uneven "un" %%%even">
+<td>%%% item organisation %%%
+&nbsp;&nbsp; <a href="%%% page vereinebase %%%/%%% item kennung %%%/" title="Karte mit Vereinen mit bekannten Spielorten aus %%% item organisation %%%">Karte</a>
+%%% condition unless aktiv %%%
+ &middot; <a href="%%% page vereinebase %%%/%%% item kennung %%%/liste/" title="Liste mit Vereinen aus %%% item organisation %%%">Liste</a>
+%%% condition endif %%%
+<td class="number maincol">%%% item vereine wrap_number %%%</td>
+<td class="number">%%% item spielorte wrap_number %%%</td>
+<td class="number percent">%%% item anteil_spielorte wrap_percent %%%</td>
+<td class="number maincol">%%% item members wrap_number %%%</td>
+<td class="number">%%% item members_u25 wrap_number %%%</td>
+<td class="number percent">%%% item anteil_members_u25 wrap_percent %%%</td>
+<td class="number">%%% item members_female wrap_number %%%</td>
+<td class="number percent">%%% item anteil_members_female wrap_percent %%%</td>
+</tr>
+%%% loop end %%%
+</tbody>
+</table>
+</div>
+
+%%% item parent_orgs %%%
+
+<p><a href="../">Anzeige auf der Karte</a></p>

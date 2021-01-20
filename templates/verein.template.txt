@@ -1,0 +1,295 @@
+# Zugzwang Project
+# deutsche-schachjugend.de
+# Copyright (c) 2015-2019 Gustaf Mossakowski <gustaf@koenige.org>
+# Copyright (c) 2020      Falco Nogatz <fnogatz@gmail.com>
+# Detailinformationen über einen Verein oder eine Schulschachgruppe
+#
+# List of fields: org_id, organisation, website, aufloesung, gruendung,
+# beschreibung, zps_code, members, members_female, members_u25, avg_age,
+# avg_rating, nachfolger, nachfolger_kennung, category, schulschachgruppe,
+# schachkindergarten, topten { FIDE_Titel, Spielername, DWZ, FIDE_Elo, no,
+# spieler }, orte { contact_id, contact, address,
+# postcode, place, description,
+# latitude, longitude, remarks }, lon_min, lon_max, lat_min, lat_max,
+# longitude, latitude, teams { team_id, event, team, team_no,
+# team_identifier, duration }, parent_orgs, auszeichnungen { category, dauer_von {
+# auszeichnung_id, category_id, category, dauer_von, dauer_bis, kennung },
+# kennung }
+#
+<div itemscope itemprop="organization" itemtype="http://schema.org/Organization">
+<h1 itemprop="name">%%% item organisation %%%
+%%% condition if schachabteilung %%%
+<br><em>Schachabteilung</em>
+%%% condition endif %%%
+</h1>
+%%% condition if edit %%%
+%%% condition if schachabteilung %%%
+<p><a href="info/?focus=abteilung" class="edit">Ändern: Keine Schachabteilung</a></p>
+%%% condition elseif verein %%%
+<p><a href="info/?focus=abteilung" class="edit">Ändern: Es ist eine Schachabteilung</a></p>
+%%% condition endif %%%
+
+%%% condition unless logged_in %%%
+<p><strong>Hinweis:</strong> Deine Änderungen werden erst nach Prüfung durch uns
+für alle sichtbar freigegeben. Für die Änderungen speichern wir Deine IP-Adresse
+<code>%%% item remote_addr %%%</code>. 
+Du hast einen Zugang zur DSJ-Website?
+<a href="https://www.deutsche-schachjugend.de/s-in%%% item request_uri %%%">Dann melde Dich an!</a></p>
+%%% condition endif %%%
+%%% condition endif %%%
+
+%%% condition if aufloesung %%%
+%%% condition if schulschachgruppe %%%
+<p>Diese Schule gibt es seit <span itemprop="dissolutionDate" datetime="%%% item aufloesung %%%">%%% item aufloesung %%%</span> nicht mehr.
+%%% condition else %%%
+<p>Dieser Verein wurde <span itemprop="dissolutionDate" datetime="%%% item aufloesung %%%">%%% item aufloesung %%%</span> aufgelöst oder ist nicht mehr Mitglied im Deutschen Schachbund.
+%%% condition endif %%%
+%%% condition if nachfolger %%%
+Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung %%%/">%%% item nachfolger %%%</a>
+%%% condition endif %%%
+</p>
+%%% condition endif %%%
+%%% condition if lat_min %%%
+<script type="text/javascript">
+
+	var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/%%% setting mapbox_user %%%/%%% setting mapbox_style %%%/tiles/512/{z}/{x}/{y}?access_token=%%% setting mapbox_access_token %%%', {
+		maxZoom: 18, tileSize: 512,  zoomOffset: -1,
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	});
+	var map = L.map('bannermap', {scrollWheelZoom: false}).addLayer(tiles);
+	map.fitBounds([[%%% item lat_min %%%, %%% item lon_min %%%], [%%% item lat_max %%%, %%% item lon_max %%%]], {maxZoom: 13});
+
+	L.control.fullscreen({
+		position: 'bottomleft',
+		forceSeparateButton: true,
+		title: 'Karte vergrößern',
+		titleCancel: 'Karte verkleinern',
+		forcePseudoFullscreen: true,
+		fullscreenElement: false
+	}).addTo(map);
+
+	map.on('enterFullscreen', function() {
+		document.getElementById('banner').classList.add('leaflet-pseudo-fullscreen');
+		document.getElementById('bannermap').classList.add('leaflet-pseudo-fullscreen-2');
+		map.invalidateSize({ pan: false });
+		map.panBy({ x: 0, y: (240-map.getSize().y)/2 }, { animate: true, duration: 0.5, easeLinearity: 0.5 })
+	});
+
+	map.on('exitFullscreen', function() {
+		document.getElementById('banner').classList.remove('leaflet-pseudo-fullscreen');
+		setTimeout(function () {
+			document.getElementById('bannermap').classList.remove('leaflet-pseudo-fullscreen-2')
+			map.invalidateSize({ pan: false });
+		}, 500);
+		map.panBy({ x: 0, y: (map.getSize().y-240)/2 }, { animate: true, duration: 0.5, easeLinearity: 0.5 })
+	});
+
+	L.Icon.Default.imagePath = '/_layout/clubs/leaflet/';
+%%% condition if schulschachgruppe %%%
+%%% condition if auszeichnungen %%%
+	var Icon = new L.Icon.Default({
+		iconUrl: 'marker-star-red.png',
+		iconRetinaUrl: 'marker-star-red-2x.png'
+	});
+%%% condition else %%%
+	var Icon = new L.Icon.Default({
+		iconUrl: 'marker-icon-red.png',
+		iconRetinaUrl: 'marker-icon-red-2x.png'
+	});
+%%% condition endif %%%
+%%% condition elseif schachkindergarten %%%
+%%% condition if auszeichnungen %%%
+	var Icon = new L.Icon.Default({
+		iconUrl: 'marker-star-green.png',
+		iconRetinaUrl: 'marker-star-green-2x.png'
+	});
+%%% condition else %%%
+	var Icon = new L.Icon.Default({
+		iconUrl: 'marker-icon-green.png',
+		iconRetinaUrl: 'marker-icon-green-2x.png'
+	});
+%%% condition endif %%%
+%%% condition else %%%
+%%% condition if auszeichnungen %%%
+	var Icon = new L.Icon.Default({
+		iconUrl: 'marker-star-blue.png',
+		iconRetinaUrl: 'marker-star-blue-2x.png'
+	});
+%%% condition else %%%
+	var Icon = new L.Icon.Default({
+		iconUrl: 'marker-icon.png',
+		iconRetinaUrl: 'marker-icon-2x.png'
+	});
+%%% condition endif %%%
+%%% condition endif %%%
+%%% loop orte %%%
+%%% condition if longitude %%%
+	L.marker([%%% item latitude %%%, %%% item longitude %%%], {icon: Icon, title: "%%% item contact wrap_html_escape %%%"}).addTo(map)
+	    .bindPopup('%%% item contact wrap_html_escape %%%');
+%%% condition endif %%%
+%%% loop end %%%
+
+</script>
+%%% condition endif %%%
+%%% condition unless aufloesung %%%
+%%% condition if website %%%
+<p><a href="%%% item website %%%" target="_blank" itemprop="url">%%% item website wrap_punycode_decode %%%</a></p>
+%%% condition if edit %%%
+<p><a href="info/?focus=website" class="edit">Website ändern</a></p>
+%%% condition endif %%%
+%%% condition elseif edit %%%
+<p><a href="info/?focus=website" class="edit">Website ergänzen</a></p>
+%%% condition endif %%%
+%%% condition endif %%%
+
+<div class="column">
+%%% condition if members %%%
+<h2>Wichtigste Infos</h2>
+
+<table class="list">
+<tr><th>Mitglieder</th><td class="number">%%% item members %%%</td></tr>
+%%% condition unless keine_statistik %%%
+<tr><th>– davon jugendlich U25</th><td class="number">%%% item members_u25 %%%</td></tr>
+<tr><th>– davon weiblich</th><td class="number">%%% item members_female %%%</td></tr>
+<tr><th>Alter</th><td class="number">∅ %%% item avg_age %%% Jahre</td></tr>
+%%% condition endif %%%
+<tr><th>Spielstärke</th><td class="number">DWZ ∅ %%% item avg_rating %%%</td></tr>
+%%% condition if gruendung %%%
+<tr><th>Gründung</th><td class="number" itemprop="foundingDate" datetime="%%% item gruendung %%%">%%% item gruendung wrap_date %%%
+%%% condition if edit %%%
+<p><a href="info/?focus=gruendung" class="edit">Gründungsdatum ändern</a></p>
+%%% condition endif %%%
+</td></tr>
+%%% condition elseif edit %%%
+<tr><th>Gründung</th><td class="number"><p><a href="info/?focus=gruendung" class="edit">Gründungsdatum ergänzen</a></p></td></tr>
+%%% condition endif %%%
+</table>
+%%% condition endif %%%
+%%% condition if auszeichnungen %%%
+<h2>Auszeichnungen</h2>
+
+<ul class="awards">
+%%% loop auszeichnungen %%%
+<li itemprop="award"><strong><a href="/%%% item path %%%/">%%% item category %%%</a></strong>
+ %%% loop dauer_von %%%%%% item dauer_von %%%%%% item dauer_bis "–%d" %%%
+%%% loopposition first|middle ", " %%%
+ %%% loop end %%%
+</li>
+%%% loop end %%%
+</ul>
+
+%%% condition endif %%%
+%%% condition unless aufloesung %%%
+%%% condition if orte %%%
+
+<h2>Spielort%%% condition if orte_plural %%%e%%% condition endif %%%</h2>
+
+<dl class="places" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+%%% loop orte %%%
+<dt>%%% item contact %%%</dt>
+%%% item remarks "<dd><em>%s</em></dd>" %%%
+<dd itemprop="streetAddress">%%% item address nl2br %%%</dd>
+<dd><span itemprop="postalCode">%%% item postcode %%%</span> <span itemprop="addressLocality">%%% item place %%%</span>
+%%% item description markdown %%%
+<!-- , website, telefon, telefax, e_mail -->
+%%% condition if edit %%%
+<dd><a href="ort-bearbeiten/%%% item contact_id %%%/" class="edit">Spielort ändern</a> | <a href="ort-loeschen/%%% item contact_id %%%/" class="edit">Spielort löschen</a></dd>
+%%% condition endif %%%
+%%% condition if wochentermine %%%
+<dd><ul class="weekly">
+%%% loop wochentermine %%%
+<li><em>%%% condition if letzte %%%Letzter %%% condition else %%%%%% item woche_im_monat "%s. "%%%%%% condition endif %%%%%% item wochentag %%%%%% condition if woche_im_monat %%% im Monat%%% condition else %%%s%%% condition endif %%%
+%%% condition unless uhrzeit_ende %%% ab %%% condition endif %%% %%% item uhrzeit_beginn wrap_time %%%%%% item uhrzeit_ende wrap_time "–%s" %%% Uhr: %%% item category %%%</em>
+%%% item wbeschreibung markdown %%%
+%%% condition if edit %%%
+<a href="wochentermin-bearbeiten/%%% item wochentermin_id %%%/" class="edit">Termin ändern</a> | <a href="wochentermin-loeschen/%%% item wochentermin_id %%%/" class="edit">Termin löschen</a>
+%%% condition endif %%%
+</li>
+%%% loop end %%%
+</ul></dd>
+%%% condition endif %%%
+%%% loop end %%%
+</dl>
+%%% condition if edit %%%
+<p><a href="wochentermin-neu/" class="edit">Wöchentlichen Termin ergänzen</a><br><a href="monatstermin-neu/" class="edit">Monatlichen Termin ergänzen</a></p>
+<p><a href="ort-neu/" class="edit">Spielort ergänzen</a></p>
+%%% condition endif %%%
+%%% condition else %%%
+%%% condition if edit %%%
+<h2>Spielorte</h2>
+<p><a href="ort-neu/" class="edit">Spielort ergänzen</a></p>
+%%% condition endif %%%
+
+%%% condition endif %%%
+
+%%% item parent_orgs %%%
+%%% condition endif %%%
+
+%%% condition unless edit %%%
+%%% condition unless aufloesung %%%
+<form method="post" action="bearbeiten/" class="edit"><input type="submit" value="Daten ergänzen oder korrigieren" name="button"></form>
+%%% condition endif %%%
+%%% condition endif %%%
+
+</div>
+<div class="column">
+%%% condition if beschreibung | edit %%%
+<h2>Über uns</h2>
+%%% condition endif %%%
+%%% condition if beschreibung & edit %%%
+<p><a href="info/?focus=beschreibung" class="edit">Beschreibung ändern</a></p>
+%%% condition elseif edit %%%
+<p><a href="info/?focus=beschreibung" class="edit">Beschreibung ergänzen</a></p>
+%%% condition endif %%%
+%%% item beschreibung markdown %%%
+
+%%% condition if topten %%%
+<h2>Top10 aktive Spieler</h2>
+
+<table class="list">
+<thead>
+<tr><th>Nr.</th> <th>Name</th> <th class="number">Wertung<br>DWZ</th> <th class="number">Wertung<br>Elo</th></tr>
+</thead>
+<tbody>
+%%% loop topten %%%
+<tr class="%%% loopposition uneven "un" %%%even"><td>%%% item no %%%</td><td>%%% item FIDE_Titel %%% %%% item spieler %%%</td><td class="number">%%% item DWZ %%%</td><td class="number">%%% item FIDE_Elo %%%</td></tr>
+%%% loop end %%%
+</tbody>
+</table>
+
+<p><a href="http://www.schachbund.de/verein.html?zps=%%% item zps_code %%%">Komplette DWZ-Liste</a></p>
+%%% condition endif %%%
+
+%%% condition if teams %%%
+<h2>Teams</h2>
+<h3>bei Deutschen Meisterschaften im Jugendbereich</h3>
+<p><em>(Diese Daten sind möglicherweise nicht vollständig, werden aber im Laufe der Zeit ergänzt)</em></p>
+<table class="list">
+<thead>
+<tr><th>Datum</th> <th>Turnier</th> <th><abbr title="Platz">Pl.</abbr></th> <th>Team</th></tr>
+</thead>
+<tbody>
+%%% loop teams %%%
+<tr class="%%% loopposition uneven "un" %%%even">
+<td>%%% item duration wrap_date %%%</td>
+<td>
+%%% condition if series %%%
+<abbr title="%%% item series %%%">%%% item event %%%</abbr>
+%%% condition else %%%
+%%% item event %%%
+%%% condition endif %%%
+</td>
+<td>%%% item platz_no "%s." %%%</td>
+<td><a href="//www.deutsche-schachjugend.de/%%% item team_identifier %%%/">%%% item team %%% %%% item team_no %%%</a></td></tr>
+%%% loop end %%%
+</tbody>
+</table>
+%%% condition endif %%%
+</div>
+</div>
+
+%%% condition if latitude & longitude %%%
+<div class="further">
+<p><a href="/?lat=%%% item latitude %%%&lon=%%% item longitude %%%">Vereine und Schulschachgruppen in der Nähe</a></p>
+</div>
+%%% condition endif %%%

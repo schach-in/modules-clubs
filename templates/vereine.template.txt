@@ -1,0 +1,284 @@
+# Zugzwang Project
+# deutsche-schachjugend.de
+# Copyright (c) 2015-2019 Gustaf Mossakowski <gustaf@koenige.org>
+# Vereins- und Schulschachgruppensuche
+#
+# List of fields:
+# reselect { place_id, licence, osm_type, osm_id, boundingbox, lat, lon,
+# display_name, place_rank, category, type, importance, icon }, q, places
+#
+<div id="fullmap" class="smallmap"> </div>
+%%% condition unless embed %%%
+<div class="box"></div>
+<div class="innerbox">
+<p class="logo-right">
+%%% condition if auswahl | q | lat | lon %%%
+<a href="/deutschland" target="_top">
+%%% condition endif %%%
+<img src="/_layout/clubs/logo-schachvereine-60.png" alt="" width="60" height="60" srcset='/_layout/clubs/logo-schachvereine-60.png 1x, /_layout/clubs/logo-schachvereine-120.png 2x'>
+%%% condition if auswahl | q | lat | lon %%%
+</a>
+%%% condition endif %%%
+</p>
+
+%%% condition if auswahl %%%
+<h1><a href="/deutschland" target="_top">Schachvereine</a>: %%% item auswahl %%%</h1>
+%%% condition else %%%
+<h1>
+%%% condition if q | lat | lon %%%
+<a href="/deutschland" target="_top">
+%%% condition endif %%%
+Schachvereine und Schulschachgruppen
+%%% condition if q | lat | lon %%%
+</a>
+%%% condition endif %%%
+</h1>
+%%% condition endif %%%
+<div class="innerbox_detail">
+%%% condition if beschreibung | links %%%
+%%% item beschreibung markdown %%%
+%%% condition if links %%%
+<ul class="awards-links">
+%%% loop links %%%
+<li><a href="%%% item url %%%">%%% item title %%%</a></li>
+%%% loop end %%%
+</ul>
+%%% condition endif %%%
+%%% condition else %%%
+<p>In Deutschland gibt es %%% item vereine %%% Schachvereine. Finde hier den richtigen für Dich!</p>
+%%% condition endif %%%
+
+%%% condition if q %%%
+<h2>Suche: %%% item q wrap_html_escape %%%</h2>
+%%% condition elseif lat & lon %%%
+<h2>Suche: Im Umkreis von %%% item lat wrap_latitude %%% / %%% item lon wrap_longitude %%%</h2>
+%%% condition endif %%%
+<p class="explanation">Anzahl der angezeigten Spielorte:&nbsp;%%% item places %%%</p>
+
+</div>
+<div class="search">
+<form action="/" method="GET">
+<input type="text" name="q" value="%%% item q wrap_html_escape %%%" maxlength="64">
+<input type="submit" value="Such!">
+<p class="explanation">Postleitzahl (oder Beginn davon, wie z. B. 28 = Bremen)
+oder Ortsname</p>
+</form>
+</div>
+<div class="innerbox_detail">
+
+%%% condition if reselect | verbaende %%%
+
+<h2>Weitere Treffer</h2>
+<ul class="hits">
+%%% loop verbaende %%%
+<li><a href="%%% item kennung %%%/"><strong>%%% item organisation %%%</strong>%%% item haupt_organisation " (%s)" %%%</a></li>
+%%% loop end %%%
+%%% loop reselect %%%
+<li><a href="./?lat=%%% item lat %%%&amp;lon=%%% item lon %%%">%%% item display_name %%%</a></li>
+%%% loop end %%%
+</ul>
+%%% condition else %%%
+<h2><a href="liste/">Liste der Vereine</a></h2>
+%%% condition unless auswahl %%%
+<h2><a href="auszeichnung-und-foerderung/">Auszeichnungen</a></h2>
+%%% condition endif %%%
+%%% condition endif %%%
+
+<h2><a href="/fo/">Informationen zur Datenbank</a></h2>
+</div>
+<div id="clubs"></div>
+</div>
+%%% condition endif %%%
+
+%%% condition unless not_found %%%
+<script type="text/javascript" src="./?geojson%%% condition unless boundingbox %%%%%% condition if q %%%
+&amp;q=%%% item q rawurlencode %%%
+%%% condition endif %%%%%% condition if lat & lon %%%
+&amp;lat=%%% item lat wrap_html_escape %%%&amp;lon=%%% item lon wrap_html_escape %%%
+%%% condition endif %%%%%% condition endif %%%"></script>
+%%% condition endif %%%
+<script type="text/javascript">
+
+	var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/%%% setting mapbox_user %%%/%%% setting mapbox_style %%%/tiles/512/{z}/{x}/{y}?access_token=%%% setting mapbox_access_token %%%', {
+		maxZoom: 18, tileSize: 512,  zoomOffset: -1,
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	});
+
+	var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+	var map = L.map('fullmap').addLayer(tiles);
+
+%%% condition unless not_found %%%
+%%% condition unless q %%%
+%%% condition unless lat %%%
+%%% condition unless auswahl %%%
+	map.locate({setView: true, maxZoom: 12});
+%%% condition endif %%%
+%%% condition endif %%%
+%%% condition endif %%%
+%%% condition endif %%%
+
+%%% condition unless not_found %%%
+	var oldIcons = [];
+	function hoverMarker() {
+		var id = this.getAttribute('data-leaflet-id');
+		if (oldIcons[id]) {
+			map._layers[id].setIcon(oldIcons[id]);
+			oldIcons[id] = false;
+		} else if (map._layers[id].options.icon) {
+			oldIcons[id] = map._layers[id].options.icon;
+			map._layers[id].setIcon(hoverIcon);
+		}
+	}
+
+	L.Icon.Default.imagePath = '/_layout/clubs/leaflet/';
+	var schuleIcon = new L.Icon.Default({
+		iconUrl: 'marker-icon-red.png',
+		iconRetinaUrl: 'marker-icon-red-2x.png'
+	});
+	var schuleStar = new L.Icon.Default({
+		iconUrl: 'marker-star-red.png',
+		iconRetinaUrl: 'marker-star-red-2x.png'
+	});
+	var vereinIcon = new L.Icon.Default({
+		iconUrl: 'marker-icon.png',
+		iconRetinaUrl: 'marker-icon-2x.png'
+	});
+	var vereinStar = new L.Icon.Default({
+		iconUrl: 'marker-star-blue.png',
+		iconRetinaUrl: 'marker-star-blue-2x.png'
+	});
+	var kindergartenIcon = new L.Icon.Default({
+		iconUrl: 'marker-icon-green.png',
+		iconRetinaUrl: 'marker-icon-green-2x.png'
+	});
+	var kindergartenStar = new L.Icon.Default({
+		iconUrl: 'marker-star-green.png',
+		iconRetinaUrl: 'marker-star-green-2x.png'
+	});
+	var hoverIcon = new L.Icon.Default({
+		iconUrl: 'marker-icon-yellow.png',
+		iconRetinaUrl: 'marker-icon-yellow-2x.png'
+	});
+        
+	var markers = L.markerClusterGroup({maxClusterRadius: 20});
+	// @todo set to 10 if zoom is above 10
+
+	var geoJsonLayer = L.geoJson(locations, {
+		pointToLayer: function(feature, latlng) {
+			if (feature.properties.category == 'schulschachgruppe') {
+				if (feature.properties.awards > 0) {
+					var myIcon = schuleStar;
+				} else {
+					var myIcon = schuleIcon;
+				}
+			} else if (feature.properties.category == 'schachkindergarten') {
+				if (feature.properties.awards > 0) {
+					var myIcon = kindergartenStar;
+				} else {
+					var myIcon = kindergartenIcon;
+				}
+			} else {
+				if (feature.properties.awards > 0) {
+					var myIcon = vereinStar;
+				} else {
+					var myIcon = vereinIcon;
+				}
+			}
+			return L.marker(latlng, {
+				icon: myIcon, title: feature.properties.org,
+				link: feature.properties.identifier, category: feature.properties.category
+			});
+		},
+		onEachFeature: function (feature, layer) {
+			var popupText = '<div class="popup"><h2><a href="%%% page vereinebase %%%/' + feature.properties.identifier + '/">' + feature.properties.org + '</a></h2>';
+			if (feature.properties.members) {
+				popupText += '<p>Mitglieder: ' + feature.properties.members;
+				if (feature.properties.u25) {
+					 popupText += '<br>Mitglieder U25: ' + feature.properties.u25;
+				}
+				if (feature.properties.female) {
+					 popupText += '<br>Mitglieder weiblich: ' + feature.properties.female;
+				}
+				popupText += '<br>ø-Alter: ' + feature.properties.avg_age
+				+ '<br>ø-DWZ: ' + feature.properties.avg_rating
+			}
+			popupText += "<p class='more'><a href='%%% page vereinebase %%%/" + feature.properties.identifier + "/'>Weitere Informationen</a></p>";
+			popupText += '</div>';
+			layer.bindPopup(popupText);
+		}
+	});
+	markers.addLayer(geoJsonLayer);
+
+	map.addLayer(markers);
+
+	map.on('move', function() {
+		// Construct an empty list to fill with onscreen markers.
+		var inBounds = [],
+		// Get the map bounds - the top-left and bottom-right locations.
+			bounds = map.getBounds();
+		var listed = [];
+
+		// For each marker, consider whether it is currently visible by comparing
+		// with the current map bounds.
+		geoJsonLayer.eachLayer(function(marker) {
+			if (bounds.contains(marker.getLatLng())) {
+				var a = document.createElement('a');
+				a.href = '%%% page vereinebase %%%/' + marker.options.link + '/';
+				a.setAttribute('data-leaflet-id', marker._leaflet_id);
+				a.setAttribute('class', marker.options.category);
+				a.onmouseover = hoverMarker;
+				a.onmouseout = hoverMarker;
+				var text = document.createTextNode(marker.options.title);
+				a.appendChild(text);
+				if (listed.indexOf(marker.options.link) === -1) {
+					listed.push(marker.options.link);
+					inBounds.push(a);
+				}
+			}
+		});
+
+		var myNode = document.getElementById('clubs');
+		while (myNode.firstChild) {
+		   myNode.removeChild(myNode.firstChild);
+		}
+		if (inBounds.length > 0 && inBounds.length < 30) {
+			var h2 = document.createElement('h2');
+			h2.appendChild(document.createTextNode('Auf der Karte:'));
+			myNode.appendChild(h2);
+			// Display a list of markers.
+			var ul = document.createElement('ul');
+			for (i = 0; i < inBounds.length; i++) {
+				var li = document.createElement('li');
+				li.appendChild(inBounds[i]);
+				li.setAttribute('class', inBounds[i].className);
+				ul.appendChild(li);
+			}
+			myNode.appendChild(ul);
+		}
+	});
+%%% condition endif %%%
+
+%%% condition unless embed %%%
+	if (width > 640) {
+		map.setView([51.163375, 12.4476833333], 6);
+	} else {
+		map.setView([51.163375, 10.4476833333], 6);
+	}
+%%% condition endif %%%
+%%% condition if boundingbox %%%
+	if (width > 640) {
+		map.fitBounds(%%% item boundingbox %%%, {maxZoom: %%% item maxzoom %%%, paddingTopLeft: [5, 5], paddingBottomRight: [300, 5] });
+	} else {
+		map.fitBounds(%%% item boundingbox %%%, {maxZoom: %%% item maxzoom %%%, paddingTopLeft: [50, 0], paddingBottomRight: [20, 0] });
+	}
+%%% condition elseif zoomtofit %%%
+	if (width > 640) {
+		map.fitBounds(markers.getBounds(), {maxZoom: 12, paddingTopLeft: [5, 5], paddingBottomRight: [300, 5]});
+	} else {
+		map.fitBounds(markers.getBounds(), {maxZoom: 12, paddingTopLeft: [50, 0], paddingBottomRight: [20, 0] });
+	}
+%%% condition elseif embed %%%
+	map.fitBounds(markers.getBounds(), {padding: [5, 5]});
+%%% condition endif %%%
+
+</script>

@@ -1,0 +1,19 @@
+# Zugzwang Project
+# deutsche-schachjugend.de
+# Copyright (c) 2020 Gustaf Mossakowski <gustaf@koenige.org>
+# HTML-Ausgabe: page template for clubs module
+#
+
+%%% block definition css %%%
+	<link rel="stylesheet" type="text/css" href="/_layout/clubs/vereine.css?v=3">
+%%% block definition end %%%
+
+%%% block definition logo %%%
+<p class="logo-top"><a href="/deutschland" target="_top"><img src="/_layout/clubs/logo-schachvereine-60.png" alt="Schachvereine"  srcset="/_layout/clubs/logo-schachvereine-60.png 1x, /_layout/clubs/logo-schachvereine-120.png 2x"></a></p>
+%%% block definition end %%%
+
+%%% block definition foot %%%
+ &nbsp;&middot;&nbsp; <a href="/fo">Über …</a>
+%%% block definition end %%%
+
+%%% include page %%%

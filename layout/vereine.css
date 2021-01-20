@@ -1,0 +1,235 @@
+/*
+ * Zugzwang Project
+ * deutsche-schachjugend.de
+ * Copyright (c) 2016-2019 Gustaf Mossakowski <gustaf@koenige.org>
+ * Copyright (c) 2020      Falco Nogatz <fnogatz@gmail.com>
+ * CSS fuer Vereinsdaten
+ */
+
+
+body#map	{ overflow: auto; position: relative; }
+
+@media screen {
+	.clubs .banner	{ background-color: #FC0;
+					background-image: url('/_layout/clubs/bg-clubs.png'); }
+}
+.clubs h1, .clubs h2
+				{ color: #FC0;  }
+#map .subnav	{ position: absolute; background: white; opacity: .8;
+				z-index: 402; }
+
+#map #foot		{ z-index: 402; }
+#map .foot a	{ font-size: 90%; }
+
+@media screen and (max-width: 640px) {
+	#map h1		{ color: #000; }
+	#map #foot	{ bottom: 2.5em; left: auto; }
+	#map #foot .foot
+				{ background: white; opacity: 0.8; }
+}
+
+.column		{ width: 48%; float: left; padding-top: .5em; padding-right: 2%; }
+@media screen and (min-width: 721px) {
+.column h2:first-child
+			{ margin-top: 0; }
+}
+@media screen and (max-width: 720px) {
+	.column		{ float: none; width: auto; padding: 0; }
+}
+
+.list		{ border-collapse: collapse; }
+.list th	{ color: #666; }
+.list th, .list td
+			{ text-align: left; vertical-align: top; padding: .25em .75em 0 0; }
+.list th.number, .list td.number
+			{ text-align: right; }
+.list thead th
+			{ border-bottom: 1px solid black; }
+.list .even
+			{ background-color: #EEE; }
+@media screen and (max-width: 640px) {
+	.list		{ margin: 1em .75em; overflow: auto; }
+}
+
+.places	dt	{ font-weight: bold; margin: 1em 0 0; }
+.places dd	{ margin: 0; padding: 0; }
+@media screen and (max-width: 640px) {
+	.places dd	{ padding: 0; }
+	.places dt	{ padding: 0; }
+}
+.places ul.weekly
+			{ margin: 0; padding: .25em 0 0; }
+.places .weekly li
+			{ margin: 0 0 0 1em; padding: 0 0 .25em 0; }
+.places .weekly em
+			{ color: #666; }
+
+.further	{ clear: both; padding-top: 1em; }
+
+ul.orghierarchy
+			{ margin: 0; padding: 0 0 0 1em; }
+.orghierarchy ul
+			{ margin: 0; padding: 0 0 0 .5em; }
+.orghierarchy li
+			{ margin: 0; padding: 0; list-style: disc; }
+@media screen and (max-width: 640px) {
+ul.orghierarchy
+			{ margin: 0 .5em; }
+}
+
+.awards		{ margin: 1em 0; padding: 0; list-style: none; }
+.awards strong
+			{ color: #666; }
+@media screen and (max-width: 640px) {
+	.awards		{ padding: 0 .75em; }
+}
+
+
+.awards-links
+			{ margin: 1em 0; padding: 0 0 0 1em; }
+.awards-links li
+			{ margin: .25em 0; }
+
+/* Map */
+
+#fullmap	{ height: 100%; width: 100%; background: #DDD; }
+#fullmap .verein
+			{ font-size: 90%; margin: 0; background: #FFF; 
+			padding: .25em .1em .1em .5em; }
+#clubmap #bannermap
+			{ height: 240px; background: #FC0; }
+/* Pseudo-Fullscreen */
+#clubmap #banner
+			{ height: 240px; overflow: hidden; transition: height 0.5s ease; }
+#clubmap #banner.leaflet-pseudo-fullscreen, #clubmap #bannermap.leaflet-pseudo-fullscreen, #clubmap #bannermap.leaflet-pseudo-fullscreen-2
+			{ height: max(480px, min(700px, calc(100vh - 145px))); max-height: 100vw; }
+#clubmap #bannermap .leaflet-control-zoom-fullscreen
+			{ background: #fff url('/_layout/clubs/leaflet/fullscreen.png') no-repeat 0 0; background-size: 26px 52px; background-position: 2px 2px; }
+#clubmap #bannermap.leaflet-pseudo-fullscreen .leaflet-control-zoom-fullscreen
+			{ background-position: 2px -24px; }
+
+#map .box	{ z-index: 401; }
+#map .innerbox	{ z-index: 403; }
+@media screen and (min-width: 641px) {
+	#map .box	{ height: 100%; background: black; opacity: .6; width: 15em; }
+	#map .box, #map .innerbox
+				{ position: absolute; right: 0; top: 0; height: 100%; 
+				color: white; }
+	#map .innerbox
+				{ padding: 0 1em; width: 13em; overflow: auto; }
+	#map a:link, #map .nav a:visited
+				{ color: #8baed8; }
+	#map .subnav
+				{ right: 16em; top: .2em; margin-left: 3em;  }
+	#map #clubs	{ padding-bottom: 5em; }
+
+	#map footer	{ position: relative; z-index: 410; }
+	#map .foot	{ float: right; width: 13em;
+				line-height: 1.2; max-width: none; font-size: 100%; 
+				background: #555; opacity: .9; padding: .25em 1em .75em; }
+}
+@media screen and (min-width: 961px) {
+	#map .box		{ width: 20em; }
+	#map .innerbox	{ width: 18em; }
+	#map .subnav	{ right: 21em; }
+
+	#map .foot		{ width: 18em; }
+}
+@media screen and (max-width: 640px) {
+	h1			{ font-size: 110%; }
+	#map .innerbox_detail
+				{ display: none; }
+	#map .innerbox
+				{ position: absolute; top: 0; right: 0; margin-left: 60px; 
+				background: white; opacity: .8; font-size: 90%; }
+	#map .innerbox .search input
+				{ margin-left: .75em; }
+	#map .subnav
+				{ right: 0; }
+
+	#map #foot	{ background: transparent; }
+}
+@media screen and (max-width: 480px) {
+	#map .search .explanation
+				{ display: none; } 
+}
+
+#map .hits	{ padding: 0 1em; margin: 1em 0; font-size: 90%; }
+#map .hits li
+			{ margin: .5em 0; }
+
+#map .explanation
+			{ font-size: 85%; }
+
+#map .leaflet-container
+			{ font-family: "Fira Sans"; }
+#map .popup p	{ margin: 0; background: white; padding: 0 .6em; margin: .5em 0; }
+#map .popup h2	{ margin: 0; background: white; padding: .5em .5em 0 .5em; }
+#map .popup ul	{ margin: 0 .6em; }
+#map .popup .more
+			{ padding-bottom: 1em; }
+
+/* Map, disable some page elements */
+
+#map .banner, #map #head
+			{ display: none; }
+#map #head	{ position: absolute; }
+#map #content	{ overflow: visible; padding-bottom: 0; }
+#map .text	{ padding: 0; max-width: none; }
+#map #full, #map #content, #map .text
+			{ height: 100%; width: 100%; }
+#map #full	{ height: 100% !important; }
+
+.embed #foot
+			{ display: none; }
+
+/* List of organisations */
+
+#clubs
+			{ padding-bottom: 1em; }
+#clubs ul
+			{ margin: .5em 0 1em; font-size: 90%; padding: 0 0 0 1em; }
+#clubs li.verein
+			{ color: #2880CA; }
+#clubs li.schulschachgruppe
+			{ color: #CB253D; }
+#clubs li.schachkindergarten
+			{ color: #28AD25; }
+
+@media screen and (max-width: 640px) {
+	#clubs	{ display: none; }
+}
+
+/* Statistics */
+
+.statistics	{ overflow: auto; margin: 1.5em 0 1em; }
+.statistics table
+			{ border-collapse: collapse; }
+.statistics td, .statistics th
+			{ text-align: left; vertical-align: top; padding: .25em .5em; }
+.statistics td.number, .statistics th.number
+			{ text-align: right; }
+.statistics .level1 td:first-child
+			{ padding-left: 1.5em; }
+.statistics .level1 td
+			{ border-top: 1px solid #FC0; }
+.statistics .level2 td:first-child
+			{ padding-left: 3em; }
+.statistics .level3 td:first-child
+			{ padding-left: 4.5em; }
+.statistics .level4 td:first-child
+			{ padding-left: 6em; }
+.statistics .maincol
+			{ background: #fff5cc; padding-left: 1em; }
+.statistics .percent
+			{ color: #999; }
+
+.sortonly	{ display: none; }
+
+/* images */
+
+.imagebox	{ margin: 1.5em 0; }
+.imagebox img
+			{ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
+
+/* End */

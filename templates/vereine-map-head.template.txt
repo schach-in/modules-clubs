@@ -1,0 +1,12 @@
+# deutsche-schachjugend.de
+# Copyright (c) 2016, 2018 Gustaf Mossakowski <gustaf@koenige.org>
+# Copyright (c) 2020       Falco Nogatz <fnogatz@gmail.com>
+# Template for Leaflet Maps, HEAD-element for map for single object
+#
+	<link rel="stylesheet" type="text/css" href="/_layout/clubs/vereine.css">
+	<link rel="stylesheet" href="/_behaviour/leaflet/dist/leaflet.css">
+	<link rel="stylesheet" href="/_behaviour/leaflet-markercluster/dist/MarkerCluster.css">
+	<link rel="stylesheet" href="/_behaviour/leaflet-markercluster/dist/MarkerCluster.Default.css">
+	<script src="/_behaviour/leaflet/dist/leaflet.js"></script>
+	<script src="/_behaviour/leaflet-markercluster/dist/leaflet.markercluster.js"></script>
+	<script src="/_behaviour/leaflet.fullscreen/Control.FullScreen.js"></script>

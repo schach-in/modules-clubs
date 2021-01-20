@@ -1,0 +1,64 @@
+# default module
+# Template for KML export of coordinates
+#
+# Part of »Zugzwang Project«
+# http://www.zugzwang.org/modules/default
+#
+# @author Gustaf Mossakowski <gustaf@koenige.org>
+# @copyright Copyright © 2011 Gustaf Mossakowski
+# @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+#
+# fields:
+# title, description, styles (id, href), placemarks (title, filename, 
+# description, host, place, style, longitude, latitude, altitude)
+#
+#
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+	<Document>
+		<name>%%% item title %%%</name>
+		<description>%%% item description "<![CDATA[%s]]>" %%%</description>
+%%% loop styles %%%
+		<Style id="%%% item id %%%">
+			<IconStyle>
+				<scale>1</scale>
+				<hotSpot x="%%% item pos_x "%s" | 0.5 %%%" y="%%% item pos_y "%s" | 0 %%%" xunits="fraction" yunits="fraction" />
+				<Icon>
+					<href>%%% item href %%%</href>
+				</Icon>
+			</IconStyle>
+		</Style>
+%%% loop end %%%
+%%% loop placemarks %%%
+	<Placemark>
+		<name>%%% item title wrap_html_escape %%%</name>
+		<description><![CDATA[
+%%% condition if members %%%
+<p>Mitglieder: %%% item members %%%
+<br>Mitglieder U25: %%% item members_u25 %%%
+<br>Mitglieder weiblich: %%% item members_female %%%
+<br>ø-Alter: %%% item avg_age %%%
+<br>ø-DWZ: %%% item avg_rating %%%</p>
+%%% condition endif %%%
+<p class='more'><a href='%%% item kennung %%%/'>Weitere Informationen</a></p>
+		]]></description>
+		<styleUrl>#%%% item style %%%</styleUrl>
+%%% condition if longitude %%%
+		<Point>
+			<coordinates>%%% item longitude %%%,%%% item latitude %%%,%%% item altitude %%%</coordinates>
+		</Point>
+%%% condition endif %%%
+%%% condition if extended_data %%%
+		<ExtendedData>
+%%% loop extended_data %%%
+		<Data name="%%% item field_name %%%">
+			<displayName>%%% item title %%%</displayName>
+			<value>%%% item value %%%</value>
+		</Data>
+%%% loop end %%%
+		</ExtendedData>
+%%% condition endif %%%
+	</Placemark>
+%%% loop end %%%
+	</Document>
+</kml>
