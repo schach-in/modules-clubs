@@ -1,9 +1,15 @@
 <?php
 
-// Zugzwang Project
-// deutsche-schachjugend.de
-// Copyright (c) 2016-2020 Gustaf Mossakowski <gustaf@koenige.org>
-// Ausgabe der Vereinsliste pro Verband
+/**
+ * Zugzwang Project
+ * output of a list of clubs per federation
+ *
+ * https://www.zugzwang.org/modules/clubs
+ *
+ * @author Gustaf Mossakowski <gustaf@koenige.org>
+ * @copyright Copyright © 2016-2021 Gustaf Mossakowski
+ * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+ */
 
 
 function mod_clubs_verbandsliste($params) {
@@ -19,7 +25,7 @@ function mod_clubs_verbandsliste($params) {
 	$sql = sprintf($sql, wrap_db_escape($params[0]));
 	$data = wrap_db_fetch($sql);
 	if (!$data) {
-		$categories = clubs_from_category($params[0]);
+		$categories = mf_clubs_from_category($params[0]);
 		if (!$categories) {
 			$sql = sprintf(wrap_sql('redirects'), '/'.$params[0], '/'.$params[0], '/'.$params[0]);
 			$redirect = wrap_db_fetch($sql);
@@ -82,7 +88,7 @@ function mod_clubs_verbandsliste($params) {
 		return brick_format('%%% request vereinsliste '.$params[0].' %%%');
 	}
 
-	$data['parent_orgs'] = clubs_parent_orgs($data['org_id']);
+	$data['parent_orgs'] = mf_clubs_parent_orgs($data['org_id']);
 
 	$page['title'] = 'Liste '.$data['organisation'];
 	if ($params[0] !== 'dsb') {

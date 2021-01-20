@@ -1,9 +1,15 @@
 <?php
 
-// Zugzwang Project
-// deutsche-schachjugend.de
-// Copyright (c) 2016-2020 Gustaf Mossakowski <gustaf@koenige.org>
-// Ausgabe einer Vereinsliste pro Verband
+/**
+ * Zugzwang Project
+ * output of a list of all clubs
+ *
+ * https://www.zugzwang.org/modules/clubs
+ *
+ * @author Gustaf Mossakowski <gustaf@koenige.org>
+ * @copyright Copyright © 2016-2021 Gustaf Mossakowski
+ * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+ */
 
 
 function mod_clubs_vereinsliste($params) {
@@ -25,7 +31,7 @@ function mod_clubs_vereinsliste($params) {
 		$top = $verband;
 		$categories = false;
 	} else {
-		$categories = clubs_from_category($params[0]);
+		$categories = mf_clubs_from_category($params[0]);
 		if (!$categories) return false;
 		$category = reset($categories);
 		$top = $category;
@@ -91,7 +97,7 @@ function mod_clubs_vereinsliste($params) {
 	array_unshift($data['vereine'], $top);
 
 	if ($verband) {
-		$data['parent_orgs'] = clubs_parent_orgs($top['org_id']);
+		$data['parent_orgs'] = mf_clubs_parent_orgs($top['org_id']);
 	}
 	if (!empty($top['beschreibung'])) $data['beschreibung'] = $top['beschreibung'];
 	if (!empty($top['website'])) $data['website'] = $top['website'];

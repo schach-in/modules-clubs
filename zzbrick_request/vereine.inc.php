@@ -1,9 +1,15 @@
 <?php
 
-// Zugzwang Project
-// deutsche-schachjugend.de
-// Copyright (c) 2015-2020 Gustaf Mossakowski <gustaf@koenige.org>
-// Ausgabe einer Karte mit allen Vereinen
+/**
+ * Zugzwang Project
+ * output of a map with all clubs
+ *
+ * https://www.zugzwang.org/modules/clubs
+ *
+ * @author Gustaf Mossakowski <gustaf@koenige.org>
+ * @copyright Copyright © 2015-2021 Gustaf Mossakowski
+ * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+ */
 
 
 function mod_clubs_vereine($params) {
@@ -48,7 +54,7 @@ function mod_clubs_vereine($params) {
 			$auswahl = $haupt_org['organisation'];
 			$data['zoomtofit'] = true;
 		} else {
-			$categories = clubs_from_category($params[0]);
+			$categories = mf_clubs_from_category($params[0]);
 			if ($categories) {
 				$found = true;
 				$sql = 'SELECT org_id FROM organisationen

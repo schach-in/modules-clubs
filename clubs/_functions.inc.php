@@ -18,7 +18,7 @@
  * @param int $org_id
  * @return string
  */
-function clubs_parent_orgs($org_id) {
+function mf_clubs_parent_orgs($org_id) {
 	$org_ids = wrap_db_parents($org_id, 'SELECT mutter_org_id FROM organisationen WHERE org_id IN (%s)');
 	if (!$org_ids) return '';	
 
@@ -41,7 +41,7 @@ function clubs_parent_orgs($org_id) {
  *
  * @return bool
  */
-function clubs_add_user_from_ip() {
+function mf_clubs_add_user_from_ip() {
 	global $zz_conf;
 	require_once $zz_conf['dir'].'/zzform.php';
 
@@ -64,7 +64,7 @@ function clubs_add_user_from_ip() {
  * @param string $category
  * @return array
  */
-function clubs_from_category($category) {
+function mf_clubs_from_category($category) {
 	$sql = 'SELECT category_id, category, description
 			, SUBSTRING_INDEX(path, "/", -1) AS path
 		FROM categories

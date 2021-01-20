@@ -1,10 +1,17 @@
 <?php
 
-// Zugzwang Project
-// deutsche-schachjugend.de
-// Copyright (c) 2015-2020 Gustaf Mossakowski <gustaf@koenige.org>
-// Copyright (c) 2020      Falco Nogatz <fnogatz@gmail.com>
-// Anzeige von Daten zu einem Verein
+/**
+ * Zugzwang Project
+ * output of a data for a single club
+ *
+ * https://www.zugzwang.org/modules/clubs
+ *
+ * @author Gustaf Mossakowski <gustaf@koenige.org>
+ * @author Falco Nogatz <fnogatz@gmail.com>
+ * @copyright Copyright © 2015-2021 Gustaf Mossakowski
+ * @copyright Copyright © 2020      Falco Nogatz <fnogatz@gmail.com>
+ * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+ */
 
 
 function mod_clubs_verein($params) {
@@ -156,7 +163,7 @@ function mod_clubs_verein($params) {
 			if ($mpage !== true) return $mpage;
 		}
 		if (empty($_SESSION['user_id'])) {
-			clubs_add_user_from_ip();
+			mf_clubs_add_user_from_ip();
 		}
 		$org['logged_in'] = !empty($_SESSION['logged_in']) ? true : false;
 		$org['remote_addr'] = $_SERVER['REMOTE_ADDR'];
@@ -222,7 +229,7 @@ function mod_clubs_verein($params) {
 	$org['teams'] = wrap_db_fetch($sql, 'team_id');
 
 	if ($org['verein']) {
-		$org['parent_orgs'] = clubs_parent_orgs($org['org_id']);
+		$org['parent_orgs'] = mf_clubs_parent_orgs($org['org_id']);
 	}
 	
 	// Auszeichnungen
