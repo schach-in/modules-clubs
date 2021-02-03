@@ -51,13 +51,15 @@ function mod_clubs_verbandsliste($params) {
 	if (count($children['ids']) === 1) return false; // only main club
 	
 	foreach ($children['flat'] as $org) {
-		if (in_array($org['category'], ['Verband', 'Jugendverband'])) {
+		if (in_array($org['category'], ['Verband', 'Jugendverband', 'Sonstige Schachorganisation'])) {
 			$data['children'][$org['org_id']] = $org;
-			$data['children'][$org['org_id']]['members'] = 0;
-			$data['children'][$org['org_id']]['members_female'] = 0;
-			$data['children'][$org['org_id']]['members_u25'] = 0;
-			$data['children'][$org['org_id']]['vereine'] = 0;
-			$data['children'][$org['org_id']]['spielorte'] = 0;
+			if (!isset($data['children'][$org['org_id']]['members'])) {
+				$data['children'][$org['org_id']]['members'] = 0;
+				$data['children'][$org['org_id']]['members_female'] = 0;
+				$data['children'][$org['org_id']]['members_u25'] = 0;
+				$data['children'][$org['org_id']]['vereine'] = 0;
+				$data['children'][$org['org_id']]['spielorte'] = 0;
+			}
 		} else {
 			$parent = false;
 			for ($i = $org['_level']; $i > 0; $i--) {
@@ -76,19 +78,32 @@ function mod_clubs_verbandsliste($params) {
 		}
 	}
 	foreach ($data['children'] as $id => $org) {
-		if (!$org['vereine']) {
-			unset($data['children'][$id]);
-			continue;
+		if (!empty($org['vereine'])) {
+			$data['children'][$id]['anteil_spielorte'] = $org['spielorte'] / $org['vereine'];
 		}
-		$data['children'][$id]['anteil_spielorte'] = $org['spielorte'] / $org['vereine'];
-		$data['children'][$id]['anteil_members_female'] = $org['members_female'] / $org['members'];
-		$data['children'][$id]['anteil_members_u25'] = $org['members_u25'] / $org['members'];
+		if (!empty($org['members'])) {
+			$data['children'][$id]['anteil_members_female'] = $org['members_female'] / $org['members'];
+			$data['children'][$id]['anteil_members_u25'] = $org['members_u25'] / $org['members'];
+		}
 	}
 	if (count($data['children']) === 1) {
 		return brick_format('%%% request vereinsliste '.$params[0].' %%%');
 	}
 
 	$data['parent_orgs'] = mf_clubs_parent_orgs($data['org_id']);
+
+	// remove empty values
+	foreach ($children['flat'] as $org) {
+		if (in_array($org['category'], ['Verband', 'Jugendverband', 'Sonstige Schachorganisation'])) {
+			if (!empty($data['children'][$org['org_id']]['vereine'])) continue;
+			if (!empty($data['children'][$org['org_id']]['members'])) continue;
+			unset($data['children'][$org['org_id']]['members']);
+			unset($data['children'][$org['org_id']]['members_female']);
+			unset($data['children'][$org['org_id']]['members_u25']);
+			unset($data['children'][$org['org_id']]['vereine']);
+			unset($data['children'][$org['org_id']]['spielorte']);
+		}
+	}
 
 	$page['title'] = 'Liste '.$data['organisation'];
 	if ($params[0] !== 'dsb') {

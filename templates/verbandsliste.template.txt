@@ -1,6 +1,6 @@
 # Zugzwang Project
 # deutsche-schachjugend.de
-# Copyright (c) 2016-2017 Gustaf Mossakowski <gustaf@koenige.org>
+# Copyright (c) 2016-2017, 2021 Gustaf Mossakowski <gustaf@koenige.org>
 # Statistik zu Vereinen und Schulschachgruppen
 #
 %%% condition if website %%%
@@ -21,10 +21,15 @@
 <tbody>
 %%% loop children %%%
 <tr class="level%%% item _level %%% %%% loopposition uneven "un" %%%even">
-<td>%%% item organisation %%%
+<td>
+%%% condition unless vereine %%%<a href="%%% page vereinebase %%%/%%% item kennung %%%/">%%% condition endif %%%
+%%% item organisation %%%
+%%% condition unless vereine %%%</a>%%% condition endif %%%
+%%% condition if vereine %%%
 &nbsp;&nbsp; <a href="%%% page vereinebase %%%/%%% item kennung %%%/" title="Karte mit Vereinen mit bekannten Spielorten aus %%% item organisation %%%">Karte</a>
 %%% condition unless aktiv %%%
  &middot; <a href="%%% page vereinebase %%%/%%% item kennung %%%/liste/" title="Liste mit Vereinen aus %%% item organisation %%%">Liste</a>
+%%% condition endif %%%
 %%% condition endif %%%
 <td class="number maincol">%%% item vereine wrap_number %%%</td>
 <td class="number">%%% item spielorte wrap_number %%%</td>
