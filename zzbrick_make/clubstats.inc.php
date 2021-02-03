@@ -41,10 +41,10 @@ function mod_clubs_make_clubstats() {
 			, ROUND(SUM(IF(DWZ != 0, DWZ, 0)) / IF(SUM(IF(DWZ != 0, 1, 0)), SUM(IF(DWZ != 0, 1, 0)), 1)) AS avg_rating
 		FROM dwz_spieler
 		LEFT JOIN organisationen_kennungen
-			ON dwz_spieler.ZPS = organisationen_kennungen.identifier
+			ON IF(SUBSTRING(dwz_spieler.ZPS, 4, 2) = "00", SUBSTRING(dwz_spieler.ZPS, 1, 3), dwz_spieler.ZPS) = organisationen_kennungen.identifier
 			AND organisationen_kennungen.current = "yes"
 			AND organisationen_kennungen.identifier_category_id = 197
-		GROUP BY ZPS';
+		GROUP BY org_id';
 	$result = wrap_db_query($sql);
 	if (!$result) {
 		wrap_error('Fehler beim Erstellen der Vereinsstatistiken.');
