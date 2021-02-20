@@ -214,15 +214,15 @@ function mod_clubs_verein($params) {
 			, events.event
 			, CONCAT(events.date_begin, "/", IFNULL(events.date_end, "")) AS duration
 			, categories.category AS series
-			, (SELECT platz_no FROM tabellenstaende WHERE tabellenstaende.team_id = teams.team_id AND tabellenstaende.runde_no = turniere.runden) AS platz_no
+			, (SELECT platz_no FROM tabellenstaende WHERE tabellenstaende.team_id = teams.team_id AND tabellenstaende.runde_no = tournaments.runden) AS platz_no
 		FROM teams
 		LEFT JOIN events USING (event_id)
-		LEFT JOIN turniere USING (event_id)
+		LEFT JOIN tournaments USING (event_id)
 		LEFT JOIN categories
 			ON events.series_category_id = categories.category_id
 		WHERE verein_org_id = %d
 		AND teams.team_status = "Teilnehmer"
-		AND turniere.teilnehmerliste = "ja"
+		AND tournaments.teilnehmerliste = "ja"
 		ORDER BY IFNULL(events.date_begin, events.date_end) DESC, events.event DESC
 	';
 	$sql = sprintf($sql, $org['org_id']);
