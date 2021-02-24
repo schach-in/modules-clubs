@@ -441,7 +441,7 @@ function mod_clubs_vereine_condition_parts($q) {
  * @return array $page
  */
 function mod_clubs_vereine_json($coordinates) {
-	$page['content_type'] = 'js';
+	$page['content_type'] = 'json';
 	$page['query_strings'][] = 'geojson';
 	$page['query_strings'][] = 'q';
 
@@ -475,7 +475,6 @@ function mod_clubs_vereine_json($coordinates) {
 		];
 	}
 	$page['text'] = json_encode($data);
-	$page['text'] = 'var locations = '.$page['text'].';';
 	return $page;
 }
 

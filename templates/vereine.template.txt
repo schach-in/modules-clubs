@@ -90,13 +90,6 @@ oder Ortsname</p>
 </div>
 %%% condition endif %%%
 
-%%% condition unless not_found %%%
-<script type="text/javascript" src="./?geojson%%% condition unless boundingbox %%%%%% condition if q %%%
-&amp;q=%%% item q rawurlencode %%%
-%%% condition endif %%%%%% condition if lat & lon %%%
-&amp;lat=%%% item lat wrap_html_escape %%%&amp;lon=%%% item lon wrap_html_escape %%%
-%%% condition endif %%%%%% condition endif %%%"></script>
-%%% condition endif %%%
 <script type="text/javascript">
 
 	var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/%%% setting mapbox_user %%%/%%% setting mapbox_style %%%/tiles/512/{z}/{x}/{y}?access_token=%%% setting mapbox_access_token %%%', {
@@ -163,99 +156,121 @@ oder Ortsname</p>
 	var markers = L.markerClusterGroup({maxClusterRadius: 20});
 	// @todo set to 10 if zoom is above 10
 
-	var geoJsonLayer = L.geoJson(locations, {
-		pointToLayer: function(feature, latlng) {
-			if (feature.properties.category == 'schulschachgruppe') {
-				if (feature.properties.awards > 0) {
-					var myIcon = schuleStar;
-				} else {
-					var myIcon = schuleIcon;
+	var geoJsonUrl = './?geojson%%% condition unless boundingbox %%%%%% condition if q %%%&amp;q=%%% item q rawurlencode %%%%%% condition endif %%%%%% condition if lat & lon %%%&amp;lat=%%% item lat wrap_html_escape %%%&amp;lon=%%% item lon wrap_html_escape %%%%%% condition endif %%%%%% condition endif %%%';
+
+	fetch(geoJsonUrl)
+		.then(function (response) { return response.json() })
+		.then(function (locations) {
+			var geoJsonLayer = L.geoJson(locations, {
+				pointToLayer: function(feature, latlng) {
+					if (feature.properties.category == 'schulschachgruppe') {
+						if (feature.properties.awards > 0) {
+							var myIcon = schuleStar;
+						} else {
+							var myIcon = schuleIcon;
+						}
+					} else if (feature.properties.category == 'schachkindergarten') {
+						if (feature.properties.awards > 0) {
+							var myIcon = kindergartenStar;
+						} else {
+							var myIcon = kindergartenIcon;
+						}
+					} else {
+						if (feature.properties.awards > 0) {
+							var myIcon = vereinStar;
+						} else {
+							var myIcon = vereinIcon;
+						}
+					}
+					return L.marker(latlng, {
+						icon: myIcon, title: feature.properties.org,
+						link: feature.properties.identifier, category: feature.properties.category
+					});
+				},
+				onEachFeature: function (feature, layer) {
+					var popupText = '<div class="popup"><h2><a href="%%% page vereinebase %%%/' + feature.properties.identifier + '/">' + feature.properties.org + '</a></h2>';
+					if (feature.properties.members) {
+						popupText += '<p>Mitglieder: ' + feature.properties.members;
+						if (feature.properties.u25) {
+							 popupText += '<br>Mitglieder U25: ' + feature.properties.u25;
+						}
+						if (feature.properties.female) {
+							 popupText += '<br>Mitglieder weiblich: ' + feature.properties.female;
+						}
+						popupText += '<br>ø-Alter: ' + feature.properties.avg_age
+						+ '<br>ø-DWZ: ' + feature.properties.avg_rating
+					}
+					popupText += "<p class='more'><a href='%%% page vereinebase %%%/" + feature.properties.identifier + "/'>Weitere Informationen</a></p>";
+					popupText += '</div>';
+					layer.bindPopup(popupText);
 				}
-			} else if (feature.properties.category == 'schachkindergarten') {
-				if (feature.properties.awards > 0) {
-					var myIcon = kindergartenStar;
-				} else {
-					var myIcon = kindergartenIcon;
-				}
-			} else {
-				if (feature.properties.awards > 0) {
-					var myIcon = vereinStar;
-				} else {
-					var myIcon = vereinIcon;
-				}
-			}
-			return L.marker(latlng, {
-				icon: myIcon, title: feature.properties.org,
-				link: feature.properties.identifier, category: feature.properties.category
 			});
-		},
-		onEachFeature: function (feature, layer) {
-			var popupText = '<div class="popup"><h2><a href="%%% page vereinebase %%%/' + feature.properties.identifier + '/">' + feature.properties.org + '</a></h2>';
-			if (feature.properties.members) {
-				popupText += '<p>Mitglieder: ' + feature.properties.members;
-				if (feature.properties.u25) {
-					 popupText += '<br>Mitglieder U25: ' + feature.properties.u25;
+			markers.addLayer(geoJsonLayer);
+
+			map.addLayer(markers);
+
+			map.on('move', function() {
+				// Construct an empty list to fill with onscreen markers.
+				var inBounds = [],
+				// Get the map bounds - the top-left and bottom-right locations.
+					bounds = map.getBounds();
+				var listed = [];
+
+				// For each marker, consider whether it is currently visible by comparing
+				// with the current map bounds.
+				geoJsonLayer.eachLayer(function(marker) {
+					if (bounds.contains(marker.getLatLng())) {
+						var a = document.createElement('a');
+						a.href = '%%% page vereinebase %%%/' + marker.options.link + '/';
+						a.setAttribute('data-leaflet-id', marker._leaflet_id);
+						a.setAttribute('class', marker.options.category);
+						a.onmouseover = hoverMarker;
+						a.onmouseout = hoverMarker;
+						var text = document.createTextNode(marker.options.title);
+						a.appendChild(text);
+						if (listed.indexOf(marker.options.link) === -1) {
+							listed.push(marker.options.link);
+							inBounds.push(a);
+						}
+					}
+				});
+
+				var myNode = document.getElementById('clubs');
+				while (myNode.firstChild) {
+				   myNode.removeChild(myNode.firstChild);
 				}
-				if (feature.properties.female) {
-					 popupText += '<br>Mitglieder weiblich: ' + feature.properties.female;
+				if (inBounds.length > 0 && inBounds.length < 30) {
+					var h2 = document.createElement('h2');
+					h2.appendChild(document.createTextNode('Auf der Karte:'));
+					myNode.appendChild(h2);
+					// Display a list of markers.
+					var ul = document.createElement('ul');
+					for (i = 0; i < inBounds.length; i++) {
+						var li = document.createElement('li');
+						li.appendChild(inBounds[i]);
+						li.setAttribute('class', inBounds[i].className);
+						ul.appendChild(li);
+					}
+					myNode.appendChild(ul);
 				}
-				popupText += '<br>ø-Alter: ' + feature.properties.avg_age
-				+ '<br>ø-DWZ: ' + feature.properties.avg_rating
+			});
+
+		%%% condition if boundingbox %%%
+			if (width > 640) {
+				map.fitBounds(%%% item boundingbox %%%, {maxZoom: %%% item maxzoom %%%, paddingTopLeft: [5, 5], paddingBottomRight: [300, 5] });
+			} else {
+				map.fitBounds(%%% item boundingbox %%%, {maxZoom: %%% item maxzoom %%%, paddingTopLeft: [50, 0], paddingBottomRight: [20, 0] });
 			}
-			popupText += "<p class='more'><a href='%%% page vereinebase %%%/" + feature.properties.identifier + "/'>Weitere Informationen</a></p>";
-			popupText += '</div>';
-			layer.bindPopup(popupText);
-		}
-	});
-	markers.addLayer(geoJsonLayer);
-
-	map.addLayer(markers);
-
-	map.on('move', function() {
-		// Construct an empty list to fill with onscreen markers.
-		var inBounds = [],
-		// Get the map bounds - the top-left and bottom-right locations.
-			bounds = map.getBounds();
-		var listed = [];
-
-		// For each marker, consider whether it is currently visible by comparing
-		// with the current map bounds.
-		geoJsonLayer.eachLayer(function(marker) {
-			if (bounds.contains(marker.getLatLng())) {
-				var a = document.createElement('a');
-				a.href = '%%% page vereinebase %%%/' + marker.options.link + '/';
-				a.setAttribute('data-leaflet-id', marker._leaflet_id);
-				a.setAttribute('class', marker.options.category);
-				a.onmouseover = hoverMarker;
-				a.onmouseout = hoverMarker;
-				var text = document.createTextNode(marker.options.title);
-				a.appendChild(text);
-				if (listed.indexOf(marker.options.link) === -1) {
-					listed.push(marker.options.link);
-					inBounds.push(a);
-				}
+		%%% condition elseif zoomtofit %%%
+			if (width > 640) {
+				map.fitBounds(markers.getBounds(), {maxZoom: 12, paddingTopLeft: [5, 5], paddingBottomRight: [300, 5]});
+			} else {
+				map.fitBounds(markers.getBounds(), {maxZoom: 12, paddingTopLeft: [50, 0], paddingBottomRight: [20, 0] });
 			}
+		%%% condition elseif embed %%%
+			map.fitBounds(markers.getBounds(), {padding: [5, 5]});
+		%%% condition endif %%%
 		});
-
-		var myNode = document.getElementById('clubs');
-		while (myNode.firstChild) {
-		   myNode.removeChild(myNode.firstChild);
-		}
-		if (inBounds.length > 0 && inBounds.length < 30) {
-			var h2 = document.createElement('h2');
-			h2.appendChild(document.createTextNode('Auf der Karte:'));
-			myNode.appendChild(h2);
-			// Display a list of markers.
-			var ul = document.createElement('ul');
-			for (i = 0; i < inBounds.length; i++) {
-				var li = document.createElement('li');
-				li.appendChild(inBounds[i]);
-				li.setAttribute('class', inBounds[i].className);
-				ul.appendChild(li);
-			}
-			myNode.appendChild(ul);
-		}
-	});
 %%% condition endif %%%
 
 %%% condition unless embed %%%
@@ -264,21 +279,6 @@ oder Ortsname</p>
 	} else {
 		map.setView([51.163375, 10.4476833333], 6);
 	}
-%%% condition endif %%%
-%%% condition if boundingbox %%%
-	if (width > 640) {
-		map.fitBounds(%%% item boundingbox %%%, {maxZoom: %%% item maxzoom %%%, paddingTopLeft: [5, 5], paddingBottomRight: [300, 5] });
-	} else {
-		map.fitBounds(%%% item boundingbox %%%, {maxZoom: %%% item maxzoom %%%, paddingTopLeft: [50, 0], paddingBottomRight: [20, 0] });
-	}
-%%% condition elseif zoomtofit %%%
-	if (width > 640) {
-		map.fitBounds(markers.getBounds(), {maxZoom: 12, paddingTopLeft: [5, 5], paddingBottomRight: [300, 5]});
-	} else {
-		map.fitBounds(markers.getBounds(), {maxZoom: 12, paddingTopLeft: [50, 0], paddingBottomRight: [20, 0] });
-	}
-%%% condition elseif embed %%%
-	map.fitBounds(markers.getBounds(), {padding: [5, 5]});
 %%% condition endif %%%
 
 </script>
