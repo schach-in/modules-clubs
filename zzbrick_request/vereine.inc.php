@@ -30,6 +30,7 @@ function mod_clubs_vereine($params) {
 
 	$data['noindex'] = false;
 	$found = false;
+	$content = 'html';
 	if ($params) {
 		switch (end($params)) {
 		case 'liste':
@@ -38,6 +39,11 @@ function mod_clubs_vereine($params) {
 			return brick_format('%%% request verbandsliste '.$params[0].' %%%');
 		}
 		if (count($params) > 1) return false;
+		if (substr($params[0], -8) === '.geojson') {
+			$content = 'geojson';
+			$params[0] = substr($params[0], 0, -8);
+		}
+		$data['identifier'] = $params[0];
 		$sql = 'SELECT org_id, organisation FROM organisationen WHERE kennung = "%s"';
 		$sql = sprintf($sql, wrap_db_escape($params[0]));
 		$haupt_org = wrap_db_fetch($sql);
@@ -186,7 +192,7 @@ function mod_clubs_vereine($params) {
 		}
 	}
 	if (!$coordinates) {
-		if (isset($_GET['geojson'])) return false;
+		if ($content === 'geojson') return false;
 		if (!empty($_GET['q'])) {
 			$qs = explode(' ', wrap_db_escape($_GET['q']));
 			// Verein direkt?
@@ -233,7 +239,7 @@ function mod_clubs_vereine($params) {
 		$data['not_found'] = true;
 	}
 	
-	if (isset($_GET['geojson'])) return mod_clubs_vereine_json($coordinates);
+	if ($content === 'geojson') return mod_clubs_vereine_json($coordinates);
 	$data['q'] = isset($_GET['q']) ? $_GET['q'] : false;
 	if ($data['q'] === '0') $data['q'] = 0;
 	$data['lat'] = isset($_GET['lat']) ? $_GET['lat'] : false;
@@ -444,6 +450,7 @@ function mod_clubs_vereine_json($coordinates) {
 	$page['content_type'] = 'geojson';
 	$page['query_strings'][] = 'geojson';
 	$page['query_strings'][] = 'q';
+	$page['ending'] = 'none';
 
 	$conditional_properties = [
 		'members', 'u25', 'female', 'avg_age', 'avg_rating'
