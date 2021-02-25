@@ -31,7 +31,9 @@ function mod_clubs_vereine($params) {
 	$data['noindex'] = false;
 	$found = false;
 	$content = 'html';
-	if ($params) {
+	if (!$params) {
+		$data['identifier'] = 'deutschland';
+	} else {
 		switch (end($params)) {
 		case 'liste':
 			array_pop($params);
@@ -294,6 +296,7 @@ function mod_clubs_vereine($params) {
  * @return mixed string: SQL condition, array: list of results
  */
 function mod_clubs_vereine_condition($q) {
+	if ($q === 'deutschland') $q = '';
 	$condition = '';
 	if (strstr($q, '%')) return "AND 1=2"; // no % allowed, most of the time hackers
 
