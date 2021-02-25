@@ -1,6 +1,6 @@
 # Zugzwang Project
 # deutsche-schachjugend.de
-# Copyright (c) 2015-2019 Gustaf Mossakowski <gustaf@koenige.org>
+# Copyright (c) 2015-2021 Gustaf Mossakowski <gustaf@koenige.org>
 # Vereins- und Schulschachgruppensuche
 #
 # List of fields:
@@ -156,7 +156,7 @@ oder Ortsname</p>
 	var markers = L.markerClusterGroup({maxClusterRadius: 20});
 	// @todo set to 10 if zoom is above 10
 
-	var geoJsonUrl = '/%%% item identifier %%%.geojson%%% condition unless boundingbox %%%%%% condition if q %%%?q=%%% item q rawurlencode %%%%%% condition endif %%%%%% condition if lat & lon %%%%%% condition if q %%%&amp;%%% condition else %%%?%%%condition endif %%%lat=%%% item lat wrap_html_escape %%%&amp;lon=%%% item lon wrap_html_escape %%%%%% condition endif %%%%%% condition endif %%%';
+	var geoJsonUrl = '/%%% item identifier %%%.geojson%%% condition unless boundingbox %%%%%% condition if q %%%?q=%%% item q rawurlencode %%%%%% condition endif %%%%%% condition endif %%%';
 
 	fetch(geoJsonUrl)
 		.then(function (response) { return response.json() })
