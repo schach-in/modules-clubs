@@ -241,7 +241,7 @@ function mod_clubs_vereine($params) {
 		$data['not_found'] = true;
 	}
 	
-	if ($content === 'geojson') return mod_clubs_vereine_json($coordinates);
+	if ($content === 'geojson') return mod_clubs_vereine_json($coordinates, $data['identifier']);
 	$data['q'] = isset($_GET['q']) ? $_GET['q'] : false;
 	if ($data['q'] === '0') $data['q'] = 0;
 	$data['lat'] = isset($_GET['lat']) ? $_GET['lat'] : false;
@@ -270,7 +270,6 @@ function mod_clubs_vereine($params) {
 	if ($data['q'] OR $data['q'] === '0' OR $data['q'] === 0)
 		$page['title'] .= sprintf(': Suche nach »%s«', wrap_html_escape($data['q']));
 	if ($data['lat'] AND $data['lon']) $page['title'] .= sprintf(', Koordinaten %s/%s', wrap_latitude($data['lat']), wrap_longitude($data['lon']));
-	$page['query_strings'][] = 'geojson';
 	$page['query_strings'][] = 'lat';
 	$page['query_strings'][] = 'lon';
 	$page['query_strings'][] = 'embed';
@@ -449,11 +448,11 @@ function mod_clubs_vereine_condition_parts($q) {
  * @param array $coordinates Liste der Vereine mit Koordinaten
  * @return array $page
  */
-function mod_clubs_vereine_json($coordinates) {
+function mod_clubs_vereine_json($coordinates, $identifier) {
 	$page['content_type'] = 'geojson';
-	$page['query_strings'][] = 'geojson';
 	$page['query_strings'][] = 'q';
 	$page['ending'] = 'none';
+	$page['headers']['filename'] = sprintf('%s.geojson', $identifier);
 
 	$conditional_properties = [
 		'members', 'u25', 'female', 'avg_age', 'avg_rating'
