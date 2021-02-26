@@ -362,6 +362,7 @@ function mod_clubs_verein($params) {
 
 	// Karte mit Spielorten
 	foreach ($org['orte'] as $id => $ort) {
+		if (!$ort['longitude']) continue; // platforms
 		if ($org['edit']) $org['orte'][$id]['edit'] = true;
 		$longitude[] = $ort['longitude'];
 		$latitude[] = $ort['latitude'];
