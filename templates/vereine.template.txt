@@ -58,7 +58,7 @@ Schachvereine und Schulschachgruppen
 </div>
 <div class="search">
 <form action="/" method="GET">
-<input type="text" name="q" value="%%% item q wrap_html_escape %%%" maxlength="64">
+<input type="text" name="q" value="%%% item q wrap_html_escape %%%" maxlength="64" placeholder="PLZ oder Ort">
 <input type="submit" value="Such!">
 <p class="explanation">Postleitzahl (oder Beginn davon, wie z. B. 28 = Bremen)
 oder Ortsname</p>
