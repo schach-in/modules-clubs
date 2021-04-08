@@ -349,7 +349,7 @@ function mod_clubs_vereine_condition($q) {
 		$url = 'q=%s&countrycodes=de&format=jsonv2&accept-language=de&limit=50';
 		$wanted = [
 			'administrative', 'city', 'suburb', 'village', 'hamlet', 'town',
-			'neighbourhood'
+			'neighbourhood', 'county'
 		];
 		$condition = mod_clubs_vereine_geocode($url, $q, $wanted);
 		if (!$condition) {
