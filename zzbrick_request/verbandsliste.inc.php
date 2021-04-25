@@ -86,7 +86,8 @@ function mod_clubs_verbandsliste($params) {
 			$data['children'][$id]['anteil_members_u25'] = $org['members_u25'] / $org['members'];
 		}
 	}
-	if (count($data['children']) === 1) {
+	if (count($data['children']) <= 2) {
+		// federation + youth federation = 2, no federation has only one club
 		return brick_format('%%% request vereinsliste '.$params[0].' %%%');
 	}
 
