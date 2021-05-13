@@ -92,7 +92,7 @@ function mod_clubs_vereine($params) {
 					}
 				}
 			} else {
-				$_GET['q'] = urldecode($params[0]);
+				if (empty($_GET['q'])) $_GET['q'] = urldecode($params[0]);
 				$page['url_ending'] = 'none';
 			}
 		}
