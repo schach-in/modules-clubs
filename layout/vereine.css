@@ -124,6 +124,7 @@ ul.orghierarchy
 	#map #clubs	{ padding-bottom: 5em; }
 
 	#map footer	{ position: relative; z-index: 410; }
+	#map #foot	{ right: 0; width: 13em; }
 	#map .foot	{ float: right; width: 13em;
 				line-height: 1.2; max-width: none; font-size: 100%; 
 				background: #555; opacity: .9; padding: .25em 1em .75em; }
@@ -133,6 +134,7 @@ ul.orghierarchy
 	#map .innerbox	{ width: 18em; }
 	#map .subnav	{ right: 21em; }
 
+	#map #foot		{ right: 0; width: 18em; }
 	#map .foot		{ width: 18em; }
 }
 @media screen and (max-width: 640px) {
