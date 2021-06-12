@@ -23,7 +23,7 @@ function mod_clubs_zps($params) {
 	default:
 		return false;
 	}
-	$sql = 'SELECT organisationen.kennung
+	$sql = 'SELECT organisationen.identifier
 		FROM organisationen
 		LEFT JOIN organisationen_kennungen ok USING (org_id)
 		WHERE identifier_category_id = %d

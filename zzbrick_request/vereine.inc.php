@@ -46,7 +46,7 @@ function mod_clubs_vereine($params) {
 			$params[0] = substr($params[0], 0, -8);
 		}
 		$data['identifier'] = $params[0];
-		$sql = 'SELECT org_id, organisation FROM organisationen WHERE kennung = "%s"';
+		$sql = 'SELECT org_id, organisation FROM organisationen WHERE identifier = "%s"';
 		$sql = sprintf($sql, wrap_db_escape($params[0]));
 		$haupt_org = wrap_db_fetch($sql);
 		if ($haupt_org) {
@@ -154,7 +154,7 @@ function mod_clubs_vereine($params) {
 			, latitude AS x_latitude, longitude AS y_longitude, organisationen.website
 			, SUBSTRING_INDEX(categories.path, "/", -1) AS category
 			, members, members_female AS female, members_u25 AS u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
-			, organisationen.kennung
+			, organisationen.identifier
 			, (SELECT IFNULL(COUNT(auszeichnung_id), NULL) FROM auszeichnungen
 				WHERE auszeichnungen.org_id = organisationen.org_id) AS auszeichnungen
 			, org_id
@@ -198,7 +198,7 @@ function mod_clubs_vereine($params) {
 		if (!empty($_GET['q'])) {
 			$qs = explode(' ', wrap_db_escape($_GET['q']));
 			// Verein direkt?
-			$sql = 'SELECT org_id, kennung
+			$sql = 'SELECT org_id, identifier
 				FROM organisationen
 				WHERE organisation LIKE "%%%s%%"
 				AND ISNULL(aufloesung)';
@@ -206,9 +206,9 @@ function mod_clubs_vereine($params) {
 			$verein = wrap_db_fetch($sql);
 			if (!$verein) {
 				$q = wrap_filename($_GET['q'], '', ['-' => '']);
-				$sql = 'SELECT org_id, kennung
+				$sql = 'SELECT org_id, identifier
 				FROM organisationen
-				WHERE REPLACE(kennung, "-", "") LIKE "%%%s%%"
+				WHERE REPLACE(identifier, "-", "") LIKE "%%%s%%"
 				AND ISNULL(aufloesung)';
 				$sql = sprintf($sql, wrap_db_escape($q));
 				$verein = wrap_db_fetch($sql);
@@ -221,7 +221,7 @@ function mod_clubs_vereine($params) {
 					$change = true;
 				}
 				if ($change) {
-					$sql = 'SELECT org_id, kennung
+					$sql = 'SELECT org_id, identifier
 						FROM organisationen
 						WHERE organisation LIKE "%%%s%%"
 						AND ISNULL(aufloesung)';
@@ -230,7 +230,7 @@ function mod_clubs_vereine($params) {
 				}
 			}
 			if ($verein) {
-				$url = sprintf($zz_setting['protocol'].'://schach.in'.($zz_setting['local_access'] ? '.local' : '').'/%s/', $verein['kennung']);
+				$url = sprintf($zz_setting['protocol'].'://schach.in'.($zz_setting['local_access'] ? '.local' : '').'/%s/', $verein['identifier']);
 				return brick_format('%%% redirect '.$url.' %%%');
 			}
 		}
@@ -362,7 +362,7 @@ function mod_clubs_vereine_condition($q) {
 				if ($index) $condition .= ' AND ';
 				$condition .= sprintf('organisation LIKE "%%%s%%"', wrap_db_escape($q));
 				// add support for ae = ä etc.
-				$condition .= sprintf('OR organisationen.kennung LIKE LOWER("%%%s%%")', wrap_db_escape($q));
+				$condition .= sprintf('OR organisationen.identifier LIKE LOWER("%%%s%%")', wrap_db_escape($q));
 				$condition .= sprintf('OR organisationen.website LIKE "%%%s%%"', wrap_db_escape($q));
 			}
 			$condition .= ') OR (';
@@ -462,7 +462,7 @@ function mod_clubs_vereine_json($coordinates, $identifier) {
 	foreach ($coordinates as $coordinate) {
 		$properties = [
 			'org' => wrap_html_escape($coordinate['title']),
-			'identifier' => $coordinate['kennung'],
+			'identifier' => $coordinate['identifier'],
 			'category' => $coordinate['category'],
 			'awards' => intval($coordinate['auszeichnungen']),
 		];
@@ -495,7 +495,7 @@ function mod_clubs_vereine_json($coordinates, $identifier) {
  * @return array
  */
 function mod_clubs_vereine_verbaende($q, $coordinates) {
-	$sql = 'SELECT o.org_id, o.kennung, o.organisation
+	$sql = 'SELECT o.org_id, o.identifier, o.organisation
 				, h.organisation AS haupt_organisation
 				, o.category_id
 				, (SELECT COUNT(org_id) FROM organisationen WHERE mutter_org_id = o.org_id) AS rang
@@ -504,7 +504,7 @@ function mod_clubs_vereine_verbaende($q, $coordinates) {
 			ON o.mutter_org_id = h.org_id
 		WHERE o.organisation LIKE "%%%s%%"
 		AND ISNULL(o.aufloesung)
-		ORDER BY rang DESC, kennung
+		ORDER BY rang DESC, o.identifier
 	';
 	$sql = sprintf($sql,
 		wrap_db_escape($q)

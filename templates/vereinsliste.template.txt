@@ -1,10 +1,10 @@
 # Zugzwang Project
 # deutsche-schachjugend.de
-# Copyright (c) 2016-2017, 2019 Gustaf Mossakowski <gustaf@koenige.org>
+# Copyright (c) 2016-2017, 2019, 2021 Gustaf Mossakowski <gustaf@koenige.org>
 # Vereinsliste pro Verband
 #
 # List of fields:
-# org_id, organisation, mutter_org_id, vereine { org_id, organisation, kennung }
+# org_id, organisation, mutter_org_id, vereine { org_id, organisation, identifier }
 #
 %%% item beschreibung markdown %%%
 %%% condition if website %%%
@@ -28,7 +28,7 @@
 <tbody>
 %%% loop vereine %%%
 <tr class="level%%% item _level %%% %%% loopposition uneven "un" %%%even">
-<td>%%% condition unless aufloesung %%%<a href="%%% page vereinebase %%%/%%% item kennung %%%/">%%% condition endif %%%
+<td>%%% condition unless aufloesung %%%<a href="%%% page vereinebase %%%/%%% item identifier %%%/">%%% condition endif %%%
 %%% condition if anzeigenamen %%%
 %%% loop anzeigenamen %%%
 %%% item anzeigename %%%

@@ -27,7 +27,7 @@ function mod_clubs_verein($params) {
 		$zz_setting['cache'] = false;
 		$sql = 'SELECT org_id, organisation
 			FROM organisationen
-			WHERE kennung = "%s"
+			WHERE identifier = "%s"
 			AND ISNULL(aufloesung)';
 		$sql = sprintf($sql, wrap_db_escape($params[0]));
 		$org = wrap_db_fetch($sql);
@@ -121,7 +121,7 @@ function mod_clubs_verein($params) {
 			, org.website, YEAR(org.aufloesung) AS aufloesung, org.gruendung, org.beschreibung
 			, ok.identifier AS zps_code
 			, members, members_female, members_u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
-			, nachfolger.organisation AS nachfolger, nachfolger.kennung AS nachfolger_kennung
+			, nachfolger.organisation AS nachfolger, nachfolger.identifier AS nachfolger_kennung
 			, SUBSTRING_INDEX(categories.path, "/", -1) AS category
 			, IF(SUBSTRING_INDEX(categories.path, "/", -1) = "schulschachgruppe", 1, NULL) AS schulschachgruppe
 			, IF(SUBSTRING_INDEX(categories.path, "/", -1) = "schachkindergarten", 1, NULL) AS schachkindergarten
@@ -137,7 +137,7 @@ function mod_clubs_verein($params) {
 			AND NOT ISNULL(ok.current)
 		LEFT JOIN organisationen nachfolger
 			ON org.nachfolger_org_id = nachfolger.org_id
-		WHERE org.kennung = "%s"
+		WHERE org.identifier = "%s"
 	';
 	$sql = sprintf($sql, wrap_category_id('kennungen/zps'),
 		wrap_db_escape($params[0])

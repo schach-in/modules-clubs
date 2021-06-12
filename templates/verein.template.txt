@@ -1,6 +1,6 @@
 # Zugzwang Project
 # deutsche-schachjugend.de
-# Copyright (c) 2015-2019 Gustaf Mossakowski <gustaf@koenige.org>
+# Copyright (c) 2015-2019, 2021 Gustaf Mossakowski <gustaf@koenige.org>
 # Copyright (c) 2020      Falco Nogatz <fnogatz@gmail.com>
 # Detailinformationen über einen Verein oder eine Schulschachgruppe
 #
@@ -13,8 +13,8 @@
 # latitude, longitude, remarks }, lon_min, lon_max, lat_min, lat_max,
 # longitude, latitude, teams { team_id, event, team, team_no,
 # team_identifier, duration }, parent_orgs, auszeichnungen { category, dauer_von {
-# auszeichnung_id, category_id, category, dauer_von, dauer_bis, kennung },
-# kennung }
+# auszeichnung_id, category_id, category, dauer_von, dauer_bis, identifier },
+# identifier }
 #
 <div itemscope itemprop="organization" itemtype="http://schema.org/Organization">
 <h1 itemprop="name">%%% item organisation %%%

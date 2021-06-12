@@ -71,7 +71,7 @@ oder Ortsname</p>
 <h2>Weitere Treffer</h2>
 <ul class="hits">
 %%% loop verbaende %%%
-<li><a href="%%% item kennung %%%/"><strong>%%% item organisation %%%</strong>%%% item haupt_organisation " (%s)" %%%</a></li>
+<li><a href="%%% item identifier %%%/"><strong>%%% item organisation %%%</strong>%%% item haupt_organisation " (%s)" %%%</a></li>
 %%% loop end %%%
 %%% loop reselect %%%
 <li><a href="./?lat=%%% item lat %%%&amp;lon=%%% item lon %%%">%%% item display_name %%%</a></li>

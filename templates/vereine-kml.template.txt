@@ -40,7 +40,7 @@
 <br>ø-Alter: %%% item avg_age %%%
 <br>ø-DWZ: %%% item avg_rating %%%</p>
 %%% condition endif %%%
-<p class='more'><a href='%%% item kennung %%%/'>Weitere Informationen</a></p>
+<p class='more'><a href='%%% item identifier %%%/'>Weitere Informationen</a></p>
 		]]></description>
 		<styleUrl>#%%% item style %%%</styleUrl>
 %%% condition if longitude %%%

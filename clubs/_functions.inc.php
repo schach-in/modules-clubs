@@ -23,7 +23,7 @@ function mf_clubs_parent_orgs($org_id) {
 	if (!$org_ids) return '';	
 
 	$org = [];
-	$sql = 'SELECT org_id, organisation, kennung
+	$sql = 'SELECT org_id, organisation, identifier
 		FROM organisationen
 		WHERE org_id IN (%s)';
 	$sql = sprintf($sql, implode(',', $org_ids));

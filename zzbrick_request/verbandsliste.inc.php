@@ -17,11 +17,11 @@ function mod_clubs_verbandsliste($params) {
 
 	$sql = 'SELECT org_id, organisation, category, mutter_org_id
 			, 1 AS aktiv
-			, organisationen.kennung
+			, organisationen.identifier
 			, website
 		FROM organisationen
 		LEFT JOIN categories USING (category_id)
-		WHERE organisationen.kennung = "%s"';
+		WHERE organisationen.identifier = "%s"';
 	$sql = sprintf($sql, wrap_db_escape($params[0]));
 	$data = wrap_db_fetch($sql);
 	if (!$data) {
@@ -35,7 +35,7 @@ function mod_clubs_verbandsliste($params) {
 		return brick_format('%%% request vereinsliste '.$params[0].' %%%');
 	}
 
-	$sql = 'SELECT organisationen.org_id, organisation, category, mutter_org_id, organisationen.kennung
+	$sql = 'SELECT organisationen.org_id, organisation, category, mutter_org_id, organisationen.identifier
 			, (SELECT COUNT(*) FROM organisationen_orte WHERE organisationen_orte.org_id = organisationen.org_id AND organisationen_orte.published = "yes") AS spielorte
 			, members, members_female, members_u25
 		FROM organisationen

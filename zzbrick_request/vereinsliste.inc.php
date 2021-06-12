@@ -17,10 +17,10 @@ function mod_clubs_vereinsliste($params) {
 	if (count($params) !== 1) return false;
 
 	$sql = 'SELECT org_id, organisation, mutter_org_id, 0 AS _level
-			, organisationen.kennung, website, organisationen.beschreibung
+			, organisationen.identifier, website, organisationen.beschreibung
 		FROM organisationen
 		LEFT JOIN categories USING (category_id)
-		WHERE organisationen.kennung = "%s"
+		WHERE organisationen.identifier = "%s"
 		AND SUBSTRING_INDEX(categories.path, "/", -1) = "verband"';
 	$sql = sprintf($sql, wrap_db_escape($params[0]));
 	$verband = wrap_db_fetch($sql);
@@ -42,7 +42,7 @@ function mod_clubs_vereinsliste($params) {
 	$top['members_u25'] = 0;
 	$top['members_female'] = 0;
 	
-	$sql = 'SELECT org_id, organisation, organisationen.kennung
+	$sql = 'SELECT org_id, organisation, organisationen.identifier
 			, organisationen_kennungen.identifier AS zps_code
 			, members, members_female, members_u25
 			, members_u25/members AS anteil_members_u25
@@ -57,7 +57,7 @@ function mod_clubs_vereinsliste($params) {
 		LEFT JOIN vereinsdb_stats USING (org_id)
 		LEFT JOIN auszeichnungen USING (org_id)
 		WHERE %s
-		ORDER BY organisationen_kennungen.identifier, organisationen.kennung';
+		ORDER BY organisationen_kennungen.identifier, organisationen.identifier';
 	$sql = sprintf($sql, $condition);
 	$data['vereine'] = wrap_db_fetch($sql, 'org_id');
 	if (!$data['vereine']) return false;
