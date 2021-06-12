@@ -76,7 +76,7 @@ function mod_clubs_vereine($params) {
 				$category = reset($categories);
 				$auswahl = $category['category'];
 				$data['zoomtofit'] = false;
-				$data['beschreibung'] = $category['description'];
+				$data['description'] = $category['description'];
 				if (count($categories) === 1) {
 					$data['links'][] = [
 						'url' => '../auszeichnung-und-foerderung/',

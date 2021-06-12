@@ -17,7 +17,7 @@ function mod_clubs_vereinsliste($params) {
 	if (count($params) !== 1) return false;
 
 	$sql = 'SELECT org_id, organisation, mutter_org_id, 0 AS _level
-			, organisationen.identifier, website, organisationen.beschreibung
+			, organisationen.identifier, website, organisationen.description
 		FROM organisationen
 		LEFT JOIN categories USING (category_id)
 		WHERE organisationen.identifier = "%s"
@@ -99,7 +99,7 @@ function mod_clubs_vereinsliste($params) {
 	if ($verband) {
 		$data['parent_orgs'] = mf_clubs_parent_orgs($top['org_id']);
 	}
-	if (!empty($top['beschreibung'])) $data['beschreibung'] = $top['beschreibung'];
+	if (!empty($top['description'])) $data['description'] = $top['description'];
 	if (!empty($top['website'])) $data['website'] = $top['website'];
 	
 	if ($verband) {

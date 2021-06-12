@@ -6,7 +6,7 @@
 # List of fields:
 # org_id, organisation, mutter_org_id, vereine { org_id, organisation, identifier }
 #
-%%% item beschreibung markdown %%%
+%%% item description markdown %%%
 %%% condition if website %%%
 <p><a href="%%% item website %%%">%%% item website wrap_punycode_decode %%%</a></p>
 %%% condition endif %%%

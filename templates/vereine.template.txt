@@ -35,8 +35,8 @@ Schachvereine und Schulschachgruppen
 </h1>
 %%% condition endif %%%
 <div class="innerbox_detail">
-%%% condition if beschreibung | links %%%
-%%% item beschreibung markdown %%%
+%%% condition if description | links %%%
+%%% item description markdown %%%
 %%% condition if links %%%
 <ul class="awards-links">
 %%% loop links %%%

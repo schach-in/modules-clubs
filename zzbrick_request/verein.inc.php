@@ -118,7 +118,7 @@ function mod_clubs_verein($params) {
 	if (count($params) !== 1) return false;
 
 	$sql = 'SELECT org.org_id, org.organisation
-			, org.website, YEAR(org.aufloesung) AS aufloesung, org.gruendung, org.beschreibung
+			, org.website, YEAR(org.aufloesung) AS aufloesung, org.gruendung, org.description
 			, ok.identifier AS zps_code
 			, members, members_female, members_u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
 			, nachfolger.organisation AS nachfolger, nachfolger.identifier AS nachfolger_kennung
