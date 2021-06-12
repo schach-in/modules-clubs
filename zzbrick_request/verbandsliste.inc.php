@@ -46,7 +46,7 @@ function mod_clubs_verbandsliste($params) {
 			AND organisationen_kennungen.current = "yes"
 		WHERE mutter_org_id IN (%s)
 		AND ISNULL(aufloesung)
-		ORDER BY categories.sequence, org_kurz, organisationen_kennungen.identifier';
+		ORDER BY categories.sequence, contact_short, organisationen_kennungen.identifier';
 	$children = wrap_db_children([$data], $sql, 'org_id', 'hierarchy');
 	if (count($children['ids']) === 1) return false; // only main club
 	
