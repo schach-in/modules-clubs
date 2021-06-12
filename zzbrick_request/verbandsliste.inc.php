@@ -36,7 +36,7 @@ function mod_clubs_verbandsliste($params) {
 	}
 
 	$sql = 'SELECT organisationen.org_id, organisation, category, mutter_org_id, organisationen.kennung
-			, (SELECT COUNT(main_contact_id) FROM organisationen_orte WHERE organisationen_orte.org_id = organisationen.org_id AND organisationen_orte.published = "yes") AS spielorte
+			, (SELECT COUNT(*) FROM organisationen_orte WHERE organisationen_orte.org_id = organisationen.org_id AND organisationen_orte.published = "yes") AS spielorte
 			, members, members_female, members_u25
 		FROM organisationen
 		LEFT JOIN categories USING (category_id)

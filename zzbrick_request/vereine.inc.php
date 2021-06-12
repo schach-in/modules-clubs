@@ -163,7 +163,7 @@ function mod_clubs_vereine($params) {
 		LEFT JOIN vereinsdb_stats USING (org_id)
 		JOIN organisationen_orte USING (org_id)
 		JOIN contacts places
-			ON organisationen_orte.main_contact_id = places.contact_id
+			ON organisationen_orte.contact_id = places.contact_id
 		JOIN addresses
 			ON places.contact_id = addresses.contact_id
 		JOIN categories USING (category_id)

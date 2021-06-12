@@ -3,7 +3,7 @@
 // Zugzwang Project
 // deutsche-schachjugend.de
 // club module
-// Copyright (c) 2016, 2019-2020 Gustaf Mossakowski <gustaf@koenige.org>
+// Copyright (c) 2016, 2019-2021 Gustaf Mossakowski <gustaf@koenige.org>
 // delete an organization
 
 
@@ -21,7 +21,7 @@ if (!$verein) wrap_quit(404);
 $sql = 'SELECT cc_id
 	FROM organisationen_orte
 	WHERE org_id = %d
-	AND main_contact_id = %d';
+	AND contact_id = %d';
 $sql = sprintf($sql, $brick['vars'][0], $brick['vars'][1]);
 $cc_id = wrap_db_fetch($sql, '', 'single value');
 if (!$cc_id) {

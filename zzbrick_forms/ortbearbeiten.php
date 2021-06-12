@@ -45,7 +45,7 @@ switch ($brick['vars'][1]) {
 $zz['title'] = $verein['organisation'];
 $zz['where']['organisationen_orte.org_id'] = $verein['org_id'];
 $zz['sql'] = wrap_edit_sql($zz['sql'], 'JOIN', 'LEFT JOIN organisationen_orte
-	ON organisationen_orte.main_contact_id = contacts.contact_id');
+	ON organisationen_orte.contact_id = contacts.contact_id');
 $zz['unless']['add']['explanation'] = '<strong>Hinweis:</strong> Bitte korrigiere hier nur Angaben zu diesem Spielort. Bei <strong>Wechsel</strong> des Spielorts lösche bitte den alten und <a href="../../ort-neu/">ergänze einen neuen</a>!';
 $zz['if']['add']['explanation'] = '';
 $zz['geo_map_html'] = false;
@@ -89,7 +89,7 @@ unset($zz['fields'][44]['fields'][9]);
 $zz['fields'][44]['table_name'] = 'reihenfolgen';
 $zz['fields'][44]['title'] = 'Reihenfolge';
 $zz['fields'][44]['title_tab'] = 'Folge';
-$zz['fields'][44]['subselect']['sql'] = 'SELECT main_contact_id, reihenfolge
+$zz['fields'][44]['subselect']['sql'] = 'SELECT contact_id, reihenfolge
 	FROM organisationen_orte
 	LEFT JOIN organisationen USING (org_id)
 	ORDER BY organisation';

@@ -78,11 +78,12 @@ if ($mode !== 'monat') {
 	$zz['fields'][9]['hide_in_form'] = true;
 }
 
-$sql_ort = sprintf('SELECT contact_id, CONCAT(postcode, " ", place), contact AS veranstaltungsort
+$sql_ort = sprintf('SELECT contacts.contact_id
+		, CONCAT(postcode, " ", place), contact AS veranstaltungsort
 	FROM contacts
 	LEFT JOIN addresses USING (contact_id)
 	LEFT JOIN organisationen_orte
-	    ON contacts.contact_id = organisationen_orte.main_contact_id
+	    ON contacts.contact_id = organisationen_orte.contact_id
 	WHERE org_id = %d
 	ORDER BY postcode', $verein['org_id']);
 $orte = wrap_db_fetch($sql_ort, 'contact_id');
