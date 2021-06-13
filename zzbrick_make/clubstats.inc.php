@@ -43,11 +43,12 @@ function mod_clubs_make_clubstats() {
 		LEFT JOIN organisationen_kennungen
 			ON IF(SUBSTRING(dwz_spieler.ZPS, 4, 2) = "00", SUBSTRING(dwz_spieler.ZPS, 1, 3), dwz_spieler.ZPS) = organisationen_kennungen.identifier
 			AND organisationen_kennungen.current = "yes"
-			AND organisationen_kennungen.identifier_category_id = 197
+			AND organisationen_kennungen.identifier_category_id = %d
 		GROUP BY org_id';
+	$sql = sprintf($sql, wrap_category_id('kennungen/zps'));
 	$result = wrap_db_query($sql);
 	if (!$result) {
-		wrap_error('Fehler beim Erstellen der Vereinsstatistiken.');
+		wrap_error('Fehler beim Erstellen der Vereinsstatistiken.', E_USER_ERROR);
 	}
 	$sql = 'ALTER TABLE `vereinsdb_stats` ADD UNIQUE `org_id` (`org_id`)';
 	wrap_db_query($sql);
