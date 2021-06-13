@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Zugzwang Project
+ * clubs module
  * output of a map with all clubs
  *
+ * Part of »Zugzwang Project«
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
@@ -55,7 +56,7 @@ function mod_clubs_vereine($params) {
 			$org_ids = wrap_db_children(
 				$haupt_org['org_id'],
 				sprintf('SELECT org_id FROM organisationen WHERE mutter_org_id IN (%%s)
-				AND category_id = %d
+				AND contact_category_id = %d
 				AND ISNULL(aufloesung)', wrap_category_id('organisationen/verband'))
 			);
 			$condition = sprintf('AND mutter_org_id IN (%s)', implode(',', $org_ids));
@@ -166,7 +167,8 @@ function mod_clubs_vereine($params) {
 			ON organisationen_orte.contact_id = places.contact_id
 		JOIN addresses
 			ON places.contact_id = addresses.contact_id
-		JOIN categories USING (category_id)
+		JOIN categories
+			ON organisationen.contact_category_id = categories.category_id
 		WHERE ISNULL(aufloesung)
 		AND NOT ISNULL(latitude) AND NOT ISNULL(longitude)
 		AND organisationen_orte.published = "yes"
@@ -253,7 +255,7 @@ function mod_clubs_vereine($params) {
 	}
 	
 	$sql = 'SELECT COUNT(org_id) FROM organisationen
-		WHERE category_id = %d AND ISNULL(aufloesung)';
+		WHERE contact_category_id = %d AND ISNULL(aufloesung)';
 	$sql = sprintf($sql, wrap_category_id('organisationen/verein'));
 	$data['vereine'] = wrap_db_fetch($sql, '', 'single value');
 
@@ -497,7 +499,7 @@ function mod_clubs_vereine_json($coordinates, $identifier) {
 function mod_clubs_vereine_verbaende($q, $coordinates) {
 	$sql = 'SELECT o.org_id, o.identifier, o.organisation
 				, h.organisation AS haupt_organisation
-				, o.category_id
+				, o.contact_category_id
 				, (SELECT COUNT(org_id) FROM organisationen WHERE mutter_org_id = o.org_id) AS rang
 		FROM organisationen o
 		LEFT JOIN organisationen h
@@ -519,7 +521,7 @@ function mod_clubs_vereine_verbaende($q, $coordinates) {
 	// zuviele? dann nur Verbände anzeigen
 	if (count($verbaende) > 5) {
 		foreach ($verbaende as $id => $verband) {
-			if ($verband['category_id'] !== wrap_category_id('organisationen/verband'))
+			if ($verband['contact_category_id'] !== wrap_category_id('organisationen/verband'))
 				unset($verbaende[$id]);
 		}
 	}

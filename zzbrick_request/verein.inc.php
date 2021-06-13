@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Zugzwang Project
+ * clubs module
  * output of a data for a single club
  *
+ * Part of »Zugzwang Project«
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
@@ -129,7 +130,8 @@ function mod_clubs_verein($params) {
 			, IF(org.abteilung = "ja", 1, NULL) AS schachabteilung
 			, (SELECT COUNT(org_id) FROM organisationen members WHERE members.mutter_org_id = org.org_id) AS member_orgs
 		FROM organisationen org
-		LEFT JOIN categories USING (category_id)
+		LEFT JOIN categories
+			ON org.contact_category_id = categories.category_id
 		LEFT JOIN vereinsdb_stats USING (org_id)
 		LEFT JOIN organisationen_kennungen ok
 			ON ok.org_id = org.org_id

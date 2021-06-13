@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Zugzwang Project
+ * clubs module
  * output of a list of clubs per federation
  *
+ * Part of »Zugzwang Project«
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
@@ -20,7 +21,8 @@ function mod_clubs_verbandsliste($params) {
 			, organisationen.identifier
 			, website
 		FROM organisationen
-		LEFT JOIN categories USING (category_id)
+		LEFT JOIN categories
+			ON organisationen.contact_category_id = categories.category_id
 		WHERE organisationen.identifier = "%s"';
 	$sql = sprintf($sql, wrap_db_escape($params[0]));
 	$data = wrap_db_fetch($sql);
@@ -39,7 +41,8 @@ function mod_clubs_verbandsliste($params) {
 			, (SELECT COUNT(*) FROM organisationen_orte WHERE organisationen_orte.org_id = organisationen.org_id AND organisationen_orte.published = "yes") AS spielorte
 			, members, members_female, members_u25
 		FROM organisationen
-		LEFT JOIN categories USING (category_id)
+		LEFT JOIN categories
+			ON organisationen.contact_category_id = categories.category_id
 		LEFT JOIN vereinsdb_stats USING (org_id)
 		LEFT JOIN organisationen_kennungen
 			ON organisationen_kennungen.org_id = organisationen.org_id

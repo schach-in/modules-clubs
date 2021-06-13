@@ -1,10 +1,16 @@
 <?php
 
-// Zugzwang Project
-// deutsche-schachjugend.de
-// club module
-// Copyright (c) 2016, 2019-2021 Gustaf Mossakowski <gustaf@koenige.org>
-// delete an organization
+/**
+ * clubs module
+ * delete an organisation
+ *
+ * Part of »Zugzwang Project«
+ * https://www.zugzwang.org/modules/clubs
+ *
+ * @author Gustaf Mossakowski <gustaf@koenige.org>
+ * @copyright Copyright © 2016, 2019-2021 Gustaf Mossakowski
+ * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+ */
 
 
 if (empty($brick['vars'])) wrap_quit(404);
@@ -12,7 +18,8 @@ if (count($brick['vars']) !== 2) wrap_quit(404);
 
 $sql = 'SELECT org_id, organisation, categories.path
 	FROM organisationen
-	LEFT JOIN categories USING (category_id)
+	LEFT JOIN categories
+		ON organisationen.contact_category_id = categories.category_id
 	WHERE org_id = %d';
 $sql = sprintf($sql, $brick['vars'][0]);
 $verein = wrap_db_fetch($sql);

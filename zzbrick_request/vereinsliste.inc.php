@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Zugzwang Project
+ * clubs module
  * output of a list of all clubs
  *
+ * Part of »Zugzwang Project«
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
@@ -19,15 +20,20 @@ function mod_clubs_vereinsliste($params) {
 	$sql = 'SELECT org_id, organisation, mutter_org_id, 0 AS _level
 			, organisationen.identifier, website, organisationen.description
 		FROM organisationen
-		LEFT JOIN categories USING (category_id)
 		WHERE organisationen.identifier = "%s"
-		AND SUBSTRING_INDEX(categories.path, "/", -1) = "verband"';
-	$sql = sprintf($sql, wrap_db_escape($params[0]));
+		AND contact_category_id = %d';
+	$sql = sprintf($sql
+		, wrap_db_escape($params[0])
+		, wrap_category_id('organisationen/verband')
+	);
 	$verband = wrap_db_fetch($sql);
 	if ($verband) {
 		$condition = sprintf('mutter_org_id = %d
-			AND SUBSTRING_INDEX(categories.path, "/", -1) = "verein" 
-			AND ISNULL(aufloesung)', $verband['org_id']);
+			AND contact_category_id = %d 
+			AND ISNULL(aufloesung)'
+			, $verband['org_id']
+			, wrap_category_id('organisationen/verein')
+		);
 		$top = $verband;
 		$categories = false;
 	} else {
@@ -48,11 +54,12 @@ function mod_clubs_vereinsliste($params) {
 			, members_u25/members AS anteil_members_u25
 			, members_female/members AS anteil_members_female
 			, IF((SELECT COUNT(*) FROM organisationen_orte
-				WHERE organisationen_orte.org_id = organisationen.org_id AND organisationen_orte.published = "yes"), "ja", "nein") AS spielort
+				WHERE organisationen_orte.org_id = organisationen.org_id
+				AND organisationen_orte.published = "yes"), "ja", "nein"
+			) AS spielort
 			, 1 AS _level
 			, aufloesung
 		FROM organisationen
-		LEFT JOIN categories USING (category_id)
 		LEFT JOIN organisationen_kennungen USING (org_id)
 		LEFT JOIN vereinsdb_stats USING (org_id)
 		LEFT JOIN auszeichnungen USING (org_id)
