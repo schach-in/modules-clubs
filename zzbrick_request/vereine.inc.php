@@ -26,7 +26,7 @@ function mod_clubs_vereine($params) {
 		if (substr($_GET['q'], -1) === '*') $_GET['q'] = substr($_GET['q'], 0, -1);
 	}
 	if ($_SERVER['REQUEST_URI'] === '/' AND empty($_GET)) {
-		return brick_format('%%% redirect 307 /deutschland %%%');
+		return wrap_redirect('/deutschland', 307);
 	}
 
 	$data['noindex'] = false;
@@ -232,12 +232,11 @@ function mod_clubs_vereine($params) {
 				}
 			}
 			if ($verein) {
-				$url = sprintf($zz_setting['protocol'].'://schach.in'.($zz_setting['local_access'] ? '.local' : '').'/%s/', $verein['identifier']);
-				return brick_format('%%% redirect '.$url.' %%%');
+				return wrap_redirect(sprintf('/%s/', $verein['identifier']));
 			}
 		}
 		if (!empty($haupt_org) AND count($org_ids) > 1) {
-			return brick_format('%%% redirect 307 '.$zz_setting['protocol'].'://schach.in'.($zz_setting['local_access'] ? '.local' : '').'/'.$params[0].'/liste/ %%%');
+			return wrap_redirect(sprintf('/%s/liste/', $params[0]), 307);
 		}
 		$page['status'] = 404;
 		$data['not_found'] = true;

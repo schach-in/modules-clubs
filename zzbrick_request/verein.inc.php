@@ -36,7 +36,7 @@ function mod_clubs_verein($params) {
 		$page = [];
 		wrap_session_start();
 		if (empty($_SESSION)) {
-			return brick_format('%%% redirect /'.$params[0].'/bearbeiten/ %%%');
+			return wrap_redirect(sprintf('/%s/bearbeiten/', $params[0]), 307, false);
 		}
 		if (count($params) === 3) {
 			switch ($params[2]) {

@@ -32,7 +32,7 @@ function mod_clubs_verbandsliste($params) {
 			$sql = sprintf(wrap_sql('redirects'), '/'.$params[0], '/'.$params[0], '/'.$params[0]);
 			$redirect = wrap_db_fetch($sql);
 			if (!$redirect) return false;
-			return brick_format('%%% redirect '.$redirect['new_url'].'liste/ %%%');
+			return wrap_redirect(sprintf('%sliste/', $redirect['new_url']));
 		}
 		return brick_format('%%% request vereinsliste '.$params[0].' %%%');
 	}

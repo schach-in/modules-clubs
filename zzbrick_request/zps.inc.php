@@ -31,5 +31,5 @@ function mod_clubs_zps($params) {
 	$sql = sprintf($sql, wrap_category_id('kennungen/zps'), wrap_db_escape($code));
 	$identifier = wrap_db_fetch($sql, '', 'single value');
 	if (!$identifier) return false;
-	return brick_format('%%% redirect 307 /'.$identifier.'/ %%%');
+	return wrap_redirect(sprintf('/%s/', $identifier), 307);
 }
