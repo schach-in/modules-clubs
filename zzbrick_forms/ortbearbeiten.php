@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Zugzwang Project
+ * clubs module
  * form script: edit places
  *
+ * Part of »Zugzwang Project«
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
@@ -106,3 +107,4 @@ $zz['fields'][99]['hide_in_form'] = true;
 
 $zz['sqlorder'] = ' ORDER BY reihenfolge, postcode, contact';
 
+$zz_conf['no_timeframe'] = true;

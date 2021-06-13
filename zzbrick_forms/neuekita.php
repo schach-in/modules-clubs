@@ -1,10 +1,16 @@
 <?php
 
-// Zugzwang Project
-// deutsche-schachjugend.de
-// club module
-// Copyright (c) 2017 Gustaf Mossakowski <gustaf@koenige.org>
-// add a new kindergarten
+/**
+ * clubs module
+ * form script: add a new kindergarten
+ *
+ * Part of »Zugzwang Project«
+ * https://www.zugzwang.org/modules/clubs
+ *
+ * @author Gustaf Mossakowski <gustaf@koenige.org>
+ * @copyright Copyright © 2017, 2021 Gustaf Mossakowski
+ * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+ */
 
 
 require $zz_conf['form_scripts'].'/organisationen.php';
@@ -14,3 +20,5 @@ if (empty($_SESSION['login_id'])) {
 }
 
 $zz['access'] = 'add_then_edit';
+
+$zz_conf['no_timeframe'] = true;

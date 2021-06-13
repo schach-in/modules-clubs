@@ -1,10 +1,16 @@
 <?php
 
-// Zugzwang Project
-// deutsche-schachjugend.de
-// club module
-// Copyright (c) 2017, 2019-2020 Gustaf Mossakowski <gustaf@koenige.org>
-// add a new school
+/**
+ * clubs module
+ * form script: add a new school
+ *
+ * Part of »Zugzwang Project«
+ * https://www.zugzwang.org/modules/clubs
+ *
+ * @author Gustaf Mossakowski <gustaf@koenige.org>
+ * @copyright Copyright © 2017, 2019-2021 Gustaf Mossakowski
+ * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+ */
 
 
 $zz_setting['cache'] = false;
@@ -54,3 +60,4 @@ unset($zz['fields'][10]);
 unset($zz['fields'][12]);
 unset($zz['fields'][15]);
 
+$zz_conf['no_timeframe'] = true;

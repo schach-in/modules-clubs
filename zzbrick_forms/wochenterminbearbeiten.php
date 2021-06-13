@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Zugzwang Project
+ * clubs module
  * form script: edit weekly events
  *
+ * Part of »Zugzwang Project«
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
@@ -100,3 +101,5 @@ if (empty($_SESSION['login_id'])) {
 	$zz['hooks']['after_insert'] = 'mf_clubs_add_revision_public';
 	$zz['fields'][10]['if']['add']['value'] = 'nein';
 }
+
+$zz_conf['no_timeframe'] = true;

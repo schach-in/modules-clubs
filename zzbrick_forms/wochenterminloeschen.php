@@ -54,3 +54,5 @@ $zz_conf['redirect']['successful_delete'] = implode('/', $url).'/';
 if (empty($_SESSION['login_id'])) {
 	$zz['revisions_only'] = true;
 }
+
+$zz_conf['no_timeframe'] = true;

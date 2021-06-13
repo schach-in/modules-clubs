@@ -63,3 +63,4 @@ $zz['fields'][40]['explanation'] = 'Falls bekannt: Datum oder Jahr der Gründung
 $zz['fields'][24]['hide_in_form'] = true;
 
 $zz_conf['referer'] = '../';
+$zz_conf['no_timeframe'] = true;
