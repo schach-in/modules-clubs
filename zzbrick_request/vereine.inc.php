@@ -462,7 +462,7 @@ function mod_clubs_vereine_json($coordinates, $identifier) {
 	$data['type'] = 'FeatureCollection';
 	foreach ($coordinates as $coordinate) {
 		$properties = [
-			'org' => wrap_html_escape($coordinate['title']),
+			'org' => $coordinate['title'],
 			'identifier' => $coordinate['identifier'],
 			'category' => $coordinate['category'],
 			'awards' => intval($coordinate['auszeichnungen']),
