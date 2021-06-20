@@ -24,13 +24,14 @@ $zz['fields'][2]['title'] = 'Verein';
 $zz['fields'][2]['field_name'] = 'org_id';
 $zz['fields'][2]['type'] = 'select';
 // @todo use wrap_id()
-$zz['fields'][2]['sql'] = sprintf('SELECT org_id, organisation
+$zz['fields'][2]['sql'] = sprintf('SELECT org_id, contact
 	FROM /*_PREFIX_*/organisationen
 	WHERE contact_category_id IN (%d, %d)'
 	, wrap_category_id('organisationen/verein')
 	, wrap_category_id('organisationen/schulschachgruppe')
 );
-$zz['fields'][2]['display_field'] = 'organisation';
+$zz['fields'][2]['display_field'] = 'contact';
+$zz['fields'][2]['search'] = 'organisationen.contact';
 $zz['fields'][2]['if']['where']['class'] = 'hidden';
 $zz['fields'][2]['if']['where']['hide_in_list'] = true;
 $zz['fields'][2]['group_in_list'] = true;
@@ -85,6 +86,8 @@ $zz['fields'][8]['sql'] = sprintf('SELECT contact_id, postcode, contact AS veran
 	ORDER BY postcode', wrap_category_id('kontakte/veranstaltungsort')
 );
 $zz['fields'][8]['display_field'] = 'veranstaltungsort';
+$zz['fields'][8]['search'] = 'places.contact';
+$zz['fields'][8]['character_set'] = 'utf8';
 $zz['fields'][8]['explanation'] = 'Nur angeben, falls Spielort vom normalen Vereinslokal abweicht';
 
 $zz['fields'][10]['title'] = 'Öffentlich?';
@@ -105,7 +108,7 @@ $zz['sql'] = 'SELECT /*_PREFIX_*/wochentermine.*
 		, TIME_FORMAT(uhrzeit_beginn, "%H:%i") AS uhrzeit_beginn
 		, TIME_FORMAT(uhrzeit_ende, "%H:%i") AS uhrzeit_ende
 		, places.contact AS veranstaltungsort
-		, /*_PREFIX_*/organisationen.organisation
+		, /*_PREFIX_*/organisationen.contact
 		, /*_PREFIX_*/categories.category
 	FROM /*_PREFIX_*/wochentermine
 	LEFT JOIN /*_PREFIX_*/organisationen USING (org_id)
@@ -114,7 +117,7 @@ $zz['sql'] = 'SELECT /*_PREFIX_*/wochentermine.*
 	LEFT JOIN /*_PREFIX_*/categories
 		ON /*_PREFIX_*/wochentermine.wochentermin_category_id = /*_PREFIX_*/categories.category_id
 ';
-$zz['sqlorder'] = ' ORDER BY /*_PREFIX_*/organisationen.organisation, wochentag, uhrzeit_beginn	';
+$zz['sqlorder'] = ' ORDER BY /*_PREFIX_*/organisationen.contact, wochentag, uhrzeit_beginn	';
 
 $zz['subtitle']['org_id']['sql'] = $zz['fields'][2]['sql'];
-$zz['subtitle']['org_id']['var'] = ['organisation'];
+$zz['subtitle']['org_id']['var'] = ['contact'];

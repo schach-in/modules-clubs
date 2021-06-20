@@ -7,7 +7,7 @@
 
 <ul class="orghierarchy">
 %%% loop parent_orgs %%%
-<li><span itemprop="parentOrganization"><a href="%%% page vereinebase %%%/%%% item identifier %%%/">%%% item organisation %%%</a></span>
+<li><span itemprop="parentOrganization"><a href="%%% page vereinebase %%%/%%% item identifier %%%/">%%% item contact %%%</a></span>
 %%% loopposition first|middle "<ul>" %%%
 %%% loop end %%%
 %%% loop parent_orgs_count %%%</li></ul>

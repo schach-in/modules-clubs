@@ -16,7 +16,7 @@
 if (empty($brick['vars'])) wrap_quit(404);
 if (count($brick['vars']) !== 2) wrap_quit(404);
 
-$sql = 'SELECT org_id, organisation, categories.path
+$sql = 'SELECT org_id, contact, categories.path
 	FROM organisationen
 	LEFT JOIN categories
 		ON organisationen.contact_category_id = categories.category_id

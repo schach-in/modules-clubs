@@ -17,7 +17,7 @@ function mod_clubs_vereinsliste($params) {
 	global $zz_setting;
 	if (count($params) !== 1) return false;
 
-	$sql = 'SELECT org_id, organisation, mutter_org_id, 0 AS _level
+	$sql = 'SELECT org_id, contact, mutter_org_id, 0 AS _level
 			, organisationen.identifier, website, organisationen.description
 		FROM organisationen
 		WHERE organisationen.identifier = "%s"
@@ -41,14 +41,14 @@ function mod_clubs_vereinsliste($params) {
 		if (!$categories) return false;
 		$category = reset($categories);
 		$top = $category;
-		$top['organisation'] = $category['category'];
+		$top['contact'] = $category['category'];
 		$condition = sprintf('auszeichnung_category_id IN (%s)', implode(',', array_keys($categories)));
 	}
 	$top['members'] = 0;
 	$top['members_u25'] = 0;
 	$top['members_female'] = 0;
 	
-	$sql = 'SELECT org_id, organisation, organisationen.identifier
+	$sql = 'SELECT org_id, contact, organisationen.identifier
 			, organisationen_kennungen.identifier AS zps_code
 			, members, members_female, members_u25
 			, members_u25/members AS anteil_members_u25
@@ -110,8 +110,8 @@ function mod_clubs_vereinsliste($params) {
 	if (!empty($top['website'])) $data['website'] = $top['website'];
 	
 	if ($verband) {
-		$page['title'] = $verband['organisation'];
-		$page['breadcrumbs'][] = $verband['organisation'];
+		$page['title'] = $verband['contact'];
+		$page['breadcrumbs'][] = $verband['contact'];
 	} else {
 		$page['title'] = $category['category'];
 		$page['breadcrumbs'][] = $category['category'];

@@ -15,7 +15,7 @@
 
 if (empty($brick['vars'])) wrap_quit(404);
 
-$sql = 'SELECT org_id, organisation
+$sql = 'SELECT org_id, contact
 	FROM organisationen
 	WHERE org_id = %d';
 $sql = sprintf($sql, $brick['vars'][0]);
@@ -54,7 +54,7 @@ switch ($brick['vars'][1]) {
 		wrap_quit(404);
 }
 
-$zz['title'] = $verein['organisation'];
+$zz['title'] = $verein['contact'];
 $zz['where']['org_id'] = $verein['org_id'];
 unset($zz['subtitle']);
 

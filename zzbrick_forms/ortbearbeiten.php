@@ -15,7 +15,7 @@
 
 if (empty($brick['vars'])) wrap_quit(404);
 
-$sql = 'SELECT org_id, organisation
+$sql = 'SELECT org_id, contact
 	FROM organisationen
 	WHERE org_id = %d';
 $sql = sprintf($sql, $brick['vars'][0]);
@@ -43,7 +43,7 @@ switch ($brick['vars'][1]) {
 		wrap_quit(404);
 }
 
-$zz['title'] = $verein['organisation'];
+$zz['title'] = $verein['contact'];
 $zz['where']['organisationen_orte.org_id'] = $verein['org_id'];
 $zz['sql'] = wrap_edit_sql($zz['sql'], 'JOIN', 'LEFT JOIN organisationen_orte
 	ON organisationen_orte.contact_id = contacts.contact_id');
@@ -93,7 +93,7 @@ $zz['fields'][44]['title_tab'] = 'Folge';
 $zz['fields'][44]['subselect']['sql'] = 'SELECT contact_id, reihenfolge
 	FROM organisationen_orte
 	LEFT JOIN organisationen USING (org_id)
-	ORDER BY organisation';
+	ORDER BY contact';
 
 // Add geht nicht
 $zz['fields'][44]['if']['add'] = false;

@@ -26,7 +26,7 @@ function mod_clubs_verein($params) {
 	$edit = false;
 	if ((count($params) === 3 OR count($params) === 4) AND $params[1] === 'bearbeiten') {
 		$zz_setting['cache'] = false;
-		$sql = 'SELECT org_id, organisation
+		$sql = 'SELECT org_id, contact
 			FROM organisationen
 			WHERE identifier = "%s"
 			AND ISNULL(aufloesung)';
@@ -76,13 +76,13 @@ function mod_clubs_verein($params) {
 			'name' => 'robots',
 			'content' => 'noindex, follow, noarchive'
 		];
-		$page['title'] = 'Bearbeiten: '.$org['organisation'];
+		$page['title'] = 'Bearbeiten: '.$org['contact'];
 		unset($page['breadcrumbs']);
 		if (count($params) === 3) {
-			$page['breadcrumbs'][] = sprintf('<a href="../../">%s</a>', $org['organisation']);
+			$page['breadcrumbs'][] = sprintf('<a href="../../">%s</a>', $org['contact']);
 			$page['breadcrumbs'][] = '<a href="../">Bearbeiten</a>';
 		} elseif (count($params) === 4) {
-			$page['breadcrumbs'][] = sprintf('<a href="../../../">%s</a>', $org['organisation']);
+			$page['breadcrumbs'][] = sprintf('<a href="../../../">%s</a>', $org['contact']);
 			$page['breadcrumbs'][] = '<a href="../../">Bearbeiten</a>';
 		}
 		switch ($params[2]) {
@@ -118,11 +118,11 @@ function mod_clubs_verein($params) {
 	}
 	if (count($params) !== 1) return false;
 
-	$sql = 'SELECT org.org_id, org.organisation
+	$sql = 'SELECT org.org_id, org.contact
 			, org.website, YEAR(org.aufloesung) AS aufloesung, org.gruendung, org.description
 			, ok.identifier AS zps_code
 			, members, members_female, members_u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
-			, nachfolger.organisation AS nachfolger, nachfolger.identifier AS nachfolger_kennung
+			, nachfolger.contact AS nachfolger, nachfolger.identifier AS nachfolger_kennung
 			, SUBSTRING_INDEX(categories.path, "/", -1) AS category
 			, IF(SUBSTRING_INDEX(categories.path, "/", -1) = "schulschachgruppe", 1, NULL) AS schulschachgruppe
 			, IF(SUBSTRING_INDEX(categories.path, "/", -1) = "schachkindergarten", 1, NULL) AS schachkindergarten
@@ -390,15 +390,15 @@ function mod_clubs_verein($params) {
 	}
 	if (count($org['orte']) > 1) $org['orte_plural'] = true;
 
-	$page['title'] = $org['organisation'];
+	$page['title'] = $org['contact'];
 	if ($org['schachabteilung']) {
 		$page['title'] .= ' <br><em>Schachabteilung</em>'; 
 	}
 	if ($org['edit']) {
-		$page['breadcrumbs'][] = sprintf('<a href="../">%s</a>', $org['organisation']);
+		$page['breadcrumbs'][] = sprintf('<a href="../">%s</a>', $org['contact']);
 		$page['breadcrumbs'][] = 'Bearbeiten';
 	} else {
-		$page['breadcrumbs'][] = $org['organisation'];
+		$page['breadcrumbs'][] = $org['contact'];
 	}
 	$page['head'] = wrap_template('vereine-map-head');
 	if (!empty($org['lat_min'])) {

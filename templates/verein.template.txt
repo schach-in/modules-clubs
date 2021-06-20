@@ -4,7 +4,7 @@
 # Copyright (c) 2020      Falco Nogatz <fnogatz@gmail.com>
 # Detailinformationen über einen Verein oder eine Schulschachgruppe
 #
-# List of fields: org_id, organisation, website, aufloesung, gruendung,
+# List of fields: org_id, contact, website, aufloesung, gruendung,
 # description, zps_code, members, members_female, members_u25, avg_age,
 # avg_rating, nachfolger, nachfolger_kennung, category, schulschachgruppe,
 # schachkindergarten, topten { FIDE_Titel, Spielername, DWZ, FIDE_Elo, no,
@@ -17,7 +17,7 @@
 # identifier }
 #
 <div itemscope itemprop="organization" itemtype="http://schema.org/Organization">
-<h1 itemprop="name">%%% item organisation %%%
+<h1 itemprop="name">%%% item contact %%%
 %%% condition if schachabteilung %%%
 <br><em>Schachabteilung</em>
 %%% condition endif %%%

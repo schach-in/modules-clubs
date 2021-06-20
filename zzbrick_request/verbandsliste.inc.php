@@ -16,7 +16,7 @@
 function mod_clubs_verbandsliste($params) {
 	global $zz_setting;
 
-	$sql = 'SELECT org_id, organisation, category, mutter_org_id
+	$sql = 'SELECT org_id, contact, category, mutter_org_id
 			, 1 AS aktiv
 			, organisationen.identifier
 			, website
@@ -37,8 +37,11 @@ function mod_clubs_verbandsliste($params) {
 		return brick_format('%%% request vereinsliste '.$params[0].' %%%');
 	}
 
-	$sql = 'SELECT organisationen.org_id, organisation, category, mutter_org_id, organisationen.identifier
-			, (SELECT COUNT(*) FROM organisationen_orte WHERE organisationen_orte.org_id = organisationen.org_id AND organisationen_orte.published = "yes") AS spielorte
+	$sql = 'SELECT organisationen.org_id, contact, category, mutter_org_id, organisationen.identifier
+			, (SELECT COUNT(*) FROM organisationen_orte
+				WHERE organisationen_orte.org_id = organisationen.org_id
+				AND organisationen_orte.published = "yes"
+			) AS spielorte
 			, members, members_female, members_u25
 		FROM organisationen
 		LEFT JOIN categories
@@ -109,9 +112,9 @@ function mod_clubs_verbandsliste($params) {
 		}
 	}
 
-	$page['title'] = 'Liste '.$data['organisation'];
+	$page['title'] = 'Liste '.$data['contact'];
 	if ($params[0] !== 'dsb') {
-		$page['breadcrumbs'][] = '<a href="../">'.$data['organisation'].'</a>';
+		$page['breadcrumbs'][] = '<a href="../">'.$data['contact'].'</a>';
 	}
 	$page['breadcrumbs'][] = 'Liste';
 	$page['text'] = wrap_template('verbandsliste', $data);

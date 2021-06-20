@@ -4,7 +4,7 @@
 # Vereinsliste pro Verband
 #
 # List of fields:
-# org_id, organisation, mutter_org_id, vereine { org_id, organisation, identifier }
+# org_id, contact, mutter_org_id, vereine { org_id, contact, identifier }
 #
 %%% item description markdown %%%
 %%% condition if website %%%
@@ -35,7 +35,7 @@
 %%% loopposition first|middle " / " %%%
 %%% loop end %%%
 %%% condition else %%%
-%%% item organisation %%%
+%%% item contact %%%
 %%% condition endif %%%
 %%% condition unless spielort %%% &middot; Karte%%% condition endif %%%%%% condition unless aufloesung %%%</a>%%% condition endif %%%</td>
 <td>%%% item spielort %%%</td>

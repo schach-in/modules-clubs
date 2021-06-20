@@ -15,7 +15,7 @@
 
 if (empty($brick['vars'])) wrap_quit(404);
 
-$sql = 'SELECT org_id, organisation
+$sql = 'SELECT org_id, contact
 		, SUBSTRING_INDEX(categories.path, "/", -1) AS path
 	FROM organisationen
 	LEFT JOIN categories
@@ -25,12 +25,12 @@ $sql = sprintf($sql, $brick['vars'][0]);
 $verein = wrap_db_fetch($sql);
 if (!$verein) wrap_quit(404);
 
-require $zz_conf['form_scripts'].'/organisationen.php';
+$zz = zzform_include_table('organisationen');
 
 unset($zz['filter']);
 unset($zz['details']);
 
-$zz['title'] = $verein['organisation'];
+$zz['title'] = $verein['contact'];
 $zz['where']['org_id'] = $verein['org_id'];
 $zz['access'] = 'edit_only';
 if (empty($_SESSION['login_id'])) {

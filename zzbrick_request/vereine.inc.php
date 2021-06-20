@@ -47,7 +47,7 @@ function mod_clubs_vereine($params) {
 			$params[0] = substr($params[0], 0, -8);
 		}
 		$data['identifier'] = $params[0];
-		$sql = 'SELECT org_id, organisation FROM organisationen WHERE identifier = "%s"';
+		$sql = 'SELECT org_id, contact FROM organisationen WHERE identifier = "%s"';
 		$sql = sprintf($sql, wrap_db_escape($params[0]));
 		$haupt_org = wrap_db_fetch($sql);
 		if ($haupt_org) {
@@ -60,7 +60,7 @@ function mod_clubs_vereine($params) {
 				AND ISNULL(aufloesung)', wrap_category_id('organisationen/verband'))
 			);
 			$condition = sprintf('AND mutter_org_id IN (%s)', implode(',', $org_ids));
-			$auswahl = $haupt_org['organisation'];
+			$auswahl = $haupt_org['contact'];
 			$data['zoomtofit'] = true;
 		} else {
 			$categories = mf_clubs_from_category($params[0]);
@@ -151,7 +151,8 @@ function mod_clubs_vereine($params) {
 		$having = sprintf($having, $result['lat'], $result['lat'], $result['lon']);
 	}
 
-	$sql = 'SELECT cc_id AS id, organisation AS title, places.contact AS veranstaltungsort
+	$sql = 'SELECT cc_id AS id
+			, organisationen.contact AS title, places.contact AS veranstaltungsort
 			, latitude AS x_latitude, longitude AS y_longitude, organisationen.website
 			, SUBSTRING_INDEX(categories.path, "/", -1) AS category
 			, members, members_female AS female, members_u25 AS u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
@@ -202,7 +203,7 @@ function mod_clubs_vereine($params) {
 			// Verein direkt?
 			$sql = 'SELECT org_id, identifier
 				FROM organisationen
-				WHERE organisation LIKE "%%%s%%"
+				WHERE contact LIKE "%%%s%%"
 				AND ISNULL(aufloesung)';
 			$sql = sprintf($sql, implode('%', $qs));
 			$verein = wrap_db_fetch($sql);
@@ -225,7 +226,7 @@ function mod_clubs_vereine($params) {
 				if ($change) {
 					$sql = 'SELECT org_id, identifier
 						FROM organisationen
-						WHERE organisation LIKE "%%%s%%"
+						WHERE contact LIKE "%%%s%%"
 						AND ISNULL(aufloesung)';
 					$sql = sprintf($sql, implode('%', $qs));
 					$verein = wrap_db_fetch($sql);
@@ -361,7 +362,7 @@ function mod_clubs_vereine_condition($q) {
 			$condition .= ' AND ((';
 			foreach ($qs as $index => $q) {
 				if ($index) $condition .= ' AND ';
-				$condition .= sprintf('organisation LIKE "%%%s%%"', wrap_db_escape($q));
+				$condition .= sprintf('organisationen.contact LIKE "%%%s%%"', wrap_db_escape($q));
 				// add support for ae = ä etc.
 				$condition .= sprintf('OR organisationen.identifier LIKE LOWER("%%%s%%")', wrap_db_escape($q));
 				$condition .= sprintf('OR organisationen.website LIKE "%%%s%%"', wrap_db_escape($q));
@@ -496,14 +497,14 @@ function mod_clubs_vereine_json($coordinates, $identifier) {
  * @return array
  */
 function mod_clubs_vereine_verbaende($q, $coordinates) {
-	$sql = 'SELECT o.org_id, o.identifier, o.organisation
-				, h.organisation AS haupt_organisation
+	$sql = 'SELECT o.org_id, o.identifier, o.contact
+				, h.contact AS main_contact
 				, o.contact_category_id
 				, (SELECT COUNT(org_id) FROM organisationen WHERE mutter_org_id = o.org_id) AS rang
 		FROM organisationen o
 		LEFT JOIN organisationen h
 			ON o.mutter_org_id = h.org_id
-		WHERE o.organisation LIKE "%%%s%%"
+		WHERE o.contact LIKE "%%%s%%"
 		AND ISNULL(o.aufloesung)
 		ORDER BY rang DESC, o.identifier
 	';
