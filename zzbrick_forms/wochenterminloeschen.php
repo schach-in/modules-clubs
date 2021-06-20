@@ -38,7 +38,7 @@ if (!$zz['where']['wochentermin_id']) {
 	wrap_quit(404);
 }
 
-require $zz_conf['form_scripts'].'/wochentermine.php';
+$zz = zzform_include_table('wochentermine');
 
 // @todo: $zz['access'] = 'delete_only';
 if (empty($_POST)) $_GET['mode'] = 'delete';

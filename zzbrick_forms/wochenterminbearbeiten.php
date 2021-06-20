@@ -22,7 +22,7 @@ $sql = sprintf($sql, $brick['vars'][0]);
 $verein = wrap_db_fetch($sql);
 if (!$verein) wrap_quit(404);
 
-require $zz_conf['form_scripts'].'/wochentermine.php';
+$zz = zzform_include_table('wochentermine');
 
 $mode = false;
 switch ($brick['vars'][1]) {
