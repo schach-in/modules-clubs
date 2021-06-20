@@ -13,17 +13,11 @@
  */
 
 
-if (empty($brick['vars'])) wrap_quit(404);
 if (count($brick['vars']) !== 2) wrap_quit(404);
-
-$sql = 'SELECT org_id, contact, categories.path
-	FROM organisationen
-	LEFT JOIN categories
-		ON organisationen.contact_category_id = categories.category_id
-	WHERE org_id = %d';
-$sql = sprintf($sql, $brick['vars'][0]);
-$verein = wrap_db_fetch($sql);
+$verein = mf_clubs_club($brick['vars'][0]);
 if (!$verein) wrap_quit(404);
+
+$zz = zzform_include_table('wochentermine');
 
 $sql = 'SELECT wochentermin_id
 	FROM wochentermine
@@ -37,8 +31,6 @@ if (!$zz['where']['wochentermin_id']) {
 	}
 	wrap_quit(404);
 }
-
-$zz = zzform_include_table('wochentermine');
 
 // @todo: $zz['access'] = 'delete_only';
 if (empty($_POST)) $_GET['mode'] = 'delete';

@@ -14,12 +14,7 @@
 
 
 if (empty($brick['vars'])) wrap_quit(404);
-
-$sql = 'SELECT org_id, contact
-	FROM organisationen
-	WHERE org_id = %d';
-$sql = sprintf($sql, $brick['vars'][0]);
-$verein = wrap_db_fetch($sql);
+$verein = mf_clubs_club($brick['vars'][0]);
 if (!$verein) wrap_quit(404);
 
 require $zz_setting['custom'].'/zzbrick_forms/places.php';

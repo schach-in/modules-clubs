@@ -13,6 +13,24 @@
 
 
 /**
+ * get a club by its ID
+ *
+ * @param int $id
+ * @return array
+ */
+function mf_clubs_club($id) {
+	$sql = 'SELECT org_id, contact, categories.path
+		FROM organisationen
+		LEFT JOIN categories
+			ON organisationen.contact_category_id = categories.category_id
+		WHERE org_id = %d';
+	$sql = sprintf($sql, $id);
+	$club = wrap_db_fetch($sql);
+	if (!$club) return false;
+	return $club;
+}
+
+/**
  * print out all parent organisations of an organisation in hierarchical list
  *
  * @param int $org_id

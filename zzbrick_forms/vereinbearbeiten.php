@@ -14,15 +14,7 @@
 
 
 if (empty($brick['vars'])) wrap_quit(404);
-
-$sql = 'SELECT org_id, contact
-		, SUBSTRING_INDEX(categories.path, "/", -1) AS path
-	FROM organisationen
-	LEFT JOIN categories
-		ON organisationen.contact_category_id = categories.category_id
-	WHERE org_id = %d';
-$sql = sprintf($sql, $brick['vars'][0]);
-$verein = wrap_db_fetch($sql);
+$verein = mf_clubs_club($brick['vars'][0]);
 if (!$verein) wrap_quit(404);
 
 $zz = zzform_include_table('organisationen');
@@ -50,7 +42,7 @@ $zz['fields'][12]['hide_in_form'] = true;
 $zz['fields'][10]['hide_in_form'] = true;
 $zz['fields'][15]['hide_in_form'] = true;
 $zz['fields'][20]['hide_in_form'] = true;
-if ($verein['path'] !== 'verein') {
+if ($verein['path'] !== 'organisationen/verein') {
 	$zz['fields'][5]['hide_in_form'] = true; // Schachabteilung
 	$zz['fields'][40]['hide_in_form'] = true; // Gründungsdatum
 }
