@@ -124,8 +124,8 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% condition endif %%%
 %%% loop orte %%%
 %%% condition if longitude %%%
-	L.marker([%%% item latitude %%%, %%% item longitude %%%], {icon: Icon, title: "%%% item contact wrap_html_escape %%%"}).addTo(map)
-	    .bindPopup('%%% item contact wrap_html_escape %%%');
+	L.marker([%%% item latitude %%%, %%% item longitude %%%], {icon: Icon, title: "%%% item contact wrap_js_escape %%%"}).addTo(map)
+	    .bindPopup('%%% item contact wrap_js_nl2br %%%');
 %%% condition endif %%%
 %%% loop end %%%
 
