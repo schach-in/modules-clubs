@@ -19,7 +19,7 @@
  * @return array
  */
 function mf_clubs_club($id) {
-	$sql = 'SELECT org_id, contact, categories.path
+	$sql = 'SELECT org_id, contact, categories.path, categories.parameters
 		FROM organisationen
 		LEFT JOIN categories
 			ON organisationen.contact_category_id = categories.category_id
@@ -27,6 +27,7 @@ function mf_clubs_club($id) {
 	$sql = sprintf($sql, $id);
 	$club = wrap_db_fetch($sql);
 	if (!$club) return false;
+	parse_str($club['parameters'], $club['parameters']);
 	return $club;
 }
 
