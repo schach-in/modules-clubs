@@ -255,8 +255,11 @@ function mod_clubs_vereine($params) {
 	}
 	
 	$sql = 'SELECT COUNT(org_id) FROM organisationen
-		WHERE contact_category_id = %d AND ISNULL(aufloesung)';
-	$sql = sprintf($sql, wrap_category_id('contact/club'));
+		WHERE contact_category_id IN (%d, %d) AND ISNULL(aufloesung)';
+	$sql = sprintf($sql
+		, wrap_category_id('contact/club')
+		, wrap_category_id('contact/chess-department')
+	);
 	$data['vereine'] = wrap_db_fetch($sql, '', 'single value');
 
 	$page['dont_show_h1'] = true;

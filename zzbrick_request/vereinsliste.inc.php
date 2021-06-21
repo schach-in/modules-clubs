@@ -29,10 +29,11 @@ function mod_clubs_vereinsliste($params) {
 	$verband = wrap_db_fetch($sql);
 	if ($verband) {
 		$condition = sprintf('mutter_org_id = %d
-			AND contact_category_id = %d 
+			AND contact_category_id IN (%d, %d) 
 			AND ISNULL(aufloesung)'
 			, $verband['org_id']
 			, wrap_category_id('contact/club')
+			, wrap_category_id('contact/chess-department')
 		);
 		$top = $verband;
 		$categories = false;

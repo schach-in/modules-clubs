@@ -23,13 +23,11 @@ $zz['fields'][1]['type'] = 'id';
 $zz['fields'][2]['title'] = 'Verein';
 $zz['fields'][2]['field_name'] = 'org_id';
 $zz['fields'][2]['type'] = 'select';
-// @todo use wrap_id()
-$zz['fields'][2]['sql'] = sprintf('SELECT org_id, contact
+$zz['fields'][2]['sql'] = 'SELECT org_id, contact
 	FROM /*_PREFIX_*/organisationen
-	WHERE contact_category_id IN (%d, %d)'
-	, wrap_category_id('contact/club')
-	, wrap_category_id('contact/school')
-);
+	LEFT JOIN /*_PREFIX_*/categories
+		ON /*_PREFIX_*/organisationen.contact_category_id = /*_PREFIX_*/categories.category_id
+	WHERE parameters LIKE "%&weekly_events=1%"';
 $zz['fields'][2]['display_field'] = 'contact';
 $zz['fields'][2]['search'] = 'organisationen.contact';
 $zz['fields'][2]['if']['where']['class'] = 'hidden';
