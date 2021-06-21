@@ -27,8 +27,8 @@ $zz['fields'][2]['type'] = 'select';
 $zz['fields'][2]['sql'] = sprintf('SELECT org_id, contact
 	FROM /*_PREFIX_*/organisationen
 	WHERE contact_category_id IN (%d, %d)'
-	, wrap_category_id('organisationen/verein')
-	, wrap_category_id('organisationen/schulschachgruppe')
+	, wrap_category_id('contact/club')
+	, wrap_category_id('contact/school')
 );
 $zz['fields'][2]['display_field'] = 'contact';
 $zz['fields'][2]['search'] = 'organisationen.contact';

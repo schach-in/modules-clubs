@@ -57,7 +57,7 @@ function mod_clubs_vereine($params) {
 				$haupt_org['org_id'],
 				sprintf('SELECT org_id FROM organisationen WHERE mutter_org_id IN (%%s)
 				AND contact_category_id = %d
-				AND ISNULL(aufloesung)', wrap_category_id('organisationen/verband'))
+				AND ISNULL(aufloesung)', wrap_category_id('contact/federation'))
 			);
 			$condition = sprintf('AND mutter_org_id IN (%s)', implode(',', $org_ids));
 			$auswahl = $haupt_org['contact'];
@@ -256,7 +256,7 @@ function mod_clubs_vereine($params) {
 	
 	$sql = 'SELECT COUNT(org_id) FROM organisationen
 		WHERE contact_category_id = %d AND ISNULL(aufloesung)';
-	$sql = sprintf($sql, wrap_category_id('organisationen/verein'));
+	$sql = sprintf($sql, wrap_category_id('contact/club'));
 	$data['vereine'] = wrap_db_fetch($sql, '', 'single value');
 
 	$page['dont_show_h1'] = true;
@@ -521,7 +521,7 @@ function mod_clubs_vereine_verbaende($q, $coordinates) {
 	// zuviele? dann nur Verbände anzeigen
 	if (count($verbaende) > 5) {
 		foreach ($verbaende as $id => $verband) {
-			if ($verband['contact_category_id'] !== wrap_category_id('organisationen/verband'))
+			if ($verband['contact_category_id'] !== wrap_category_id('contact/federation'))
 				unset($verbaende[$id]);
 		}
 	}

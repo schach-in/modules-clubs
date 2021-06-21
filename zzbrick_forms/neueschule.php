@@ -29,7 +29,7 @@ $zz['fields'][11]['title'] = 'Über uns';
 
 $zz['fields'][6]['type'] = 'hidden';
 $zz['fields'][6]['class'] = 'hidden';
-$zz['fields'][6]['value'] = wrap_category_id('organisationen/schulschachgruppe');
+$zz['fields'][6]['value'] = wrap_category_id('contact/school');
 
 unset($zz['fields'][34]);
 unset($zz['fields'][4]);

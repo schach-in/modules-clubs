@@ -16,7 +16,7 @@
 function mod_clubs_verbandsliste($params) {
 	global $zz_setting;
 
-	$sql = 'SELECT org_id, contact, category, mutter_org_id
+	$sql = 'SELECT org_id, contact, category_id, category, mutter_org_id
 			, 1 AS aktiv
 			, organisationen.identifier
 			, website
@@ -42,7 +42,7 @@ function mod_clubs_verbandsliste($params) {
 				WHERE organisationen_orte.org_id = organisationen.org_id
 				AND organisationen_orte.published = "yes"
 			) AS spielorte
-			, members, members_female, members_u25
+			, members, members_female, members_u25, category_id
 		FROM organisationen
 		LEFT JOIN categories
 			ON organisationen.contact_category_id = categories.category_id
@@ -56,8 +56,14 @@ function mod_clubs_verbandsliste($params) {
 	$children = wrap_db_children([$data], $sql, 'org_id', 'hierarchy');
 	if (count($children['ids']) === 1) return false; // only main club
 	
+	$federations = [
+		wrap_category_id('contact/federation'),
+		wrap_category_id('contact/youth-federation'),
+		wrap_category_id('contact/other-organisation')
+	];
+	
 	foreach ($children['flat'] as $org) {
-		if (in_array($org['category'], ['Verband', 'Jugendverband', 'Sonstige Schachorganisation'])) {
+		if (in_array($org['category_id'], $federations)) {
 			$data['children'][$org['org_id']] = $org;
 			if (!isset($data['children'][$org['org_id']]['members'])) {
 				$data['children'][$org['org_id']]['members'] = 0;
@@ -101,7 +107,7 @@ function mod_clubs_verbandsliste($params) {
 
 	// remove empty values
 	foreach ($children['flat'] as $org) {
-		if (in_array($org['category'], ['Verband', 'Jugendverband', 'Sonstige Schachorganisation'])) {
+		if (in_array($org['category_id'], $federations)) {
 			if (!empty($data['children'][$org['org_id']]['vereine'])) continue;
 			if (!empty($data['children'][$org['org_id']]['members'])) continue;
 			unset($data['children'][$org['org_id']]['members']);

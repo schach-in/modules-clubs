@@ -24,7 +24,7 @@ function mod_clubs_vereinsliste($params) {
 		AND contact_category_id = %d';
 	$sql = sprintf($sql
 		, wrap_db_escape($params[0])
-		, wrap_category_id('organisationen/verband')
+		, wrap_category_id('contact/federation')
 	);
 	$verband = wrap_db_fetch($sql);
 	if ($verband) {
@@ -32,7 +32,7 @@ function mod_clubs_vereinsliste($params) {
 			AND contact_category_id = %d 
 			AND ISNULL(aufloesung)'
 			, $verband['org_id']
-			, wrap_category_id('organisationen/verein')
+			, wrap_category_id('contact/club')
 		);
 		$top = $verband;
 		$categories = false;
