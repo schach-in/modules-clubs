@@ -138,7 +138,7 @@ function mod_clubs_verein($params) {
 			AND ok.identifier_category_id = %d
 			AND NOT ISNULL(ok.current)
 		LEFT JOIN contacts nachfolger
-			ON org.nachfolger_org_id = nachfolger.org_id
+			ON org.successor_contact_id = nachfolger.contact_id
 		WHERE org.identifier = "%s"
 	';
 	$sql = sprintf($sql
