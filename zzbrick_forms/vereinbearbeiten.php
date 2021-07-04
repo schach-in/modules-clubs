@@ -47,9 +47,6 @@ $zz['fields'][12]['hide_in_form'] = true;
 $zz['fields'][10]['hide_in_form'] = true;
 $zz['fields'][15]['hide_in_form'] = true;
 $zz['fields'][20]['hide_in_form'] = true;
-if ($verein['path'] !== 'organisationen/verein') {
-	// $zz['fields'][5]['hide_in_form'] = true; // Schachabteilung
-}
 if (empty($verein['parameters']['foundation_date'])) {
 	$zz['fields'][40]['hide_in_form'] = true; // Gründungsdatum
 }
