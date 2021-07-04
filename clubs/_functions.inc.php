@@ -20,9 +20,9 @@
  */
 function mf_clubs_club($id) {
 	$sql = 'SELECT org_id, contact, categories.path, categories.parameters
-		FROM organisationen
+		FROM contacts
 		LEFT JOIN categories
-			ON organisationen.contact_category_id = categories.category_id
+			ON contacts.contact_category_id = categories.category_id
 		WHERE org_id = %d';
 	$sql = sprintf($sql, $id);
 	$club = wrap_db_fetch($sql);
@@ -38,12 +38,12 @@ function mf_clubs_club($id) {
  * @return string
  */
 function mf_clubs_parent_orgs($org_id) {
-	$org_ids = wrap_db_parents($org_id, 'SELECT mutter_org_id FROM organisationen WHERE org_id IN (%s)');
+	$org_ids = wrap_db_parents($org_id, 'SELECT mutter_org_id FROM contacts WHERE org_id IN (%s)');
 	if (!$org_ids) return '';	
 
 	$org = [];
 	$sql = 'SELECT org_id, contact, identifier
-		FROM organisationen
+		FROM contacts
 		WHERE org_id IN (%s)';
 	$sql = sprintf($sql, implode(',', $org_ids));
 	$parent_orgs = wrap_db_fetch($sql, 'org_id');

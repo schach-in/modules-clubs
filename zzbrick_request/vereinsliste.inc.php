@@ -18,9 +18,9 @@ function mod_clubs_vereinsliste($params) {
 	if (count($params) !== 1) return false;
 
 	$sql = 'SELECT org_id, contact, mutter_org_id, 0 AS _level
-			, organisationen.identifier, website, organisationen.description
-		FROM organisationen
-		WHERE organisationen.identifier = "%s"
+			, contacts.identifier, website, contacts.description
+		FROM contacts
+		WHERE contacts.identifier = "%s"
 		AND contact_category_id = %d';
 	$sql = sprintf($sql
 		, wrap_db_escape($params[0])
@@ -49,23 +49,23 @@ function mod_clubs_vereinsliste($params) {
 	$top['members_u25'] = 0;
 	$top['members_female'] = 0;
 	
-	$sql = 'SELECT org_id, contact, organisationen.identifier
+	$sql = 'SELECT org_id, contact, contacts.identifier
 			, organisationen_kennungen.identifier AS zps_code
 			, members, members_female, members_u25
 			, members_u25/members AS anteil_members_u25
 			, members_female/members AS anteil_members_female
 			, IF((SELECT COUNT(*) FROM organisationen_orte
-				WHERE organisationen_orte.org_id = organisationen.org_id
+				WHERE organisationen_orte.org_id = contacts.org_id
 				AND organisationen_orte.published = "yes"), "ja", "nein"
 			) AS spielort
 			, 1 AS _level
 			, aufloesung
-		FROM organisationen
+		FROM contacts
 		LEFT JOIN organisationen_kennungen USING (org_id)
 		LEFT JOIN vereinsdb_stats USING (org_id)
 		LEFT JOIN auszeichnungen USING (org_id)
 		WHERE %s
-		ORDER BY organisationen_kennungen.identifier, organisationen.identifier';
+		ORDER BY organisationen_kennungen.identifier, contacts.identifier';
 	$sql = sprintf($sql, $condition);
 	$data['vereine'] = wrap_db_fetch($sql, 'org_id');
 	if (!$data['vereine']) return false;

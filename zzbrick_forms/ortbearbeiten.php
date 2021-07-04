@@ -87,7 +87,7 @@ $zz['fields'][44]['title'] = 'Reihenfolge';
 $zz['fields'][44]['title_tab'] = 'Folge';
 $zz['fields'][44]['subselect']['sql'] = 'SELECT contact_id, reihenfolge
 	FROM organisationen_orte
-	LEFT JOIN organisationen USING (org_id)
+	LEFT JOIN contacts USING (org_id)
 	ORDER BY contact';
 
 // Add geht nicht

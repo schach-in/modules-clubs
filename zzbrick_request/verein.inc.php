@@ -27,7 +27,7 @@ function mod_clubs_verein($params) {
 	if ((count($params) === 3 OR count($params) === 4) AND $params[1] === 'bearbeiten') {
 		$zz_setting['cache'] = false;
 		$sql = 'SELECT org_id, contact
-			FROM organisationen
+			FROM contacts
 			WHERE identifier = "%s"
 			AND ISNULL(aufloesung)';
 		$sql = sprintf($sql, wrap_db_escape($params[0]));
@@ -128,8 +128,8 @@ function mod_clubs_verein($params) {
 			, IF(categories.category_id = "%d", 1, NULL) AS schachkindergarten
 			, IF(categories.category_id = "%d", 1, NULL) AS verein
 			, IF(categories.category_id = "%d", 1, NULL) AS schachabteilung
-			, (SELECT COUNT(org_id) FROM organisationen members WHERE members.mutter_org_id = org.org_id) AS member_orgs
-		FROM organisationen org
+			, (SELECT COUNT(org_id) FROM contacts members WHERE members.mutter_org_id = org.org_id) AS member_orgs
+		FROM contacts org
 		LEFT JOIN categories
 			ON org.contact_category_id = categories.category_id
 		LEFT JOIN vereinsdb_stats USING (org_id)
@@ -137,7 +137,7 @@ function mod_clubs_verein($params) {
 			ON ok.org_id = org.org_id
 			AND ok.identifier_category_id = %d
 			AND NOT ISNULL(ok.current)
-		LEFT JOIN organisationen nachfolger
+		LEFT JOIN contacts nachfolger
 			ON org.nachfolger_org_id = nachfolger.org_id
 		WHERE org.identifier = "%s"
 	';
@@ -205,7 +205,7 @@ function mod_clubs_verein($params) {
 			ON organisationen_orte.contact_id = places.contact_id
 		LEFT JOIN addresses
 			ON places.contact_id = addresses.contact_id
-		WHERE org_id = %d
+		WHERE organisationen_orte.org_id = %d
 		ORDER BY sequence, places.contact, postcode, place, address';
 	$sql = sprintf($sql, $org['org_id']);
 	$org['orte'] = wrap_db_fetch($sql, 'contact_id');
@@ -272,7 +272,7 @@ function mod_clubs_verein($params) {
 
 	if ($org['edit']) {
 		require_once $zz_conf['dir'].'/revisions.inc.php';
-		$revisions = zz_revisions_read('organisationen', $org['org_id']);
+		$revisions = zz_revisions_read('contacts', $org['org_id']);
 		foreach ($revisions as $key => $value) {
 			if (is_array($value)) {
 				// ...

@@ -47,7 +47,7 @@ function mod_clubs_vereine($params) {
 			$params[0] = substr($params[0], 0, -8);
 		}
 		$data['identifier'] = $params[0];
-		$sql = 'SELECT org_id, contact FROM organisationen WHERE identifier = "%s"';
+		$sql = 'SELECT org_id, contact FROM contacts WHERE identifier = "%s"';
 		$sql = sprintf($sql, wrap_db_escape($params[0]));
 		$haupt_org = wrap_db_fetch($sql);
 		if ($haupt_org) {
@@ -55,18 +55,18 @@ function mod_clubs_vereine($params) {
 			// Unterorganisationen?
 			$org_ids = wrap_db_children(
 				$haupt_org['org_id'],
-				sprintf('SELECT org_id FROM organisationen WHERE mutter_org_id IN (%%s)
+				sprintf('SELECT org_id FROM contacts WHERE mutter_org_id IN (%%s)
 				AND contact_category_id = %d
 				AND ISNULL(aufloesung)', wrap_category_id('contact/federation'))
 			);
-			$condition = sprintf('AND mutter_org_id IN (%s)', implode(',', $org_ids));
+			$condition = sprintf('AND organisationen.mutter_org_id IN (%s)', implode(',', $org_ids));
 			$auswahl = $haupt_org['contact'];
 			$data['zoomtofit'] = true;
 		} else {
 			$categories = mf_clubs_from_category($params[0]);
 			if ($categories) {
 				$found = true;
-				$sql = 'SELECT org_id FROM organisationen
+				$sql = 'SELECT org_id FROM contacts
 					LEFT JOIN auszeichnungen USING (org_id)
 					WHERE auszeichnung_category_id IN (%s)';
 				$sql = sprintf($sql, implode(',', array_keys($categories)));
@@ -159,9 +159,9 @@ function mod_clubs_vereine($params) {
 			, organisationen.identifier
 			, (SELECT IFNULL(COUNT(auszeichnung_id), NULL) FROM auszeichnungen
 				WHERE auszeichnungen.org_id = organisationen.org_id) AS auszeichnungen
-			, org_id
+			, organisationen.org_id
 			%s
-		FROM organisationen
+		FROM contacts organisationen
 		LEFT JOIN vereinsdb_stats USING (org_id)
 		JOIN organisationen_orte USING (org_id)
 		JOIN contacts places
@@ -170,7 +170,7 @@ function mod_clubs_vereine($params) {
 			ON places.contact_id = addresses.contact_id
 		JOIN categories
 			ON organisationen.contact_category_id = categories.category_id
-		WHERE ISNULL(aufloesung)
+		WHERE ISNULL(organisationen.aufloesung)
 		AND NOT ISNULL(latitude) AND NOT ISNULL(longitude)
 		AND organisationen_orte.published = "yes"
 		%s
@@ -202,7 +202,7 @@ function mod_clubs_vereine($params) {
 			$qs = explode(' ', wrap_db_escape($_GET['q']));
 			// Verein direkt?
 			$sql = 'SELECT org_id, identifier
-				FROM organisationen
+				FROM contacts
 				WHERE contact LIKE "%%%s%%"
 				AND ISNULL(aufloesung)';
 			$sql = sprintf($sql, implode('%', $qs));
@@ -210,7 +210,7 @@ function mod_clubs_vereine($params) {
 			if (!$verein) {
 				$q = wrap_filename($_GET['q'], '', ['-' => '']);
 				$sql = 'SELECT org_id, identifier
-				FROM organisationen
+				FROM contacts
 				WHERE REPLACE(identifier, "-", "") LIKE "%%%s%%"
 				AND ISNULL(aufloesung)';
 				$sql = sprintf($sql, wrap_db_escape($q));
@@ -225,7 +225,7 @@ function mod_clubs_vereine($params) {
 				}
 				if ($change) {
 					$sql = 'SELECT org_id, identifier
-						FROM organisationen
+						FROM contacts
 						WHERE contact LIKE "%%%s%%"
 						AND ISNULL(aufloesung)';
 					$sql = sprintf($sql, implode('%', $qs));
@@ -254,7 +254,7 @@ function mod_clubs_vereine($params) {
 		$data['verbaende'] = !empty($_GET['q']) ? mod_clubs_vereine_verbaende($_GET['q'], $coordinates) : [];
 	}
 	
-	$sql = 'SELECT COUNT(org_id) FROM organisationen
+	$sql = 'SELECT COUNT(org_id) FROM contacts
 		WHERE contact_category_id IN (%d, %d) AND ISNULL(aufloesung)';
 	$sql = sprintf($sql
 		, wrap_category_id('contact/club')
@@ -503,9 +503,9 @@ function mod_clubs_vereine_verbaende($q, $coordinates) {
 	$sql = 'SELECT o.org_id, o.identifier, o.contact
 				, h.contact AS main_contact
 				, o.contact_category_id
-				, (SELECT COUNT(org_id) FROM organisationen WHERE mutter_org_id = o.org_id) AS rang
-		FROM organisationen o
-		LEFT JOIN organisationen h
+				, (SELECT COUNT(org_id) FROM contacts WHERE mutter_org_id = o.org_id) AS rang
+		FROM contacts o
+		LEFT JOIN contacts h
 			ON o.mutter_org_id = h.org_id
 		WHERE o.contact LIKE "%%%s%%"
 		AND ISNULL(o.aufloesung)

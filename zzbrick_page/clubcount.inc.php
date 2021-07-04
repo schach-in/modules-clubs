@@ -14,7 +14,7 @@
 
 
 function page_clubcount($params) {
-	$sql = 'SELECT COUNT(*) FROM organisationen
+	$sql = 'SELECT COUNT(*) FROM contacts
 		WHERE contact_category_id IN (%d, %d) AND ISNULL(aufloesung)';
 	$sql = sprintf($sql
 		, wrap_category_id('contact/club')

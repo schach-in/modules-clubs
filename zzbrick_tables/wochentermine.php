@@ -24,10 +24,10 @@ $zz['fields'][2]['title'] = 'Verein';
 $zz['fields'][2]['field_name'] = 'org_id';
 $zz['fields'][2]['type'] = 'select';
 $zz['fields'][2]['sql'] = 'SELECT org_id, contact
-	FROM /*_PREFIX_*/organisationen
+	FROM /*_PREFIX_*/contacts
 	LEFT JOIN /*_PREFIX_*/categories
-		ON /*_PREFIX_*/organisationen.contact_category_id = /*_PREFIX_*/categories.category_id
-	WHERE parameters LIKE "%&weekly_events=1%"';
+		ON /*_PREFIX_*/contacts.contact_category_id = /*_PREFIX_*/categories.category_id
+	WHERE /*_PREFIX_*/categories.parameters LIKE "%&weekly_events=1%"';
 $zz['fields'][2]['display_field'] = 'contact';
 $zz['fields'][2]['search'] = 'organisationen.contact';
 $zz['fields'][2]['if']['where']['class'] = 'hidden';
@@ -109,13 +109,13 @@ $zz['sql'] = 'SELECT /*_PREFIX_*/wochentermine.*
 		, /*_PREFIX_*/organisationen.contact
 		, /*_PREFIX_*/categories.category
 	FROM /*_PREFIX_*/wochentermine
-	LEFT JOIN /*_PREFIX_*/organisationen USING (org_id)
+	LEFT JOIN /*_PREFIX_*/contacts organisationen USING (org_id)
 	LEFT JOIN contacts places
 		ON wochentermine.place_contact_id = places.contact_id
 	LEFT JOIN /*_PREFIX_*/categories
 		ON /*_PREFIX_*/wochentermine.wochentermin_category_id = /*_PREFIX_*/categories.category_id
 ';
-$zz['sqlorder'] = ' ORDER BY /*_PREFIX_*/organisationen.contact, wochentag, uhrzeit_beginn	';
+$zz['sqlorder'] = ' ORDER BY organisationen.contact, wochentag, uhrzeit_beginn	';
 
 $zz['subtitle']['org_id']['sql'] = $zz['fields'][2]['sql'];
 $zz['subtitle']['org_id']['var'] = ['contact'];

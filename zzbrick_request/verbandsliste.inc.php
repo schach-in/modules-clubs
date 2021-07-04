@@ -18,12 +18,12 @@ function mod_clubs_verbandsliste($params) {
 
 	$sql = 'SELECT org_id, contact, category_id, category, mutter_org_id
 			, 1 AS aktiv
-			, organisationen.identifier
+			, contacts.identifier
 			, website
-		FROM organisationen
+		FROM contacts
 		LEFT JOIN categories
-			ON organisationen.contact_category_id = categories.category_id
-		WHERE organisationen.identifier = "%s"';
+			ON contacts.contact_category_id = categories.category_id
+		WHERE contacts.identifier = "%s"';
 	$sql = sprintf($sql, wrap_db_escape($params[0]));
 	$data = wrap_db_fetch($sql);
 	if (!$data) {
@@ -37,18 +37,18 @@ function mod_clubs_verbandsliste($params) {
 		return brick_format('%%% request vereinsliste '.$params[0].' %%%');
 	}
 
-	$sql = 'SELECT organisationen.org_id, contact, category, mutter_org_id, organisationen.identifier
+	$sql = 'SELECT contacts.org_id, contact, category, mutter_org_id, contacts.identifier
 			, (SELECT COUNT(*) FROM organisationen_orte
-				WHERE organisationen_orte.org_id = organisationen.org_id
+				WHERE organisationen_orte.org_id = contacts.org_id
 				AND organisationen_orte.published = "yes"
 			) AS spielorte
 			, members, members_female, members_u25, category_id
-		FROM organisationen
+		FROM contacts
 		LEFT JOIN categories
-			ON organisationen.contact_category_id = categories.category_id
+			ON contacts.contact_category_id = categories.category_id
 		LEFT JOIN vereinsdb_stats USING (org_id)
 		LEFT JOIN organisationen_kennungen
-			ON organisationen_kennungen.org_id = organisationen.org_id
+			ON organisationen_kennungen.org_id = contacts.org_id
 			AND organisationen_kennungen.current = "yes"
 		WHERE mutter_org_id IN (%s)
 		AND ISNULL(aufloesung)
