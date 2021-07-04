@@ -24,9 +24,9 @@
 </h1>
 %%% condition if edit %%%
 %%% condition if schachabteilung %%%
-<p><a href="info/?focus=abteilung" class="edit">Ändern: Keine Schachabteilung</a></p>
+<p><a href="info/?focus=contact_category_id" class="edit">Ändern: Keine Schachabteilung</a></p>
 %%% condition elseif verein %%%
-<p><a href="info/?focus=abteilung" class="edit">Ändern: Es ist eine Schachabteilung</a></p>
+<p><a href="info/?focus=contact_category_id" class="edit">Ändern: Es ist eine Schachabteilung</a></p>
 %%% condition endif %%%
 
 %%% condition unless logged_in %%%

@@ -29,7 +29,12 @@ if (empty($_SESSION['login_id'])) {
 	$zz['revisions_only'] = true;
 }
 
-$zz['fields'][6]['hide_in_form'] = true;
+// contact_category_id
+$zz['fields'][6]['sql'] = wrap_edit_sql($zz['fields'][6]['sql'], 'WHERE',
+	sprintf('category_id IN (%d, %d)', wrap_category_id('contact/club'), wrap_category_id('contact/chess-department'))
+);
+$zz['fields'][6]['show_values_as_list'] = true;
+
 $zz['fields'][3]['type'] = 'hidden'; 
 $zz['fields'][4]['hide_in_form'] = true;
 $zz['fields'][34]['hide_in_form'] = true;
@@ -43,7 +48,7 @@ $zz['fields'][10]['hide_in_form'] = true;
 $zz['fields'][15]['hide_in_form'] = true;
 $zz['fields'][20]['hide_in_form'] = true;
 if ($verein['path'] !== 'organisationen/verein') {
-	$zz['fields'][5]['hide_in_form'] = true; // Schachabteilung
+	// $zz['fields'][5]['hide_in_form'] = true; // Schachabteilung
 }
 if (empty($verein['parameters']['foundation_date'])) {
 	$zz['fields'][40]['hide_in_form'] = true; // Gründungsdatum

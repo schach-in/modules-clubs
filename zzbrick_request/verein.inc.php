@@ -124,10 +124,10 @@ function mod_clubs_verein($params) {
 			, members, members_female, members_u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
 			, nachfolger.contact AS nachfolger, nachfolger.identifier AS nachfolger_kennung
 			, SUBSTRING_INDEX(categories.path, "/", -1) AS category
-			, IF(SUBSTRING_INDEX(categories.path, "/", -1) = "schulschachgruppe", 1, NULL) AS schulschachgruppe
-			, IF(SUBSTRING_INDEX(categories.path, "/", -1) = "schachkindergarten", 1, NULL) AS schachkindergarten
-			, IF(SUBSTRING_INDEX(categories.path, "/", -1) = "verein", 1, NULL) AS verein
-			, IF(org.abteilung = "ja", 1, NULL) AS schachabteilung
+			, IF(categories.category_id = "%d", 1, NULL) AS schulschachgruppe
+			, IF(categories.category_id = "%d", 1, NULL) AS schachkindergarten
+			, IF(categories.category_id = "%d", 1, NULL) AS verein
+			, IF(categories.category_id = "%d", 1, NULL) AS schachabteilung
 			, (SELECT COUNT(org_id) FROM organisationen members WHERE members.mutter_org_id = org.org_id) AS member_orgs
 		FROM organisationen org
 		LEFT JOIN categories
@@ -141,8 +141,13 @@ function mod_clubs_verein($params) {
 			ON org.nachfolger_org_id = nachfolger.org_id
 		WHERE org.identifier = "%s"
 	';
-	$sql = sprintf($sql, wrap_category_id('kennungen/zps'),
-		wrap_db_escape($params[0])
+	$sql = sprintf($sql
+		, wrap_category_id('contact/school')
+		, wrap_category_id('contact/kindergarten')
+		, wrap_category_id('contact/club')
+		, wrap_category_id('contact/chess-department')
+		, wrap_category_id('kennungen/zps')
+		, wrap_db_escape($params[0])
 	);
 	$org = wrap_db_fetch($sql);
 	if (!$org) {
@@ -274,11 +279,17 @@ function mod_clubs_verein($params) {
 				echo wrap_print('not yet supported');
 				exit;
 			} else {
-				if ($key === 'abteilung') {
-					if ($value === 'Ja') $org['schachabteilung'] = 1;
-					else $org['schachabteilung'] = NULL;
-				} else {
-					$org[$key] = $value;
+				$org[$key] = $value;
+				if ($key === 'contact_category_id') {
+					switch($value) {
+					case wrap_category_id('contact/club'):
+						$org['schachabteilung'] = NULL;
+						$org['verein'] = 1;
+						break;
+					case wrap_category_id('contact/chess-department'):
+						$org['schachabteilung'] = 1;
+						$org['verein'] = NULL;
+					}
 				}
 			}
 		}
