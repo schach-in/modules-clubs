@@ -34,20 +34,20 @@ function mf_clubs_club($id) {
 /**
  * print out all parent organisations of an organisation in hierarchical list
  *
- * @param int $org_id
+ * @param int $contact_id
  * @return string
  */
-function mf_clubs_parent_orgs($org_id) {
-	$org_ids = wrap_db_parents($org_id, 'SELECT mutter_org_id FROM contacts WHERE org_id IN (%s)');
-	if (!$org_ids) return '';	
+function mf_clubs_parent_orgs($contact_id) {
+	$contact_ids = wrap_db_parents($contact_id, 'SELECT mother_contact_id FROM contacts WHERE contact_id IN (%s)');
+	if (!$contact_ids) return '';	
 
 	$org = [];
-	$sql = 'SELECT org_id, contact, identifier
+	$sql = 'SELECT contact_id, contact, identifier
 		FROM contacts
-		WHERE org_id IN (%s)';
-	$sql = sprintf($sql, implode(',', $org_ids));
-	$parent_orgs = wrap_db_fetch($sql, 'org_id');
-	foreach ($org_ids as $id) {
+		WHERE contact_id IN (%s)';
+	$sql = sprintf($sql, implode(',', $contact_ids));
+	$parent_orgs = wrap_db_fetch($sql, 'contact_id');
+	foreach ($contact_ids as $id) {
 		$org['parent_orgs'][$id] = $parent_orgs[$id];
 		$org['parent_orgs_count'][] = [];
 	}

@@ -53,13 +53,13 @@ function mod_clubs_vereine($params) {
 		if ($haupt_org) {
 			$found = true;
 			// Unterorganisationen?
-			$org_ids = wrap_db_children(
-				$haupt_org['org_id'],
-				sprintf('SELECT org_id FROM contacts WHERE mutter_org_id IN (%%s)
+			$contact_ids = wrap_db_children(
+				$haupt_org['contact_id'],
+				sprintf('SELECT org_id FROM contacts WHERE mother_contact_id IN (%%s)
 				AND contact_category_id = %d
 				AND ISNULL(aufloesung)', wrap_category_id('contact/federation'))
 			);
-			$condition = sprintf('AND organisationen.mutter_org_id IN (%s)', implode(',', $org_ids));
+			$condition = sprintf('AND organisationen.mother_contact_id IN (%s)', implode(',', $contact_ids));
 			$auswahl = $haupt_org['contact'];
 			$data['zoomtofit'] = true;
 		} else {
@@ -503,10 +503,10 @@ function mod_clubs_vereine_verbaende($q, $coordinates) {
 	$sql = 'SELECT o.org_id, o.identifier, o.contact
 				, h.contact AS main_contact
 				, o.contact_category_id
-				, (SELECT COUNT(org_id) FROM contacts WHERE mutter_org_id = o.org_id) AS rang
+				, (SELECT COUNT(*) FROM contacts WHERE mother_contact_id = o.contact_id) AS rang
 		FROM contacts o
 		LEFT JOIN contacts h
-			ON o.mutter_org_id = h.org_id
+			ON o.mother_contact_id = h.contact_id
 		WHERE o.contact LIKE "%%%s%%"
 		AND ISNULL(o.aufloesung)
 		ORDER BY rang DESC, o.identifier

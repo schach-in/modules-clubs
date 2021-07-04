@@ -128,7 +128,7 @@ function mod_clubs_verein($params) {
 			, IF(categories.category_id = "%d", 1, NULL) AS schachkindergarten
 			, IF(categories.category_id = "%d", 1, NULL) AS verein
 			, IF(categories.category_id = "%d", 1, NULL) AS schachabteilung
-			, (SELECT COUNT(*) FROM contacts members WHERE members.mutter_org_id = org.org_id) AS member_orgs
+			, (SELECT COUNT(*) FROM contacts members WHERE members.mother_contact_id = org.contact_id) AS member_orgs
 		FROM contacts org
 		LEFT JOIN categories
 			ON org.contact_category_id = categories.category_id
@@ -236,7 +236,7 @@ function mod_clubs_verein($params) {
 	$org['teams'] = wrap_db_fetch($sql, 'team_id');
 
 	if ($org['verein']) {
-		$org['parent_orgs'] = mf_clubs_parent_orgs($org['org_id']);
+		$org['parent_orgs'] = mf_clubs_parent_orgs($org['contact_id']);
 	}
 	
 	// Auszeichnungen

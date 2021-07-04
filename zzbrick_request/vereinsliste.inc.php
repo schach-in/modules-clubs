@@ -17,7 +17,7 @@ function mod_clubs_vereinsliste($params) {
 	global $zz_setting;
 	if (count($params) !== 1) return false;
 
-	$sql = 'SELECT org_id, contact, mutter_org_id, 0 AS _level
+	$sql = 'SELECT contact_id, contact, mother_contact_id, 0 AS _level
 			, contacts.identifier, website, contacts.description
 		FROM contacts
 		WHERE contacts.identifier = "%s"
@@ -28,10 +28,10 @@ function mod_clubs_vereinsliste($params) {
 	);
 	$verband = wrap_db_fetch($sql);
 	if ($verband) {
-		$condition = sprintf('mutter_org_id = %d
+		$condition = sprintf('mother_contact_id = %d
 			AND contact_category_id IN (%d, %d) 
 			AND ISNULL(aufloesung)'
-			, $verband['org_id']
+			, $verband['contact_id']
 			, wrap_category_id('contact/club')
 			, wrap_category_id('contact/chess-department')
 		);
@@ -105,7 +105,7 @@ function mod_clubs_vereinsliste($params) {
 	array_unshift($data['vereine'], $top);
 
 	if ($verband) {
-		$data['parent_orgs'] = mf_clubs_parent_orgs($top['org_id']);
+		$data['parent_orgs'] = mf_clubs_parent_orgs($top['contact_id']);
 	}
 	if (!empty($top['description'])) $data['description'] = $top['description'];
 	if (!empty($top['website'])) $data['website'] = $top['website'];

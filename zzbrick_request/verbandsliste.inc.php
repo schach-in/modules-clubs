@@ -16,7 +16,7 @@
 function mod_clubs_verbandsliste($params) {
 	global $zz_setting;
 
-	$sql = 'SELECT org_id, contact, category_id, category, mutter_org_id
+	$sql = 'SELECT contact_id, contact, category_id, category, mother_contact_id
 			, 1 AS aktiv
 			, contacts.identifier
 			, website
@@ -37,7 +37,7 @@ function mod_clubs_verbandsliste($params) {
 		return brick_format('%%% request vereinsliste '.$params[0].' %%%');
 	}
 
-	$sql = 'SELECT contacts.org_id, contact, category, mutter_org_id, contacts.identifier
+	$sql = 'SELECT contacts.contact_id, contact, category, mother_contact_id, contacts.identifier
 			, (SELECT COUNT(*) FROM organisationen_orte
 				WHERE organisationen_orte.org_id = contacts.org_id
 				AND organisationen_orte.published = "yes"
@@ -50,10 +50,10 @@ function mod_clubs_verbandsliste($params) {
 		LEFT JOIN organisationen_kennungen
 			ON organisationen_kennungen.org_id = contacts.org_id
 			AND organisationen_kennungen.current = "yes"
-		WHERE mutter_org_id IN (%s)
+		WHERE mother_contact_id IN (%s)
 		AND ISNULL(aufloesung)
 		ORDER BY categories.sequence, contact_short, organisationen_kennungen.identifier';
-	$children = wrap_db_children([$data], $sql, 'org_id', 'hierarchy');
+	$children = wrap_db_children([$data], $sql, 'contact_id', 'hierarchy');
 	if (count($children['ids']) === 1) return false; // only main club
 	
 	$federations = [
@@ -64,11 +64,11 @@ function mod_clubs_verbandsliste($params) {
 	
 	foreach ($children['flat'] as $org) {
 		if (in_array($org['category_id'], $federations)) {
-			$data['children'][$org['org_id']] = $org;
+			$data['children'][$org['contact_id']] = $org;
 		} else {
 			$parent = false;
 			for ($i = $org['_level']; $i > 0; $i--) {
-				if (!$parent) $parent = $org['mutter_org_id'];
+				if (!$parent) $parent = $org['mother_contact_id'];
 				$data['children'][$parent]['members'] = $data['children'][$parent]['members'] ?? 0;
 				$data['children'][$parent]['members_female'] = $data['children'][$parent]['members_female'] ?? 0;
 				$data['children'][$parent]['members_u25'] = $data['children'][$parent]['members_u25'] ?? 0;
@@ -85,8 +85,8 @@ function mod_clubs_verbandsliste($params) {
 						$data['children'][$parent]['spielorte']++;
 					}
 				}
-				if (isset($data['children'][$parent]['mutter_org_id'])) {
-					$parent = $data['children'][$parent]['mutter_org_id'];
+				if (isset($data['children'][$parent]['mother_contact_id'])) {
+					$parent = $data['children'][$parent]['mother_contact_id'];
 				}
 			}
 		}
@@ -105,18 +105,18 @@ function mod_clubs_verbandsliste($params) {
 		return brick_format('%%% request vereinsliste '.$params[0].' %%%');
 	}
 
-	$data['parent_orgs'] = mf_clubs_parent_orgs($data['org_id']);
+	$data['parent_orgs'] = mf_clubs_parent_orgs($data['contact_id']);
 
 	// remove empty values
 	foreach ($children['flat'] as $org) {
 		if (in_array($org['category_id'], $federations)) {
-			if (!empty($data['children'][$org['org_id']]['vereine'])) continue;
-			if (!empty($data['children'][$org['org_id']]['members'])) continue;
-			unset($data['children'][$org['org_id']]['members']);
-			unset($data['children'][$org['org_id']]['members_female']);
-			unset($data['children'][$org['org_id']]['members_u25']);
-			unset($data['children'][$org['org_id']]['vereine']);
-			unset($data['children'][$org['org_id']]['spielorte']);
+			if (!empty($data['children'][$org['contact_id']]['vereine'])) continue;
+			if (!empty($data['children'][$org['contact_id']]['members'])) continue;
+			unset($data['children'][$org['contact_id']]['members']);
+			unset($data['children'][$org['contact_id']]['members_female']);
+			unset($data['children'][$org['contact_id']]['members_u25']);
+			unset($data['children'][$org['contact_id']]['vereine']);
+			unset($data['children'][$org['contact_id']]['spielorte']);
 		}
 	}
 

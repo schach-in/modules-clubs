@@ -4,7 +4,7 @@
 # Vereinsliste pro Verband
 #
 # List of fields:
-# org_id, contact, mutter_org_id, vereine { org_id, contact, identifier }
+# org_id, contact, mother_contact_id, vereine { org_id, contact, identifier }
 #
 %%% item description markdown %%%
 %%% condition if website %%%
