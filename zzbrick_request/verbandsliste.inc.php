@@ -77,7 +77,9 @@ function mod_clubs_verbandsliste($params) {
 				$data['children'][$parent]['members'] += $org['members'];
 				$data['children'][$parent]['members_female'] += $org['members_female'];
 				$data['children'][$parent]['members_u25'] += $org['members_u25'];
-				if ($org['category'] === 'Verein') {
+				if (in_array($org['category_id'], [
+					wrap_category_id('contact/club'), wrap_category_id('contact/chess-department')
+				])) {
 					$data['children'][$parent]['vereine']++;
 					if ($org['spielorte']) {
 						$data['children'][$parent]['spielorte']++;
