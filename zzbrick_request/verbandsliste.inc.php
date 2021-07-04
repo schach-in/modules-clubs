@@ -65,17 +65,15 @@ function mod_clubs_verbandsliste($params) {
 	foreach ($children['flat'] as $org) {
 		if (in_array($org['category_id'], $federations)) {
 			$data['children'][$org['org_id']] = $org;
-			if (!isset($data['children'][$org['org_id']]['members'])) {
-				$data['children'][$org['org_id']]['members'] = 0;
-				$data['children'][$org['org_id']]['members_female'] = 0;
-				$data['children'][$org['org_id']]['members_u25'] = 0;
-				$data['children'][$org['org_id']]['vereine'] = 0;
-				$data['children'][$org['org_id']]['spielorte'] = 0;
-			}
 		} else {
 			$parent = false;
 			for ($i = $org['_level']; $i > 0; $i--) {
 				if (!$parent) $parent = $org['mutter_org_id'];
+				$data['children'][$parent]['members'] = $data['children'][$parent]['members'] ?? 0;
+				$data['children'][$parent]['members_female'] = $data['children'][$parent]['members_female'] ?? 0;
+				$data['children'][$parent]['members_u25'] = $data['children'][$parent]['members_u25'] ?? 0;
+				$data['children'][$parent]['vereine'] = $data['children'][$parent]['vereine'] ?? 0;
+				$data['children'][$parent]['spielorte'] = $data['children'][$parent]['spielorte'] ?? 0;
 				$data['children'][$parent]['members'] += $org['members'];
 				$data['children'][$parent]['members_female'] += $org['members_female'];
 				$data['children'][$parent]['members_u25'] += $org['members_u25'];
@@ -85,7 +83,9 @@ function mod_clubs_verbandsliste($params) {
 						$data['children'][$parent]['spielorte']++;
 					}
 				}
-				$parent = $data['children'][$parent]['mutter_org_id'];
+				if (isset($data['children'][$parent]['mutter_org_id'])) {
+					$parent = $data['children'][$parent]['mutter_org_id'];
+				}
 			}
 		}
 	}
