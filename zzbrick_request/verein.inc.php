@@ -26,7 +26,7 @@ function mod_clubs_verein($params) {
 	$edit = false;
 	if ((count($params) === 3 OR count($params) === 4) AND $params[1] === 'bearbeiten') {
 		$zz_setting['cache'] = false;
-		$sql = 'SELECT org_id, contact
+		$sql = 'SELECT contact_id, org_id, contact
 			FROM contacts
 			WHERE identifier = "%s"
 			AND ISNULL(aufloesung)';
@@ -118,7 +118,7 @@ function mod_clubs_verein($params) {
 	}
 	if (count($params) !== 1) return false;
 
-	$sql = 'SELECT org.org_id, org.contact
+	$sql = 'SELECT org.org_id, org.contact_id, org.contact
 			, org.website, YEAR(org.aufloesung) AS aufloesung, org.gruendung, org.description
 			, ok.identifier AS zps_code
 			, members, members_female, members_u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
@@ -128,7 +128,7 @@ function mod_clubs_verein($params) {
 			, IF(categories.category_id = "%d", 1, NULL) AS schachkindergarten
 			, IF(categories.category_id = "%d", 1, NULL) AS verein
 			, IF(categories.category_id = "%d", 1, NULL) AS schachabteilung
-			, (SELECT COUNT(org_id) FROM contacts members WHERE members.mutter_org_id = org.org_id) AS member_orgs
+			, (SELECT COUNT(*) FROM contacts members WHERE members.mutter_org_id = org.org_id) AS member_orgs
 		FROM contacts org
 		LEFT JOIN categories
 			ON org.contact_category_id = categories.category_id
@@ -227,12 +227,12 @@ function mod_clubs_verein($params) {
 		LEFT JOIN tournaments USING (event_id)
 		LEFT JOIN categories
 			ON events.series_category_id = categories.category_id
-		WHERE verein_org_id = %d
+		WHERE club_contact_id = %d
 		AND teams.team_status = "Teilnehmer"
 		AND tournaments.teilnehmerliste = "ja"
 		ORDER BY IFNULL(events.date_begin, events.date_end) DESC, events.event DESC
 	';
-	$sql = sprintf($sql, $org['org_id']);
+	$sql = sprintf($sql, $org['contact_id']);
 	$org['teams'] = wrap_db_fetch($sql, 'team_id');
 
 	if ($org['verein']) {
