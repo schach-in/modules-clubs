@@ -18,7 +18,7 @@ function mod_clubs_vereinsliste($params) {
 	if (count($params) !== 1) return false;
 
 	$sql = 'SELECT contact_id, contact, mother_contact_id, 0 AS _level
-			, contacts.identifier, website, contacts.description
+			, contacts.identifier, contacts.description
 		FROM contacts
 		WHERE contacts.identifier = "%s"
 		AND contact_category_id = %d';
@@ -105,10 +105,10 @@ function mod_clubs_vereinsliste($params) {
 	array_unshift($data['vereine'], $top);
 
 	if ($verband) {
+		$data += mf_contacts_contactdetails($verband['contact_id']);
 		$data['parent_orgs'] = mf_clubs_parent_orgs($top['contact_id']);
 	}
 	if (!empty($top['description'])) $data['description'] = $top['description'];
-	if (!empty($top['website'])) $data['website'] = $top['website'];
 	
 	if ($verband) {
 		$page['title'] = $verband['contact'];

@@ -19,7 +19,6 @@ function mod_clubs_verbandsliste($params) {
 	$sql = 'SELECT contact_id, contact, category_id, category, mother_contact_id
 			, 1 AS aktiv
 			, contacts.identifier
-			, website
 		FROM contacts
 		LEFT JOIN categories
 			ON contacts.contact_category_id = categories.category_id
@@ -36,6 +35,7 @@ function mod_clubs_verbandsliste($params) {
 		}
 		return brick_format('%%% request vereinsliste '.$params[0].' %%%');
 	}
+	$data += mf_contacts_contactdetails($data['contact_id']);
 
 	$sql = 'SELECT contacts.contact_id, contact, category, contacts.identifier
 			, (SELECT COUNT(*) FROM contacts_contacts

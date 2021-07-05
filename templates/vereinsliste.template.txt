@@ -7,8 +7,10 @@
 # contact_id, contact, mother_contact_id, vereine { contact_id, contact, identifier }
 #
 %%% item description markdown %%%
-%%% condition if website %%%
-<p><a href="%%% item website %%%">%%% item website wrap_punycode_decode %%%</a></p>
+%%% condition if url %%%
+%%% loop url 1 %%%
+<p><a href="%%% item identification %%%" target="_blank" itemprop="url">%%% item identification wrap_punycode_decode %%%</a></p>
+%%% loop end %%%
 %%% condition endif %%%
 <div class="statistics">
 <table>

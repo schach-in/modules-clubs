@@ -4,7 +4,7 @@
 # Copyright (c) 2020      Falco Nogatz <fnogatz@gmail.com>
 # Detailinformationen über einen Verein oder eine Schulschachgruppe
 #
-# List of fields: contact_id, contact, website, aufloesung, gruendung,
+# List of fields: contact_id, contact, url, aufloesung, gruendung,
 # description, zps_code, members, members_female, members_u25, avg_age,
 # avg_rating, nachfolger, nachfolger_kennung, category, schulschachgruppe,
 # schachkindergarten, topten { FIDE_Titel, Spielername, DWZ, FIDE_Elo, no,
@@ -132,8 +132,10 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 </script>
 %%% condition endif %%%
 %%% condition unless aufloesung %%%
-%%% condition if website %%%
-<p><a href="%%% item website %%%" target="_blank" itemprop="url">%%% item website wrap_punycode_decode %%%</a></p>
+%%% condition if url %%%
+%%% loop url 1 %%%
+<p><a href="%%% item identification %%%" target="_blank" itemprop="url">%%% item identification wrap_punycode_decode %%%</a></p>
+%%% loop end %%%
 %%% condition if edit %%%
 <p><a href="info/?focus=website" class="edit">Website ändern</a></p>
 %%% condition endif %%%

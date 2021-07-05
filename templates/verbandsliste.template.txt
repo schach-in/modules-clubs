@@ -3,8 +3,10 @@
 # Copyright (c) 2016-2017, 2021 Gustaf Mossakowski <gustaf@koenige.org>
 # Statistik zu Vereinen und Schulschachgruppen
 #
-%%% condition if website %%%
-<p><a href="%%% item website %%%">%%% item website wrap_punycode_decode %%%</a></p>
+%%% condition if url %%%
+%%% loop url 1 %%%
+<p><a href="%%% item identification %%%" target="_blank" itemprop="url">%%% item identification wrap_punycode_decode %%%</a></p>
+%%% loop end %%%
 %%% condition endif %%%
 <div class="statistics">
 <table>

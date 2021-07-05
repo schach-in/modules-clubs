@@ -119,7 +119,7 @@ function mod_clubs_verein($params) {
 	if (count($params) !== 1) return false;
 
 	$sql = 'SELECT org.contact_id, org.contact
-			, org.website, YEAR(org.aufloesung) AS aufloesung, org.gruendung, org.description
+			, YEAR(org.aufloesung) AS aufloesung, org.gruendung, org.description
 			, ok.identifier AS zps_code
 			, members, members_female, members_u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
 			, nachfolger.contact AS nachfolger, nachfolger.identifier AS nachfolger_kennung
@@ -156,6 +156,7 @@ function mod_clubs_verein($params) {
 	if (in_array($org['category'], ['verband']) AND $org['member_orgs']) {
 		return brick_format('%%% request vereine '.$params[0].' %%%');
 	}
+	$org += mf_contacts_contactdetails($org['contact_id']);
 	if ($org['members'] < wrap_get_setting('clubs_statistik_min_mitglieder')) {
 		$org['keine_statistik'] = true;
 	}
@@ -275,9 +276,20 @@ function mod_clubs_verein($params) {
 		$revisions = zz_revisions_read('contacts', $org['contact_id']);
 		foreach ($revisions as $key => $value) {
 			if (is_array($value)) {
-				// ...
-				echo wrap_print('not yet supported');
-				exit;
+				if ($key === 'contactdetails') {
+					foreach ($org as $o_key => $o_value) {
+						if (!is_array($o_value)) continue;
+						if (empty($o_value[0]['contactdetail_id'])) continue;
+						foreach ($value as $v_key => $v_value) {
+							if ($o_value[0]['contactdetail_id'] != $v_key) continue;
+							$org[$o_key][0] = array_merge($org[$o_key][0], $v_value);
+						}
+					}
+				} else {
+					// ...
+					echo wrap_print('not yet supported');
+					exit;
+				}
 			} else {
 				$org[$key] = $value;
 				if ($key === 'contact_category_id') {

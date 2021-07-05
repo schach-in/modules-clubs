@@ -154,7 +154,7 @@ function mod_clubs_vereine($params) {
 
 	$sql = 'SELECT cc_id AS id
 			, organisationen.contact AS title, places.contact AS veranstaltungsort
-			, latitude AS x_latitude, longitude AS y_longitude, organisationen.website
+			, latitude AS x_latitude, longitude AS y_longitude
 			, SUBSTRING_INDEX(categories.path, "/", -1) AS category
 			, members, members_female AS female, members_u25 AS u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
 			, organisationen.identifier
@@ -370,13 +370,17 @@ function mod_clubs_vereine_condition($q) {
 				$condition .= sprintf('organisationen.contact LIKE "%%%s%%"', wrap_db_escape($q));
 				// add support for ae = ä etc.
 				$condition .= sprintf('OR organisationen.identifier LIKE LOWER("%%%s%%")', wrap_db_escape($q));
-				$condition .= sprintf('OR organisationen.website LIKE "%%%s%%"', wrap_db_escape($q));
+				$condition .= sprintf('OR (SELECT identification FROM contactdetails
+					WHERE contactdetails.contact_id = organisationen.contact_id
+					AND provider_category_id = %d) LIKE "%%%s%%"', wrap_category_id('provider/website'), wrap_db_escape($q));
 			}
 			$condition .= ') OR (';
 			foreach ($qs as $index => $q) {
 				if ($index) $condition .= ' AND ';
 				$condition .= sprintf('place LIKE "%%%s%%"', wrap_db_escape($q));
-				$condition .= sprintf('OR organisationen.website LIKE "%%%s%%"', wrap_db_escape($q));
+				$condition .= sprintf('OR (SELECT identification FROM contactdetails
+					WHERE contactdetails.contact_id = organisationen.contact_id
+					AND provider_category_id = %d) LIKE "%%%s%%"', wrap_category_id('provider/website'), wrap_db_escape($q));
 			}
 			$condition .= '))';
 		}
