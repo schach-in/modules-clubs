@@ -21,6 +21,9 @@
  * @return array $page
  */
 function mod_clubs_make_clubstats() {
+	global $zz_setting;
+	$zz_setting['cache'] = false;
+
 	if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 		$data['request'] = true;
 		$page['text'] = wrap_template('clubstats', $data);
@@ -40,10 +43,10 @@ function mod_clubs_make_clubstats() {
 			, ROUND(AVG(Geburtsjahr)) AS avg_byear
 			, ROUND(SUM(IF(DWZ != 0, DWZ, 0)) / IF(SUM(IF(DWZ != 0, 1, 0)), SUM(IF(DWZ != 0, 1, 0)), 1)) AS avg_rating
 		FROM dwz_spieler
-		LEFT JOIN organisationen_kennungen
-			ON IF(SUBSTRING(dwz_spieler.ZPS, 4, 2) = "00", SUBSTRING(dwz_spieler.ZPS, 1, 3), dwz_spieler.ZPS) = organisationen_kennungen.identifier
-			AND organisationen_kennungen.current = "yes"
-			AND organisationen_kennungen.identifier_category_id = %d
+		LEFT JOIN contacts_identifiers
+			ON IF(SUBSTRING(dwz_spieler.ZPS, 4, 2) = "00", SUBSTRING(dwz_spieler.ZPS, 1, 3), dwz_spieler.ZPS) = contacts_identifiers.identifier
+			AND contacts_identifiers.current = "yes"
+			AND contacts_identifiers.identifier_category_id = %d
 		GROUP BY contact_id';
 	$sql = sprintf($sql, wrap_category_id('kennungen/zps'));
 	$result = wrap_db_query($sql);

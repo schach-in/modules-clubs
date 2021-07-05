@@ -133,7 +133,7 @@ function mod_clubs_verein($params) {
 		LEFT JOIN categories
 			ON org.contact_category_id = categories.category_id
 		LEFT JOIN vereinsdb_stats USING (contact_id)
-		LEFT JOIN organisationen_kennungen ok
+		LEFT JOIN contacts_identifiers ok
 			ON ok.contact_id = org.contact_id
 			AND ok.identifier_category_id = %d
 			AND NOT ISNULL(ok.current)

@@ -25,7 +25,7 @@ function mod_clubs_zps($params) {
 	}
 	$sql = 'SELECT contacts.identifier
 		FROM contacts
-		LEFT JOIN organisationen_kennungen ok USING (contact_id)
+		LEFT JOIN contacts_identifiers ok USING (contact_id)
 		WHERE identifier_category_id = %d
 		AND ok.identifier = "%s"';
 	$sql = sprintf($sql, wrap_category_id('kennungen/zps'), wrap_db_escape($code));

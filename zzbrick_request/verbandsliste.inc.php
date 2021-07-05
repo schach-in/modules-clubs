@@ -47,12 +47,12 @@ function mod_clubs_verbandsliste($params) {
 		LEFT JOIN categories
 			ON contacts.contact_category_id = categories.category_id
 		LEFT JOIN vereinsdb_stats USING (contact_id)
-		LEFT JOIN organisationen_kennungen
-			ON organisationen_kennungen.contact_id = contacts.contact_id
-			AND organisationen_kennungen.current = "yes"
+		LEFT JOIN contacts_identifiers
+			ON contacts_identifiers.contact_id = contacts.contact_id
+			AND contacts_identifiers.current = "yes"
 		WHERE mother_contact_id IN (%s)
 		AND ISNULL(aufloesung)
-		ORDER BY categories.sequence, contact_short, organisationen_kennungen.identifier';
+		ORDER BY categories.sequence, contact_short, contacts_identifiers.identifier';
 	$children = wrap_db_children([$data], $sql, 'contact_id', 'mother_contact_id');
 	if (count($children['ids']) === 1) return false; // only main club
 	
