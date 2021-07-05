@@ -13,7 +13,7 @@
 
 CREATE TABLE `wochentermine` (
   `wochentermin_id` int unsigned NOT NULL AUTO_INCREMENT,
-  `org_id` int unsigned NOT NULL,
+  `contact_id` int unsigned NOT NULL,
   `wochentag` set('Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Sonnabend','Sonntag') CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `uhrzeit_beginn` time NOT NULL,
   `uhrzeit_ende` time DEFAULT NULL,
@@ -24,11 +24,11 @@ CREATE TABLE `wochentermine` (
   `oeffentlich` enum('ja','nein') CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT 'nein',
   `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`wochentermin_id`),
-  KEY `org_id` (`org_id`),
+  KEY `contact_id` (`contact_id`),
   KEY `wochentermin_kategorie_id` (`wochentermin_category_id`),
   KEY `ort_id` (`place_contact_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO _relations (`master_db`, `master_table`, `master_field`, `detail_db`, `detail_table`, `detail_id_field`, `detail_field`, `delete`) VALUES ((SELECT DATABASE()), 'contacts', 'org_id', (SELECT DATABASE()), 'wochentermine', 'wochentermin_id', 'org_id', 'delete');
+INSERT INTO _relations (`master_db`, `master_table`, `master_field`, `detail_db`, `detail_table`, `detail_id_field`, `detail_field`, `delete`) VALUES ((SELECT DATABASE()), 'contacts', 'contact_id', (SELECT DATABASE()), 'wochentermine', 'wochentermin_id', 'contact_id', 'delete');
 INSERT INTO _relations (`master_db`, `master_table`, `master_field`, `detail_db`, `detail_table`, `detail_id_field`, `detail_field`, `delete`) VALUES ((SELECT DATABASE()), 'categories', 'category_id', (SELECT DATABASE()), 'wochentermine', 'wochentermin_id', 'wochentermin_category_id', 'no-delete');
 INSERT INTO _relations (`master_db`, `master_table`, `master_field`, `detail_db`, `detail_table`, `detail_id_field`, `detail_field`, `delete`) VALUES ((SELECT DATABASE()), 'contacts', 'contact_id', (SELECT DATABASE()), 'wochentermine', 'wochentermin_id', 'place_contact_id', 'no-delete');

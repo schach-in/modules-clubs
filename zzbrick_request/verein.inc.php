@@ -26,7 +26,7 @@ function mod_clubs_verein($params) {
 	$edit = false;
 	if ((count($params) === 3 OR count($params) === 4) AND $params[1] === 'bearbeiten') {
 		$zz_setting['cache'] = false;
-		$sql = 'SELECT contact_id, org_id, contact
+		$sql = 'SELECT contact_id, contact
 			FROM contacts
 			WHERE identifier = "%s"
 			AND ISNULL(aufloesung)';
@@ -41,31 +41,31 @@ function mod_clubs_verein($params) {
 		if (count($params) === 3) {
 			switch ($params[2]) {
 			case 'info':
-				$page = brick_format('%%% forms vereinbearbeiten '.$org['org_id'].' %%%');
+				$page = brick_format('%%% forms vereinbearbeiten '.$org['contact_id'].' %%%');
 				break;
 			case 'ort-neu':
-				$page = brick_format('%%% forms ortbearbeiten '.$org['org_id'].' add %%%');
+				$page = brick_format('%%% forms ortbearbeiten '.$org['contact_id'].' add %%%');
 				break;
 			case 'wochentermin-neu':
-				$page = brick_format('%%% forms wochenterminbearbeiten '.$org['org_id'].' add woche %%%');
+				$page = brick_format('%%% forms wochenterminbearbeiten '.$org['contact_id'].' add woche %%%');
 				break;
 			case 'monatstermin-neu':
-				$page = brick_format('%%% forms wochenterminbearbeiten '.$org['org_id'].' add monat %%%');
+				$page = brick_format('%%% forms wochenterminbearbeiten '.$org['contact_id'].' add monat %%%');
 				break;
 			}
 		} elseif (count($params) === 4) {
 			switch ($params[2]) {
 			case 'ort-bearbeiten':
-				$page = brick_format('%%% forms ortbearbeiten '.$org['org_id'].' edit '.$params[3].' %%%');
+				$page = brick_format('%%% forms ortbearbeiten '.$org['contact_id'].' edit '.$params[3].' %%%');
 				break;
 			case 'ort-loeschen':
-				$page = brick_format('%%% forms ortloeschen '.$org['org_id'].' '.$params[3].' %%%');
+				$page = brick_format('%%% forms ortloeschen '.$org['contact_id'].' '.$params[3].' %%%');
 				break;
 			case 'wochentermin-bearbeiten':
-				$page = brick_format('%%% forms wochenterminbearbeiten '.$org['org_id'].' edit '.$params[3].' %%%');
+				$page = brick_format('%%% forms wochenterminbearbeiten '.$org['contact_id'].' edit '.$params[3].' %%%');
 				break;
 			case 'wochentermin-loeschen':
-				$page = brick_format('%%% forms wochenterminloeschen '.$org['org_id'].' '.$params[3].' %%%');
+				$page = brick_format('%%% forms wochenterminloeschen '.$org['contact_id'].' '.$params[3].' %%%');
 				break;
 			}
 		}
@@ -118,7 +118,7 @@ function mod_clubs_verein($params) {
 	}
 	if (count($params) !== 1) return false;
 
-	$sql = 'SELECT org.org_id, org.contact_id, org.contact
+	$sql = 'SELECT org.contact_id, org.contact
 			, org.website, YEAR(org.aufloesung) AS aufloesung, org.gruendung, org.description
 			, ok.identifier AS zps_code
 			, members, members_female, members_u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
@@ -132,9 +132,9 @@ function mod_clubs_verein($params) {
 		FROM contacts org
 		LEFT JOIN categories
 			ON org.contact_category_id = categories.category_id
-		LEFT JOIN vereinsdb_stats USING (org_id)
+		LEFT JOIN vereinsdb_stats USING (contact_id)
 		LEFT JOIN organisationen_kennungen ok
-			ON ok.org_id = org.org_id
+			ON ok.contact_id = org.contact_id
 			AND ok.identifier_category_id = %d
 			AND NOT ISNULL(ok.current)
 		LEFT JOIN contacts nachfolger
@@ -205,9 +205,9 @@ function mod_clubs_verein($params) {
 			ON organisationen_orte.contact_id = places.contact_id
 		LEFT JOIN addresses
 			ON places.contact_id = addresses.contact_id
-		WHERE organisationen_orte.org_id = %d
+		WHERE organisationen_orte.main_contact_id = %d
 		ORDER BY sequence, places.contact, postcode, place, address';
-	$sql = sprintf($sql, $org['org_id']);
+	$sql = sprintf($sql, $org['contact_id']);
 	$org['orte'] = wrap_db_fetch($sql, 'contact_id');
 
 	// website, telefon, telefax, e_mail
@@ -245,9 +245,9 @@ function mod_clubs_verein($params) {
 		FROM auszeichnungen
 		LEFT JOIN categories
 			ON auszeichnungen.auszeichnung_category_id = categories.category_id
-		WHERE org_id = %d
+		WHERE contact_id = %d
 		ORDER BY categories.sequence, dauer_von';
-	$sql = sprintf($sql, $org['org_id']);
+	$sql = sprintf($sql, $org['contact_id']);
 	$org['auszeichnungen'] = wrap_db_fetch($sql, ['category', 'auszeichnung_id'], 'list category dauer_von');
 	foreach ($org['auszeichnungen'] as $key => $auszeichnungen) {
 		$auszeichnung = reset($auszeichnungen['dauer_von']);
@@ -265,14 +265,14 @@ function mod_clubs_verein($params) {
 		FROM wochentermine
 		LEFT JOIN categories
 			ON categories.category_id = wochentermine.wochentermin_category_id
-		WHERE org_id = %d
+		WHERE contact_id = %d
 		ORDER BY wochentag, uhrzeit_beginn';
-	$sql = sprintf($sql, $org['org_id']);
+	$sql = sprintf($sql, $org['contact_id']);
 	$wochentermine = wrap_db_fetch($sql, 'wochentermin_id');
 
 	if ($org['edit']) {
 		require_once $zz_conf['dir'].'/revisions.inc.php';
-		$revisions = zz_revisions_read('contacts', $org['org_id']);
+		$revisions = zz_revisions_read('contacts', $org['contact_id']);
 		foreach ($revisions as $key => $value) {
 			if (is_array($value)) {
 				// ...

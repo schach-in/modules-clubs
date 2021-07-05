@@ -23,7 +23,7 @@ unset($zz['filter']);
 unset($zz['details']);
 
 $zz['title'] = $verein['contact'];
-$zz['where']['org_id'] = $verein['org_id'];
+$zz['where']['contact_id'] = $verein['contact_id'];
 $zz['access'] = 'edit_only';
 if (empty($_SESSION['login_id'])) {
 	$zz['revisions_only'] = true;

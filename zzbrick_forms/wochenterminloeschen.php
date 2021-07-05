@@ -21,7 +21,7 @@ $zz = zzform_include_table('wochentermine');
 
 $sql = 'SELECT wochentermin_id
 	FROM wochentermine
-	WHERE org_id = %d
+	WHERE contact_id = %d
 	AND wochentermin_id = %d';
 $sql = sprintf($sql, $brick['vars'][0], $brick['vars'][1]);
 $zz['where']['wochentermin_id'] = wrap_db_fetch($sql, '', 'single value');

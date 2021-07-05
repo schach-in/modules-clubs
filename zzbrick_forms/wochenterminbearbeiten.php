@@ -50,7 +50,7 @@ switch ($brick['vars'][1]) {
 }
 
 $zz['title'] = $verein['contact'];
-$zz['where']['org_id'] = $verein['org_id'];
+$zz['where']['contact_id'] = $verein['contact_id'];
 unset($zz['subtitle']);
 
 // Vereinsname
@@ -78,10 +78,9 @@ $sql_ort = sprintf('SELECT contacts.contact_id
 		, CONCAT(postcode, " ", place), contact AS veranstaltungsort
 	FROM contacts
 	LEFT JOIN addresses USING (contact_id)
-	LEFT JOIN organisationen_orte
-	    ON contacts.contact_id = organisationen_orte.contact_id
-	WHERE org_id = %d
-	ORDER BY postcode', $verein['org_id']);
+	LEFT JOIN organisationen_orte USING (contact_id)
+	WHERE main_contact_id = %d
+	ORDER BY postcode', $verein['contact_id']);
 $orte = wrap_db_fetch($sql_ort, 'contact_id');
 if (count($orte) > 1) {
 	// Spielorte nur vorgegebene

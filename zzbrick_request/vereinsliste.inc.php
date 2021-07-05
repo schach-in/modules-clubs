@@ -49,42 +49,42 @@ function mod_clubs_vereinsliste($params) {
 	$top['members_u25'] = 0;
 	$top['members_female'] = 0;
 	
-	$sql = 'SELECT org_id, contact, contacts.identifier
+	$sql = 'SELECT contact_id, contact, contacts.identifier
 			, organisationen_kennungen.identifier AS zps_code
 			, members, members_female, members_u25
 			, members_u25/members AS anteil_members_u25
 			, members_female/members AS anteil_members_female
 			, IF((SELECT COUNT(*) FROM organisationen_orte
-				WHERE organisationen_orte.org_id = contacts.org_id
+				WHERE organisationen_orte.main_contact_id = contacts.contact_id
 				AND organisationen_orte.published = "yes"), "ja", "nein"
 			) AS spielort
 			, 1 AS _level
 			, aufloesung
 		FROM contacts
-		LEFT JOIN organisationen_kennungen USING (org_id)
-		LEFT JOIN vereinsdb_stats USING (org_id)
-		LEFT JOIN auszeichnungen USING (org_id)
+		LEFT JOIN organisationen_kennungen USING (contact_id)
+		LEFT JOIN vereinsdb_stats USING (contact_id)
+		LEFT JOIN auszeichnungen USING (contact_id)
 		WHERE %s
 		ORDER BY organisationen_kennungen.identifier, contacts.identifier';
 	$sql = sprintf($sql, $condition);
-	$data['vereine'] = wrap_db_fetch($sql, 'org_id');
+	$data['vereine'] = wrap_db_fetch($sql, 'contact_id');
 	if (!$data['vereine']) return false;
 	
 	if ($categories) {
-		$sql = 'SELECT auszeichnung_id, org_id, dauer_von, dauer_bis, anzeigename
+		$sql = 'SELECT auszeichnung_id, contact_id, dauer_von, dauer_bis, anzeigename
 			FROM auszeichnungen
-			WHERE org_id IN (%s)
+			WHERE contact_id IN (%s)
 			AND %s
 			ORDER BY dauer_von ASC';
 		$sql = sprintf($sql, implode(',', array_keys($data['vereine'])), $condition);
-		$auszeichnungen = wrap_db_fetch($sql, ['org_id', 'auszeichnung_id']);
-		foreach ($auszeichnungen as $org_id => $auszeichnungen_pro_org) {
+		$auszeichnungen = wrap_db_fetch($sql, ['contact_id', 'auszeichnung_id']);
+		foreach ($auszeichnungen as $contact_id => $auszeichnungen_pro_org) {
 			$anzeigenamen = [];
 			foreach ($auszeichnungen_pro_org as $auszeichnung) {
 				$anzeigenamen[$auszeichnung['anzeigename']]['anzeigename'] = $auszeichnung['anzeigename'];
 			}
-			$data['vereine'][$org_id]['anzeigenamen'] = array_values($anzeigenamen); 
-			$data['vereine'][$org_id]['auszeichnungen'] = $auszeichnungen_pro_org;
+			$data['vereine'][$contact_id]['anzeigenamen'] = array_values($anzeigenamen); 
+			$data['vereine'][$contact_id]['auszeichnungen'] = $auszeichnungen_pro_org;
 		}
 		$data['mit_auszeichnungen'] = true;
 	}

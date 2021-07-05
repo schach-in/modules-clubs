@@ -19,11 +19,11 @@
  * @return array
  */
 function mf_clubs_club($id) {
-	$sql = 'SELECT org_id, contact, categories.path, categories.parameters
+	$sql = 'SELECT contact_id, contact, categories.path, categories.parameters
 		FROM contacts
 		LEFT JOIN categories
 			ON contacts.contact_category_id = categories.category_id
-		WHERE org_id = %d';
+		WHERE contact_id = %d';
 	$sql = sprintf($sql, $id);
 	$club = wrap_db_fetch($sql);
 	if (!$club) return false;
@@ -93,7 +93,7 @@ function mf_clubs_from_category($category) {
 	if (!$categories) return false;
 	$categories += wrap_db_children($categories
 		, 'SELECT category_id, category, SUBSTRING_INDEX(path, "/", -1) AS path
-			, (SELECT IFNULL(COUNT(DISTINCT org_id), NULL) FROM auszeichnungen
+			, (SELECT IFNULL(COUNT(DISTINCT contact_id), NULL) FROM auszeichnungen
 				WHERE auszeichnungen.auszeichnung_category_id = categories.category_id) AS auszeichnungen
 			FROM categories
 			WHERE main_category_id IN (%s)'

@@ -47,7 +47,7 @@ function mod_clubs_vereine($params) {
 			$params[0] = substr($params[0], 0, -8);
 		}
 		$data['identifier'] = $params[0];
-		$sql = 'SELECT org_id, contact FROM contacts WHERE identifier = "%s"';
+		$sql = 'SELECT contact_id, contact FROM contacts WHERE identifier = "%s"';
 		$sql = sprintf($sql, wrap_db_escape($params[0]));
 		$haupt_org = wrap_db_fetch($sql);
 		if ($haupt_org) {
@@ -55,7 +55,7 @@ function mod_clubs_vereine($params) {
 			// Unterorganisationen?
 			$contact_ids = wrap_db_children(
 				$haupt_org['contact_id'],
-				sprintf('SELECT org_id FROM contacts WHERE mother_contact_id IN (%%s)
+				sprintf('SELECT contact_id FROM contacts WHERE mother_contact_id IN (%%s)
 				AND contact_category_id = %d
 				AND ISNULL(aufloesung)', wrap_category_id('contact/federation'))
 			);
@@ -66,14 +66,15 @@ function mod_clubs_vereine($params) {
 			$categories = mf_clubs_from_category($params[0]);
 			if ($categories) {
 				$found = true;
-				$sql = 'SELECT org_id FROM contacts
-					LEFT JOIN auszeichnungen USING (org_id)
+				$sql = 'SELECT contact_id FROM contacts
+					LEFT JOIN auszeichnungen USING (contact_id)
 					WHERE auszeichnung_category_id IN (%s)';
 				$sql = sprintf($sql, implode(',', array_keys($categories)));
-				$org_ids = wrap_db_fetch($sql, 'org_id', 'single value');
-				if (!$org_ids) return false;
+				$contact_ids = wrap_db_fetch($sql, 'contact_id', 'single value');
+				if (!$contact_ids) return false;
 
-				$condition = sprintf('AND organisationen_orte.sequence = 1 AND org_id IN (%s)', implode(',', $org_ids));
+				$condition = sprintf('AND organisationen_orte.sequence = 1
+					AND organisationen.contact_id IN (%s)', implode(',', $contact_ids));
 				$category = reset($categories);
 				$auswahl = $category['category'];
 				$data['zoomtofit'] = false;
@@ -158,12 +159,13 @@ function mod_clubs_vereine($params) {
 			, members, members_female AS female, members_u25 AS u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
 			, organisationen.identifier
 			, (SELECT IFNULL(COUNT(auszeichnung_id), NULL) FROM auszeichnungen
-				WHERE auszeichnungen.org_id = organisationen.org_id) AS auszeichnungen
-			, organisationen.org_id
+				WHERE auszeichnungen.contact_id = organisationen.contact_id) AS auszeichnungen
+			, organisationen.contact_id
 			%s
 		FROM contacts organisationen
-		LEFT JOIN vereinsdb_stats USING (org_id)
-		JOIN organisationen_orte USING (org_id)
+		LEFT JOIN vereinsdb_stats USING (contact_id)
+		JOIN organisationen_orte
+			ON organisationen_orte.main_contact_id = organisationen.contact_id
 		JOIN contacts places
 			ON organisationen_orte.contact_id = places.contact_id
 		JOIN addresses
@@ -201,7 +203,7 @@ function mod_clubs_vereine($params) {
 		if (!empty($_GET['q'])) {
 			$qs = explode(' ', wrap_db_escape($_GET['q']));
 			// Verein direkt?
-			$sql = 'SELECT org_id, identifier
+			$sql = 'SELECT contact_id, identifier
 				FROM contacts
 				WHERE contact LIKE "%%%s%%"
 				AND ISNULL(aufloesung)';
@@ -209,7 +211,7 @@ function mod_clubs_vereine($params) {
 			$verein = wrap_db_fetch($sql);
 			if (!$verein) {
 				$q = wrap_filename($_GET['q'], '', ['-' => '']);
-				$sql = 'SELECT org_id, identifier
+				$sql = 'SELECT contact_id, identifier
 				FROM contacts
 				WHERE REPLACE(identifier, "-", "") LIKE "%%%s%%"
 				AND ISNULL(aufloesung)';
@@ -224,7 +226,7 @@ function mod_clubs_vereine($params) {
 					$change = true;
 				}
 				if ($change) {
-					$sql = 'SELECT org_id, identifier
+					$sql = 'SELECT contact_id, identifier
 						FROM contacts
 						WHERE contact LIKE "%%%s%%"
 						AND ISNULL(aufloesung)';
@@ -236,7 +238,7 @@ function mod_clubs_vereine($params) {
 				return wrap_redirect(sprintf('/%s/', $verein['identifier']));
 			}
 		}
-		if (!empty($haupt_org) AND count($org_ids) > 1) {
+		if (!empty($haupt_org) AND count($contact_ids) > 1) {
 			return wrap_redirect(sprintf('/%s/liste/', $params[0]), 307);
 		}
 		$page['status'] = 404;
@@ -254,7 +256,7 @@ function mod_clubs_vereine($params) {
 		$data['verbaende'] = !empty($_GET['q']) ? mod_clubs_vereine_verbaende($_GET['q'], $coordinates) : [];
 	}
 	
-	$sql = 'SELECT COUNT(org_id) FROM contacts
+	$sql = 'SELECT COUNT(*) FROM contacts
 		WHERE contact_category_id IN (%d, %d) AND ISNULL(aufloesung)';
 	$sql = sprintf($sql
 		, wrap_category_id('contact/club')
@@ -500,7 +502,7 @@ function mod_clubs_vereine_json($coordinates, $identifier) {
  * @return array
  */
 function mod_clubs_vereine_verbaende($q, $coordinates) {
-	$sql = 'SELECT o.org_id, o.identifier, o.contact
+	$sql = 'SELECT o.contact_id, o.identifier, o.contact
 				, h.contact AS main_contact
 				, o.contact_category_id
 				, (SELECT COUNT(*) FROM contacts WHERE mother_contact_id = o.contact_id) AS rang
@@ -514,11 +516,11 @@ function mod_clubs_vereine_verbaende($q, $coordinates) {
 	$sql = sprintf($sql,
 		wrap_db_escape($q)
 	);
-	$verbaende = wrap_db_fetch($sql, 'org_id');
+	$verbaende = wrap_db_fetch($sql, 'contact_id');
 	foreach ($coordinates as $spielort) {
-		if (in_array($spielort['org_id'], array_keys($verbaende))) {
+		if (in_array($spielort['contact_id'], array_keys($verbaende))) {
 			// sind schon auf Karte
-			unset($verbaende[$spielort['org_id']]);
+			unset($verbaende[$spielort['contact_id']]);
 		}
 	}
 	// zuviele? dann nur Verbände anzeigen

@@ -39,7 +39,7 @@ switch ($brick['vars'][1]) {
 }
 
 $zz['title'] = $verein['contact'];
-$zz['where']['organisationen_orte.org_id'] = $verein['org_id'];
+$zz['where']['organisationen_orte.main_contact_id'] = $verein['contact_id'];
 $zz['sql'] = wrap_edit_sql($zz['sql'], 'JOIN', 'LEFT JOIN organisationen_orte
 	ON organisationen_orte.contact_id = contacts.contact_id');
 $zz['unless']['add']['explanation'] = '<strong>Hinweis:</strong> Bitte korrigiere hier nur Angaben zu diesem Spielort. Bei <strong>Wechsel</strong> des Spielorts lösche bitte den alten und <a href="../../ort-neu/">ergänze einen neuen</a>!';
@@ -64,7 +64,7 @@ $zz['fields'][12]['rows'] = 4;
 $zz['fields'][24]['fields'][2]['hide_in_form'] = true;
 $zz['fields'][24]['min_records'] = 1;
 $zz['fields'][24]['max_records'] = 1;
-$zz['fields'][24]['sql'] .= sprintf(' WHERE org_id = %d', $verein['org_id']);
+$zz['fields'][24]['sql'] .= sprintf(' WHERE organisationen.contact_id = %d', $verein['contact_id']);
 $zz['fields'][44] = $zz['fields'][24];
 $zz['fields'][24]['fields'][2]['suffix'] = '';
 $zz['fields'][24]['fields'][9]['prefix'] = '';
@@ -87,7 +87,8 @@ $zz['fields'][44]['title'] = 'Reihenfolge';
 $zz['fields'][44]['title_tab'] = 'Folge';
 $zz['fields'][44]['subselect']['sql'] = 'SELECT contact_id, reihenfolge
 	FROM organisationen_orte
-	LEFT JOIN contacts USING (org_id)
+	LEFT JOIN contacts
+		ON organisationen_orte.main_contact_id = contacts.contact_id
 	ORDER BY contact';
 
 // Add geht nicht

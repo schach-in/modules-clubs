@@ -33,7 +33,7 @@ function mod_clubs_make_clubstats() {
 		wrap_error('Fehler beim Löschen der bestehenden Vereinsstatistiken.', E_USER_ERROR);
 	}
 
-	$sql = 'CREATE TABLE vereinsdb_stats AS SELECT org_id
+	$sql = 'CREATE TABLE vereinsdb_stats AS SELECT contact_id
 			, COUNT(DISTINCT Mgl_Nr) AS members
 			, SUM(IF(Geschlecht = "W",1,0)) AS members_female
 			, SUM(IF(Geburtsjahr >= YEAR(NOW() -INTERVAL 25 YEAR), 1, 0)) AS members_u25
@@ -44,13 +44,13 @@ function mod_clubs_make_clubstats() {
 			ON IF(SUBSTRING(dwz_spieler.ZPS, 4, 2) = "00", SUBSTRING(dwz_spieler.ZPS, 1, 3), dwz_spieler.ZPS) = organisationen_kennungen.identifier
 			AND organisationen_kennungen.current = "yes"
 			AND organisationen_kennungen.identifier_category_id = %d
-		GROUP BY org_id';
+		GROUP BY contact_id';
 	$sql = sprintf($sql, wrap_category_id('kennungen/zps'));
 	$result = wrap_db_query($sql);
 	if (!$result) {
 		wrap_error('Fehler beim Erstellen der Vereinsstatistiken.', E_USER_ERROR);
 	}
-	$sql = 'ALTER TABLE `vereinsdb_stats` ADD UNIQUE `org_id` (`org_id`)';
+	$sql = 'ALTER TABLE `vereinsdb_stats` ADD UNIQUE `contact_id` (`contact_id`)';
 	wrap_db_query($sql);
 
 	$data['done'] = true;

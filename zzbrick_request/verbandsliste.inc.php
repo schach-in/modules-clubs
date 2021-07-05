@@ -37,23 +37,23 @@ function mod_clubs_verbandsliste($params) {
 		return brick_format('%%% request vereinsliste '.$params[0].' %%%');
 	}
 
-	$sql = 'SELECT contacts.contact_id, contact, category, mother_contact_id, contacts.identifier
+	$sql = 'SELECT contacts.contact_id, contact, category, contacts.identifier
 			, (SELECT COUNT(*) FROM organisationen_orte
-				WHERE organisationen_orte.org_id = contacts.org_id
+				WHERE organisationen_orte.main_contact_id = contacts.contact_id
 				AND organisationen_orte.published = "yes"
 			) AS spielorte
 			, members, members_female, members_u25, category_id
 		FROM contacts
 		LEFT JOIN categories
 			ON contacts.contact_category_id = categories.category_id
-		LEFT JOIN vereinsdb_stats USING (org_id)
+		LEFT JOIN vereinsdb_stats USING (contact_id)
 		LEFT JOIN organisationen_kennungen
-			ON organisationen_kennungen.org_id = contacts.org_id
+			ON organisationen_kennungen.contact_id = contacts.contact_id
 			AND organisationen_kennungen.current = "yes"
 		WHERE mother_contact_id IN (%s)
 		AND ISNULL(aufloesung)
 		ORDER BY categories.sequence, contact_short, organisationen_kennungen.identifier';
-	$children = wrap_db_children([$data], $sql, 'contact_id', 'hierarchy');
+	$children = wrap_db_children([$data], $sql, 'contact_id', 'mother_contact_id');
 	if (count($children['ids']) === 1) return false; // only main club
 	
 	$federations = [
