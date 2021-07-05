@@ -18,7 +18,7 @@ $verein = mf_clubs_club($brick['vars'][0]);
 if (!$verein) wrap_quit(404);
 
 $sql = 'SELECT cc_id
-	FROM organisationen_orte
+	FROM contacts_contacts
 	WHERE main_contact_id = %d
 	AND contact_id = %d';
 $sql = sprintf($sql, $brick['vars'][0], $brick['vars'][1]);

@@ -73,7 +73,7 @@ function mod_clubs_vereine($params) {
 				$contact_ids = wrap_db_fetch($sql, 'contact_id', 'single value');
 				if (!$contact_ids) return false;
 
-				$condition = sprintf('AND organisationen_orte.sequence = 1
+				$condition = sprintf('AND contacts_contacts.sequence = 1
 					AND organisationen.contact_id IN (%s)', implode(',', $contact_ids));
 				$category = reset($categories);
 				$auswahl = $category['category'];
@@ -164,17 +164,17 @@ function mod_clubs_vereine($params) {
 			%s
 		FROM contacts organisationen
 		LEFT JOIN vereinsdb_stats USING (contact_id)
-		JOIN organisationen_orte
-			ON organisationen_orte.main_contact_id = organisationen.contact_id
+		JOIN contacts_contacts
+			ON contacts_contacts.main_contact_id = organisationen.contact_id
 		JOIN contacts places
-			ON organisationen_orte.contact_id = places.contact_id
+			ON contacts_contacts.contact_id = places.contact_id
 		JOIN addresses
 			ON places.contact_id = addresses.contact_id
 		JOIN categories
 			ON organisationen.contact_category_id = categories.category_id
 		WHERE ISNULL(organisationen.aufloesung)
 		AND NOT ISNULL(latitude) AND NOT ISNULL(longitude)
-		AND organisationen_orte.published = "yes"
+		AND contacts_contacts.published = "yes"
 		%s
 	';
 	$csql = sprintf($sql, $having, $condition);

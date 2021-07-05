@@ -78,7 +78,7 @@ $sql_ort = sprintf('SELECT contacts.contact_id
 		, CONCAT(postcode, " ", place), contact AS veranstaltungsort
 	FROM contacts
 	LEFT JOIN addresses USING (contact_id)
-	LEFT JOIN organisationen_orte USING (contact_id)
+	LEFT JOIN contacts_contacts USING (contact_id)
 	WHERE main_contact_id = %d
 	ORDER BY postcode', $verein['contact_id']);
 $orte = wrap_db_fetch($sql_ort, 'contact_id');

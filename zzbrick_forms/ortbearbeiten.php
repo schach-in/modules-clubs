@@ -39,9 +39,9 @@ switch ($brick['vars'][1]) {
 }
 
 $zz['title'] = $verein['contact'];
-$zz['where']['organisationen_orte.main_contact_id'] = $verein['contact_id'];
-$zz['sql'] = wrap_edit_sql($zz['sql'], 'JOIN', 'LEFT JOIN organisationen_orte
-	ON organisationen_orte.contact_id = contacts.contact_id');
+$zz['where']['contacts_contacts.main_contact_id'] = $verein['contact_id'];
+$zz['sql'] = wrap_edit_sql($zz['sql'], 'JOIN', 'LEFT JOIN contacts_contacts
+	ON contacts_contacts.contact_id = contacts.contact_id');
 $zz['unless']['add']['explanation'] = '<strong>Hinweis:</strong> Bitte korrigiere hier nur Angaben zu diesem Spielort. Bei <strong>Wechsel</strong> des Spielorts lösche bitte den alten und <a href="../../ort-neu/">ergänze einen neuen</a>!';
 $zz['if']['add']['explanation'] = '';
 $zz['geo_map_html'] = false;
@@ -86,9 +86,9 @@ $zz['fields'][44]['table_name'] = 'reihenfolgen';
 $zz['fields'][44]['title'] = 'Reihenfolge';
 $zz['fields'][44]['title_tab'] = 'Folge';
 $zz['fields'][44]['subselect']['sql'] = 'SELECT contact_id, reihenfolge
-	FROM organisationen_orte
+	FROM contacts_contacts
 	LEFT JOIN contacts
-		ON organisationen_orte.main_contact_id = contacts.contact_id
+		ON contacts_contacts.main_contact_id = contacts.contact_id
 	ORDER BY contact';
 
 // Add geht nicht

@@ -199,13 +199,13 @@ function mod_clubs_verein($params) {
 	$sql = 'SELECT places.contact_id, cc_id
 			, contact, address
 			, postcode, place, description
-			, latitude, longitude, organisationen_orte.remarks, organisationen_orte.published, sequence
-		FROM organisationen_orte
+			, latitude, longitude, contacts_contacts.remarks, contacts_contacts.published, sequence
+		FROM contacts_contacts
 		LEFT JOIN contacts places
-			ON organisationen_orte.contact_id = places.contact_id
+			ON contacts_contacts.contact_id = places.contact_id
 		LEFT JOIN addresses
 			ON places.contact_id = addresses.contact_id
-		WHERE organisationen_orte.main_contact_id = %d
+		WHERE contacts_contacts.main_contact_id = %d
 		ORDER BY sequence, places.contact, postcode, place, address';
 	$sql = sprintf($sql, $org['contact_id']);
 	$org['orte'] = wrap_db_fetch($sql, 'contact_id');
@@ -295,7 +295,7 @@ function mod_clubs_verein($params) {
 		}
 		$orte_sort = [];
 		foreach ($org['orte'] as $contact_id => $ort) {
-			$revisions = zz_revisions_read('organisationen_orte', $ort['cc_id']);
+			$revisions = zz_revisions_read('contacts_contacts', $ort['cc_id']);
 			if (is_null($revisions)) {
 				unset($org['orte'][$contact_id]);
 				continue;

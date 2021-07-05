@@ -24,7 +24,7 @@ function mf_clubs_add_revision_public($ops) {
 
 	$my_ops = [];
 	foreach ($ops['return'] as $index => $table) {
-		if (!in_array($table['table'], ['organisationen_orte', 'wochentermine'])) continue;
+		if (!in_array($table['table'], ['contacts_contacts', 'wochentermine'])) continue;
 		if ($table['action'] !== 'insert') continue;
 		if (!empty($ops['record_new'][$index]['oeffentlich']) AND $ops['record_new'][$index]['oeffentlich'] === 'ja') continue;
 		if (!empty($ops['record_new'][$index]['published']) AND $ops['record_new'][$index]['published'] === 'yes') continue;

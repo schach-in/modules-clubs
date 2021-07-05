@@ -54,9 +54,9 @@ function mod_clubs_vereinsliste($params) {
 			, members, members_female, members_u25
 			, members_u25/members AS anteil_members_u25
 			, members_female/members AS anteil_members_female
-			, IF((SELECT COUNT(*) FROM organisationen_orte
-				WHERE organisationen_orte.main_contact_id = contacts.contact_id
-				AND organisationen_orte.published = "yes"), "ja", "nein"
+			, IF((SELECT COUNT(*) FROM contacts_contacts
+				WHERE contacts_contacts.main_contact_id = contacts.contact_id
+				AND contacts_contacts.published = "yes"), "ja", "nein"
 			) AS spielort
 			, 1 AS _level
 			, aufloesung

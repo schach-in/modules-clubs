@@ -38,9 +38,9 @@ function mod_clubs_verbandsliste($params) {
 	}
 
 	$sql = 'SELECT contacts.contact_id, contact, category, contacts.identifier
-			, (SELECT COUNT(*) FROM organisationen_orte
-				WHERE organisationen_orte.main_contact_id = contacts.contact_id
-				AND organisationen_orte.published = "yes"
+			, (SELECT COUNT(*) FROM contacts_contacts
+				WHERE contacts_contacts.main_contact_id = contacts.contact_id
+				AND contacts_contacts.published = "yes"
 			) AS spielorte
 			, members, members_female, members_u25, category_id
 		FROM contacts
