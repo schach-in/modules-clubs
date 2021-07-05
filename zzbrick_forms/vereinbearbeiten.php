@@ -30,33 +30,33 @@ if (empty($_SESSION['login_id'])) {
 }
 
 // contact_category_id
-$zz['fields'][6]['sql'] = wrap_edit_sql($zz['fields'][6]['sql'], 'WHERE',
+$zz['fields'][4]['sql'] = wrap_edit_sql($zz['fields'][4]['sql'], 'WHERE',
 	sprintf('category_id IN (%d, %d)', wrap_category_id('contact/club'), wrap_category_id('contact/chess-department'))
 );
-$zz['fields'][6]['show_values_as_list'] = true;
+$zz['fields'][4]['show_values_as_list'] = true;
 
-$zz['fields'][3]['type'] = 'hidden'; 
-$zz['fields'][4]['hide_in_form'] = true;
-$zz['fields'][34]['hide_in_form'] = true;
-$zz['fields'][13]['hide_in_form'] = true;
-$zz['fields'][2]['hide_in_form'] = true;
-$zz['fields'][7]['hide_in_form'] = true;
-$zz['fields'][40]['append_next'] = false;
-$zz['fields'][40]['title_append'] = false;
-$zz['fields'][12]['hide_in_form'] = true;
-$zz['fields'][10]['hide_in_form'] = true;
-$zz['fields'][15]['hide_in_form'] = true;
-$zz['fields'][20]['hide_in_form'] = true;
+$zz['fields'][2]['type'] = 'hidden'; 		// contact
+$zz['fields'][10]['hide_in_form'] = true;	// contact_short
+$zz['fields'][11]['hide_in_form'] = true;	// contact_abbr
+$zz['fields'][72]['hide_in_form'] = true;	// mother_contact_id
+$zz['fields'][75]['hide_in_form'] = true;	// table contacts-identifiers
+$zz['fields'][3]['hide_in_form'] = true;	// identifier
+$zz['fields'][69]['append_next'] = false;	// gruendung
+$zz['fields'][69]['title_append'] = false;	// gruendung
+$zz['fields'][72]['hide_in_form'] = true;	// successor_contact_id
+$zz['fields'][70]['hide_in_form'] = true;	// aufloesung
+$zz['fields'][13]['hide_in_form'] = true;	// remarks
+$zz['fields'][99]['hide_in_form'] = true;	// last_update
 if (empty($verein['parameters']['foundation_date'])) {
-	$zz['fields'][40]['hide_in_form'] = true; // Gründungsdatum
+	$zz['fields'][69]['hide_in_form'] = true; 	// gruendung
 }
 
-$zz['fields'][11]['explanation'] = 'Etwas über Ihren Verein (optional)';
-$zz['fields'][9]['title'] = 'Bundesland';
-$zz['fields'][40]['explanation'] = 'Falls bekannt: Datum oder Jahr der Gründung';
+$zz['fields'][12]['explanation'] = 'Etwas über Ihren Verein (optional)'; // description
+$zz['fields'][71]['title'] = 'Bundesland'; // country_id
+$zz['fields'][69]['explanation'] = 'Falls bekannt: Datum oder Jahr der Gründung'; // gruendung
 
 // Spielorte
-$zz['fields'][24]['hide_in_form'] = true;
+$zz['fields'][76]['hide_in_form'] = true;	// table contacts-contacts
 
 $zz_conf['referer'] = '../';
 $zz_conf['no_timeframe'] = true;
