@@ -30,7 +30,7 @@ if (!$cc_id) {
 	wrap_quit(404);
 }
 
-$zz = zzform_include_table('organisationen-orte');
+$zz = zzform_include_table('contacts-contacts');
 $zz['where']['cc_id'] = $cc_id;
 
 // @todo $zz['access'] = 'delete_only';
