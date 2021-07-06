@@ -47,7 +47,12 @@ function mod_clubs_vereine($params) {
 			$params[0] = substr($params[0], 0, -8);
 		}
 		$data['identifier'] = $params[0];
-		$sql = 'SELECT contact_id, contact FROM contacts WHERE identifier = "%s"';
+		$sql = 'SELECT contact_id, contact
+			FROM contacts
+			LEFT JOIN categories
+				ON contacts.contact_category_id = categories.category_id
+			WHERE identifier = "%s"
+			AND categories.parameters LIKE "%%&organisation=1%%"';
 		$sql = sprintf($sql, wrap_db_escape($params[0]));
 		$haupt_org = wrap_db_fetch($sql);
 		if ($haupt_org) {
@@ -55,7 +60,8 @@ function mod_clubs_vereine($params) {
 			// Unterorganisationen?
 			$contact_ids = wrap_db_children(
 				$haupt_org['contact_id'],
-				sprintf('SELECT contact_id FROM contacts WHERE mother_contact_id IN (%%s)
+				sprintf('SELECT contact_id
+				FROM contacts WHERE mother_contact_id IN (%%s)
 				AND contact_category_id = %d
 				AND ISNULL(aufloesung)', wrap_category_id('contact/federation'))
 			);
@@ -175,6 +181,7 @@ function mod_clubs_vereine($params) {
 		WHERE ISNULL(organisationen.aufloesung)
 		AND NOT ISNULL(latitude) AND NOT ISNULL(longitude)
 		AND contacts_contacts.published = "yes"
+		AND categories.parameters LIKE "%%&organisation=1%%"
 		%s
 	';
 	$csql = sprintf($sql, $having, $condition);
@@ -205,7 +212,10 @@ function mod_clubs_vereine($params) {
 			// Verein direkt?
 			$sql = 'SELECT contact_id, identifier
 				FROM contacts
+				LEFT JOIN categories
+					ON contacts.contact_category_id = categories.category_id
 				WHERE contact LIKE "%%%s%%"
+				AND categories.parameters LIKE "%%&organisation=1%%"
 				AND ISNULL(aufloesung)';
 			$sql = sprintf($sql, implode('%', $qs));
 			$verein = wrap_db_fetch($sql);
@@ -213,7 +223,10 @@ function mod_clubs_vereine($params) {
 				$q = wrap_filename($_GET['q'], '', ['-' => '']);
 				$sql = 'SELECT contact_id, identifier
 				FROM contacts
+				LEFT JOIN categories
+					ON contacts.contact_category_id = categories.category_id
 				WHERE REPLACE(identifier, "-", "") LIKE "%%%s%%"
+				AND categories.parameters LIKE "%%&organisation=1%%"
 				AND ISNULL(aufloesung)';
 				$sql = sprintf($sql, wrap_db_escape($q));
 				$verein = wrap_db_fetch($sql);
@@ -228,7 +241,10 @@ function mod_clubs_vereine($params) {
 				if ($change) {
 					$sql = 'SELECT contact_id, identifier
 						FROM contacts
+						LEFT JOIN categories
+							ON contacts.contact_category_id = categories.category_id
 						WHERE contact LIKE "%%%s%%"
+						AND categories.parameters LIKE "%%&organisation=1%%"
 						AND ISNULL(aufloesung)';
 					$sql = sprintf($sql, implode('%', $qs));
 					$verein = wrap_db_fetch($sql);
@@ -511,9 +527,12 @@ function mod_clubs_vereine_verbaende($q, $coordinates) {
 				, o.contact_category_id
 				, (SELECT COUNT(*) FROM contacts WHERE mother_contact_id = o.contact_id) AS rang
 		FROM contacts o
+		LEFT JOIN categories
+			ON o.contact_category_id = categories.category_id
 		LEFT JOIN contacts h
 			ON o.mother_contact_id = h.contact_id
 		WHERE o.contact LIKE "%%%s%%"
+		AND categories.parameters LIKE "%%&organisation=1%%"
 		AND ISNULL(o.aufloesung)
 		ORDER BY rang DESC, o.identifier
 	';
