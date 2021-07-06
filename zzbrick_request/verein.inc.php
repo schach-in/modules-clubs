@@ -212,7 +212,7 @@ function mod_clubs_verein($params) {
 	$org['orte'] = wrap_db_fetch($sql, 'contact_id');
 
 	// website, telefon, telefax, e_mail
-	$details = my_contactdetails(array_keys($org['orte']));
+	$details = mf_contacts_contactdetails(array_keys($org['orte']));
 	foreach ($details as $contact_id => $contactdetails) {
 		$org['orte'][$contact_id]['details'] = $contactdetails;
 	}
