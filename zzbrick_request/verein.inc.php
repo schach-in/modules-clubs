@@ -178,7 +178,7 @@ function mod_clubs_verein($params) {
 		$org['request_uri'] = $_SERVER['REQUEST_URI'];
 	}
 
-	if ($org['verein']) {
+	if ($org['verein'] OR $org['schachabteilung']) {
 		$sql = 'SELECT FIDE_Titel, Spielername, DWZ, FIDE_Elo
 			FROM dwz_spieler
 			WHERE ZPS = "%s"
