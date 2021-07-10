@@ -385,7 +385,7 @@ function mod_clubs_vereine_condition($q) {
 				if ($index) $condition .= ' AND ';
 				$condition .= sprintf('organisationen.contact LIKE "%%%s%%"', wrap_db_escape($q));
 				// add support for ae = ä etc.
-				$condition .= sprintf('OR organisationen.identifier LIKE LOWER("%%%s%%")', wrap_db_escape($q));
+				$condition .= sprintf('OR organisationen.identifier LIKE LOWER(_latin1"%%%s%%")', wrap_db_escape($q));
 				$condition .= sprintf('OR (SELECT identification FROM contactdetails
 					WHERE contactdetails.contact_id = organisationen.contact_id
 					AND provider_category_id = %d) LIKE "%%%s%%"', wrap_category_id('provider/website'), wrap_db_escape($q));
