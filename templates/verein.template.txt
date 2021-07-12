@@ -1,20 +1,25 @@
-# Zugzwang Project
-# deutsche-schachjugend.de
-# Copyright (c) 2015-2019, 2021 Gustaf Mossakowski <gustaf@koenige.org>
-# Copyright (c) 2020      Falco Nogatz <fnogatz@gmail.com>
-# Detailinformationen über einen Verein oder eine Schulschachgruppe
+# clubs module
+# HTML output: detail information about a club or a school
+#
+# Part of »Zugzwang Project«
+# https://www.zugzwang.org/modules/clubs
+#
+# @author Gustaf Mossakowski <gustaf@koenige.org>
+# @author Falco Nogatz <fnogatz@gmail.com>
+# @copyright Copyright © 2015-2019, 2021 Gustaf Mossakowski
+# @copyright Copyright © 2020 Falco Nogatz
+# @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 # List of fields: contact_id, contact, url, aufloesung, gruendung,
 # description, zps_code, members, members_female, members_u25, avg_age,
 # avg_rating, nachfolger, nachfolger_kennung, category, schulschachgruppe,
 # schachkindergarten, topten { FIDE_Titel, Spielername, DWZ, FIDE_Elo, no,
-# spieler }, orte { contact_id, contact, address,
-# postcode, place, description,
-# latitude, longitude, remarks }, lon_min, lon_max, lat_min, lat_max,
-# longitude, latitude, teams { team_id, event, team, team_no,
-# team_identifier, duration }, parent_orgs, auszeichnungen { category, dauer_von {
-# auszeichnung_id, category_id, category, dauer_von, dauer_bis, identifier },
-# identifier }
+# spieler }, orte { contact_id, contact, address, postcode, place,
+# description, latitude, longitude, remarks }, lon_min, lon_max, lat_min,
+# lat_max, longitude, latitude, teams { team_id, event, team, team_no,
+# team_identifier, duration }, parent_orgs, auszeichnungen { category,
+# dauer_von { auszeichnung_id, category_id, category, dauer_von, dauer_bis,
+# identifier }, identifier }
 #
 <div itemscope itemprop="organization" itemtype="http://schema.org/Organization">
 <h1 itemprop="name">%%% item contact %%%

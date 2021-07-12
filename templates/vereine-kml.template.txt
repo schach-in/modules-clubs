@@ -1,8 +1,8 @@
-# default module
-# Template for KML export of coordinates
+# clubs module
+# template for KML export of coordinates
 #
 # Part of »Zugzwang Project«
-# http://www.zugzwang.org/modules/default
+# https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
 # @copyright Copyright © 2011 Gustaf Mossakowski
@@ -11,7 +11,6 @@
 # fields:
 # title, description, styles (id, href), placemarks (title, filename, 
 # description, host, place, style, longitude, latitude, altitude)
-#
 #
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">

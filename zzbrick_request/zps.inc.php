@@ -1,9 +1,16 @@
 <?php
 
-// Zugzwang Project
-// deutsche-schachjugend.de
-// Copyright (c) 2017-2021 Gustaf Mossakowski <gustaf@koenige.org>
-// Umleitung von ZPS-Codes
+/**
+ * clubs module
+ * redirection of URLs with ZPS codes of the German Chess Federation (DSB)
+ *
+ * Part of »Zugzwang Project«
+ * https://www.zugzwang.org/modules/clubs
+ *
+ * @author Gustaf Mossakowski <gustaf@koenige.org>
+ * @copyright Copyright © 2017-2021 Gustaf Mossakowski
+ * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+ */
 
 
 function mod_clubs_zps($params) {

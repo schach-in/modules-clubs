@@ -1,7 +1,14 @@
-# deutsche-schachjugend.de
-# Copyright (c) 2016, 2018 Gustaf Mossakowski <gustaf@koenige.org>
-# Copyright (c) 2020       Falco Nogatz <fnogatz@gmail.com>
+# clubs module
 # Template for Leaflet Maps, HEAD-element for map for single object
+#
+# Part of »Zugzwang Project«
+# https://www.zugzwang.org/modules/clubs
+#
+# @author Gustaf Mossakowski <gustaf@koenige.org>
+# @author Falco Nogatz <fnogatz@gmail.com>
+# @copyright Copyright © 2016, 2018 Gustaf Mossakowski
+# @copyright Copyright © 2020 Falco Nogatz
+# @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 	<link rel="stylesheet" type="text/css" href="/_layout/clubs/vereine.css">
 	<link rel="stylesheet" href="/_behaviour/leaflet/dist/leaflet.css">

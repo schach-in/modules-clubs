@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Zugzwang Project
+ * clubs module
  * common functions for use with all scripts
  *
+ * Part of »Zugzwang Project«
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>

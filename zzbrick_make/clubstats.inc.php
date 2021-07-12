@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Zugzwang Project
+ * clubs module
  * make statistics for the club database
  *
+ * Part of »Zugzwang Project«
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>

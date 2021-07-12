@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Zugzwang Project
+ * clubs module
  * hook functions that are called before or after changing a record
  *
+ * Part of »Zugzwang Project«
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
