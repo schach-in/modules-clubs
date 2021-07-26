@@ -50,6 +50,7 @@ $zz['fields'][99]['hide_in_form'] = true;	// last_update
 if (empty($verein['parameters']['foundation_date'])) {
 	$zz['fields'][69]['hide_in_form'] = true; 	// gruendung
 }
+$zz['fields'][97]['hide_in_form'] = true;	// created
 
 $zz['fields'][12]['explanation'] = 'Etwas über Ihren Verein (optional)'; // description
 $zz['fields'][71]['title'] = 'Bundesland'; // country_id
