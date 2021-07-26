@@ -276,13 +276,29 @@ function mod_clubs_verein($params) {
 		$revisions = zz_revisions_read('contacts', $org['contact_id']);
 		foreach ($revisions as $key => $value) {
 			if (is_array($value)) {
-				if ($key === 'contactdetails') {
-					foreach ($org as $o_key => $o_value) {
-						if (!is_array($o_value)) continue;
-						if (empty($o_value[0]['contactdetail_id'])) continue;
+				if (str_starts_with($key, 'contactdetails')) {
+					if (key($value) <= 0) {
 						foreach ($value as $v_key => $v_value) {
-							if ($o_value[0]['contactdetail_id'] != $v_key) continue;
-							$org[$o_key][0] = array_merge($org[$o_key][0], $v_value);
+							if (!$v_value) continue;
+							$sql = 'SELECT category_id, category, parameters
+								FROM categories WHERE category_id = %d';
+							$sql = sprintf($sql, $v_value['provider_category_id']);
+							$category = wrap_db_fetch($sql);
+							if (!$category) continue; // should not happen
+							parse_str($category['parameters'], $category_parameters);
+							$org[$category_parameters['type']][] = array_merge($v_value, $category);
+						}
+					} else {
+						foreach ($org as $o_key => $o_value) {
+							if (!is_array($o_value)) continue;
+							foreach ($value as $v_key => $v_value) {
+								if (empty($o_value[0]['contactdetail_id'])) continue; // other data
+								if ($o_value[0]['contactdetail_id'] != $v_key) continue;
+								if ($v_value)
+									$org[$o_key][0] = array_merge($org[$o_key][0], $v_value);
+								else
+									$org[$o_key][0] = false;
+							}
 						}
 					}
 				} else {
