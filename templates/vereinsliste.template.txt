@@ -72,7 +72,7 @@
 %%% item anteil_members_female wrap_percent %%%
 %%% condition else %%%–%%% condition endif %%%</td>
 <td>%%% condition unless aufloesung %%%
-<a href="http://www.schachbund.de/verein/%%% item zps_code %%%.html">%%% item zps_code %%%</a>
+<a href="https://www.schachbund.de/verein/%%% item zps_code %%%.html">%%% item zps_code %%%</a>
 %%% condition endif %%%</td>
 %%% condition if auszeichnungen %%%
 <td>%%% loop auszeichnungen %%%
