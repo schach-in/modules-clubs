@@ -187,6 +187,19 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 
 %%% condition endif %%%
 %%% condition unless aufloesung %%%
+%%% condition if username %%%
+<h2>Schachseiten und Social Media</h2>
+%%% loop username %%%
+<p>%%% item category %%%: <a href="%%% item username_url %%%" target="_blank" itemprop="url">@%%% item identification %%%</a></p>
+%%% loop end %%%
+%%% condition if edit %%%
+<p><a href="info/?focus=website" class="edit">Profile auf anderer Website ändern/ergänzen</a></p>
+%%% condition endif %%%
+%%% condition elseif edit %%%
+<h2>Schachseiten und Social Media</h2>
+<p><a href="info/?focus=website" class="edit">Profile auf anderer Website ergänzen</a></p>
+%%% condition endif %%%
+
 %%% condition if orte %%%
 
 <h2>Spielort%%% condition if orte_plural %%%e%%% condition endif %%%</h2>
