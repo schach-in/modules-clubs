@@ -16,6 +16,7 @@
 function mod_clubs_vereinsliste($params) {
 	global $zz_setting;
 	if (count($params) !== 1) return false;
+	$extra_field = '';
 
 	$sql = 'SELECT contact_id, contact, mother_contact_id, 0 AS _level
 			, contacts.identifier, contacts.description
@@ -28,7 +29,7 @@ function mod_clubs_vereinsliste($params) {
 	);
 	$verband = wrap_db_fetch($sql);
 	if ($verband) {
-		$condition = sprintf('mother_contact_id = %d
+		$condition = sprintf('WHERE mother_contact_id = %d
 			AND contact_category_id IN (%d, %d) 
 			AND ISNULL(aufloesung)'
 			, $verband['contact_id']
@@ -37,13 +38,21 @@ function mod_clubs_vereinsliste($params) {
 		);
 		$top = $verband;
 		$categories = false;
+	} elseif ($params[0] === 'twitter') {
+		$extra_field = sprintf(', (SELECT COUNT(*) FROM contactdetails
+			WHERE contactdetails.contact_id = contacts.contact_id
+			AND provider_category_id = %d) AS website_username', wrap_category_id('provider/twitter'));
+		$condition = 'HAVING website_username > 0';
+		$top['contact'] = 'Twitter';
+		$categories = false;
+		$category['category'] = 'Twitter';
 	} else {
 		$categories = mf_clubs_from_category($params[0]);
 		if (!$categories) return false;
 		$category = reset($categories);
 		$top = $category;
 		$top['contact'] = $category['category'];
-		$condition = sprintf('auszeichnung_category_id IN (%s)', implode(',', array_keys($categories)));
+		$condition = sprintf('WHERE auszeichnung_category_id IN (%s)', implode(',', array_keys($categories)));
 	}
 	$top['members'] = 0;
 	$top['members_u25'] = 0;
@@ -60,13 +69,14 @@ function mod_clubs_vereinsliste($params) {
 			) AS spielort
 			, 1 AS _level
 			, aufloesung
+			%s
 		FROM contacts
 		LEFT JOIN contacts_identifiers USING (contact_id)
 		LEFT JOIN vereinsdb_stats USING (contact_id)
 		LEFT JOIN auszeichnungen USING (contact_id)
-		WHERE %s
+		%s
 		ORDER BY contacts_identifiers.identifier, contacts.identifier';
-	$sql = sprintf($sql, $condition);
+	$sql = sprintf($sql, $extra_field, $condition);
 	$data['vereine'] = wrap_db_fetch($sql, 'contact_id');
 	if (!$data['vereine']) return false;
 	

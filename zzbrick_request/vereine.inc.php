@@ -31,9 +31,28 @@ function mod_clubs_vereine($params) {
 
 	$data['noindex'] = false;
 	$found = false;
+	$having = '';
+	$extra_field = '';
 	$content = 'html';
+	if ($params AND substr($params[0], -8) === '.geojson') {
+		$content = 'geojson';
+		$params[0] = substr($params[0], 0, -8);
+	}
 	if (!$params) {
 		$data['identifier'] = 'deutschland';
+	} elseif ($params[0] === 'twitter') {
+		switch (end($params)) {
+		case 'liste':
+			array_pop($params);
+			return brick_format('%%% request vereinsliste '.$params[0].' %%%');
+		}
+		$extra_field = sprintf(', (SELECT COUNT(*) FROM contactdetails
+			WHERE contactdetails.contact_id = organisationen.contact_id
+			AND provider_category_id = %d) AS website_username', wrap_category_id('provider/twitter'));
+		$condition = 'HAVING website_username > 0';
+		$found = true;
+		$auswahl = 'Twitter';
+		$data['identifier'] = $params[0];
 	} else {
 		switch (end($params)) {
 		case 'liste':
@@ -42,10 +61,6 @@ function mod_clubs_vereine($params) {
 			return brick_format('%%% request verbandsliste '.$params[0].' %%%');
 		}
 		if (count($params) > 1) return false;
-		if (substr($params[0], -8) === '.geojson') {
-			$content = 'geojson';
-			$params[0] = substr($params[0], 0, -8);
-		}
 		$data['identifier'] = $params[0];
 		$sql = 'SELECT contact_id, contact
 			FROM contacts
@@ -124,7 +139,6 @@ function mod_clubs_vereine($params) {
 		}
 	}
 	
-	$having = '';
 	if (!empty($_GET['lat']) AND empty($_GET['lon'])) return false;
 	if (!empty($_GET['lon']) AND empty($_GET['lat'])) return false;
 	if (!$condition AND !empty($_GET['lat']) AND !empty($_GET['lon'])) {
@@ -167,7 +181,7 @@ function mod_clubs_vereine($params) {
 			, (SELECT IFNULL(COUNT(auszeichnung_id), NULL) FROM auszeichnungen
 				WHERE auszeichnungen.contact_id = organisationen.contact_id) AS auszeichnungen
 			, organisationen.contact_id
-			%s
+			%s %s
 		FROM contacts organisationen
 		LEFT JOIN vereinsdb_stats USING (contact_id)
 		JOIN contacts_contacts
@@ -184,7 +198,7 @@ function mod_clubs_vereine($params) {
 		AND categories.parameters LIKE "%%&organisation=1%%"
 		%s
 	';
-	$csql = sprintf($sql, $having, $condition);
+	$csql = sprintf($sql, $extra_field, $having, $condition);
 	$coordinates = wrap_db_fetch($csql, 'id');
 	if (!$coordinates) {
 		if ($having) {
