@@ -23,13 +23,19 @@
 <thead>
 <tr class="sortable">
 <th>Verein</th>
+%%% condition unless with_usernames %%%
+%%% condition unless mit_auszeichnungen %%%
 <th><abbr title="Spielort auf Karte?">Karte?</abbr></th>
+%%% condition endif %%%
+%%% condition endif %%%
 <th class="maincol">Mitglieder</th>
 <th colspan="2">jugendlich U25</th>
 <th colspan="2">weiblich</th>
 <th>DWZ-Liste</th>
 %%% condition if mit_auszeichnungen %%%
 <th>Auszeichnung</th>
+%%% condition elseif with_usernames %%%
+<th>Handle oder Benutzername</th>
 %%% condition endif %%%
 </tr>
 </thead>
@@ -46,7 +52,11 @@
 %%% item contact %%%
 %%% condition endif %%%
 %%% condition unless spielort %%% &middot; Karte%%% condition endif %%%%%% condition unless aufloesung %%%</a>%%% condition endif %%%</td>
+%%% condition unless with_usernames %%%
+%%% condition unless mit_auszeichnungen %%%
 <td>%%% item spielort %%%</td>
+%%% condition endif %%%
+%%% condition endif %%%
 <td class="number maincol">%%% item members wrap_number %%%</td>
 <td class="number"><span class="sortonly">%%% item members_u25 %%% </span>%%% condition if members_u25 %%%
 %%% item members_u25 wrap_number %%%
@@ -70,7 +80,15 @@
 %%% loopposition first|middle ", " %%%
 %%% loop end %%%</td>
 %%% condition endif %%%
+%%% condition if usernames %%%
+<td>%%% loop usernames %%%
+<a href="%%% item username_url %%%">@%%% item username %%%</a>
+%%% loop end %%%
+</td>
+%%% condition endif %%%
 </tr>
+</tr>
+
 %%% loopposition first "</tbody><tbody id='js-clubs'>" %%%
 %%% loop end %%%
 </tbody>

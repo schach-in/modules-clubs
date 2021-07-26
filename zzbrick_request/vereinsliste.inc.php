@@ -46,6 +46,7 @@ function mod_clubs_vereinsliste($params) {
 		$top['contact'] = 'Twitter';
 		$categories = false;
 		$category['category'] = 'Twitter';
+		$data['with_usernames'] = true;
 	} else {
 		$categories = mf_clubs_from_category($params[0]);
 		if (!$categories) return false;
@@ -98,8 +99,26 @@ function mod_clubs_vereinsliste($params) {
 		}
 		$data['mit_auszeichnungen'] = true;
 	}
+
+	if (!empty($data['with_usernames'])) {
+		$contactdetails = mf_contacts_contactdetails(array_keys($data['vereine']));
+		foreach ($contactdetails as $contact_id => $details) {
+			if (empty($details['username'])) continue;
+			foreach ($details['username'] as $username) {
+				if ($username['category'] !== 'Twitter') continue;
+				$data['vereine'][$contact_id]['usernames'][] = [
+					'username_url' => $username['username_url'],
+					'username' => $username['identification']
+				];
+			}
+		}
+	}
 	
-	foreach ($data['vereine'] as $verein) {
+	foreach ($data['vereine'] as $contact_id => $verein) {
+		if (!empty($data['mit_auszeichnungen']))
+			$data['vereine'][$contact_id]['mit_auszeichnungen'] = true;
+		if (!empty($data['with_usernames']))
+			$data['vereine'][$contact_id]['with_usernames'] = true;
 		$top['members'] += $verein['members'];
 		$top['members_u25'] += $verein['members_u25'];
 		$top['members_female'] += $verein['members_female'];
@@ -112,6 +131,10 @@ function mod_clubs_vereinsliste($params) {
 		$top['members_u25'] = '';
 		$top['members_female'] = '';
 	}
+	if (!empty($data['mit_auszeichnungen']))
+		$top['mit_auszeichnungen'] = true;
+	if (!empty($data['with_usernames']))
+		$top['with_usernames'] = true;
 	array_unshift($data['vereine'], $top);
 
 	if ($verband) {
