@@ -213,7 +213,7 @@ function mod_clubs_vereine($params) {
 					case 50: $data['maxzoom'] = 8; break;
 				}
 				$condition = sprintf($condition, $orte_umkreissuche_km); 
-				$csql = sprintf($sql, $having, $condition);
+				$csql = sprintf($sql, $extra_field, $having, $condition);
 				$coordinates = wrap_db_fetch($csql, 'id');
 				if ($coordinates) break;
 			}
