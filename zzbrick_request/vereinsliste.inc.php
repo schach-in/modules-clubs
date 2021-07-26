@@ -44,6 +44,7 @@ function mod_clubs_vereinsliste($params) {
 			AND provider_category_id = %d) AS website_username', wrap_category_id('provider/twitter'));
 		$condition = 'HAVING website_username > 0';
 		$top['contact'] = 'Twitter';
+		$top['identifier'] = 'twitter';
 		$categories = false;
 		$category['category'] = 'Twitter';
 		$data['with_usernames'] = true;
