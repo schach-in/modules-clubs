@@ -236,7 +236,7 @@ function mod_clubs_verein($params) {
 	$sql = sprintf($sql, $org['contact_id']);
 	$org['teams'] = wrap_db_fetch($sql, 'team_id');
 
-	if ($org['verein']) {
+	if ($org['verein'] OR $org['schachabteilung']) {
 		$org['parent_orgs'] = mf_clubs_parent_orgs($org['contact_id']);
 	}
 	
