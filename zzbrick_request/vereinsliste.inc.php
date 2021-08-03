@@ -86,9 +86,9 @@ function mod_clubs_vereinsliste($params) {
 		$sql = 'SELECT auszeichnung_id, contact_id, dauer_von, dauer_bis, anzeigename
 			FROM auszeichnungen
 			WHERE contact_id IN (%s)
-			AND %s
+			%s
 			ORDER BY dauer_von ASC';
-		$sql = sprintf($sql, implode(',', array_keys($data['vereine'])), $condition);
+		$sql = sprintf($sql, implode(',', array_keys($data['vereine'])), str_replace('WHERE ', 'AND ', $condition));
 		$auszeichnungen = wrap_db_fetch($sql, ['contact_id', 'auszeichnung_id']);
 		foreach ($auszeichnungen as $contact_id => $auszeichnungen_pro_org) {
 			$anzeigenamen = [];
