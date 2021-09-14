@@ -158,6 +158,9 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% condition unless keine_statistik %%%
 <tr><th>– davon jugendlich U25</th><td class="number">%%% item members_u25 %%%</td></tr>
 <tr><th>– davon weiblich</th><td class="number">%%% item members_female %%%</td></tr>
+%%% condition if members_passive %%%
+<tr><th>– davon passiv</th><td class="number">%%% item members_passive %%%</td></tr>
+%%% condition endif %%%
 <tr><th>Alter</th><td class="number">∅ %%% item avg_age %%% Jahre</td></tr>
 %%% condition endif %%%
 <tr><th>Spielstärke</th><td class="number">DWZ ∅ %%% item avg_rating %%%</td></tr>

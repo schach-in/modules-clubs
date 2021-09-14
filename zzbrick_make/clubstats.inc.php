@@ -41,6 +41,7 @@ function mod_clubs_make_clubstats() {
 			, COUNT(DISTINCT Mgl_Nr) AS members
 			, SUM(IF(Geschlecht = "W",1,0)) AS members_female
 			, SUM(IF(Geburtsjahr >= YEAR(NOW() -INTERVAL 25 YEAR), 1, 0)) AS members_u25
+			, SUM(IF(Status = "P", 1, 0)) AS members_passive
 			, ROUND(AVG(Geburtsjahr)) AS avg_byear
 			, ROUND(SUM(IF(DWZ != 0, DWZ, 0)) / IF(SUM(IF(DWZ != 0, 1, 0)), SUM(IF(DWZ != 0, 1, 0)), 1)) AS avg_rating
 		FROM dwz_spieler

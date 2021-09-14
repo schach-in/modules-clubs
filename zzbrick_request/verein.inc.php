@@ -122,6 +122,7 @@ function mod_clubs_verein($params) {
 			, YEAR(org.aufloesung) AS aufloesung, org.gruendung, org.description
 			, ok.identifier AS zps_code
 			, members, members_female, members_u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
+			, members_passive
 			, nachfolger.contact AS nachfolger, nachfolger.identifier AS nachfolger_kennung
 			, SUBSTRING_INDEX(categories.path, "/", -1) AS category
 			, IF(categories.category_id = "%d", 1, NULL) AS schulschachgruppe
