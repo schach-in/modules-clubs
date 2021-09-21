@@ -55,7 +55,7 @@ function mod_clubs_make_clubstats() {
 	if (!$result) {
 		wrap_error('Fehler beim Erstellen der Vereinsstatistiken.', E_USER_ERROR);
 	}
-	$sql = 'ALTER TABLE `vereinsdb_stats` ADD UNIQUE `contact_id` (`contact_id`)';
+	$sql = 'ALTER TABLE `vereinsdb_stats` ADD PRIMARY KEY `contact_id` (`contact_id`)';
 	wrap_db_query($sql);
 
 	$data['done'] = true;
