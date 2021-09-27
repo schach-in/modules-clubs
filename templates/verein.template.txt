@@ -139,7 +139,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% condition unless aufloesung %%%
 %%% condition if url %%%
 %%% loop url 1 %%%
-<p><a href="%%% item identification %%%" target="_blank" itemprop="url">%%% item identification wrap_punycode_decode %%%</a></p>
+<p>Website: <a href="%%% item identification %%%" target="_blank" itemprop="url">%%% item identification wrap_punycode_decode %%%</a></p>
 %%% loop end %%%
 %%% condition if edit %%%
 <p><a href="info/?focus=website" class="edit">Website ändern</a></p>
