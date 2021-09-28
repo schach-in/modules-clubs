@@ -202,6 +202,10 @@ ul.orghierarchy
 #clubs li.schulschachgruppe
 			{ color: #CB253D; }
 #clubs li.schachkindergarten
+			{ color: #ffd326; }
+#clubs li.schachhort
+			{ color: #ca8326; }
+#clubs li.gartenschach
 			{ color: #28AD25; }
 
 @media screen and (max-width: 640px) {

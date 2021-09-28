@@ -105,15 +105,20 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% condition elseif schachkindergarten %%%
 %%% condition if auszeichnungen %%%
 	var Icon = new L.Icon.Default({
-		iconUrl: 'marker-star-green.png',
-		iconRetinaUrl: 'marker-star-green-2x.png'
+		iconUrl: 'marker-star-gold.png',
+		iconRetinaUrl: 'marker-star-gold-2x.png'
 	});
 %%% condition else %%%
 	var Icon = new L.Icon.Default({
-		iconUrl: 'marker-icon-green.png',
-		iconRetinaUrl: 'marker-icon-green-2x.png'
+		iconUrl: 'marker-icon-gold.png',
+		iconRetinaUrl: 'marker-icon-gold-2x.png'
 	});
 %%% condition endif %%%
+%%% condition elseif schachhort %%%
+	var Icon = new L.Icon.Default({
+		iconUrl: 'marker-icon-orange.png',
+		iconRetinaUrl: 'marker-icon-orange-2x.png'
+	});
 %%% condition else %%%
 %%% condition if auszeichnungen %%%
 	var Icon = new L.Icon.Default({

@@ -146,12 +146,16 @@ oder Ortsname</p>
 		iconRetinaUrl: 'marker-star-blue-2x.png'
 	});
 	var kindergartenIcon = new L.Icon.Default({
-		iconUrl: 'marker-icon-green.png',
-		iconRetinaUrl: 'marker-icon-green-2x.png'
+		iconUrl: 'marker-icon-gold.png',
+		iconRetinaUrl: 'marker-icon-gold-2x.png'
 	});
 	var kindergartenStar = new L.Icon.Default({
-		iconUrl: 'marker-star-green.png',
-		iconRetinaUrl: 'marker-star-green-2x.png'
+		iconUrl: 'marker-star-gold.png',
+		iconRetinaUrl: 'marker-star-gold-2x.png'
+	});
+	var hortIcon = new L.Icon.Default({
+		iconUrl: 'marker-icon-orange.png',
+		iconRetinaUrl: 'marker-icon-orange-2x.png'
 	});
 	var hoverIcon = new L.Icon.Default({
 		iconUrl: 'marker-icon-yellow.png',
@@ -180,6 +184,8 @@ oder Ortsname</p>
 						} else {
 							var myIcon = kindergartenIcon;
 						}
+					} else if (feature.properties.category == 'schachhort') {
+						var myIcon = hortIcon;
 					} else {
 						if (feature.properties.awards > 0) {
 							var myIcon = vereinStar;

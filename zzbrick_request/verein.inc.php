@@ -129,6 +129,7 @@ function mod_clubs_verein($params) {
 			, IF(categories.category_id = "%d", 1, NULL) AS schachkindergarten
 			, IF(categories.category_id = "%d", 1, NULL) AS verein
 			, IF(categories.category_id = "%d", 1, NULL) AS schachabteilung
+			, IF(categories.category_id = "%d", 1, NULL) AS schachhort
 			, (SELECT COUNT(*) FROM contacts members WHERE members.mother_contact_id = org.contact_id) AS member_orgs
 			, categories.parameters
 		FROM contacts org
@@ -148,6 +149,7 @@ function mod_clubs_verein($params) {
 		, wrap_category_id('contact/kindergarten')
 		, wrap_category_id('contact/club')
 		, wrap_category_id('contact/chess-department')
+		, wrap_category_id('contact/hort')
 		, wrap_category_id('kennungen/zps')
 		, wrap_db_escape($params[0])
 	);
