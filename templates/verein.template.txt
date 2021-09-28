@@ -205,7 +205,11 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 
 %%% condition if orte %%%
 
+%%% condition if verein | schachabteilung %%%
 <h2>Spielort%%% condition if orte_plural %%%e%%% condition endif %%%</h2>
+%%% condition else %%%
+<h2>Adresse</h2>
+%%% condition endif %%%
 
 <dl class="places" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
 %%% loop orte %%%
@@ -250,7 +254,9 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 
 %%% condition unless edit %%%
 %%% condition unless aufloesung %%%
+%%% condition if verein | schachabteilung %%%
 <form method="post" action="bearbeiten/" class="edit"><input type="submit" value="Daten ergänzen oder korrigieren" name="button"></form>
+%%% condition endif %%%
 %%% condition endif %%%
 %%% condition endif %%%
 

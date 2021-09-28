@@ -130,6 +130,7 @@ function mod_clubs_verein($params) {
 			, IF(categories.category_id = "%d", 1, NULL) AS verein
 			, IF(categories.category_id = "%d", 1, NULL) AS schachabteilung
 			, (SELECT COUNT(*) FROM contacts members WHERE members.mother_contact_id = org.contact_id) AS member_orgs
+			, categories.parameters
 		FROM contacts org
 		LEFT JOIN categories
 			ON org.contact_category_id = categories.category_id
@@ -157,6 +158,7 @@ function mod_clubs_verein($params) {
 	if (in_array($org['category'], ['verband']) AND $org['member_orgs']) {
 		return brick_format('%%% request vereine '.$params[0].' %%%');
 	}
+	parse_str($org['parameters'], $org['parameters']);
 	$org += mf_contacts_contactdetails($org['contact_id']);
 	if ($org['members'] < wrap_get_setting('clubs_statistik_min_mitglieder')) {
 		$org['keine_statistik'] = true;
@@ -198,22 +200,28 @@ function mod_clubs_verein($params) {
 		}
 	}
 
-	$sql = 'SELECT places.contact_id, cc_id
-			, contact, address
-			, postcode, place, description
-			, latitude, longitude, contacts_contacts.remarks, contacts_contacts.published, sequence
-		FROM contacts_contacts
-		LEFT JOIN contacts places
-			ON contacts_contacts.contact_id = places.contact_id
-		LEFT JOIN addresses
-			ON places.contact_id = addresses.contact_id
-		WHERE contacts_contacts.main_contact_id = %d
-		ORDER BY sequence, places.contact, postcode, place, address';
-	$sql = sprintf($sql, $org['contact_id']);
-	$org['orte'] = wrap_db_fetch($sql, 'contact_id');
+	if (!empty($org['parameters']['has_place_contact'])) {
+		$sql = 'SELECT places.contact_id, cc_id
+				, contact, address
+				, postcode, place, description
+				, latitude, longitude, contacts_contacts.remarks, contacts_contacts.published, sequence
+			FROM contacts_contacts
+			LEFT JOIN contacts places
+				ON contacts_contacts.contact_id = places.contact_id
+			LEFT JOIN addresses
+				ON places.contact_id = addresses.contact_id
+			WHERE contacts_contacts.main_contact_id = %d
+			ORDER BY sequence, places.contact, postcode, place, address';
+		$sql = sprintf($sql, $org['contact_id']);
+		$org['orte'] = wrap_db_fetch($sql, 'contact_id');
+		$details = mf_contacts_contactdetails(array_keys($org['orte']));
+	} else {
+		$addresses = mf_contacts_addresses($org['contact_id']);
+		$org['orte'][$org['contact_id']] = reset($addresses); // only one = @todo change key to address_id
+		$details[$org['contact_id']] = mf_contacts_contactdetails($org['contact_id']);
+	}
 
 	// website, telefon, telefax, e_mail
-	$details = mf_contacts_contactdetails(array_keys($org['orte']));
 	foreach ($details as $contact_id => $contactdetails) {
 		$org['orte'][$contact_id]['details'] = $contactdetails;
 	}
@@ -377,6 +385,7 @@ function mod_clubs_verein($params) {
 	}
 	// nichtöffentliche Orte entfernen
 	foreach ($org['orte'] as $contact_id => $ort) {
+		if (empty($ort['published'])) continue;
 		if ($ort['published'] === 'no') unset($org['orte'][$contact_id]);
 	}
 	foreach ($wochentermine as $id => $wochentermin) {

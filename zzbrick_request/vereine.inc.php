@@ -34,6 +34,7 @@ function mod_clubs_vereine($params) {
 	$having = '';
 	$extra_field = '';
 	$content = 'html';
+	$condition_cc = '';
 	if ($params AND substr($params[0], -8) === '.geojson') {
 		$content = 'geojson';
 		$params[0] = substr($params[0], 0, -8);
@@ -94,8 +95,8 @@ function mod_clubs_vereine($params) {
 				$contact_ids = wrap_db_fetch($sql, 'contact_id', 'single value');
 				if (!$contact_ids) return false;
 
-				$condition = sprintf('AND contacts_contacts.sequence = 1
-					AND organisationen.contact_id IN (%s)', implode(',', $contact_ids));
+				$condition_cc = 'AND contacts_contacts.sequence = 1';
+				$condition = sprintf('AND organisationen.contact_id IN (%s)', implode(',', $contact_ids));
 				$category = reset($categories);
 				$auswahl = $category['category'];
 				$data['zoomtofit'] = false;
@@ -172,8 +173,7 @@ function mod_clubs_vereine($params) {
 		$having = sprintf($having, $result['lat'], $result['lat'], $result['lon']);
 	}
 
-	$sql = 'SELECT cc_id AS id
-			, organisationen.contact AS title, places.contact AS veranstaltungsort
+	$sql = 'SELECT organisationen.contact AS title, places.contact AS veranstaltungsort
 			, latitude AS x_latitude, longitude AS y_longitude
 			, SUBSTRING_INDEX(categories.path, "/", -1) AS category
 			, members, members_female AS female, members_u25 AS u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
@@ -184,22 +184,23 @@ function mod_clubs_vereine($params) {
 			%s %s
 		FROM contacts organisationen
 		LEFT JOIN vereinsdb_stats USING (contact_id)
-		JOIN contacts_contacts
+		LEFT JOIN contacts_contacts
 			ON contacts_contacts.main_contact_id = organisationen.contact_id
-		JOIN contacts places
+			AND contacts_contacts.published = "yes"
+			%s
+		LEFT JOIN contacts places
 			ON contacts_contacts.contact_id = places.contact_id
 		JOIN addresses
-			ON places.contact_id = addresses.contact_id
+			ON IFNULL(places.contact_id, organisationen.contact_id) = addresses.contact_id
 		JOIN categories
 			ON organisationen.contact_category_id = categories.category_id
 		WHERE ISNULL(organisationen.aufloesung)
 		AND NOT ISNULL(latitude) AND NOT ISNULL(longitude)
-		AND contacts_contacts.published = "yes"
 		AND categories.parameters LIKE "%%&organisation=1%%"
 		%s
 	';
-	$csql = sprintf($sql, $extra_field, $having, $condition);
-	$coordinates = wrap_db_fetch($csql, 'id');
+	$csql = sprintf($sql, $extra_field, $having, $condition_cc, $condition);
+	$coordinates = wrap_db_fetch($csql, '_dummy_', 'numeric');
 	if (!$coordinates) {
 		if ($having) {
 			while ($orte_umkreissuche_km < 60) {
@@ -214,7 +215,7 @@ function mod_clubs_vereine($params) {
 				}
 				$condition = sprintf($condition, $orte_umkreissuche_km); 
 				$csql = sprintf($sql, $extra_field, $having, $condition);
-				$coordinates = wrap_db_fetch($csql, 'id');
+				$coordinates = wrap_db_fetch($csql, '_dummy_', 'numeric');
 				if ($coordinates) break;
 			}
 		}
@@ -500,7 +501,7 @@ function mod_clubs_vereine_json($coordinates, $identifier) {
 	];
 	$data = [];
 	$data['type'] = 'FeatureCollection';
-	foreach ($coordinates as $coordinate) {
+	foreach ($coordinates as $index => $coordinate) {
 		$properties = [
 			'org' => $coordinate['title'],
 			'identifier' => $coordinate['identifier'],
@@ -513,7 +514,7 @@ function mod_clubs_vereine_json($coordinates, $identifier) {
 		}
 		$data['features'][] = [
 			'type' => 'Feature',
-			'id' => $coordinate['id'],
+			'id' => $index,
 			'properties' => $properties,
 			'geometry' => [
 				'type' => 'Point',
