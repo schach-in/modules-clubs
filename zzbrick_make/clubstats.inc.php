@@ -23,10 +23,19 @@
  */
 function mod_clubs_make_clubstats() {
 	global $zz_setting;
+	require_once $zz_setting['core'].'/syndication.inc.php';
 	$zz_setting['cache'] = false;
 
 	if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 		$data['request'] = true;
+		$page['text'] = wrap_template('clubstats', $data);
+		return $page;
+	}
+
+	$wait_seconds = 300;
+	$lock = wrap_lock('clubstats', 'wait', $wait_seconds);
+	if ($lock) {
+		$data['wait'] = $wait_seconds;
 		$page['text'] = wrap_template('clubstats', $data);
 		return $page;
 	}

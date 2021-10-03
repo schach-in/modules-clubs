@@ -8,6 +8,9 @@
 # @copyright Copyright © 2021 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
+%%% condition if wait %%%
+<p class="error">Bitte warten. Die Statistik kann nur einmal alle %%% item wait wrap_duration %%% aktualisiert werden.</p>
+%%% condition endif %%%
 %%% condition if request %%%
 <form method="POST" action="">
 <input type="submit" value="Vereinsstatistik aktualisieren">
