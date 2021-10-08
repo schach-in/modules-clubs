@@ -394,7 +394,11 @@ function mod_clubs_vereine_condition($q) {
 			// if it has a space in the name, test all parts separately
 			// to avoid cases like Bremen Nord != Bremen-Nord
 			$condition = '';
-			$qs = explode(' ', $q);
+			if (str_starts_with($q, '"') AND str_ends_with($q, '"')) {
+				$qs[0] = substr($q, 1, -1);
+			} else {
+				$qs = explode(' ', $q);
+			}
 			$condition .= ' AND ((';
 			foreach ($qs as $index => $q) {
 				if ($index) $condition .= ' AND ';
