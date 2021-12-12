@@ -53,7 +53,7 @@ if (empty($verein['parameters']['foundation_date'])) {
 $zz['fields'][97]['hide_in_form'] = true;	// created
 
 $zz['fields'][12]['explanation'] = 'Etwas über Ihren Verein (optional)'; // description
-$zz['fields'][71]['title'] = 'Bundesland'; // country_id
+$zz['fields'][18]['title'] = 'Bundesland'; // country_id
 $zz['fields'][16]['explanation'] = 'Falls bekannt: Datum oder Jahr der Gründung'; // start_date
 
 // Spielorte
