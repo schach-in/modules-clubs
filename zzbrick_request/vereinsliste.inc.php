@@ -31,7 +31,7 @@ function mod_clubs_vereinsliste($params) {
 	if ($verband) {
 		$condition = sprintf('WHERE mother_contact_id = %d
 			AND contact_category_id IN (%d, %d) 
-			AND ISNULL(aufloesung)'
+			AND ISNULL(end_date)'
 			, $verband['contact_id']
 			, wrap_category_id('contact/club')
 			, wrap_category_id('contact/chess-department')
@@ -70,7 +70,7 @@ function mod_clubs_vereinsliste($params) {
 				AND contacts_contacts.published = "yes"), "ja", "nein"
 			) AS spielort
 			, 1 AS _level
-			, aufloesung
+			, end_date
 			%s
 		FROM contacts
 		LEFT JOIN contacts_identifiers USING (contact_id)

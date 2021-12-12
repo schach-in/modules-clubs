@@ -51,7 +51,7 @@ function mod_clubs_verbandsliste($params) {
 			ON contacts_identifiers.contact_id = contacts.contact_id
 			AND contacts_identifiers.current = "yes"
 		WHERE mother_contact_id IN (%s)
-		AND ISNULL(aufloesung)
+		AND ISNULL(end_date)
 		ORDER BY categories.sequence, contact_short, contacts_identifiers.identifier';
 	$children = wrap_db_children([$data], $sql, 'contact_id', 'mother_contact_id');
 	if (count($children['ids']) === 1) return false; // only main club

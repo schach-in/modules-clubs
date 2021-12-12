@@ -42,7 +42,7 @@
 <tbody>
 %%% loop vereine %%%
 <tr class="level%%% item _level %%% %%% loopposition uneven "un" %%%even">
-<td>%%% condition unless aufloesung %%%<a href="%%% page vereinebase %%%/%%% item identifier %%%/">%%% condition endif %%%
+<td>%%% condition unless end_date %%%<a href="%%% page vereinebase %%%/%%% item identifier %%%/">%%% condition endif %%%
 %%% condition if anzeigenamen %%%
 %%% loop anzeigenamen %%%
 %%% item anzeigename %%%
@@ -51,7 +51,7 @@
 %%% condition else %%%
 %%% item contact %%%
 %%% condition endif %%%
-%%% condition unless spielort %%% &middot; Karte%%% condition endif %%%%%% condition unless aufloesung %%%</a>%%% condition endif %%%</td>
+%%% condition unless spielort %%% &middot; Karte%%% condition endif %%%%%% condition unless end_date %%%</a>%%% condition endif %%%</td>
 %%% condition unless with_usernames %%%
 %%% condition unless mit_auszeichnungen %%%
 <td>%%% item spielort %%%</td>
@@ -71,7 +71,7 @@
 %%% condition if members_female %%%
 %%% item anteil_members_female wrap_percent %%%
 %%% condition else %%%–%%% condition endif %%%</td>
-<td>%%% condition unless aufloesung %%%
+<td>%%% condition unless end_date %%%
 <a href="https://www.schachbund.de/verein/%%% item zps_code %%%.html">%%% item zps_code %%%</a>
 %%% condition endif %%%</td>
 %%% condition if auszeichnungen %%%

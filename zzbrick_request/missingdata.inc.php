@@ -25,7 +25,7 @@ function mod_clubs_missingdata($params) {
 			AND contactdetails.provider_category_id = %d
 		WHERE contact_category_id IN (%d, %d)
 		AND ISNULL(contactdetails.contactdetail_id)
-		AND ISNULL(aufloesung)
+		AND ISNULL(end_date)
 		ORDER BY identifier';
 	$sql = sprintf($sql
 		, wrap_category_id('provider/'.$params[0])

@@ -10,7 +10,7 @@
 # @copyright Copyright © 2020 Falco Nogatz
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
-# List of fields: contact_id, contact, url, aufloesung, gruendung,
+# List of fields: contact_id, contact, url, end_date, start_date,
 # description, zps_code, members, members_female, members_u25, avg_age,
 # avg_rating, nachfolger, nachfolger_kennung, category, schulschachgruppe,
 # schachkindergarten, topten { FIDE_Titel, Spielername, DWZ, FIDE_Elo, no,
@@ -43,11 +43,11 @@ Du hast einen Zugang zur DSJ-Website?
 %%% condition endif %%%
 %%% condition endif %%%
 
-%%% condition if aufloesung %%%
+%%% condition if end_date %%%
 %%% condition if schulschachgruppe %%%
-<p>Diese Schule gibt es seit <span itemprop="dissolutionDate" datetime="%%% item aufloesung %%%">%%% item aufloesung %%%</span> nicht mehr.
+<p>Diese Schule gibt es seit <span itemprop="dissolutionDate" datetime="%%% item end_date %%%">%%% item end_date %%%</span> nicht mehr.
 %%% condition else %%%
-<p>Dieser Verein wurde <span itemprop="dissolutionDate" datetime="%%% item aufloesung %%%">%%% item aufloesung %%%</span> aufgelöst oder ist nicht mehr Mitglied im Deutschen Schachbund.
+<p>Dieser Verein wurde <span itemprop="dissolutionDate" datetime="%%% item end_date %%%">%%% item end_date %%%</span> aufgelöst oder ist nicht mehr Mitglied im Deutschen Schachbund.
 %%% condition endif %%%
 %%% condition if nachfolger %%%
 Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung %%%/">%%% item nachfolger %%%</a>
@@ -141,7 +141,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 
 </script>
 %%% condition endif %%%
-%%% condition unless aufloesung %%%
+%%% condition unless end_date %%%
 %%% condition if url %%%
 %%% loop url 1 %%%
 <p>Website: <a href="%%% item identification %%%" target="_blank" itemprop="url">%%% item identification wrap_punycode_decode %%%</a></p>
@@ -169,14 +169,14 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 <tr><th>Alter</th><td class="number">∅ %%% item avg_age %%% Jahre</td></tr>
 %%% condition endif %%%
 <tr><th>Spielstärke</th><td class="number">DWZ ∅ %%% item avg_rating %%%</td></tr>
-%%% condition if gruendung %%%
-<tr><th>Gründung</th><td class="number" itemprop="foundingDate" datetime="%%% item gruendung %%%">%%% item gruendung wrap_date %%%
+%%% condition if start_date %%%
+<tr><th>Gründung</th><td class="number" itemprop="foundingDate" datetime="%%% item start_date %%%">%%% item start_date wrap_date %%%
 %%% condition if edit %%%
-<p><a href="info/?focus=gruendung" class="edit">Gründungsdatum ändern</a></p>
+<p><a href="info/?focus=start_date" class="edit">Gründungsdatum ändern</a></p>
 %%% condition endif %%%
 </td></tr>
 %%% condition elseif edit %%%
-<tr><th>Gründung</th><td class="number"><p><a href="info/?focus=gruendung" class="edit">Gründungsdatum ergänzen</a></p></td></tr>
+<tr><th>Gründung</th><td class="number"><p><a href="info/?focus=start_date" class="edit">Gründungsdatum ergänzen</a></p></td></tr>
 %%% condition endif %%%
 </table>
 %%% condition endif %%%
@@ -194,7 +194,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 </ul>
 
 %%% condition endif %%%
-%%% condition unless aufloesung %%%
+%%% condition unless end_date %%%
 %%% condition if username %%%
 <h2>Schachseiten und Social Media</h2>
 %%% loop username %%%
@@ -258,7 +258,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% condition endif %%%
 
 %%% condition unless edit %%%
-%%% condition unless aufloesung %%%
+%%% condition unless end_date %%%
 %%% condition if verein | schachabteilung %%%
 <form method="post" action="bearbeiten/" class="edit"><input type="submit" value="Daten ergänzen oder korrigieren" name="button"></form>
 %%% condition endif %%%

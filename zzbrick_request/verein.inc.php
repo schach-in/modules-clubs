@@ -29,7 +29,7 @@ function mod_clubs_verein($params) {
 		$sql = 'SELECT contact_id, contact
 			FROM contacts
 			WHERE identifier = "%s"
-			AND ISNULL(aufloesung)';
+			AND ISNULL(end_date)';
 		$sql = sprintf($sql, wrap_db_escape($params[0]));
 		$org = wrap_db_fetch($sql);
 		if (!$org) return false;
@@ -119,7 +119,7 @@ function mod_clubs_verein($params) {
 	if (count($params) !== 1) return false;
 
 	$sql = 'SELECT org.contact_id, org.contact
-			, YEAR(org.aufloesung) AS aufloesung, org.gruendung, org.description
+			, YEAR(org.end_date) AS end_date, org.start_date, org.description
 			, ok.identifier AS zps_code
 			, members, members_female, members_u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
 			, members_passive
@@ -166,7 +166,7 @@ function mod_clubs_verein($params) {
 		$org['keine_statistik'] = true;
 	}
 	$org['edit'] = $edit;
-	if ($org['aufloesung']) {
+	if ($org['end_date']) {
 		$page['status'] = 410;
 		$org['edit'] = false;
 	}
