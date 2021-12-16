@@ -1,0 +1,25 @@
+# clubs module
+# HEAD section for clubs map
+#
+# Part of »Zugzwang Project«
+# https://www.zugzwang.org/modules/clubs
+#
+# @author Falco Nogatz <fnogatz@gmail.com>
+# @author Gustaf Mossakowski <gustaf@koenige.org>
+# @copyright Copyright © 2021 Falco Nogatz
+# @copyright Copyright © 2021 Gustaf Mossakowski
+# @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+#
+%%% include vereine-map-head %%%
+	<script type="application/ld+json">
+	{
+	   "@context": "http://schema.org",
+	   "@type": "WebSite",
+	   "url": "%%% setting host_base %%%%%% setting request_uri %%%",
+	   "potentialAction": {
+		 "@type": "SearchAction",
+		 "target": "%%% setting host_base %%%/?q={search_term_string}",
+		 "query-input": "required name=search_term_string"
+	   }
+	}
+	</script>

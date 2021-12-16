@@ -311,7 +311,7 @@ function mod_clubs_vereine($params) {
 	$page['query_strings'][] = 'lat';
 	$page['query_strings'][] = 'lon';
 	$page['query_strings'][] = 'embed';
-	$page['head'] = wrap_template('vereine-map-head');
+	$page['head'] = wrap_template('clubs-head');
 	$page['extra']['body_attributes'] = 'id="map"';
 	if ($data['noindex']) {
 		$page['meta'][] = [
