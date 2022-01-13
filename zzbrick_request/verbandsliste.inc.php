@@ -28,7 +28,11 @@ function mod_clubs_verbandsliste($params) {
 	if (!$data) {
 		$categories = mf_clubs_from_category($params[0]);
 		if (!$categories) {
-			$sql = sprintf(wrap_sql('redirects'), '/'.$params[0], '/'.$params[0], '/'.$params[0]);
+			$sql = sprintf(wrap_sql('redirects')
+				, '/'.wrap_db_escape($params[0])
+				, '/'.wrap_db_escape($params[0])
+				, '/'.wrap_db_escape($params[0])
+			);
 			$redirect = wrap_db_fetch($sql);
 			if (!$redirect) return false;
 			return wrap_redirect(sprintf('%sliste/', $redirect['new_url']));
