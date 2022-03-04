@@ -9,7 +9,7 @@
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
  * @author Falco Nogatz <fnogatz@gmail.com>
- * @copyright Copyright © 2015-2021 Gustaf Mossakowski
+ * @copyright Copyright © 2015-2022 Gustaf Mossakowski
  * @copyright Copyright © 2020      Falco Nogatz <fnogatz@gmail.com>
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
@@ -19,8 +19,6 @@ function mod_clubs_verein($params) {
 	global $zz_setting;
 	global $zz_conf;
 	
-	require_once $zz_setting['custom_wrap_dir'].'/personen.inc.php';
-
 	if (!isset($params[0])) return false;
 	if (strstr($params[0], '=')) return false;
 	$edit = false;
