@@ -38,8 +38,8 @@
 <p><strong>Hinweis:</strong> Deine Änderungen werden erst nach Prüfung durch uns
 für alle sichtbar freigegeben. Für die Änderungen speichern wir Deine IP-Adresse
 <code>%%% item remote_addr %%%</code>. 
-Du hast einen Zugang zur DSJ-Website?
-<a href="https://www.deutsche-schachjugend.de/s-in%%% item request_uri %%%">Dann melde Dich an!</a></p>
+Du hast einen Zugang zu unserer Website?
+<a href="https://in.schach.in/s-in%%% item request_uri %%%">Dann melde Dich an!</a></p>
 %%% condition endif %%%
 %%% condition endif %%%
 
