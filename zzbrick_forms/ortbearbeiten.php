@@ -66,15 +66,16 @@ $zz['fields'][24]['min_records'] = 1;
 $zz['fields'][24]['max_records'] = 1;
 $zz['fields'][24]['sql'] .= sprintf(' WHERE contacts.contact_id = %d', $verein['contact_id']);
 $zz['fields'][44] = $zz['fields'][24];
+
 $zz['fields'][24]['fields'][2]['suffix'] = '';
 $zz['fields'][24]['fields'][9]['prefix'] = '';
-$zz['fields'][24]['fields'][6]['prefix'] = '';
-$zz['fields'][24]['fields'][6]['suffix'] = '';
-
 unset($zz['fields'][24]['fields'][6]);
+unset($zz['fields'][24]['fields'][11]); // role
 $zz['fields'][24]['fields'][9]['type'] = 'memo';
 $zz['fields'][24]['fields'][9]['rows'] = 4;
 $zz['fields'][24]['fields'][9]['format'] = 'markdown';
+unset($zz['fields'][24]['fields'][9]['explanation']);
+$zz['fields'][24]['fields'][10]['hide_in_form'] = true;
 $zz['fields'][24]['hide_in_list'] = true;
 $zz['fields'][24]['title'] = 'Hinweis <br>Verein';
 if (empty($_SESSION['login_id'])) {
@@ -90,6 +91,8 @@ $zz['fields'][44]['subselect']['sql'] = 'SELECT contact_id, reihenfolge
 	LEFT JOIN contacts
 		ON contacts_contacts.main_contact_id = contacts.contact_id
 	ORDER BY contact';
+unset($zz['fields'][44]['fields'][11]); // role
+$zz['fields'][44]['fields'][10]['hide_in_form'] = true;
 
 // Add geht nicht
 $zz['fields'][44]['if']['add'] = false;
@@ -98,6 +101,10 @@ $zz['fields'][32]['title'] = 'Telefon';
 $zz['fields'][32]['fields'][3]['explanation'] = 'Festnetz vor Ort. '.$zz['fields'][32]['fields'][3]['explanation'];
 
 $zz['fields'][30]['hide_in_form'] = true; // E-Mail
+
+$zz['fields'][31]['fields'][3]['explanation'] = 'Nur Website des Spielortes, falls vorhanden, nicht Vereinswebsite.';
+
+unset($zz['fields'][13]); // internal remarks
 
 $zz['fields'][99]['hide_in_form'] = true;
 
