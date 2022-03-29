@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016-2017, 2019-2021 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2017, 2019-2022 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -64,7 +64,7 @@ $zz['fields'][12]['rows'] = 4;
 $zz['fields'][24]['fields'][2]['hide_in_form'] = true;
 $zz['fields'][24]['min_records'] = 1;
 $zz['fields'][24]['max_records'] = 1;
-$zz['fields'][24]['sql'] .= sprintf(' WHERE organisationen.contact_id = %d', $verein['contact_id']);
+$zz['fields'][24]['sql'] .= sprintf(' WHERE contacts.contact_id = %d', $verein['contact_id']);
 $zz['fields'][44] = $zz['fields'][24];
 $zz['fields'][24]['fields'][2]['suffix'] = '';
 $zz['fields'][24]['fields'][9]['prefix'] = '';
@@ -94,10 +94,10 @@ $zz['fields'][44]['subselect']['sql'] = 'SELECT contact_id, reihenfolge
 // Add geht nicht
 $zz['fields'][44]['if']['add'] = false;
 
-$zz['fields'][30]['title'] = 'Telefon';
-$zz['fields'][30]['fields'][3]['explanation'] = 'Festnetz vor Ort. '.$zz['fields'][30]['fields'][3]['explanation'];
+$zz['fields'][32]['title'] = 'Telefon';
+$zz['fields'][32]['fields'][3]['explanation'] = 'Festnetz vor Ort. '.$zz['fields'][32]['fields'][3]['explanation'];
 
-$zz['fields'][32]['hide_in_form'] = true; // E-Mail
+$zz['fields'][30]['hide_in_form'] = true; // E-Mail
 
 $zz['fields'][99]['hide_in_form'] = true;
 
