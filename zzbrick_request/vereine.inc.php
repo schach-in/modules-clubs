@@ -407,7 +407,7 @@ function mod_clubs_vereine_condition($q) {
 				$condition .= sprintf('OR organisationen.identifier LIKE LOWER(_latin1"%%%s%%")', wrap_db_escape($q));
 				$condition .= sprintf('OR (SELECT identification FROM contactdetails
 					WHERE contactdetails.contact_id = organisationen.contact_id
-					AND provider_category_id = %d) LIKE "%%%s%%"', wrap_category_id('provider/website'), wrap_db_escape($q));
+					AND provider_category_id = %d LIKE "%%%s%%")', wrap_category_id('provider/website'), wrap_db_escape($q));
 			}
 			$condition .= ') OR (';
 			foreach ($qs as $index => $q) {
@@ -415,7 +415,7 @@ function mod_clubs_vereine_condition($q) {
 				$condition .= sprintf('place LIKE "%%%s%%"', wrap_db_escape($q));
 				$condition .= sprintf('OR (SELECT identification FROM contactdetails
 					WHERE contactdetails.contact_id = organisationen.contact_id
-					AND provider_category_id = %d) LIKE "%%%s%%"', wrap_category_id('provider/website'), wrap_db_escape($q));
+					AND provider_category_id = %d LIKE "%%%s%%")', wrap_category_id('provider/website'), wrap_db_escape($q));
 			}
 			$condition .= '))';
 		}
