@@ -158,6 +158,8 @@ unset($zz['fields'][60]['fields'][9]['explanation']);
 // contacts_contacts.published
 if (empty($_SESSION['login_id'])) {
 	$zz['fields'][60]['if']['add']['fields'][10]['value'] = 'no';
+} else {
+	$zz['fields'][60]['if']['add']['fields'][10]['value'] = 'yes';
 }
 
 // start_date
