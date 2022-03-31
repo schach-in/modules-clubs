@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016, 2019-2021 Gustaf Mossakowski
+ * @copyright Copyright © 2016, 2019-2022 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -30,8 +30,30 @@ if (!$cc_id) {
 	wrap_quit(404);
 }
 
+wrap_module_activate('contacts');
 $zz = zzform_include_table('contacts-contacts');
 $zz['where']['cc_id'] = $cc_id;
+
+// sequence
+$zz['fields'][6]['title'] = 'Reihenfolge'; // @todo remove, is in contacts module text
+
+// contact_id
+$zz['fields'][2]['title'] = 'Spielort';
+
+// relation_category_id
+$zz['fields'][4]['hide_in_form'] = true;
+
+// main_contact_id
+$zz['fields'][3]['hide_in_form'] = true;
+
+// role
+$zz['fields'][11]['hide_in_form'] = true;
+
+// remarks
+$zz['fields'][9]['title'] = 'Hinweis<br> Verein';
+
+// published
+$zz['fields'][10]['hide_in_form'] = true;
 
 // @todo $zz['access'] = 'delete_only';
 if (empty($_POST)) $_GET['mode'] = 'delete';
