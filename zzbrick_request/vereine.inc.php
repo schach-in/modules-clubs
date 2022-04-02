@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2015-2021 Gustaf Mossakowski
+ * @copyright Copyright © 2015-2022 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -27,6 +27,16 @@ function mod_clubs_vereine($params) {
 	}
 	if ($_SERVER['REQUEST_URI'] === '/' AND empty($_GET)) {
 		return wrap_redirect('/deutschland', 307);
+	}
+
+	// check if lat or lon are numeric values, if not, still show output, but send 404 page status
+	if (isset($_GET['lat']) AND !is_numeric($_GET['lat'])) {
+		$_GET['lat'] = filter_var($_GET['lat'], FILTER_SANITIZE_NUMBER_FLOAT);
+		$page['status'] = 404;
+	}
+	if (isset($_GET['lon']) AND !is_numeric($_GET['lon'])) {
+		$_GET['lon'] = filter_var($_GET['lon'], FILTER_SANITIZE_NUMBER_FLOAT);
+		$page['status'] = 404;
 	}
 
 	$data['noindex'] = false;
@@ -143,8 +153,6 @@ function mod_clubs_vereine($params) {
 	if (!empty($_GET['lat']) AND empty($_GET['lon'])) return false;
 	if (!empty($_GET['lon']) AND empty($_GET['lat'])) return false;
 	if (!$condition AND !empty($_GET['lat']) AND !empty($_GET['lon'])) {
-		if (!is_numeric($_GET['lat'])) return false;
-		if (!is_numeric($_GET['lon'])) return false;
 		$condition[] = [
 			'lat' => $_GET['lat'], 'lon' => $_GET['lon']
 		];
