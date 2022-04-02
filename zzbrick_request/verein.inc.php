@@ -220,7 +220,8 @@ function mod_clubs_verein($params) {
 		$details = mf_contacts_contactdetails(array_keys($org['orte']));
 	} else {
 		$addresses = mf_contacts_addresses($org['contact_id']);
-		$org['orte'][$org['contact_id']] = reset($addresses); // only one = @todo change key to address_id
+		if ($addresses)
+			$org['orte'][$org['contact_id']] = reset($addresses); // only one = @todo change key to address_id
 		$details[$org['contact_id']] = mf_contacts_contactdetails($org['contact_id']);
 	}
 
@@ -416,7 +417,7 @@ function mod_clubs_verein($params) {
 
 	// Karte mit Spielorten
 	foreach ($org['orte'] as $id => $ort) {
-		if (!$ort['longitude']) continue; // platforms
+		if (empty($ort['longitude'])) continue; // platforms
 		if ($org['edit']) $org['orte'][$id]['edit'] = true;
 		$longitude[] = $ort['longitude'];
 		$latitude[] = $ort['latitude'];
