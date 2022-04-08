@@ -458,6 +458,15 @@ function mod_clubs_verein($params) {
 		$page['extra']['body_attributes'] = ' id="clubmap"';
 	}
 	$page['dont_show_h1'] = true;
+	if (!empty($org['description'])) {
+	    $description = markdown($org['description']);
+	    $description = strip_tags($description);
+	    $description = str_replace("\n", " ", $description);
+		$description = substr($description, 0, 160);
+		$page['opengraph']['og:description'] = substr($description, 0, strrpos($description, ' '));
+	} else {
+		$page['opengraph']['og:description'] = 'Profil bei schach.in';
+	}
 	$page['text'] = wrap_template('verein', $org);
 	return $page;
 }
