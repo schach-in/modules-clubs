@@ -132,7 +132,7 @@ function mod_clubs_vereine($params) {
 		}
 	}
 	if (!$found) {
-		$condition = (isset($_GET['q']) AND $_GET['q'] !== '') ? mod_clubs_vereine_condition($_GET['q']) : false;
+		$condition = (isset($_GET['q']) AND $_GET['q'] !== '') ? mod_clubs_vereine_condition($_GET['q']) : '';
 		$auswahl = NULL;
 		$page['query_strings'][] = 'q';
 		if ($condition) {
@@ -153,6 +153,7 @@ function mod_clubs_vereine($params) {
 	if (!empty($_GET['lat']) AND empty($_GET['lon'])) return false;
 	if (!empty($_GET['lon']) AND empty($_GET['lat'])) return false;
 	if (!$condition AND !empty($_GET['lat']) AND !empty($_GET['lon'])) {
+		$condition = [];
 		$condition[] = [
 			'lat' => $_GET['lat'], 'lon' => $_GET['lon']
 		];
