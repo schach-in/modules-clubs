@@ -231,7 +231,7 @@ function mod_clubs_verein($params) {
 	}
 
 	$sql = 'SELECT team_id, event, team, team_no
-			, teams.kennung AS team_identifier
+			, teams.identifier AS team_identifier
 			, events.event
 			, CONCAT(events.date_begin, "/", IFNULL(events.date_end, "")) AS duration
 			, categories.category AS series
