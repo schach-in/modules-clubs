@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016, 2019, 2021 Gustaf Mossakowski
+ * @copyright Copyright © 2016, 2019, 2021-2022 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -36,9 +36,10 @@ $zz['fields'][4]['sql'] = wrap_edit_sql($zz['fields'][4]['sql'], 'WHERE',
 $zz['fields'][4]['show_values_as_list'] = true;
 
 $zz['fields'][2]['type'] = 'hidden'; 		// contact
+$zz['fields'][77]['hide_in_form'] = true;	// address
 $zz['fields'][10]['hide_in_form'] = true;	// contact_short
 $zz['fields'][11]['hide_in_form'] = true;	// contact_abbr
-$zz['fields'][72]['hide_in_form'] = true;	// mother_contact_id
+$zz['fields'][74]['hide_in_form'] = true;	// mother_contact_id
 $zz['fields'][75]['hide_in_form'] = true;	// table contacts-identifiers
 $zz['fields'][3]['hide_in_form'] = true;	// identifier
 $zz['fields'][16]['append_next'] = false;	// start_date
