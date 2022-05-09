@@ -63,6 +63,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 			$condition = sprintf('AND organisationen.mother_contact_id IN (%s)', implode(',', $contact_ids));
 			$data['title'] = $haupt_org['contact'];
 			$data['zoomtofit'] = true;
+			if ($contact_ids) $data['federation_with_clubs'] = true;
 		} else {
 			$categories = mf_clubs_from_category($params[0]);
 			if ($categories) {

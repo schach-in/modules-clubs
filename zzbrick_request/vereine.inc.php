@@ -99,7 +99,8 @@ function mod_clubs_vereine($params, $settings = []) {
 				return wrap_redirect(sprintf('/%s/', $verein['identifier']));
 			}
 		}
-		if (!empty($haupt_org) AND count($contact_ids) > 1) {
+		
+		if (!empty($data['federation_with_clubs'])) {
 			return wrap_redirect(sprintf('/%s/liste/', $params[0]), 307);
 		}
 		$page['status'] = 404;
