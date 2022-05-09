@@ -72,7 +72,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 		$data['geojson'] = $params[0];
 
 	} elseif ($search = !empty($_GET['q']) ? $_GET['q'] : urldecode($params[0])
-		AND $condition = mod_clubs_vereine_condition($search)
+		AND $condition = mod_clubs_get_clubs_condition($search)
 	) {
 		if (!empty($condition[0]['boundingbox'])) {
 			$data['boundingbox'] = sprintf(
@@ -189,7 +189,7 @@ function mod_clubs_get_clubs_federation($identifier) {
  * @param string $q
  * @return mixed string: SQL condition, array: list of results
  */
-function mod_clubs_vereine_condition($q) {
+function mod_clubs_get_clubs_condition($q) {
 	if ($q === 'deutschland') $q = '';
 	$condition = '';
 	if (strstr($q, '%')) return "AND 1=2"; // no % allowed, most of the time hackers
@@ -199,7 +199,7 @@ function mod_clubs_vereine_condition($q) {
 
 	if (strstr($q, '/')) $q = str_replace('/', ' ', $q);
 	if (strstr($q, ' ')) {
-		$q = mod_clubs_vereine_condition_parts($q);
+		$q = mod_clubs_get_clubs_condition_parts($q);
 	}
 
 	// replace small 'o's which were 0s in the typewriter age
@@ -220,7 +220,7 @@ function mod_clubs_vereine_condition($q) {
 			$url = 'postalcode=%s&countrycodes=de&format=jsonv2&accept-language=de&limit=1';
 			while (!$condition) {
 				// try postcodes nearby, +1, -1 to +8 -8
-				$condition = mod_clubs_vereine_geocode($url, $postcode);
+				$condition = mod_clubs_get_clubs_geocode($url, $postcode);
 				$counter++;
 				$postcode = sprintf('%05d', $counter & 1 ? $q - ceil($counter/2) : $q + ceil($counter/2));
 				if ($counter > 16) break;
@@ -246,7 +246,7 @@ function mod_clubs_vereine_condition($q) {
 			'administrative', 'city', 'suburb', 'village', 'hamlet', 'town',
 			'neighbourhood', 'county'
 		];
-		$condition = mod_clubs_vereine_geocode($url, $q, $wanted);
+		$condition = mod_clubs_get_clubs_geocode($url, $q, $wanted);
 		if (!$condition) {
 			// if it has a space in the name, test all parts separately
 			// to avoid cases like Bremen Nord != Bremen-Nord
@@ -288,7 +288,7 @@ function mod_clubs_vereine_condition($q) {
  * @param string $q
  * @return mixed string $q or array with postcodes
  */
-function mod_clubs_vereine_condition_parts($q) {
+function mod_clubs_get_clubs_condition_parts($q) {
 	$search = explode(' ', $q);
 	foreach ($search as $value) {
 		if (!is_numeric($value)) continue;
@@ -324,7 +324,7 @@ function mod_clubs_vereine_condition_parts($q) {
  * @return array
  * @see http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
  */
-function mod_clubs_vereine_geocode($url, $q, $wanted = []) {
+function mod_clubs_get_clubs_geocode($url, $q, $wanted = []) {
 	global $zz_setting;
 	require_once $zz_setting['core'].'/syndication.inc.php';
 
