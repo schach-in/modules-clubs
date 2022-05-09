@@ -17,6 +17,16 @@ function mod_clubs_vereine($params) {
 	global $zz_setting;
 	if (count($params) > 2) return false;
 
+	// divert?
+	if (end($params) === 'liste') {
+		array_pop($params);
+		if (empty($params)) $params[0] = 'dsb';
+		if ($params[0] === 'twitter')
+			return brick_format('%%% request vereinsliste '.$params[0].' %%%');
+		return brick_format('%%% request verbandsliste '.$params[0].' %%%');
+	}
+	if (count($params) > 1) return false;
+
 	if (isset($_GET['q']) AND $_GET['q'] !== '') {
 		$_GET['q'] = trim($_GET['q']);
 		if (strlen($_GET['q']) > 64) {
@@ -52,11 +62,6 @@ function mod_clubs_vereine($params) {
 	if (!$params) {
 		$data['identifier'] = 'deutschland';
 	} elseif ($params[0] === 'twitter') {
-		switch (end($params)) {
-		case 'liste':
-			array_pop($params);
-			return brick_format('%%% request vereinsliste '.$params[0].' %%%');
-		}
 		$extra_field = sprintf(', (SELECT COUNT(*) FROM contactdetails
 			WHERE contactdetails.contact_id = organisationen.contact_id
 			AND provider_category_id = %d) AS website_username', wrap_category_id('provider/twitter'));
@@ -65,13 +70,6 @@ function mod_clubs_vereine($params) {
 		$auswahl = 'Twitter';
 		$data['identifier'] = $params[0];
 	} else {
-		switch (end($params)) {
-		case 'liste':
-			array_pop($params);
-			if (empty($params)) $params[0] = 'dsb';
-			return brick_format('%%% request verbandsliste '.$params[0].' %%%');
-		}
-		if (count($params) > 1) return false;
 		$data['identifier'] = $params[0];
 		$sql = 'SELECT contact_id, contact
 			FROM contacts
