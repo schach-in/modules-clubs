@@ -1,0 +1,31 @@
+# clubs module
+# HTML output: state list
+#
+# Part of »Zugzwang Project«
+# https://www.zugzwang.org/modules/clubs
+#
+# @author Gustaf Mossakowski <gustaf@koenige.org>
+# @copyright Copyright © 2022 Gustaf Mossakowski
+# @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+#
+<div class="statistics">
+<table>
+<thead>
+<tr>
+<th>Bundesland</th>
+<th class="maincol">Anzahl</th>
+</tr>
+</thead>
+<tbody>
+%%% loop start %%%
+<tr class="level%%% item _level %%% %%% loopposition uneven "un" %%%even">
+<td>
+%%% item country %%% <a href="../%%% item identifier %%%/">Karte</a> &middot; <a href="../%%% item identifier %%%/liste/">Liste</a>
+<td class="number maincol">%%% item contact_count wrap_number %%%</td>
+</tr>
+%%% loop end %%%
+</tbody>
+</table>
+</div>
+
+<p><a href="../">Anzeige auf der Karte</a></p>
