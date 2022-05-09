@@ -85,7 +85,6 @@ function mod_clubs_get_clubs($params, $settings = []) {
 	if (!$found) {
 		$condition = (isset($_GET['q']) AND $_GET['q'] !== '') ? mod_clubs_vereine_condition($_GET['q']) : '';
 		$data['title'] = NULL;
-		$page['query_strings'][] = 'q';
 		if ($condition) {
 			if (!empty($condition[0]['boundingbox'])) {
 				$data['boundingbox'] = sprintf(

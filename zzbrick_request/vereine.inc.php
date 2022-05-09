@@ -34,6 +34,8 @@ function mod_clubs_vereine($params, $settings = []) {
 	if ($_SERVER['REQUEST_URI'] === '/' AND empty($_GET)) {
 		return wrap_redirect('/deutschland', 307);
 	}
+	if (empty($params))
+		$page['query_strings'][] = 'q';
 
 	// check if lat or lon are both set or not set and if they are numeric values
 	// if not numeric, still show output, but send 404 page status
@@ -124,7 +126,8 @@ function mod_clubs_vereine($params, $settings = []) {
 		}
 	}
 	
-	$data['q'] = isset($_GET['q']) ? $_GET['q'] : false;
+	if (empty($data['q']))
+		$data['q'] = isset($_GET['q']) ? $_GET['q'] : false;
 	if ($data['q'] === '0') $data['q'] = 0;
 	$data['lat'] = isset($_GET['lat']) ? $_GET['lat'] : false;
 	$data['lon'] = isset($_GET['lon']) ? $_GET['lon'] : false;
