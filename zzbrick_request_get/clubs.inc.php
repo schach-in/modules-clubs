@@ -14,6 +14,9 @@
 
 
 function mod_clubs_get_clubs($params, $settings = []) {
+	if (count($params) > 1) return [];
+	if (empty($params)) $params[0] = false;
+
 	if (isset($_GET['q']) AND $_GET['q'] !== '') {
 		$_GET['q'] = trim($_GET['q']);
 		if (strlen($_GET['q']) > 64) {
@@ -176,25 +179,24 @@ function mod_clubs_get_clubs($params, $settings = []) {
 	';
 	$csql = sprintf($sql, $extra_field, $having, $condition_cc, $condition);
 	$data['coordinates'] = wrap_db_fetch($csql, '_dummy_', 'numeric');
-	if (!$data['coordinates']) {
-		if ($having) {
-			while ($orte_umkreissuche_km < 60) {
-				$condition = 'HAVING distance <= %d ORDER BY distance';
-				$orte_umkreissuche_km += 5;
-				switch ($orte_umkreissuche_km) {
-					case 10: $data['maxzoom'] = 12; break;
-					case 15: $data['maxzoom'] = 11; break;
-					case 30: $data['maxzoom'] = 10; break;
-					case 40: $data['maxzoom'] = 9; break;
-					case 50: $data['maxzoom'] = 8; break;
-				}
-				$condition = sprintf($condition, $orte_umkreissuche_km); 
-				$csql = sprintf($sql, $extra_field, $having, $condition_cc, $condition);
-				$data['coordinates'] = wrap_db_fetch($csql, '_dummy_', 'numeric');
-				if ($data['coordinates']) break;
+	if (!$data['coordinates'] AND $having) {
+		while ($orte_umkreissuche_km < 60) {
+			$condition = 'HAVING distance <= %d ORDER BY distance';
+			$orte_umkreissuche_km += 5;
+			switch ($orte_umkreissuche_km) {
+				case 10: $data['maxzoom'] = 12; break;
+				case 15: $data['maxzoom'] = 11; break;
+				case 30: $data['maxzoom'] = 10; break;
+				case 40: $data['maxzoom'] = 9; break;
+				case 50: $data['maxzoom'] = 8; break;
 			}
+			$condition = sprintf($condition, $orte_umkreissuche_km); 
+			$csql = sprintf($sql, $extra_field, $having, $condition_cc, $condition);
+			$data['coordinates'] = wrap_db_fetch($csql, '_dummy_', 'numeric');
+			if ($data['coordinates']) break;
 		}
 	}
+
 	return $data;
 }
 
