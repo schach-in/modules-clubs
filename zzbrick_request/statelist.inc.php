@@ -22,11 +22,13 @@ function mod_clubs_statelist($params, $settings) {
 				%s) AS contact_count
 			, 1 as _level
 		FROM countries
-		WHERE country_category_id = %d
+		WHERE country_category_id IN (%d, %d)
+		HAVING contact_count > 0
 		ORDER BY country';
 	$sql = sprintf($sql
 		, (!empty($settings['category']) ? sprintf('AND contact_category_id = %d', wrap_category_id('contact/'.$settings['category'])) : '')
 		, wrap_category_id('politische-einheiten/staat/bundesland')
+		, wrap_category_id('politische-einheiten/staat/bundesland/teil')
 	);
 	$data = wrap_db_fetch($sql, 'country_id');
 	
