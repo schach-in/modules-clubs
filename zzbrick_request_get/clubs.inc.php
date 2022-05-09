@@ -92,7 +92,8 @@ function mod_clubs_get_clubs($params, $settings = []) {
 					, $condition[0]['boundingbox'][0], $condition[0]['boundingbox'][2]
 					, $condition[0]['boundingbox'][1], $condition[0]['boundingbox'][3]
 				);
-				$data['maxzoom'] = 12;
+				$data['maxzoom'] = 13;
+				$data['reselect'] = (count($condition) !== 1) ? $condition : [];
 			} else {
 				$data['zoomtofit'] = true;
 			}
@@ -111,18 +112,11 @@ function mod_clubs_get_clubs($params, $settings = []) {
 			, $_GET['lat'], $_GET['lon']
 		);
 		$data['noindex'] = true;
-	}
-	if (is_array($condition)) {
-		$data['reselect'] = (count($condition) !== 1) ? $condition : [];
-		$result = reset($condition);
-		if (!empty($result['boundingbox'])) {
-			$data['boundingbox'] = sprintf(
-				'[[%s, %s], [%s, %s]]'
-				, $result['boundingbox'][0], $result['boundingbox'][2]
-				, $result['boundingbox'][1], $result['boundingbox'][3]
-			);
-		}
 		$data['maxzoom'] = 13;
+	}
+
+	if (is_array($condition)) {
+		$result = reset($condition);
 		$condition = 'HAVING distance <= %d ORDER BY distance';
 		$orte_umkreissuche_km = 5;
 		$condition = sprintf($condition, $orte_umkreissuche_km); 
