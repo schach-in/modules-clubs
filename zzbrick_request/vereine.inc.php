@@ -209,8 +209,8 @@ function mod_clubs_vereine($params) {
 		%s
 	';
 	$csql = sprintf($sql, $extra_field, $having, $condition_cc, $condition);
-	$coordinates = wrap_db_fetch($csql, '_dummy_', 'numeric');
-	if (!$coordinates) {
+	$data['coordinates'] = wrap_db_fetch($csql, '_dummy_', 'numeric');
+	if (!$data['coordinates']) {
 		if ($having) {
 			while ($orte_umkreissuche_km < 60) {
 				$condition = 'HAVING distance <= %d ORDER BY distance';
@@ -224,13 +224,15 @@ function mod_clubs_vereine($params) {
 				}
 				$condition = sprintf($condition, $orte_umkreissuche_km); 
 				$csql = sprintf($sql, $extra_field, $having, $condition_cc, $condition);
-				$coordinates = wrap_db_fetch($csql, '_dummy_', 'numeric');
-				if ($coordinates) break;
+				$data['coordinates'] = wrap_db_fetch($csql, '_dummy_', 'numeric');
+				if ($data['coordinates']) break;
 			}
 		}
 	}
-	if (!$coordinates) {
-		if ($content === 'geojson') return false;
+
+	if ($content === 'geojson') return mod_clubs_vereine_json($data['coordinates'], $data['geojson']);
+
+	if (!$data['coordinates']) {
 		if (!empty($_GET['q'])) {
 			$qs = explode(' ', wrap_db_escape($_GET['q']));
 			// Verein direkt?
@@ -285,14 +287,13 @@ function mod_clubs_vereine($params) {
 		$data['not_found'] = true;
 	}
 	
-	if ($content === 'geojson') return mod_clubs_vereine_json($coordinates, $data['geojson']);
 	$data['q'] = isset($_GET['q']) ? $_GET['q'] : false;
 	if ($data['q'] === '0') $data['q'] = 0;
 	$data['lat'] = isset($_GET['lat']) ? $_GET['lat'] : false;
 	$data['lon'] = isset($_GET['lon']) ? $_GET['lon'] : false;
-	$data['places'] = count($coordinates);
+	$data['places'] = count($data['coordinates']);
 	if (!$data['title']) {
-		$data['verbaende'] = !empty($_GET['q']) ? mod_clubs_vereine_verbaende($_GET['q'], $coordinates) : [];
+		$data['verbaende'] = !empty($_GET['q']) ? mod_clubs_vereine_verbaende($_GET['q'], $data['coordinates']) : [];
 	}
 	
 	$sql = 'SELECT COUNT(*) FROM contacts
@@ -503,6 +504,8 @@ function mod_clubs_vereine_condition_parts($q) {
  * @return array $page
  */
 function mod_clubs_vereine_json($coordinates, $geojson) {
+	if (!$coordinates) return false;
+
 	$page['content_type'] = 'geojson';
 	$page['query_strings'][] = 'q';
 	$page['ending'] = 'none';
