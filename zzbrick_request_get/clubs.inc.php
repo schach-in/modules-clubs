@@ -26,82 +26,74 @@ function mod_clubs_get_clubs($params, $settings = []) {
 		if (substr($_GET['q'], -1) === '*') $_GET['q'] = substr($_GET['q'], 0, -1);
 	}
 
-	$found = false;
 	$having = '';
 	$extra_field = '';
+	$condition = '';
 	$condition_cc = '';
-	if (!$params) {
-		$data['geojson'] = 'deutschland';
+	$data['geojson'] = 'deutschland';
+	if ($params[0] === 'deutschland' OR (!$params[0] AND empty($_GET))) {
+		// show all clubs
+
 	} elseif ($params[0] === 'twitter') {
 		$extra_field = sprintf(', (SELECT COUNT(*) FROM contactdetails
 			WHERE contactdetails.contact_id = organisationen.contact_id
 			AND provider_category_id = %d) AS website_username', wrap_category_id('provider/twitter'));
 		$condition = 'HAVING website_username > 0';
-		$found = true;
 		$data['title'] = 'Twitter';
 		$data['geojson'] = $params[0];
-	} else {
+
+	} elseif ($federation = mod_clubs_get_clubs_federation($params[0])) {
+		// member organisations?
+		$contact_ids = wrap_db_children(
+			$federation['contact_id'],
+			sprintf('SELECT contact_id
+			FROM contacts WHERE mother_contact_id IN (%%s)
+			AND contact_category_id = %d
+			AND ISNULL(end_date)', wrap_category_id('contact/federation'))
+		);
+		$condition = sprintf('AND organisationen.mother_contact_id IN (%s)', implode(',', $contact_ids));
+		$data['title'] = $federation['contact'];
+		$data['zoomtofit'] = true;
 		$data['geojson'] = $params[0];
-		$haupt_org = mod_clubs_get_clubs_federation($params[0]);
-		if ($haupt_org) {
-			$found = true;
-			// Unterorganisationen?
-			$contact_ids = wrap_db_children(
-				$haupt_org['contact_id'],
-				sprintf('SELECT contact_id
-				FROM contacts WHERE mother_contact_id IN (%%s)
-				AND contact_category_id = %d
-				AND ISNULL(end_date)', wrap_category_id('contact/federation'))
+		if ($contact_ids) $data['federation_with_clubs'] = true;
+
+	} elseif ($data['categories'] = mf_clubs_from_category($params[0])) {
+		$sql = 'SELECT contact_id FROM contacts
+			LEFT JOIN auszeichnungen USING (contact_id)
+			WHERE auszeichnung_category_id IN (%s)';
+		$sql = sprintf($sql, implode(',', array_keys($data['categories'])));
+		$contact_ids = wrap_db_fetch($sql, 'contact_id', 'single value');
+		if (!$contact_ids) return [];
+
+		$condition_cc = 'AND contacts_contacts.sequence = 1';
+		$condition = sprintf('AND organisationen.contact_id IN (%s)', implode(',', $contact_ids));
+
+		$category = reset($data['categories']);
+		$data['title'] = $category['category'];
+		$data['zoomtofit'] = false;
+		$data['description'] = $category['description'];
+		$data['geojson'] = $params[0];
+
+	} elseif ($search = !empty($_GET['q']) ? $_GET['q'] : urldecode($params[0])
+		AND $condition = mod_clubs_vereine_condition($search)
+	) {
+		if (!empty($condition[0]['boundingbox'])) {
+			$data['boundingbox'] = sprintf(
+				'[[%s, %s], [%s, %s]]'
+				, $condition[0]['boundingbox'][0], $condition[0]['boundingbox'][2]
+				, $condition[0]['boundingbox'][1], $condition[0]['boundingbox'][3]
 			);
-			$condition = sprintf('AND organisationen.mother_contact_id IN (%s)', implode(',', $contact_ids));
-			$data['title'] = $haupt_org['contact'];
-			$data['zoomtofit'] = true;
-			if ($contact_ids) $data['federation_with_clubs'] = true;
+			$data['maxzoom'] = 13;
+			$data['reselect'] = (count($condition) !== 1) ? $condition : [];
 		} else {
-			$data['categories'] = mf_clubs_from_category($params[0]);
-			if ($data['categories']) {
-				$found = true;
-				$sql = 'SELECT contact_id FROM contacts
-					LEFT JOIN auszeichnungen USING (contact_id)
-					WHERE auszeichnung_category_id IN (%s)';
-				$sql = sprintf($sql, implode(',', array_keys($data['categories'])));
-				$contact_ids = wrap_db_fetch($sql, 'contact_id', 'single value');
-				if (!$contact_ids) return false;
-
-				$condition_cc = 'AND contacts_contacts.sequence = 1';
-				$condition = sprintf('AND organisationen.contact_id IN (%s)', implode(',', $contact_ids));
-				$category = reset($data['categories']);
-				$data['title'] = $category['category'];
-				$data['zoomtofit'] = false;
-				$data['description'] = $category['description'];
-			} else {
-				if (empty($_GET['q'])) $_GET['q'] = urldecode($params[0]);
-				$data['url_ending'] = 'none';
-			}
+			$data['zoomtofit'] = true;
+			$data['geojson'] = $search;
 		}
-	}
+		$data['q'] = $search;
+		$data['noindex'] = true;
+		$data['url_ending'] = 'none';
 
-	$data['noindex'] = false;
-	if (!$found) {
-		$condition = (isset($_GET['q']) AND $_GET['q'] !== '') ? mod_clubs_vereine_condition($_GET['q']) : '';
-		$data['title'] = NULL;
-		if ($condition) {
-			if (!empty($condition[0]['boundingbox'])) {
-				$data['boundingbox'] = sprintf(
-					'[[%s, %s], [%s, %s]]'
-					, $condition[0]['boundingbox'][0], $condition[0]['boundingbox'][2]
-					, $condition[0]['boundingbox'][1], $condition[0]['boundingbox'][3]
-				);
-				$data['maxzoom'] = 13;
-				$data['reselect'] = (count($condition) !== 1) ? $condition : [];
-			} else {
-				$data['zoomtofit'] = true;
-			}
-			$data['noindex'] = true;
-		}
-	}
-	
-	if (!$condition AND !empty($_GET['lat']) AND !empty($_GET['lon'])) {
+	} elseif (!empty($_GET['lat']) AND !empty($_GET['lon'])) {
 		$condition = [];
 		$condition[] = [
 			'lat' => $_GET['lat'], 'lon' => $_GET['lon']
@@ -113,6 +105,9 @@ function mod_clubs_get_clubs($params, $settings = []) {
 		);
 		$data['noindex'] = true;
 		$data['maxzoom'] = 13;
+
+	} else {
+		return ['coordinates' => []];
 	}
 
 	if (is_array($condition)) {
