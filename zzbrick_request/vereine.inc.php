@@ -106,13 +106,30 @@ function mod_clubs_vereine($params, $settings = []) {
 		$page['status'] = 404;
 		$data['not_found'] = true;
 	}
+
+	if (!empty($data['categories'])) {
+		if (count($data['categories']) === 1) {
+			$data['links'][] = [
+				'url' => '../auszeichnung-und-foerderung/',
+				'title' => 'Übersichtskarte: Alle Auszeichnungen und Förderungen'
+			];
+		} else {
+			foreach ($data['categories'] as $category) {
+				if (empty($category['auszeichnungen'])) continue;
+				$data['links'][] = [
+					'url' => '../'.$category['path'].'/',
+					'title' => $category['category'].' ('.$category['auszeichnungen'].')'
+				];
+			}
+		}
+	}
 	
 	$data['q'] = isset($_GET['q']) ? $_GET['q'] : false;
 	if ($data['q'] === '0') $data['q'] = 0;
 	$data['lat'] = isset($_GET['lat']) ? $_GET['lat'] : false;
 	$data['lon'] = isset($_GET['lon']) ? $_GET['lon'] : false;
 	$data['places'] = count($data['coordinates']);
-	if (!$data['title']) {
+	if (empty($data['title'])) {
 		$data['verbaende'] = !empty($_GET['q']) ? mod_clubs_vereine_verbaende($_GET['q'], $data['coordinates']) : [];
 	}
 	
@@ -125,7 +142,7 @@ function mod_clubs_vereine($params, $settings = []) {
 	$data['vereine'] = wrap_db_fetch($sql, '', 'single value');
 
 	$page['dont_show_h1'] = true;
-	if ($data['title']) {
+	if (!empty($data['title'])) {
 		$page['title'] = 'Schachvereine: '.$data['title'];
 		$page['breadcrumbs'][] = $data['title'];
 	} else {
@@ -142,7 +159,7 @@ function mod_clubs_vereine($params, $settings = []) {
 	$page['query_strings'][] = 'embed';
 	$page['head'] = wrap_template('clubs-head');
 	$page['extra']['body_attributes'] = 'id="map"';
-	if ($data['noindex']) {
+	if (!empty($data['noindex'])) {
 		$page['meta'][] = [
 			'name' => 'robots', 'content' => 'noindex,follow'
 		];

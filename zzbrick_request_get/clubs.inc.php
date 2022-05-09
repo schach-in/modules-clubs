@@ -58,36 +58,22 @@ function mod_clubs_get_clubs($params, $settings = []) {
 			$data['zoomtofit'] = true;
 			if ($contact_ids) $data['federation_with_clubs'] = true;
 		} else {
-			$categories = mf_clubs_from_category($params[0]);
-			if ($categories) {
+			$data['categories'] = mf_clubs_from_category($params[0]);
+			if ($data['categories']) {
 				$found = true;
 				$sql = 'SELECT contact_id FROM contacts
 					LEFT JOIN auszeichnungen USING (contact_id)
 					WHERE auszeichnung_category_id IN (%s)';
-				$sql = sprintf($sql, implode(',', array_keys($categories)));
+				$sql = sprintf($sql, implode(',', array_keys($data['categories'])));
 				$contact_ids = wrap_db_fetch($sql, 'contact_id', 'single value');
 				if (!$contact_ids) return false;
 
 				$condition_cc = 'AND contacts_contacts.sequence = 1';
 				$condition = sprintf('AND organisationen.contact_id IN (%s)', implode(',', $contact_ids));
-				$category = reset($categories);
+				$category = reset($data['categories']);
 				$data['title'] = $category['category'];
 				$data['zoomtofit'] = false;
 				$data['description'] = $category['description'];
-				if (count($categories) === 1) {
-					$data['links'][] = [
-						'url' => '../auszeichnung-und-foerderung/',
-						'title' => 'Übersichtskarte: Alle Auszeichnungen und Förderungen'
-					];
-				} else {
-					foreach ($categories as $category) {
-						if (empty($category['auszeichnungen'])) continue;
-						$data['links'][] = [
-							'url' => '../'.$category['path'].'/',
-							'title' => $category['category'].' ('.$category['auszeichnungen'].')'
-						];
-					}
-				}
 			} else {
 				if (empty($_GET['q'])) $_GET['q'] = urldecode($params[0]);
 				$data['url_ending'] = 'none';
