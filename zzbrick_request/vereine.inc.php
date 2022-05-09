@@ -25,11 +25,10 @@ function mod_clubs_vereine($params, $settings = []) {
 			return brick_format('%%% request vereinsliste '.$params[0].' %%%');
 		return brick_format('%%% request verbandsliste '.$params[0].' %%%');
 	}
-	if (count($params) > 1) return false;
-
-	if (count($params) AND str_ends_with($params[0], '.geojson')) {
+	if ($params AND str_ends_with(end($params), '.geojson')) {
 		return brick_format('%%% request clubsgeojson * %%%');
 	}
+	if (count($params) > 1) return false;
 
 	if ($_SERVER['REQUEST_URI'] === '/' AND empty($_GET)) {
 		return wrap_redirect('/deutschland', 307);
@@ -111,10 +110,21 @@ function mod_clubs_vereine($params, $settings = []) {
 
 	if (!empty($data['categories'])) {
 		if (count($data['categories']) === 1) {
-			$data['links'][] = [
-				'url' => '../auszeichnung-und-foerderung/',
-				'title' => 'Übersichtskarte: Alle Auszeichnungen und Förderungen'
-			];
+			$category = reset($data['categories']);
+			switch ($category['category']) {
+			case 'Schulschachgruppe':
+				$data['links'][] = [
+					'url' => '/schulen/',
+					'title' => 'Übersichtskarte: Alle Schulschachgruppen'
+				];
+				$data['contact_category'] = 'Schulschachgruppen';
+				break;
+			default:
+				$data['links'][] = [
+					'url' => '../auszeichnung-und-foerderung/',
+					'title' => 'Übersichtskarte: Alle Auszeichnungen und Förderungen'
+				];
+			}
 		} else {
 			foreach ($data['categories'] as $category) {
 				if (empty($category['auszeichnungen'])) continue;

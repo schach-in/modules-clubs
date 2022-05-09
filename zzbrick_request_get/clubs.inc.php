@@ -14,7 +14,8 @@
 
 
 function mod_clubs_get_clubs($params, $settings = []) {
-	if (count($params) > 1) return [];
+	if (!empty($settings['category']))
+		array_unshift($params, $settings['category']);
 	if (empty($params)) $params[0] = false;
 
 	if (isset($_GET['q']) AND $_GET['q'] !== '') {
@@ -67,10 +68,18 @@ function mod_clubs_get_clubs($params, $settings = []) {
 
 		$condition_cc = 'AND contacts_contacts.sequence = 1';
 		$condition = sprintf('AND organisationen.contact_id IN (%s)', implode(',', $contact_ids));
-
-		$data['zoomtofit'] = false;
 		$data['geojson'] = $params[0];
 
+	} elseif ($data['categories'] = mod_clubs_get_clubs_from_contact_categories($params[0])) {
+		$condition = sprintf('AND organisationen.contact_category_id IN (%s)', implode(',', array_keys($data['categories'])));
+		$data['geojson'] = $params[0];
+		
+		if (!empty($params[1])) {
+			$condition .= sprintf(' AND countries.identifier = "%s"', wrap_db_escape($params[1]));
+			$data['geojson'] .= '/'.$params[1];
+			$data['zoomtofit'] = true;
+		}
+		
 	} elseif ($search = !empty($_GET['q']) ? $_GET['q'] : urldecode($params[0])
 		AND $condition = mod_clubs_get_clubs_condition($search)
 	) {
@@ -137,6 +146,8 @@ function mod_clubs_get_clubs($params, $settings = []) {
 			ON IFNULL(places.contact_id, organisationen.contact_id) = addresses.contact_id
 		JOIN categories
 			ON organisationen.contact_category_id = categories.category_id
+		LEFT JOIN countries
+			ON organisationen.country_id = countries.country_id
 		WHERE ISNULL(organisationen.end_date)
 		AND NOT ISNULL(latitude) AND NOT ISNULL(longitude)
 		AND categories.parameters LIKE "%%&organisation=1%%"
@@ -343,4 +354,23 @@ function mod_clubs_get_clubs_geocode($url, $q, $wanted = []) {
 		}
 	}
 	return $results;
+}
+
+/**
+ * get clubs from categories
+ *
+ * @param string $identifier
+ * @return array
+ */
+function mod_clubs_get_clubs_from_contact_categories($identifier) {
+	$category_id = wrap_category_id('contact/'.$identifier, 'check');
+	if (!$category_id) return false;
+
+	$sql = 'SELECT category_id, category, description
+			, SUBSTRING_INDEX(path, "/", -1) AS path
+		FROM categories
+		WHERE category_id = %d';
+	$sql = sprintf($sql, $category_id);
+	$categories = wrap_db_fetch($sql, 'category_id');
+	return $categories;
 }

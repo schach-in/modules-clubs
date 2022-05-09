@@ -83,7 +83,7 @@ oder Ortsname</p>
 %%% loop end %%%
 </ul>
 %%% condition else %%%
-<h2><a href="liste/">Liste der Vereine</a></h2>
+<h2><a href="liste/">Liste der %%% condition if contact_category %%%%%% item contact_category %%%%%% condition else %%%Vereine%%% condition endif %%%</a></h2>
 %%% condition unless title %%%
 <h2><a href="auszeichnung-und-foerderung/">Auszeichnungen</a></h2>
 %%% condition endif %%%

@@ -20,9 +20,10 @@
  * @return array $page
  */
 function mod_clubs_clubsgeojson($params, $settings = []) {
-	if (count($params) !== 1) return false;
-	if (str_ends_with($params[0], '.geojson'))
-		$params[0] = substr($params[0], 0, -8);
+	$last = end($params);
+	$last = key($params);
+	if (str_ends_with($params[$last], '.geojson'))
+		$params[$last] = substr($params[$last], 0, -8);
 
 	$source = brick_request_data('clubs', $params, $settings);
 	if (!$source['coordinates']) return false;
