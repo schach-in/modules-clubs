@@ -68,10 +68,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 		$condition_cc = 'AND contacts_contacts.sequence = 1';
 		$condition = sprintf('AND organisationen.contact_id IN (%s)', implode(',', $contact_ids));
 
-		$category = reset($data['categories']);
-		$data['title'] = $category['category'];
 		$data['zoomtofit'] = false;
-		$data['description'] = $category['description'];
 		$data['geojson'] = $params[0];
 
 	} elseif ($search = !empty($_GET['q']) ? $_GET['q'] : urldecode($params[0])
@@ -83,7 +80,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 				, $condition[0]['boundingbox'][0], $condition[0]['boundingbox'][2]
 				, $condition[0]['boundingbox'][1], $condition[0]['boundingbox'][3]
 			);
-			$data['maxzoom'] = 13;
+			$data['maxzoom'] = 12;
 			$data['reselect'] = (count($condition) !== 1) ? $condition : [];
 		} else {
 			$data['zoomtofit'] = true;
