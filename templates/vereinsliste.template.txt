@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2016-2017, 2019, 2021 Gustaf Mossakowski
+# @copyright Copyright © 2016-2017, 2019, 2021-2022 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 # List of fields:
@@ -22,16 +22,18 @@
 <table>
 <thead>
 <tr class="sortable">
-<th>Verein</th>
+<th>%%% condition if org_category %%%%%% item org_category %%%%%% condition else %%%Verein%%% condition endif %%%</th>
 %%% condition unless with_usernames %%%
 %%% condition unless mit_auszeichnungen %%%
 <th><abbr title="Spielort auf Karte?">Karte?</abbr></th>
 %%% condition endif %%%
 %%% condition endif %%%
+%%% condition unless without_members %%%
 <th class="maincol">Mitglieder</th>
 <th colspan="2">jugendlich U25</th>
 <th colspan="2">weiblich</th>
 <th>DWZ-Liste</th>
+%%% condition endif %%%
 %%% condition if mit_auszeichnungen %%%
 <th>Auszeichnung</th>
 %%% condition elseif with_usernames %%%
@@ -57,6 +59,7 @@
 <td>%%% item spielort %%%</td>
 %%% condition endif %%%
 %%% condition endif %%%
+%%% condition unless without_members %%%
 <td class="number maincol">%%% item members wrap_number %%%</td>
 <td class="number"><span class="sortonly">%%% item members_u25 %%% </span>%%% condition if members_u25 %%%
 %%% item members_u25 wrap_number %%%
@@ -74,8 +77,12 @@
 <td>%%% condition unless end_date %%%
 <a href="https://www.schachbund.de/verein/%%% item zps_code %%%.html">%%% item zps_code %%%</a>
 %%% condition endif %%%</td>
-%%% condition if auszeichnungen %%%
+%%% condition endif %%%
+%%% condition if mit_auszeichnungen %%%
 <td>%%% loop auszeichnungen %%%
+%%% condition if category %%%
+%%% item category %%% 
+%%% condition endif %%%
 %%% item dauer_von %%%%%% item dauer_bis "–%s" %%%
 %%% loopposition first|middle ", " %%%
 %%% loop end %%%</td>
