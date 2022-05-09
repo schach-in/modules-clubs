@@ -133,6 +133,8 @@ function mod_clubs_verein($params) {
 			, IF(categories.category_id = "%d", 1, NULL) AS schachhort
 			, (SELECT COUNT(*) FROM contacts members WHERE members.mother_contact_id = org.contact_id) AS member_orgs
 			, categories.parameters
+			, countries.country, countries.identifier AS country_identifier
+			, IF(categories.category_id IN (%d), 1, NULL) AS state
 		FROM contacts org
 		LEFT JOIN categories
 			ON org.contact_category_id = categories.category_id
@@ -143,6 +145,8 @@ function mod_clubs_verein($params) {
 			AND NOT ISNULL(ok.current)
 		LEFT JOIN contacts nachfolger
 			ON org.successor_contact_id = nachfolger.contact_id
+		LEFT JOIN countries
+			ON org.country_id = countries.country_id
 		WHERE org.identifier = "%s"
 	';
 	$sql = sprintf($sql
@@ -151,6 +155,9 @@ function mod_clubs_verein($params) {
 		, wrap_category_id('contact/club')
 		, wrap_category_id('contact/chess-department')
 		, wrap_category_id('contact/hort')
+
+		, wrap_category_id('contact/school')
+
 		, wrap_category_id('kennungen/zps')
 		, wrap_db_escape($params[0])
 	);

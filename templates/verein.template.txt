@@ -254,7 +254,15 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 
 %%% condition endif %%%
 
+%%% condition if parent_orgs %%%
 %%% item parent_orgs %%%
+%%% condition elseif state %%%
+<h2>Bundesland</h2>
+
+<ul class="orghierarchy">
+<li><a href="/schulen/%%% item country_identifier %%%/">%%% item country %%%</a></li>
+</ul>
+%%% condition endif %%%
 %%% condition endif %%%
 
 %%% condition unless edit %%%
