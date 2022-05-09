@@ -62,17 +62,17 @@ function mod_clubs_vereine($params) {
 		$params[0] = substr($params[0], 0, -8);
 	}
 	if (!$params) {
-		$data['identifier'] = 'deutschland';
+		$data['geojson'] = 'deutschland';
 	} elseif ($params[0] === 'twitter') {
 		$extra_field = sprintf(', (SELECT COUNT(*) FROM contactdetails
 			WHERE contactdetails.contact_id = organisationen.contact_id
 			AND provider_category_id = %d) AS website_username', wrap_category_id('provider/twitter'));
 		$condition = 'HAVING website_username > 0';
 		$found = true;
-		$auswahl = 'Twitter';
-		$data['identifier'] = $params[0];
+		$data['title'] = 'Twitter';
+		$data['geojson'] = $params[0];
 	} else {
-		$data['identifier'] = $params[0];
+		$data['geojson'] = $params[0];
 		$sql = 'SELECT contact_id, contact
 			FROM contacts
 			LEFT JOIN categories
@@ -92,7 +92,7 @@ function mod_clubs_vereine($params) {
 				AND ISNULL(end_date)', wrap_category_id('contact/federation'))
 			);
 			$condition = sprintf('AND organisationen.mother_contact_id IN (%s)', implode(',', $contact_ids));
-			$auswahl = $haupt_org['contact'];
+			$data['title'] = $haupt_org['contact'];
 			$data['zoomtofit'] = true;
 		} else {
 			$categories = mf_clubs_from_category($params[0]);
@@ -108,7 +108,7 @@ function mod_clubs_vereine($params) {
 				$condition_cc = 'AND contacts_contacts.sequence = 1';
 				$condition = sprintf('AND organisationen.contact_id IN (%s)', implode(',', $contact_ids));
 				$category = reset($categories);
-				$auswahl = $category['category'];
+				$data['title'] = $category['category'];
 				$data['zoomtofit'] = false;
 				$data['description'] = $category['description'];
 				if (count($categories) === 1) {
@@ -135,7 +135,7 @@ function mod_clubs_vereine($params) {
 	$data['noindex'] = false;
 	if (!$found) {
 		$condition = (isset($_GET['q']) AND $_GET['q'] !== '') ? mod_clubs_vereine_condition($_GET['q']) : '';
-		$auswahl = NULL;
+		$data['title'] = NULL;
 		$page['query_strings'][] = 'q';
 		if ($condition) {
 			if (!empty($condition[0]['boundingbox'])) {
@@ -285,14 +285,13 @@ function mod_clubs_vereine($params) {
 		$data['not_found'] = true;
 	}
 	
-	if ($content === 'geojson') return mod_clubs_vereine_json($coordinates, $data['identifier']);
+	if ($content === 'geojson') return mod_clubs_vereine_json($coordinates, $data['geojson']);
 	$data['q'] = isset($_GET['q']) ? $_GET['q'] : false;
 	if ($data['q'] === '0') $data['q'] = 0;
 	$data['lat'] = isset($_GET['lat']) ? $_GET['lat'] : false;
 	$data['lon'] = isset($_GET['lon']) ? $_GET['lon'] : false;
 	$data['places'] = count($coordinates);
-	$data['auswahl'] = $auswahl;
-	if (!$auswahl) {
+	if (!$data['title']) {
 		$data['verbaende'] = !empty($_GET['q']) ? mod_clubs_vereine_verbaende($_GET['q'], $coordinates) : [];
 	}
 	
@@ -305,9 +304,9 @@ function mod_clubs_vereine($params) {
 	$data['vereine'] = wrap_db_fetch($sql, '', 'single value');
 
 	$page['dont_show_h1'] = true;
-	if ($data['auswahl']) {
-		$page['title'] = 'Schachvereine: '.$data['auswahl'];
-		$page['breadcrumbs'][] = $data['auswahl'];
+	if ($data['title']) {
+		$page['title'] = 'Schachvereine: '.$data['title'];
+		$page['breadcrumbs'][] = $data['title'];
 	} else {
 		$page['title'] = 'Schachvereine und Schulschachgruppen';
 		if (!empty($params[0])) {
@@ -503,11 +502,11 @@ function mod_clubs_vereine_condition_parts($q) {
  * @param array $coordinates Liste der Vereine mit Koordinaten
  * @return array $page
  */
-function mod_clubs_vereine_json($coordinates, $identifier) {
+function mod_clubs_vereine_json($coordinates, $geojson) {
 	$page['content_type'] = 'geojson';
 	$page['query_strings'][] = 'q';
 	$page['ending'] = 'none';
-	$page['headers']['filename'] = sprintf('%s.geojson', $identifier);
+	$page['headers']['filename'] = sprintf('%s.geojson', $geojson);
 
 	$conditional_properties = [
 		'members', 'u25', 'female', 'avg_age', 'avg_rating'
