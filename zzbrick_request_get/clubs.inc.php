@@ -42,14 +42,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 		$data['geojson'] = $params[0];
 	} else {
 		$data['geojson'] = $params[0];
-		$sql = 'SELECT contact_id, contact
-			FROM contacts
-			LEFT JOIN categories
-				ON contacts.contact_category_id = categories.category_id
-			WHERE identifier = "%s"
-			AND categories.parameters LIKE "%%&organisation=1%%"';
-		$sql = sprintf($sql, wrap_db_escape($params[0]));
-		$haupt_org = wrap_db_fetch($sql);
+		$haupt_org = mod_clubs_get_clubs_federation($params[0]);
 		if ($haupt_org) {
 			$found = true;
 			// Unterorganisationen?
@@ -180,6 +173,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 	';
 	$csql = sprintf($sql, $extra_field, $having, $condition_cc, $condition);
 	$data['coordinates'] = wrap_db_fetch($csql, '_dummy_', 'numeric');
+
 	if (!$data['coordinates'] AND $having) {
 		while ($orte_umkreissuche_km < 60) {
 			$condition = 'HAVING distance <= %d ORDER BY distance';
@@ -199,6 +193,23 @@ function mod_clubs_get_clubs($params, $settings = []) {
 	}
 
 	return $data;
+}
+
+/**
+ * check if identifier in URL is organisation
+ *
+ * @param string $identifier
+ * @return array
+ */
+function mod_clubs_get_clubs_federation($identifier) {
+	$sql = 'SELECT contact_id, contact
+		FROM contacts
+		LEFT JOIN categories
+			ON contacts.contact_category_id = categories.category_id
+		WHERE identifier = "%s"
+		AND categories.parameters LIKE "%%&organisation=1%%"';
+	$sql = sprintf($sql, wrap_db_escape($identifier));
+	return wrap_db_fetch($sql);
 }
 
 /**
