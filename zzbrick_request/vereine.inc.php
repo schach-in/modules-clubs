@@ -124,6 +124,9 @@ function mod_clubs_vereine($params, $settings = []) {
 				];
 			}
 		}
+		$category = reset($data['categories']);
+		$data['title'] = $category['category'];
+		$data['description'] = $category['description'];
 	}
 	
 	if (empty($data['q']))
