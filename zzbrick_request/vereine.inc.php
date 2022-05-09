@@ -39,7 +39,10 @@ function mod_clubs_vereine($params) {
 		return wrap_redirect('/deutschland', 307);
 	}
 
-	// check if lat or lon are numeric values, if not, still show output, but send 404 page status
+	// check if lat or lon are both set or not set and if they are numeric values
+	// if not numeric, still show output, but send 404 page status
+	if (!empty($_GET['lat']) AND empty($_GET['lon'])) return false;
+	if (!empty($_GET['lon']) AND empty($_GET['lat'])) return false;
 	if (isset($_GET['lat']) AND !is_numeric($_GET['lat'])) {
 		$_GET['lat'] = filter_var($_GET['lat'], FILTER_SANITIZE_NUMBER_FLOAT);
 		$page['status'] = 404;
@@ -49,7 +52,6 @@ function mod_clubs_vereine($params) {
 		$page['status'] = 404;
 	}
 
-	$data['noindex'] = false;
 	$found = false;
 	$having = '';
 	$extra_field = '';
@@ -129,6 +131,8 @@ function mod_clubs_vereine($params) {
 			}
 		}
 	}
+
+	$data['noindex'] = false;
 	if (!$found) {
 		$condition = (isset($_GET['q']) AND $_GET['q'] !== '') ? mod_clubs_vereine_condition($_GET['q']) : '';
 		$auswahl = NULL;
@@ -148,8 +152,6 @@ function mod_clubs_vereine($params) {
 		}
 	}
 	
-	if (!empty($_GET['lat']) AND empty($_GET['lon'])) return false;
-	if (!empty($_GET['lon']) AND empty($_GET['lat'])) return false;
 	if (!$condition AND !empty($_GET['lat']) AND !empty($_GET['lon'])) {
 		$condition = [];
 		$condition[] = [
