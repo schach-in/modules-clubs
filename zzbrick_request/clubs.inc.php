@@ -30,9 +30,11 @@ function mod_clubs_clubs($params, $settings = []) {
 	}
 	if (count($params) > 1) return false;
 
-	if ($_SERVER['REQUEST_URI'] === '/' AND empty($_GET)) {
+	if ($_SERVER['REQUEST_URI'] === '/' AND empty($_GET))
 		return wrap_redirect('/deutschland', 307);
-	}
+	if (isset($_GET['q']) AND empty($_GET['q']))
+		return wrap_redirect('/deutschland', 307);
+
 	if (empty($params))
 		$page['query_strings'][] = 'q';
 
