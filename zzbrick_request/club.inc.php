@@ -15,13 +15,13 @@
  */
 
 
-function mod_clubs_verein($params) {
+function mod_clubs_club($params) {
 	global $zz_setting;
 	global $zz_conf;
 
 	// this script is getting all URLs, shortcuts for URLs that definitely
 	// are not for this script
-	if(mod_clubs_verein_known_urls()) return false;
+	if(mod_clubs_club_known_urls()) return false;
 	if (!isset($params[0])) return false;
 	if (strstr($params[0], '=')) return false;
 	$edit = false;
@@ -114,7 +114,7 @@ function mod_clubs_verein($params) {
 			// funny URLs like http://schach.in/[club]/%20'A=0
 			if (substr($params[1], 0, 1) === '%') return false;
 			if (substr($params[1], 0, 1) === '+') return false;
-			return brick_format('%%% request vereine '.$params[0].' '.$params[1].' %%%');
+			return brick_format('%%% request clubs '.$params[0].' '.$params[1].' %%%');
 		}
 	}
 	if (count($params) !== 1) return false;
@@ -163,10 +163,10 @@ function mod_clubs_verein($params) {
 	);
 	$org = wrap_db_fetch($sql);
 	if (!$org) {
-		return brick_format('%%% request vereine '.$params[0].' %%%');
+		return brick_format('%%% request clubs '.$params[0].' %%%');
 	}
 	if (in_array($org['category'], ['verband']) AND $org['member_orgs']) {
-		return brick_format('%%% request vereine '.$params[0].' %%%');
+		return brick_format('%%% request clubs '.$params[0].' %%%');
 	}
 	parse_str($org['parameters'], $org['parameters']);
 	$org += mf_contacts_contactdetails($org['contact_id']);
@@ -460,7 +460,7 @@ function mod_clubs_verein($params) {
 	} else {
 		$page['breadcrumbs'][] = $org['contact'];
 	}
-	$page['head'] = wrap_template('vereine-map-head');
+	$page['head'] = wrap_template('clubs-map-head');
 	if (!empty($org['lat_min'])) {
 		$page['extra']['body_attributes'] = ' id="clubmap"';
 	}
@@ -474,7 +474,7 @@ function mod_clubs_verein($params) {
 	} else {
 		$page['opengraph']['og:description'] = 'Profil bei schach.in';
 	}
-	$page['text'] = wrap_template('verein', $org);
+	$page['text'] = wrap_template('club', $org);
 	return $page;
 }
 
@@ -484,7 +484,7 @@ function mod_clubs_verein($params) {
  *
  * @return bool true: something was found
  */
-function mod_clubs_verein_known_urls() {
+function mod_clubs_club_known_urls() {
 	global $zz_setting;
 	$uri = parse_url($zz_setting['request_uri']);
 	if (in_array($uri['path'], $zz_setting['icon_paths'])) return true;

@@ -8,12 +8,12 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016-2021 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2022 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
 
-function mod_clubs_vereinsliste($params) {
+function mod_clubs_clublist($params) {
 	global $zz_setting;
 	if (count($params) !== 1) return false;
 	$extra_field = '';
@@ -151,6 +151,6 @@ function mod_clubs_vereinsliste($params) {
 		$page['title'] = $category['category'];
 		$page['breadcrumbs'][] = $category['category'];
 	}
-	$page['text'] = wrap_template('vereinsliste', $data);
+	$page['text'] = wrap_template('clublist', $data);
 	return $page;
 }

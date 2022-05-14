@@ -13,7 +13,7 @@
  */
 
 
-function mod_clubs_vereine($params, $settings = []) {
+function mod_clubs_clubs($params, $settings = []) {
 	global $zz_setting;
 	if (count($params) > 2) return false;
 
@@ -22,8 +22,8 @@ function mod_clubs_vereine($params, $settings = []) {
 		array_pop($params);
 		if (empty($params)) $params[0] = 'dsb';
 		if ($params[0] === 'twitter')
-			return brick_format('%%% request vereinsliste '.$params[0].' %%%');
-		return brick_format('%%% request verbandsliste '.$params[0].' %%%');
+			return brick_format('%%% request clublist '.$params[0].' %%%');
+		return brick_format('%%% request federationlist '.$params[0].' %%%');
 	}
 	if ($params AND str_ends_with(end($params), '.geojson')) {
 		return brick_format('%%% request clubsgeojson * %%%');
@@ -146,7 +146,7 @@ function mod_clubs_vereine($params, $settings = []) {
 	$data['lon'] = isset($_GET['lon']) ? $_GET['lon'] : false;
 	$data['places'] = count($data['coordinates']);
 	if (empty($data['title'])) {
-		$data['verbaende'] = !empty($_GET['q']) ? mod_clubs_vereine_verbaende($_GET['q'], $data['coordinates']) : [];
+		$data['verbaende'] = !empty($_GET['q']) ? mod_clubs_clubs_federations($_GET['q'], $data['coordinates']) : [];
 	}
 	
 	$sql = 'SELECT COUNT(*) FROM contacts
@@ -184,7 +184,7 @@ function mod_clubs_vereine($params, $settings = []) {
 		$data['embed'] = true;
 		$page['extra']['body_attributes'] = 'id="map" class="embed"';
 	}
-	$page['text'] = wrap_template('vereine', $data);
+	$page['text'] = wrap_template('clubs', $data);
 	return $page;
 }
 
@@ -195,7 +195,7 @@ function mod_clubs_vereine($params, $settings = []) {
  * @param array $coordinates
  * @return array
  */
-function mod_clubs_vereine_verbaende($q, $coordinates) {
+function mod_clubs_clubs_federations($q, $coordinates) {
 	$sql = 'SELECT o.contact_id, o.identifier, o.contact
 				, h.contact AS main_contact
 				, o.contact_category_id

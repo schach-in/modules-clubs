@@ -8,12 +8,12 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016-2021 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2022 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
 
-function mod_clubs_verbandsliste($params) {
+function mod_clubs_federationlist($params) {
 	global $zz_setting;
 
 	$sql = 'SELECT contact_id, contact, category_id, category, mother_contact_id
@@ -37,7 +37,7 @@ function mod_clubs_verbandsliste($params) {
 			if (!$redirect) return false;
 			return wrap_redirect(sprintf('%sliste/', $redirect['new_url']));
 		}
-		return brick_format('%%% request vereinsliste '.$params[0].' %%%');
+		return brick_format('%%% request clublist '.$params[0].' %%%');
 	}
 	$data += mf_contacts_contactdetails($data['contact_id']);
 
@@ -106,7 +106,7 @@ function mod_clubs_verbandsliste($params) {
 	}
 	if (count($data['children']) <= 2) {
 		// federation + youth federation = 2, no federation has only one club
-		return brick_format('%%% request vereinsliste '.$params[0].' %%%');
+		return brick_format('%%% request clublist '.$params[0].' %%%');
 	}
 
 	$data['parent_orgs'] = mf_clubs_parent_orgs($data['contact_id']);
@@ -129,6 +129,6 @@ function mod_clubs_verbandsliste($params) {
 		$page['breadcrumbs'][] = '<a href="../">'.$data['contact'].'</a>';
 	}
 	$page['breadcrumbs'][] = 'Liste';
-	$page['text'] = wrap_template('verbandsliste', $data);
+	$page['text'] = wrap_template('federationlist', $data);
 	return $page;
 }

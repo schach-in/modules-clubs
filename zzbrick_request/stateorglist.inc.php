@@ -122,6 +122,6 @@ function mod_clubs_stateorglist($params, $settings) {
 	
 	$page['title'] = $top['contact'];
 	$page['breadcrumbs'][] = $top['contact'];
-	$page['text'] = wrap_template('vereinsliste', $data);
+	$page['text'] = wrap_template('clublist', $data);
 	return $page;
 }

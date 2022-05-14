@@ -6,7 +6,7 @@
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
 # @author Falco Nogatz <fnogatz@gmail.com>
-# @copyright Copyright © 2015-2019, 2021 Gustaf Mossakowski
+# @copyright Copyright © 2015-2019, 2021-2022 Gustaf Mossakowski
 # @copyright Copyright © 2020 Falco Nogatz
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
