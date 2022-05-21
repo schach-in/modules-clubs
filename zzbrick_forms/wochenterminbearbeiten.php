@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2017, 2019, 2021 Gustaf Mossakowski
+ * @copyright Copyright © 2017, 2019, 2021-2022 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -93,7 +93,7 @@ if (count($orte) > 1) {
 
 if (empty($_SESSION['login_id'])) {
 	$zz['hooks']['after_insert'] = 'mf_clubs_add_revision_public';
-	$zz['fields'][10]['if']['add']['value'] = 'nein';
+	$zz['fields'][10]['if']['insert']['value'] = 'nein';
 }
 
 $zz_conf['no_timeframe'] = true;
