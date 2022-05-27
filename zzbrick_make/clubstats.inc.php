@@ -59,7 +59,7 @@ function mod_clubs_make_clubstats() {
 			AND contacts_identifiers.current = "yes"
 			AND contacts_identifiers.identifier_category_id = %d
 		GROUP BY contact_id';
-	$sql = sprintf($sql, wrap_category_id('kennungen/zps'));
+	$sql = sprintf($sql, wrap_category_id('identifiers/zps'));
 	$result = wrap_db_query($sql);
 	if (!$result) {
 		wrap_error('Fehler beim Erstellen der Vereinsstatistiken.', E_USER_ERROR);

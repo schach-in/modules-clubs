@@ -158,7 +158,7 @@ function mod_clubs_club($params) {
 
 		, wrap_category_id('contact/school')
 
-		, wrap_category_id('kennungen/zps')
+		, wrap_category_id('identifiers/zps')
 		, wrap_db_escape($params[0])
 	);
 	$org = wrap_db_fetch($sql);
