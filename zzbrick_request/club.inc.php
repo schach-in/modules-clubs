@@ -261,20 +261,20 @@ function mod_clubs_club($params) {
 	}
 	
 	// Auszeichnungen
-	$sql = 'SELECT auszeichnung_id, category_id, category, dauer_von, dauer_bis
+	$sql = 'SELECT award_id, category_id, category, award_year, award_year_to
 			, SUBSTRING_INDEX(path, "/", -1) AS path
-		FROM auszeichnungen
+		FROM awards
 		LEFT JOIN categories
-			ON auszeichnungen.auszeichnung_category_id = categories.category_id
+			ON awards.award_category_id = categories.category_id
 		WHERE contact_id = %d
-		ORDER BY categories.sequence, dauer_von';
+		ORDER BY categories.sequence, award_year';
 	$sql = sprintf($sql, $org['contact_id']);
-	$org['auszeichnungen'] = wrap_db_fetch($sql, ['category', 'auszeichnung_id'], 'list category dauer_von');
-	foreach ($org['auszeichnungen'] as $key => $auszeichnungen) {
-		$auszeichnung = reset($auszeichnungen['dauer_von']);
-		$org['auszeichnungen'][$key]['path'] = $auszeichnung['path'];
+	$org['awards'] = wrap_db_fetch($sql, ['category', 'award_id'], 'list category award_year');
+	foreach ($org['awards'] as $key => $awards) {
+		$auszeichnung = reset($awards['award_year']);
+		$org['awards'][$key]['path'] = $auszeichnung['path'];
 	}
-	$org['auszeichnungen'] = array_values($org['auszeichnungen']);
+	$org['awards'] = array_values($org['awards']);
 
 	// Wochentermine
 	$sql = 'SELECT wochentermin_id, place_contact_id, wochentag

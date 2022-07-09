@@ -94,8 +94,8 @@ function mf_clubs_from_category($category) {
 	if (!$categories) return false;
 	$categories += wrap_db_children($categories
 		, 'SELECT category_id, category, SUBSTRING_INDEX(path, "/", -1) AS path
-			, (SELECT IFNULL(COUNT(DISTINCT contact_id), NULL) FROM auszeichnungen
-				WHERE auszeichnungen.auszeichnung_category_id = categories.category_id) AS auszeichnungen
+			, (SELECT IFNULL(COUNT(DISTINCT contact_id), NULL) FROM awards
+				WHERE awards.award_category_id = categories.category_id) AS awards
 			FROM categories
 			WHERE main_category_id IN (%s)'
 		, 'category_id'

@@ -24,7 +24,7 @@
 <tr class="sortable">
 <th>%%% condition if org_category %%%%%% item org_category %%%%%% condition else %%%Verein%%% condition endif %%%</th>
 %%% condition unless with_usernames %%%
-%%% condition unless mit_auszeichnungen %%%
+%%% condition unless with_awards %%%
 <th><abbr title="Spielort auf Karte?">Karte?</abbr></th>
 %%% condition endif %%%
 %%% condition endif %%%
@@ -34,7 +34,7 @@
 <th colspan="2">weiblich</th>
 <th>DWZ-Liste</th>
 %%% condition endif %%%
-%%% condition if mit_auszeichnungen %%%
+%%% condition if with_awards %%%
 <th>Auszeichnung</th>
 %%% condition elseif with_usernames %%%
 <th>Handle oder Benutzername</th>
@@ -45,9 +45,9 @@
 %%% loop vereine %%%
 <tr class="level%%% item _level %%% %%% loopposition uneven "un" %%%even">
 <td>%%% condition unless end_date %%%<a href="%%% page vereinebase %%%/%%% item identifier %%%/">%%% condition endif %%%
-%%% condition if anzeigenamen %%%
-%%% loop anzeigenamen %%%
-%%% item anzeigename %%%
+%%% condition if contact_display_names %%%
+%%% loop contact_display_names %%%
+%%% item contact_display_name %%%
 %%% loopposition first|middle " / " %%%
 %%% loop end %%%
 %%% condition else %%%
@@ -55,7 +55,7 @@
 %%% condition endif %%%
 %%% condition unless spielort %%% &middot; Karte%%% condition endif %%%%%% condition unless end_date %%%</a>%%% condition endif %%%</td>
 %%% condition unless with_usernames %%%
-%%% condition unless mit_auszeichnungen %%%
+%%% condition unless with_awards %%%
 <td>%%% item spielort %%%</td>
 %%% condition endif %%%
 %%% condition endif %%%
@@ -70,7 +70,7 @@
 <td class="number"><span class="sortonly">%%% item zps_code %%% </span>%%% condition if members_female %%%
 %%% item members_female wrap_number %%%
 %%% condition else %%%–%%% condition endif %%%</td>
-<td class="number percent">%%% condition if auszeichnungen %%%%%% loop auszeichnungen 1 %%%<span class="sortonly">%%% item dauer_von %%% </span>%%% loop end %%%%%% condition endif %%%
+<td class="number percent">%%% condition if awards %%%%%% loop awards 1 %%%<span class="sortonly">%%% item award_year %%% </span>%%% loop end %%%%%% condition endif %%%
 %%% condition if members_female %%%
 %%% item anteil_members_female wrap_percent %%%
 %%% condition else %%%–%%% condition endif %%%</td>
@@ -78,12 +78,12 @@
 <a href="https://www.schachbund.de/verein/%%% item zps_code %%%.html">%%% item zps_code %%%</a>
 %%% condition endif %%%</td>
 %%% condition endif %%%
-%%% condition if mit_auszeichnungen %%%
-<td>%%% loop auszeichnungen %%%
+%%% condition if with_awards %%%
+<td>%%% loop awards %%%
 %%% condition if category %%%
 %%% item category %%% 
 %%% condition endif %%%
-%%% item dauer_von %%%%%% item dauer_bis "–%s" %%%
+%%% item award_year %%%%%% item award_year_to "–%s" %%%
 %%% loopposition first|middle ", " %%%
 %%% loop end %%%</td>
 %%% condition endif %%%

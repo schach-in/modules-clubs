@@ -43,7 +43,7 @@ function mod_clubs_clubsgeojson($params, $settings = []) {
 			'org' => $coordinate['title'],
 			'identifier' => $coordinate['identifier'],
 			'category' => $coordinate['category'],
-			'awards' => intval($coordinate['auszeichnungen']),
+			'awards' => intval($coordinate['awards']),
 		];
 		foreach ($conditional_properties as $prop) {
 			if (!$coordinate[$prop]) continue;

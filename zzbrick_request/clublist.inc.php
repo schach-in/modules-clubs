@@ -54,7 +54,7 @@ function mod_clubs_clublist($params) {
 		$category = reset($categories);
 		$top = $category;
 		$top['contact'] = $category['category'];
-		$condition = sprintf('WHERE auszeichnung_category_id IN (%s)', implode(',', array_keys($categories)));
+		$condition = sprintf('WHERE award_category_id IN (%s)', implode(',', array_keys($categories)));
 	}
 	$top['members'] = 0;
 	$top['members_u25'] = 0;
@@ -75,7 +75,7 @@ function mod_clubs_clublist($params) {
 		FROM contacts
 		LEFT JOIN contacts_identifiers USING (contact_id)
 		LEFT JOIN vereinsdb_stats USING (contact_id)
-		LEFT JOIN auszeichnungen USING (contact_id)
+		LEFT JOIN awards USING (contact_id)
 		%s
 		ORDER BY contacts_identifiers.identifier, contacts.identifier';
 	$sql = sprintf($sql, $extra_field, $condition);
@@ -83,22 +83,22 @@ function mod_clubs_clublist($params) {
 	if (!$data['vereine']) return false;
 	
 	if ($categories) {
-		$sql = 'SELECT auszeichnung_id, contact_id, dauer_von, dauer_bis, anzeigename
-			FROM auszeichnungen
+		$sql = 'SELECT award_id, contact_id, award_year, award_year_to, contact_display_name
+			FROM awards
 			WHERE contact_id IN (%s)
 			%s
-			ORDER BY dauer_von ASC';
+			ORDER BY award_year ASC';
 		$sql = sprintf($sql, implode(',', array_keys($data['vereine'])), str_replace('WHERE ', 'AND ', $condition));
-		$auszeichnungen = wrap_db_fetch($sql, ['contact_id', 'auszeichnung_id']);
-		foreach ($auszeichnungen as $contact_id => $auszeichnungen_pro_org) {
-			$anzeigenamen = [];
-			foreach ($auszeichnungen_pro_org as $auszeichnung) {
-				$anzeigenamen[$auszeichnung['anzeigename']]['anzeigename'] = $auszeichnung['anzeigename'];
+		$awards = wrap_db_fetch($sql, ['contact_id', 'award_id']);
+		foreach ($awards as $contact_id => $awards_pro_org) {
+			$contact_display_names = [];
+			foreach ($awards_pro_org as $auszeichnung) {
+				$contact_display_names[$auszeichnung['contact_display_name']]['contact_display_name'] = $auszeichnung['contact_display_name'];
 			}
-			$data['vereine'][$contact_id]['anzeigenamen'] = array_values($anzeigenamen); 
-			$data['vereine'][$contact_id]['auszeichnungen'] = $auszeichnungen_pro_org;
+			$data['vereine'][$contact_id]['contact_display_names'] = array_values($contact_display_names); 
+			$data['vereine'][$contact_id]['awards'] = $awards_pro_org;
 		}
-		$data['mit_auszeichnungen'] = true;
+		$data['with_awards'] = true;
 	}
 
 	if (!empty($data['with_usernames'])) {
@@ -116,8 +116,8 @@ function mod_clubs_clublist($params) {
 	}
 	
 	foreach ($data['vereine'] as $contact_id => $verein) {
-		if (!empty($data['mit_auszeichnungen']))
-			$data['vereine'][$contact_id]['mit_auszeichnungen'] = true;
+		if (!empty($data['with_awards']))
+			$data['vereine'][$contact_id]['with_awards'] = true;
 		if (!empty($data['with_usernames']))
 			$data['vereine'][$contact_id]['with_usernames'] = true;
 		$top['members'] += $verein['members'];
@@ -132,8 +132,8 @@ function mod_clubs_clublist($params) {
 		$top['members_u25'] = '';
 		$top['members_female'] = '';
 	}
-	if (!empty($data['mit_auszeichnungen']))
-		$top['mit_auszeichnungen'] = true;
+	if (!empty($data['with_awards']))
+		$top['with_awards'] = true;
 	if (!empty($data['with_usernames']))
 		$top['with_usernames'] = true;
 	array_unshift($data['vereine'], $top);

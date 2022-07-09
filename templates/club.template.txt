@@ -17,8 +17,8 @@
 # spieler }, orte { contact_id, contact, address, postcode, place,
 # description, latitude, longitude, remarks }, lon_min, lon_max, lat_min,
 # lat_max, longitude, latitude, teams { team_id, event, team, team_no,
-# team_identifier, duration }, parent_orgs, auszeichnungen { category,
-# dauer_von { auszeichnung_id, category_id, category, dauer_von, dauer_bis,
+# team_identifier, duration }, parent_orgs, awards { category,
+# award_year { award_id, category_id, category, award_year, award_year_to,
 # identifier }, identifier }
 #
 <div itemscope itemprop="organization" itemtype="http://schema.org/Organization">
@@ -91,7 +91,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 
 	L.Icon.Default.imagePath = '/_layout/clubs/leaflet/';
 %%% condition if schulschachgruppe %%%
-%%% condition if auszeichnungen %%%
+%%% condition if awards %%%
 	var Icon = new L.Icon.Default({
 		iconUrl: 'marker-star-red.png',
 		iconRetinaUrl: 'marker-star-red-2x.png'
@@ -103,7 +103,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 	});
 %%% condition endif %%%
 %%% condition elseif schachkindergarten %%%
-%%% condition if auszeichnungen %%%
+%%% condition if awards %%%
 	var Icon = new L.Icon.Default({
 		iconUrl: 'marker-star-gold.png',
 		iconRetinaUrl: 'marker-star-gold-2x.png'
@@ -120,7 +120,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 		iconRetinaUrl: 'marker-icon-orange-2x.png'
 	});
 %%% condition else %%%
-%%% condition if auszeichnungen %%%
+%%% condition if awards %%%
 	var Icon = new L.Icon.Default({
 		iconUrl: 'marker-star-blue.png',
 		iconRetinaUrl: 'marker-star-blue-2x.png'
@@ -180,13 +180,13 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% condition endif %%%
 </table>
 %%% condition endif %%%
-%%% condition if auszeichnungen %%%
+%%% condition if awards %%%
 <h2>Auszeichnungen</h2>
 
 <ul class="awards">
-%%% loop auszeichnungen %%%
+%%% loop awards %%%
 <li itemprop="award"><strong><a href="/%%% item path %%%/">%%% item category %%%</a></strong>
- %%% loop dauer_von %%%%%% item dauer_von %%%%%% item dauer_bis "–%d" %%%
+ %%% loop award_year %%%%%% item award_year %%%%%% item award_year_to "–%d" %%%
 %%% loopposition first|middle ", " %%%
  %%% loop end %%%
 </li>

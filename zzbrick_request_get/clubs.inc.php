@@ -60,8 +60,8 @@ function mod_clubs_get_clubs($params, $settings = []) {
 
 	} elseif ($data['categories'] = mf_clubs_from_category($params[0])) {
 		$sql = 'SELECT contact_id FROM contacts
-			LEFT JOIN auszeichnungen USING (contact_id)
-			WHERE auszeichnung_category_id IN (%s)';
+			LEFT JOIN awards USING (contact_id)
+			WHERE award_category_id IN (%s)';
 		$sql = sprintf($sql, implode(',', array_keys($data['categories'])));
 		$contact_ids = wrap_db_fetch($sql, 'contact_id', 'single value');
 		if (!$contact_ids) return [];
@@ -130,8 +130,8 @@ function mod_clubs_get_clubs($params, $settings = []) {
 			, SUBSTRING_INDEX(categories.path, "/", -1) AS category
 			, members, members_female AS female, members_u25 AS u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
 			, organisationen.identifier
-			, (SELECT IFNULL(COUNT(auszeichnung_id), NULL) FROM auszeichnungen
-				WHERE auszeichnungen.contact_id = organisationen.contact_id) AS auszeichnungen
+			, (SELECT IFNULL(COUNT(award_id), NULL) FROM awards
+				WHERE awards.contact_id = organisationen.contact_id) AS awards
 			, organisationen.contact_id
 			%s %s
 		FROM contacts organisationen
