@@ -123,6 +123,7 @@ ul.orghierarchy
 				color: white; }
 	#map .innerbox
 				{ padding: 0 1em; width: 13em; overflow: auto; }
+	#map #nav	{ margin-right: 15em; }
 	#map a:link, #map .nav a:visited
 				{ color: #8baed8; }
 	#map .subnav
@@ -138,6 +139,7 @@ ul.orghierarchy
 @media screen and (min-width: 961px) {
 	#map .box		{ width: 20em; }
 	#map .innerbox	{ width: 18em; }
+	#map #nav		{ margin-right: 20em; }
 	#map .subnav	{ right: 21em; }
 
 	#map #foot		{ right: 0; width: 18em; }
@@ -148,10 +150,11 @@ ul.orghierarchy
 	#map .innerbox_detail
 				{ display: none; }
 	#map .innerbox
-				{ position: absolute; top: 0; right: 0; margin-left: 60px; 
+				{ position: absolute; top: 4em; right: 0; margin-left: 60px; 
 				background: white; opacity: .8; font-size: 90%; }
 	#map .innerbox .search input
 				{ margin-left: .75em; }
+	#map #nav	{ margin-right: 0; margin-left: 60px; text-align: right; }
 	#map .subnav
 				{ right: 0; }
 
@@ -179,9 +182,11 @@ ul.orghierarchy
 
 /* Map, disable some page elements */
 
-#map .banner, #map #head
+#map .banner, #map .logo-top, #map #breadcrumbs
 			{ display: none; }
-#map #head	{ position: absolute; }
+#map #head	{ position: absolute; top: 0; left: 0; z-index: 1000; }
+#map #nav	{ margin-top: 1em; margin-left: 3em; padding: .25em;
+			background: rgb(255, 255, 255, .8); }
 #map #content	{ overflow: visible; padding-bottom: 0; }
 #map .text	{ padding: 0; max-width: none; }
 #map #full, #map #content, #map .text
