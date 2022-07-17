@@ -487,6 +487,6 @@ function mod_clubs_club($params) {
 function mod_clubs_club_known_urls() {
 	global $zz_setting;
 	$uri = parse_url($zz_setting['request_uri']);
-	if (in_array($uri['path'], $zz_setting['icon_paths'])) return true;
+	if (!empty($uri['path']) AND in_array($uri['path'], $zz_setting['icon_paths'])) return true;
 	return false;
 }	
