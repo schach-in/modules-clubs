@@ -54,7 +54,7 @@ function mod_clubs_clubs($params, $settings = []) {
 	$data = brick_request_data('clubs', $params, $settings);
 	if (!empty($data['url_ending'])) $page['url_ending'] = $data['url_ending'];
 
-	if (!$data['coordinates']) {
+	if (empty($data['coordinates'])) {
 		if (!empty($_GET['q'])) {
 			$qs = explode(' ', wrap_db_escape($_GET['q']));
 			// Verein direkt?
