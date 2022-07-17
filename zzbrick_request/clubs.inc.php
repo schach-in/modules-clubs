@@ -146,7 +146,8 @@ function mod_clubs_clubs($params, $settings = []) {
 	if ($data['q'] === '0') $data['q'] = 0;
 	$data['lat'] = isset($_GET['lat']) ? $_GET['lat'] : false;
 	$data['lon'] = isset($_GET['lon']) ? $_GET['lon'] : false;
-	$data['places'] = count($data['coordinates']);
+	if (!empty($data['coordinates']))
+		$data['places'] = count($data['coordinates']);
 	if (empty($data['title'])) {
 		$data['verbaende'] = !empty($_GET['q']) ? mod_clubs_clubs_federations($_GET['q'], $data['coordinates']) : [];
 	}
