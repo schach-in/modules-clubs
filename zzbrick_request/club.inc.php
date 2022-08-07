@@ -124,7 +124,6 @@ function mod_clubs_club($params) {
 			, ok.identifier AS zps_code
 			, members, members_female, members_u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
 			, members_passive
-			, nachfolger.contact AS nachfolger, nachfolger.identifier AS nachfolger_kennung
 			, SUBSTRING_INDEX(categories.path, "/", -1) AS category
 			, IF(categories.category_id = "%d", 1, NULL) AS schulschachgruppe
 			, IF(categories.category_id = "%d", 1, NULL) AS schachkindergarten
@@ -143,8 +142,6 @@ function mod_clubs_club($params) {
 			ON ok.contact_id = org.contact_id
 			AND ok.identifier_category_id = %d
 			AND NOT ISNULL(ok.current)
-		LEFT JOIN contacts nachfolger
-			ON org.successor_contact_id = nachfolger.contact_id
 		LEFT JOIN countries
 			ON org.country_id = countries.country_id
 		WHERE org.identifier = "%s"
@@ -175,6 +172,17 @@ function mod_clubs_club($params) {
 	}
 	$org['edit'] = $edit;
 	if ($org['end_date']) {
+		$sql = 'SELECT contact AS nachfolger, identifier AS nachfolger_kennung
+			FROM contacts_contacts
+			LEFT JOIN contacts
+				ON contacts.contact_id = contacts_contacts.main_contact_id
+			WHERE relation_category_id = %d
+			AND contacts_contacts.contact_id = %d';
+		$sql = sprintf($sql
+			, wrap_category_id('relation/successor')
+			, $org['contact_id']
+		);
+		$org += wrap_db_fetch($sql);
 		$page['status'] = 410;
 		$org['edit'] = false;
 	}
@@ -221,8 +229,12 @@ function mod_clubs_club($params) {
 			LEFT JOIN addresses
 				ON places.contact_id = addresses.contact_id
 			WHERE contacts_contacts.main_contact_id = %d
+			AND contacts_contacts.relation_category_id = %d
 			ORDER BY sequence, places.contact, postcode, place, address';
-		$sql = sprintf($sql, $org['contact_id']);
+		$sql = sprintf($sql
+			, $org['contact_id']
+			, wrap_category_id('relation/spielort')
+		);
 		$org['orte'] = wrap_db_fetch($sql, 'contact_id');
 		$details = mf_contacts_contactdetails(array_keys($org['orte']));
 	} else {

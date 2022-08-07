@@ -17,7 +17,8 @@ if (empty($brick['vars'])) wrap_quit(404);
 $verein = mf_clubs_club($brick['vars'][0]);
 if (!$verein) wrap_quit(404);
 
-$zz = zzform_include_table('organisationen');
+$values['relations'] = []; // no relations
+$zz = zzform_include_table('organisationen', $values);
 
 unset($zz['filter']);
 unset($zz['details']);
@@ -44,7 +45,6 @@ $zz['fields'][75]['hide_in_form'] = true;	// table contacts-identifiers
 $zz['fields'][3]['hide_in_form'] = true;	// identifier
 $zz['fields'][16]['append_next'] = false;	// start_date
 $zz['fields'][16]['title_append'] = false;	// start_date
-$zz['fields'][72]['hide_in_form'] = true;	// successor_contact_id
 $zz['fields'][17]['hide_in_form'] = true;	// end_date
 $zz['fields'][13]['hide_in_form'] = true;	// remarks
 $zz['fields'][99]['hide_in_form'] = true;	// last_update
@@ -56,9 +56,6 @@ $zz['fields'][97]['hide_in_form'] = true;	// created
 $zz['fields'][12]['explanation'] = 'Etwas über Ihren Verein (optional)'; // description
 $zz['fields'][18]['title'] = 'Bundesland'; // country_id
 $zz['fields'][16]['explanation'] = 'Falls bekannt: Datum oder Jahr der Gründung'; // start_date
-
-// Spielorte
-$zz['fields'][76]['hide_in_form'] = true;	// table contacts-contacts
 
 $zz_conf['referer'] = '../';
 $zz_conf['no_timeframe'] = true;
