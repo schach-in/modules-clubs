@@ -32,7 +32,7 @@ function mf_clubs_add_revision_public($ops) {
 		
 		$my_ops['return'][$index] = $ops['return'][$index];
 		$my_ops['return'][$index]['action'] = 'update';
-		$my_ops['return'][$index]['table_name'] = $my_ops['return'][$index]['table'];
+		$my_ops['return'][$index]['table_name'] = $my_ops['return'][$index]['table_name'];
 		$my_ops['record_diff'][$index] = $ops['record_diff'][$index];
 		$my_ops['record_new'][$index] = $ops['record_new'][$index];
 		foreach (array_keys($my_ops['record_diff'][$index]) as $field_name) {
