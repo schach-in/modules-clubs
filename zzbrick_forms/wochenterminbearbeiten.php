@@ -60,12 +60,12 @@ $zz['fields'][2]['hide_in_form'] = true;
 if ($mode !== 'monat') {
 	$zz['fields'][6]['sql'] = 'SELECT category_id, category, main_category_id
 		FROM categories
-		WHERE (ISNULL(parameters) OR !FIND_IN_SET("monat=1", parameters))
+		WHERE (ISNULL(parameters) OR parameters NOT LIKE "%&monat=1%")
 		ORDER BY sequence';
 } else {
 	$zz['fields'][6]['sql'] = 'SELECT category_id, category, main_category_id
 		FROM categories
-		WHERE FIND_IN_SET("monat=1", parameters)
+		WHERE parameters LIKE "%&monat=1%"
 		ORDER BY sequence';
 }
 
