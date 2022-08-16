@@ -30,13 +30,24 @@ function mod_clubs_clubs($params, $settings = []) {
 	}
 	if (count($params) > 1) return false;
 
-	if ($_SERVER['REQUEST_URI'] === '/' AND empty($_GET))
+	if ($zz_setting['request_uri'] === '/' AND empty($_GET))
 		return wrap_redirect('/deutschland', 307);
 	if (isset($_GET['q']) AND empty($_GET['q']))
 		return wrap_redirect('/deutschland', 307);
 
+	$page['query_strings'][] = 'lat';
+	$page['query_strings'][] = 'lon';
+	$page['query_strings'][] = 'embed';
 	if (empty($params))
 		$page['query_strings'][] = 'q';
+		
+	$url = parse_url($zz_setting['request_uri']);
+	if ($url['path'] === '/' AND !empty($_GET)) {
+		foreach ($_GET as $key => $value)
+			if (!in_array($key, $page['query_strings'])) unset($_GET[$key]);
+		if (empty($_GET))
+			return wrap_redirect('/deutschland', 307);
+	}
 
 	// check if lat or lon are both set or not set and if they are numeric values
 	// if not numeric, still show output, but send 404 page status
@@ -173,9 +184,6 @@ function mod_clubs_clubs($params, $settings = []) {
 	if ($data['q'] OR $data['q'] === '0' OR $data['q'] === 0)
 		$page['title'] .= sprintf(': Suche nach »%s«', wrap_html_escape($data['q']));
 	if ($data['lat'] AND $data['lon']) $page['title'] .= sprintf(', Koordinaten %s/%s', wrap_latitude($data['lat']), wrap_longitude($data['lon']));
-	$page['query_strings'][] = 'lat';
-	$page['query_strings'][] = 'lon';
-	$page['query_strings'][] = 'embed';
 	$page['head'] = wrap_template('clubs-head');
 	$page['extra']['body_attributes'] = 'id="map"';
 	if (!empty($data['noindex'])) {
