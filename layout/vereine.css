@@ -249,4 +249,16 @@ ul.orghierarchy
 .imagebox img
 			{ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
 
+/* Bearbeiten */
+form.edit		{ margin: 1em 0; }
+/* Bearbeiten */
+a.edit			{ background: #fdf0be; }
+a.edit:before	{ content: "\2192  "; }
+
+
+/* zzbrick_request/clubs.inc.php */
+@media screen and (max-width: 640px) {
+	#map h1		{ color: #000; }
+}
+
 /* End */
