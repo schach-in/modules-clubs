@@ -10,7 +10,6 @@
 # @copyright Copyright © 2020 Falco Nogatz
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
-	<link rel="stylesheet" type="text/css" href="/_layout/clubs/vereine.css">
 	<link rel="stylesheet" href="/_behaviour/leaflet/dist/leaflet.css">
 	<link rel="stylesheet" href="/_behaviour/leaflet-markercluster/dist/MarkerCluster.css">
 	<link rel="stylesheet" href="/_behaviour/leaflet-markercluster/dist/MarkerCluster.Default.css">
