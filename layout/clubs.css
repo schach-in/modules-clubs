@@ -15,12 +15,6 @@
 
 body#map	{ overflow: auto; position: relative; }
 
-@media screen {
-	.clubs .banner	{ background-color: #FC0;
-					background-image: url('/_layout/clubs/bg-clubs.png'); }
-}
-.clubs h1, .clubs h2
-				{ color: #FC0;  }
 #map .subnav	{ position: absolute; background: white; opacity: .8;
 				z-index: 402; }
 
