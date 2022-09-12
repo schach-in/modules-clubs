@@ -30,7 +30,7 @@ if (!$cc_id) {
 	wrap_quit(404);
 }
 
-wrap_module_activate('contacts');
+wrap_package_activate('contacts');
 $zz = zzform_include_table('contacts-contacts');
 $zz['where']['cc_id'] = $cc_id;
 
