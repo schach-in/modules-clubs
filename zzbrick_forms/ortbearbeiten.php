@@ -17,7 +17,6 @@ if (empty($brick['vars'])) wrap_quit(404);
 $club = mf_clubs_club($brick['vars'][0]);
 if (!$club) wrap_quit(404);
 
-wrap_package_activate('contacts');
 $values['contactdetails_restrict_to'] = 'places';
 $values['relations_restrict_to'] = 'places';
 $zz = zzform_include_table('contacts/contacts', $values);
