@@ -44,7 +44,7 @@
 <tbody>
 %%% loop vereine %%%
 <tr class="level%%% item _level %%% %%% loopposition uneven "un" %%%even">
-<td>%%% condition unless end_date %%%<a href="%%% page vereinebase %%%/%%% item identifier %%%/">%%% condition endif %%%
+<td>%%% condition unless end_date %%%<a href="%%% setting base_path %%%/%%% item identifier %%%/">%%% condition endif %%%
 %%% condition if contact_display_names %%%
 %%% loop contact_display_names %%%
 %%% item contact_display_name %%%

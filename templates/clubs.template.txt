@@ -195,7 +195,7 @@ oder Ortsname</p>
 					});
 				},
 				onEachFeature: function (feature, layer) {
-					var popupText = '<div class="popup"><h2><a href="%%% page vereinebase %%%/' + feature.properties.identifier + '/">' + feature.properties.org + '</a></h2>';
+					var popupText = '<div class="popup"><h2><a href="%%% setting base_path %%%/' + feature.properties.identifier + '/">' + feature.properties.org + '</a></h2>';
 					if (feature.properties.members) {
 						popupText += '<p>Mitglieder: ' + feature.properties.members;
 						if (feature.properties.u25) {
@@ -207,7 +207,7 @@ oder Ortsname</p>
 						popupText += '<br>ø-Alter: ' + feature.properties.avg_age
 						+ '<br>ø-DWZ: ' + feature.properties.avg_rating
 					}
-					popupText += "<p class='more'><a href='%%% page vereinebase %%%/" + feature.properties.identifier + "/'>Weitere Informationen</a></p>";
+					popupText += "<p class='more'><a href='%%% setting base_path %%%/" + feature.properties.identifier + "/'>Weitere Informationen</a></p>";
 					popupText += '</div>';
 					layer.bindPopup(popupText);
 				}
@@ -228,7 +228,7 @@ oder Ortsname</p>
 				geoJsonLayer.eachLayer(function(marker) {
 					if (bounds.contains(marker.getLatLng())) {
 						var a = document.createElement('a');
-						a.href = '%%% page vereinebase %%%/' + marker.options.link + '/';
+						a.href = '%%% setting base_path %%%/' + marker.options.link + '/';
 						a.setAttribute('data-leaflet-id', marker._leaflet_id);
 						a.setAttribute('class', marker.options.category);
 						a.onmouseover = hoverMarker;

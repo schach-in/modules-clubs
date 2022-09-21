@@ -29,13 +29,13 @@
 %%% loop children %%%
 <tr class="level%%% item _level %%% %%% loopposition uneven "un" %%%even">
 <td>
-%%% condition unless vereine %%%<a href="%%% page vereinebase %%%/%%% item identifier %%%/">%%% condition endif %%%
+%%% condition unless vereine %%%<a href="%%% setting base_path %%%/%%% item identifier %%%/">%%% condition endif %%%
 %%% item contact %%%
 %%% condition unless vereine %%%</a>%%% condition endif %%%
 %%% condition if vereine %%%
-&nbsp;&nbsp; <a href="%%% page vereinebase %%%/%%% item identifier %%%/" title="Karte mit Vereinen mit bekannten Spielorten aus %%% item contact %%%">Karte</a>
+&nbsp;&nbsp; <a href="%%% setting base_path %%%/%%% item identifier %%%/" title="Karte mit Vereinen mit bekannten Spielorten aus %%% item contact %%%">Karte</a>
 %%% condition unless aktiv %%%
- &middot; <a href="%%% page vereinebase %%%/%%% item identifier %%%/liste/" title="Liste mit Vereinen aus %%% item contact %%%">Liste</a>
+ &middot; <a href="%%% setting base_path %%%/%%% item identifier %%%/liste/" title="Liste mit Vereinen aus %%% item contact %%%">Liste</a>
 %%% condition endif %%%
 %%% condition endif %%%
 <td class="number maincol">%%% item vereine wrap_number %%%</td>
