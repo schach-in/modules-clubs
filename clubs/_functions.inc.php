@@ -62,9 +62,6 @@ function mf_clubs_parent_orgs($contact_id) {
  * @return bool
  */
 function mf_clubs_add_user_from_ip() {
-	global $zz_conf;
-	require_once $zz_conf['dir'].'/zzform.php';
-
 	$values = [];
 	$values['action'] = 'insert';
 	$values['POST']['contact_category_id'] = wrap_category_id('kontakte/rechner');
