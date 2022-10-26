@@ -1,0 +1,51 @@
+# clubs module
+# search for a club
+#
+# Part of »Zugzwang Project«
+# https://www.zugzwang.org/modules/clubs
+#
+# @author Gustaf Mossakowski <gustaf@koenige.org>
+# @copyright Copyright © 2022 Gustaf Mossakowski
+# @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+#
+<h1>Suche</h1>
+%%% condition if not_found %%%
+%%% condition if title %%%
+<p>Wir konnten leider zu »%%% item title %%%« keine Daten finden.</p>
+
+%%% condition else %%%
+<p>Wir konnten leider keinen Treffer zu Ihrer Suche finden.</p>
+
+%%% condition endif %%%
+%%% condition endif %%%
+
+%%% template searchform %%%
+
+<h2>So können Sie suchen</h2>
+
+<ul>
+<li>Nach <strong>Postleitzahl</strong>: geben Sie einfach Ihre fünfstellige Postleitzahl ein.
+Sofern die Postleitzahl vergeben ist, landen Sie direkt auf einem Kartenausschnitt. Die Mitte
+der Karte entspricht ungefähr der Mitte des Bereichs, für den die Postleitzahl gilt.
+Finden Sie direkt dort nichts, können Sie aus der Karte etwas herauszoomen, so dass Sie auch
+Orte in der näheren Umgebung sehen.</li>
+<li>Nach <strong>Postleitzahlengebiet</strong>: Sie können auch eine zweistellige 
+Postleitzahl eingeben, dann werden Ihnen exakt die Orte mit Treffern angezeigt, deren
+Postleitzahl mit diesen Ziffern beginnt. Sie können auch mehrere zweistellige Zahlen kombinieren.
+Zum Beispiel »27 28« für Bremen und Bremerhaven.</li>
+<li>Nach dem <strong>Ortsnamen</strong>. Das ist etwas weniger genau, da es viele Ortsnamen
+öfter in Deutschland gibt. Besonders beliebtes Beispiel ist »Neustadt«.</li>
+<li>Sie können auch nach dem <strong>Vereinsnamen</strong> oder Teilen davon suchen. »Bauer«
+findet alle Vereine, die diese Schachfigur in ihrem Namen haben. Das funktioniert auch mit
+dem Namen vom berühmten Schachspielern wie Anderssen, Réti oder Lasker. Der genaue Name 
+eines Vereins führt u. U. nicht zu einem Treffer, da z. B. Jahreszahlen fehlen können oder Abkürzungen
+wie »SK« für »Schachklub« nicht aufgelöst werden.</li>
+</ul>
+
+<h2>Das finden Sie hier nicht</h2>
+
+<ul>
+<li>Sie können <em>nicht</em> nach einer <strong>Straße</strong> suchen.</li>
+<li>Sie können <em>nicht</em> nach <strong>einzelnen Menschen</strong> suchen. Nutzen Sie hierfür gerne die
+<a href="/zahlen/">Suche nach Wertungszahlen</a>.</li>
+</ul>

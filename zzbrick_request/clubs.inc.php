@@ -119,6 +119,8 @@ function mod_clubs_clubs($params, $settings = []) {
 		}
 		$page['status'] = 404;
 		$data['not_found'] = true;
+		$page['text'] = wrap_template('clubsearch', $data);
+		return $page;
 	}
 
 	if (!empty($data['categories'])) {
