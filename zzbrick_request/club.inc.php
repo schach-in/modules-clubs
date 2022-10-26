@@ -145,6 +145,7 @@ function mod_clubs_club($params) {
 		LEFT JOIN countries
 			ON org.country_id = countries.country_id
 		WHERE org.identifier = "%s"
+		AND categories.parameters LIKE "%%&clubpage=1%%"
 	';
 	$sql = sprintf($sql
 		, wrap_category_id('contact/school')
@@ -469,6 +470,7 @@ function mod_clubs_club($params) {
 	if ($org['edit']) {
 		$page['breadcrumbs'][] = sprintf('<a href="../">%s</a>', $org['contact']);
 		$page['breadcrumbs'][] = 'Bearbeiten';
+		$page['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];
 	} else {
 		$page['breadcrumbs'][] = $org['contact'];
 	}
