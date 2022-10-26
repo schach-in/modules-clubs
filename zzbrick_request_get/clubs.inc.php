@@ -56,7 +56,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 		$data['title'] = $federation['contact'];
 		$data['zoomtofit'] = true;
 		$data['geojson'] = $params[0];
-		if ($contact_ids) $data['federation_with_clubs'] = true;
+		if (count($contact_ids) > 1) $data['federation_with_clubs'] = true;
 
 	} elseif ($data['categories'] = mf_clubs_from_category($params[0])) {
 		$sql = 'SELECT contact_id FROM contacts
