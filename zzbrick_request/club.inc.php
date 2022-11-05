@@ -106,8 +106,8 @@ function mod_clubs_club($params) {
 		}
 		return $page;
 	} elseif (count($params) === 2) {
-		$zz_setting['cache'] = false;
 		if ($params[1] === 'bearbeiten') {
+			$zz_setting['cache'] = false;
 			$edit = true;
 			array_pop($params);
 		} else {
