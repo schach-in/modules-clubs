@@ -23,7 +23,7 @@ function mod_clubs_club($params) {
 	// are not for this script
 	if(mod_clubs_club_known_urls()) return false;
 	if (!isset($params[0])) return false;
-	if (strstr($params[0], '=')) return false;
+	if (str_ends_with($params[0], '.php')) return false;
 	$edit = false;
 	if ((count($params) === 3 OR count($params) === 4) AND $params[1] === 'bearbeiten') {
 		$zz_setting['cache'] = false;
