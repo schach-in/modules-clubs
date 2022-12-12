@@ -502,5 +502,7 @@ function mod_clubs_club_known_urls() {
 	$uri = parse_url($zz_setting['request_uri']);
 	if (!empty($uri['path']) AND in_array($uri['path'], $zz_setting['icon_paths'])) return true;
 	if (!empty($uri['path']) AND str_ends_with($uri['path'], '.php')) return true;
+	if (!empty($uri['path']) AND str_ends_with($uri['path'], '.cgi')) return true;
+	if (!empty($uri['path']) AND str_ends_with($uri['path'], '.html')) return true;
 	return false;
 }	
