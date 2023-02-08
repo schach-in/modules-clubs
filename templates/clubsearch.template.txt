@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2022 Gustaf Mossakowski
+# @copyright Copyright © 2022-2023 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 <h1>Suche</h1>
@@ -15,6 +15,16 @@
 
 %%% condition else %%%
 <p>Wir konnten leider keinen Treffer zu Ihrer Suche finden.</p>
+
+%%% condition if similar_places %%%
+<p>Meinten Sie:</p>
+
+<ul>
+%%% loop similar_places %%%
+<li><strong><a href="/?q=%%% item place rawurlencode %%%">%%% item place %%%</a></strong></li>
+%%% loop end %%%
+</ul>
+%%% condition endif %%%
 
 %%% condition endif %%%
 %%% condition endif %%%
@@ -48,4 +58,6 @@ wie »SK« für »Schachklub« nicht aufgelöst werden.</li>
 <li>Sie können <em>nicht</em> nach einer <strong>Straße</strong> suchen.</li>
 <li>Sie können <em>nicht</em> nach <strong>einzelnen Menschen</strong> suchen. Nutzen Sie hierfür gerne die
 <a href="/zahlen/">Suche nach Wertungszahlen</a>.</li>
+<li>Schachvereine im <strong>Ausland</strong> (von Deutschland aus gesehen). Der <strong>Schweizer
+Schachbund</strong> hat eine eigene Seite mit einer <a href="https://www.swisschess.ch/schachvereine-1270.html">Karte mit Schweizer Schachvereinen</a></li>
 </ul>

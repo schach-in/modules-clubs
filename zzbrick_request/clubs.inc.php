@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2015-2022 Gustaf Mossakowski
+ * @copyright Copyright © 2015-2023 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -77,8 +77,8 @@ function mod_clubs_clubs($params, $settings = []) {
 				AND categories.parameters LIKE "%%&organisation=1%%"
 				AND ISNULL(end_date)';
 			$sql = sprintf($sql, implode('%', $qs));
-			$verein = wrap_db_fetch($sql);
-			if (!$verein) {
+			$club = wrap_db_fetch($sql);
+			if (!$club) {
 				$q = wrap_filename($_GET['q'], '', ['-' => '']);
 				$sql = 'SELECT contact_id, identifier
 				FROM contacts
@@ -88,9 +88,9 @@ function mod_clubs_clubs($params, $settings = []) {
 				AND categories.parameters LIKE "%%&organisation=1%%"
 				AND ISNULL(end_date)';
 				$sql = sprintf($sql, wrap_db_escape($q));
-				$verein = wrap_db_fetch($sql);
+				$club = wrap_db_fetch($sql);
 			}
-			if (!$verein) {
+			if (!$club) {
 				$change = false;
 				foreach ($qs as $index => $qstring) {
 					if (strlen($qstring) > 3) continue;
@@ -106,12 +106,14 @@ function mod_clubs_clubs($params, $settings = []) {
 						AND categories.parameters LIKE "%%&organisation=1%%"
 						AND ISNULL(end_date)';
 					$sql = sprintf($sql, implode('%', $qs));
-					$verein = wrap_db_fetch($sql);
+					$club = wrap_db_fetch($sql);
 				}
 			}
-			if ($verein) {
-				return wrap_redirect(sprintf('/%s/', $verein['identifier']));
+			if ($club) {
+				return wrap_redirect(sprintf('/%s/', $club['identifier']));
 			}
+
+			$data = mod_clubs_clubs_similar_places($data, $_GET['q']);
 		}
 		
 		if (!empty($data['federation_with_clubs'])) {
@@ -242,4 +244,33 @@ function mod_clubs_clubs_federations($q, $coordinates) {
 	}
 	
 	return $verbaende;
+}
+
+/**
+ * try to find something similar to the search term
+ *
+ * @param array $data
+ * @param string $q
+ * @return array
+ */
+function mod_clubs_clubs_similar_places($data, $q) {
+	$likes = [];
+	$splitstring = mb_str_split($q);
+	for ($i = 0; $i < mb_strlen($q); $i++) {
+		$this_splitstring = $splitstring;
+		$this_splitstring[$i] = '%';
+		$likes[] = wrap_db_escape(implode('', $this_splitstring));
+	}
+
+	$sql = 'SELECT COUNT(*) AS count, place
+		FROM addresses
+		WHERE place LIKE "%s"
+		AND country_id = %d
+		GROUP BY place';
+	$sql = sprintf($sql
+		, implode('" OR place LIKE "', $likes)
+		, wrap_id('countries', 'de')
+	);
+	$data['similar_places'] = wrap_db_fetch($sql, '_dummy_', 'numeric');
+	return $data;
 }
