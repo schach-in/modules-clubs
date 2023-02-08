@@ -256,3 +256,9 @@ a.edit:before	{ content: "\2192  "; }
 }
 
 /* End */
+
+/* searchform.template.txt */
+
+.searchform		{ margin: 1em 0; }
+.searchform label
+				{ display: none; }
