@@ -9,7 +9,7 @@
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
  * @author Falco Nogatz <fnogatz@gmail.com>
- * @copyright Copyright © 2015-2022 Gustaf Mossakowski
+ * @copyright Copyright © 2015-2023 Gustaf Mossakowski
  * @copyright Copyright © 2020      Falco Nogatz <fnogatz@gmail.com>
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
@@ -498,11 +498,10 @@ function mod_clubs_club($params) {
  * @return bool true: something was found
  */
 function mod_clubs_club_known_urls() {
-	global $zz_setting;
-	$uri = parse_url($zz_setting['request_uri']);
-	if (!empty($uri['path']) AND in_array($uri['path'], $zz_setting['icon_paths'])) return true;
-	if (!empty($uri['path']) AND str_ends_with($uri['path'], '.php')) return true;
-	if (!empty($uri['path']) AND str_ends_with($uri['path'], '.cgi')) return true;
-	if (!empty($uri['path']) AND str_ends_with($uri['path'], '.html')) return true;
+	$uri = parse_url(wrap_get_setting('request_uri'));
+	if (empty($uri['path'])) return false;
+	if (str_ends_with($uri['path'], '.php')) return true;
+	if (str_ends_with($uri['path'], '.cgi')) return true;
+	if (str_ends_with($uri['path'], '.html')) return true;
 	return false;
 }	
