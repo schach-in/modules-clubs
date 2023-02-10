@@ -2,13 +2,13 @@
 
 /**
  * clubs module
- * output opengraph imagefor organisations
+ * output opengraph image for organisations
  *
  * Part of »Zugzwang Project«
  * https://www.zugzwang.org/modules/clubs
  *
- * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2015-2022 Gustaf Mossakowski
+ * @author Falco Nogatz <fnogatz@gmail.com>
+ * @copyright Copyright © 2023 Falco Nogatz
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -82,7 +82,7 @@ function mod_clubs_clubsopengraph($params, $settings = []) {
 		$title_height = $title_box[1] - $title_box[7];
 	} while ($title_width > $image_width - $title_leftPad - $title_rightPad);
 	imagettftext($img, $title_fontSize, 0, $title_leftPad, 490, $darkColor, $boldFont, $title);
-	imagettftext($img, $subtitle_fontSize, 0, $title_leftPad + $title_fontSize/40, 555, $darkColor, $regularFont, $org['country']);
+	imagettftext($img, $subtitle_fontSize, 0, $title_leftPad + floor($title_fontSize/40), 555, $darkColor, $regularFont, $org['country']);
 
 	// stats
 	imagettftext($img, $label_fontSize, 0, 130, 160, $lightColor, $regularFont, 'Mitglieder');
