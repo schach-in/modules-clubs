@@ -6,7 +6,7 @@
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
 # @author Falco Nogatz <fnogatz@gmail.com>
-# @copyright Copyright © 2015-2019, 2021-2022 Gustaf Mossakowski
+# @copyright Copyright © 2015-2019, 2021-2023 Gustaf Mossakowski
 # @copyright Copyright © 2020 Falco Nogatz
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
@@ -45,7 +45,11 @@ Du hast einen Zugang zu unserer Website?
 
 %%% condition if end_date %%%
 %%% condition if schulschachgruppe %%%
-<p>Diese Schule gibt es seit <span itemprop="dissolutionDate" datetime="%%% item end_date %%%">%%% item end_date %%%</span> nicht mehr.
+<p>Diese Schule gibt es seit <span itemprop="dissolutionDate" datetime="%%% item end_date %%%">%%% item end_date %%%</span> nicht mehr.</p>
+%%% condition elseif schachkindergarten %%%
+<p>Dieser Kindergarten bietet aktuell nach unserem Kenntnisstand kein Schach mehr an.</p>
+%%% condition elseif schachhort %%%
+<p>Dieser Kindergarten bietet aktuell nach unserem Kenntnisstand kein Schach mehr an.</p>
 %%% condition else %%%
 <p>Dieser Verein wurde <span itemprop="dissolutionDate" datetime="%%% item end_date %%%">%%% item end_date %%%</span> aufgelöst oder ist nicht mehr Mitglied im Deutschen Schachbund.
 %%% condition endif %%%
@@ -254,13 +258,22 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 
 %%% condition endif %%%
 
+%%% condition if schachkindergarten | schachhort %%%
+%%% condition if main_contact %%%
+<h2>Träger</h2>
+
+<p>%%% item main_contact %%%</p>
+
+%%% condition endif %%%
+%%% condition endif %%%
+
 %%% condition if parent_orgs %%%
 %%% item parent_orgs %%%
-%%% condition elseif state %%%
+%%% condition elseif state & country %%%
 <h2>Bundesland</h2>
 
 <ul class="orghierarchy">
-<li><a href="/schulen/%%% item country_identifier %%%/">%%% item country %%%</a></li>
+<li><a href="%%% condition if schulschachgruppe %%%/schulen/%%% condition elseif schachkindergarten %%%/kindergaerten/%%% condition elseif schachhort %%%/horte/%%% condition endif %%%%%% item country_identifier %%%/">%%% item country %%%</a></li>
 </ul>
 %%% condition endif %%%
 %%% condition endif %%%

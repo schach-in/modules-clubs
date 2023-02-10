@@ -132,7 +132,7 @@ function mod_clubs_club($params) {
 			, (SELECT COUNT(*) FROM contacts members WHERE members.mother_contact_id = org.contact_id) AS member_orgs
 			, categories.parameters
 			, countries.country, countries.identifier AS country_identifier
-			, IF(categories.category_id IN (%d), 1, NULL) AS state
+			, IF(categories.category_id IN (%d, %d, %d), 1, NULL) AS state
 		FROM contacts org
 		LEFT JOIN categories
 			ON org.contact_category_id = categories.category_id
@@ -154,6 +154,8 @@ function mod_clubs_club($params) {
 		, wrap_category_id('contact/hort')
 
 		, wrap_category_id('contact/school')
+		, wrap_category_id('contact/kindergarten')
+		, wrap_category_id('contact/hort')
 
 		, wrap_category_id('identifiers/zps')
 		, wrap_db_escape($params[0])
@@ -268,9 +270,17 @@ function mod_clubs_club($params) {
 	$sql = sprintf($sql, $org['contact_id']);
 	$org['teams'] = wrap_db_fetch($sql, 'team_id');
 
-	if ($org['verein'] OR $org['schachabteilung']) {
+	if ($org['verein'] OR $org['schachabteilung'])
 		$org['parent_orgs'] = mf_clubs_parent_orgs($org['contact_id']);
-	}
+	
+	// Main Contact
+	$sql = 'SELECT main_contacts.contact AS main_contact
+		FROM contacts main_contacts
+		LEFT JOIN contacts
+		ON main_contacts.contact_id = contacts.mother_contact_id
+		WHERE contacts.contact_id = %d';
+	$sql = sprintf($sql, $org['contact_id']);
+	$org['main_contact'] = wrap_db_fetch($sql, '', 'single value');
 	
 	// Auszeichnungen
 	$sql = 'SELECT award_id, category_id, category, award_year, award_year_to
