@@ -25,6 +25,9 @@ function mod_clubs_clubs($params, $settings = []) {
 			return brick_format('%%% request clublist '.$params[0].' %%%');
 		return brick_format('%%% request federationlist '.$params[0].' %%%');
 	}
+	if ($params AND end($params) === 'opengraph.png') {
+		return brick_format('%%% request clubsopengraph * %%%');
+	}
 	if ($params AND str_ends_with(end($params), '.geojson')) {
 		return brick_format('%%% request clubsgeojson * %%%');
 	}
