@@ -133,6 +133,7 @@ function mod_clubs_club($params) {
 			, categories.parameters
 			, countries.country, countries.identifier AS country_identifier
 			, IF(categories.category_id IN (%d, %d, %d), 1, NULL) AS state
+			, org.identifier
 		FROM contacts org
 		LEFT JOIN categories
 			ON org.contact_category_id = categories.category_id
@@ -497,6 +498,8 @@ function mod_clubs_club($params) {
 	} else {
 		$page['opengraph']['og:description'] = 'Profil bei schach.in';
 	}
+	if (!empty($org['verein']))
+		$page['opengraph']['og:image'] = sprintf('/%s/opengraph.png', $org['identifier']);
 	$page['text'] = wrap_template('club', $org);
 	return $page;
 }
