@@ -52,7 +52,7 @@ function mod_clubs_clubsopengraph($params, $settings = []) {
 	if (!$org) {
 		return brick_format('%%% request clubs '.$params[0].' %%%');
 	}
-	if ($org['category'] !== 'verein') {
+	if (!in_array($org['category'], ['verein', 'schachabteilung'])) {
 		// as of now, we only support clubs
 		return false;
 	}

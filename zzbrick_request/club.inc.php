@@ -498,7 +498,7 @@ function mod_clubs_club($params) {
 	} else {
 		$page['opengraph']['og:description'] = 'Profil bei schach.in';
 	}
-	if (!empty($org['verein'])) {
+	if (in_array($org['category'], ['verein', 'schachabteilung'])) {
 		$page['opengraph']['og:width'] = '1200';
 		$page['opengraph']['og:height'] = '630';
 		$page['opengraph']['og:image'] = bricksetting('host_base') . sprintf('/%s/opengraph.png', $org['identifier']);
