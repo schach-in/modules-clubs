@@ -10,7 +10,7 @@
  * @author Gustaf Mossakowski <gustaf@koenige.org>
  * @author Falco Nogatz <fnogatz@gmail.com>
  * @copyright Copyright © 2015-2023 Gustaf Mossakowski
- * @copyright Copyright © 2020      Falco Nogatz <fnogatz@gmail.com>
+ * @copyright Copyright © 2020, 2023 Falco Nogatz <fnogatz@gmail.com>
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -501,9 +501,9 @@ function mod_clubs_club($params) {
 	if (in_array($org['category'], ['verein', 'schachabteilung'])) {
 		$page['opengraph']['og:width'] = '1200';
 		$page['opengraph']['og:height'] = '630';
-		$page['opengraph']['og:image'] = bricksetting('host_base') . sprintf('/%s/opengraph.png', $org['identifier']);
+		$page['opengraph']['og:image'] = wrap_get_setting('host_base') . sprintf('/%s/opengraph.png', $org['identifier']);
 		$page['meta'][] = ['name' => 'twitter:card', 'content' => 'summary_large_image'];
-		$page['meta'][] = ['name' => 'twitter:image', 'content' => bricksetting('host_base') .sprintf('/%s/opengraph.png', $org['identifier'])];
+		$page['meta'][] = ['name' => 'twitter:image', 'content' => wrap_get_setting('host_base') .sprintf('/%s/opengraph.png', $org['identifier'])];
 	}
 	$page['text'] = wrap_template('club', $org);
 	return $page;
