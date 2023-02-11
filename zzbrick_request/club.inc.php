@@ -498,8 +498,13 @@ function mod_clubs_club($params) {
 	} else {
 		$page['opengraph']['og:description'] = 'Profil bei schach.in';
 	}
-	if (!empty($org['verein']))
-		$page['opengraph']['og:image'] = sprintf('/%s/opengraph.png', $org['identifier']);
+	if (!empty($org['verein'])) {
+		$page['opengraph']['og:width'] = '1200';
+		$page['opengraph']['og:height'] = '630';
+		$page['opengraph']['og:image'] = bricksetting('host_base') . sprintf('/%s/opengraph.png', $org['identifier']);
+		$page['meta'][] = ['name' => 'twitter:card', 'content' => 'summary_large_image'];
+		$page['meta'][] = ['name' => 'twitter:image', 'content' => bricksetting('host_base') .sprintf('/%s/opengraph.png', $org['identifier'])];
+	}
 	$page['text'] = wrap_template('club', $org);
 	return $page;
 }
