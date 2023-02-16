@@ -518,6 +518,7 @@ function mod_clubs_club($params) {
 function mod_clubs_club_known_urls() {
 	$uri = parse_url(wrap_get_setting('request_uri'));
 	if (empty($uri['path'])) return false;
+	if (str_starts_with($uri['path'], '_')) return true;
 	if (str_ends_with($uri['path'], '.php')) return true;
 	if (str_ends_with($uri['path'], '.cgi')) return true;
 	if (str_ends_with($uri['path'], '.html')) return true;
