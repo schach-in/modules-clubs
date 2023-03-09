@@ -511,7 +511,7 @@ function mod_clubs_club($params) {
 
 /**
  * check if URL is definitely not for this script
- * and return
+ * and return (mostly scripts who randomly try to find security flaws)
  *
  * @return bool true: something was found
  */
@@ -522,5 +522,7 @@ function mod_clubs_club_known_urls() {
 	if (str_ends_with($uri['path'], '.php')) return true;
 	if (str_ends_with($uri['path'], '.cgi')) return true;
 	if (str_ends_with($uri['path'], '.html')) return true;
+	if (str_ends_with($uri['path'], '.asp')) return true;
+	if (str_ends_with($uri['path'], '.json')) return true;
 	return false;
 }	
