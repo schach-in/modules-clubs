@@ -336,8 +336,7 @@ function mod_clubs_get_clubs_condition_parts($q) {
  * @see http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
  */
 function mod_clubs_get_clubs_geocode($url, $q, $wanted = []) {
-	global $zz_setting;
-	require_once $zz_setting['core'].'/syndication.inc.php';
+	require_once wrap_setting('core').'/syndication.inc.php';
 
 	$url = 'https://nominatim.openstreetmap.org/search.php?'.$url;
 	$url = sprintf($url, rawurlencode($q));

@@ -9,7 +9,7 @@
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
  * @author Falco Nogatz <nogatz@gmail.com>
- * @copyright Copyright © 2016-2022 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2023 Gustaf Mossakowski
  * @copyright Copyright © Falco Nogatz
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
@@ -22,9 +22,8 @@
  * @return array $page
  */
 function mod_clubs_make_clubstats() {
-	global $zz_setting;
-	require_once $zz_setting['core'].'/syndication.inc.php';
-	$zz_setting['cache'] = false;
+	require_once wrap_setting('core').'/syndication.inc.php';
+	wrap_setting('cache', false);
 
 	if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 		$data['request'] = true;

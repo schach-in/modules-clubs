@@ -16,7 +16,6 @@
 
 
 function mod_clubs_club($params) {
-	global $zz_setting;
 	global $zz_conf;
 
 	// this script is getting all URLs, shortcuts for URLs that definitely
@@ -25,7 +24,7 @@ function mod_clubs_club($params) {
 	if (!isset($params[0])) return false;
 	$edit = false;
 	if ((count($params) === 3 OR count($params) === 4) AND $params[1] === 'bearbeiten') {
-		$zz_setting['cache'] = false;
+		wrap_setting('cache', false);
 		$sql = 'SELECT contact_id, contact
 			FROM contacts
 			WHERE identifier = "%s"
@@ -106,7 +105,7 @@ function mod_clubs_club($params) {
 		return $page;
 	} elseif (count($params) === 2) {
 		if ($params[1] === 'bearbeiten') {
-			$zz_setting['cache'] = false;
+			wrap_setting('cache', false);
 			$edit = true;
 			array_pop($params);
 		} else {
@@ -170,7 +169,7 @@ function mod_clubs_club($params) {
 	}
 	parse_str($org['parameters'], $org['parameters']);
 	$org += mf_contacts_contactdetails($org['contact_id']);
-	if ($org['members'] < wrap_get_setting('clubs_statistik_min_mitglieder')) {
+	if ($org['members'] < wrap_setting('club_stats_min_members')) {
 		$org['keine_statistik'] = true;
 	}
 	$org['edit'] = $edit;
@@ -501,9 +500,9 @@ function mod_clubs_club($params) {
 	if (in_array($org['category'], ['verein', 'schachabteilung'])) {
 		$page['opengraph']['og:width'] = '1200';
 		$page['opengraph']['og:height'] = '630';
-		$page['opengraph']['og:image'] = wrap_get_setting('host_base') . sprintf('/%s/opengraph.png', $org['identifier']);
+		$page['opengraph']['og:image'] = wrap_setting('host_base') . sprintf('/%s/opengraph.png', $org['identifier']);
 		$page['meta'][] = ['name' => 'twitter:card', 'content' => 'summary_large_image'];
-		$page['meta'][] = ['name' => 'twitter:image', 'content' => wrap_get_setting('host_base') .sprintf('/%s/opengraph.png', $org['identifier'])];
+		$page['meta'][] = ['name' => 'twitter:image', 'content' => wrap_setting('host_base') .sprintf('/%s/opengraph.png', $org['identifier'])];
 	}
 	$page['text'] = wrap_template('club', $org);
 	return $page;
@@ -516,7 +515,7 @@ function mod_clubs_club($params) {
  * @return bool true: something was found
  */
 function mod_clubs_club_known_urls() {
-	$uri = parse_url(wrap_get_setting('request_uri'));
+	$uri = parse_url(wrap_setting('request_uri'));
 	if (empty($uri['path'])) return false;
 	if (str_starts_with($uri['path'], '_')) return true;
 	if (str_ends_with($uri['path'], '.php')) return true;

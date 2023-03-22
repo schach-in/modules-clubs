@@ -14,8 +14,6 @@
 
 
 function mod_clubs_federationlist($params) {
-	global $zz_setting;
-
 	$sql = 'SELECT contact_id, contact, category_id, category, mother_contact_id
 			, 1 AS aktiv
 			, contacts.identifier

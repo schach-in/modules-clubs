@@ -14,7 +14,6 @@
 
 
 function mod_clubs_clublist($params) {
-	global $zz_setting;
 	if (count($params) !== 1) return false;
 	$extra_field = '';
 

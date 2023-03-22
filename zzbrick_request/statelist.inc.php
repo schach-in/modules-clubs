@@ -14,8 +14,6 @@
 
 
 function mod_clubs_statelist($params, $settings) {
-	global $zz_setting;
-
 	$sql = 'SELECT country_id, country, identifier
 			, (SELECT COUNT(*) FROM contacts
 				WHERE contacts.country_id = countries.country_id

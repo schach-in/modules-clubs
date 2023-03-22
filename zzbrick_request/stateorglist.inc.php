@@ -14,7 +14,6 @@
 
 
 function mod_clubs_stateorglist($params, $settings) {
-	global $zz_setting;
 	if (count($params) !== 1) return false;
 
 	$sql = 'SELECT country_id, country AS contact, 0 AS _level

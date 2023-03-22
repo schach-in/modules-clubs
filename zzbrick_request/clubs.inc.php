@@ -14,7 +14,6 @@
 
 
 function mod_clubs_clubs($params, $settings = []) {
-	global $zz_setting;
 	if (count($params) > 2) return false;
 
 	// divert?
@@ -33,7 +32,7 @@ function mod_clubs_clubs($params, $settings = []) {
 	}
 	if (count($params) > 1) return false;
 
-	if ($zz_setting['request_uri'] === '/' AND empty($_GET))
+	if (wrap_setting('request_uri') === '/' AND empty($_GET))
 		return wrap_redirect('/deutschland', 307);
 	if (isset($_GET['q']) AND empty($_GET['q']))
 		return wrap_redirect('/deutschland', 307);
@@ -44,7 +43,7 @@ function mod_clubs_clubs($params, $settings = []) {
 	if (empty($params))
 		$page['query_strings'][] = 'q';
 		
-	$url = parse_url($zz_setting['request_uri']);
+	$url = parse_url(wrap_setting('request_uri'));
 	if ($url['path'] === '/' AND !empty($_GET)) {
 		foreach ($_GET as $key => $value)
 			if (!in_array($key, $page['query_strings'])) unset($_GET[$key]);
