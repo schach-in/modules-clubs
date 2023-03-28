@@ -518,10 +518,7 @@ function mod_clubs_club_known_urls() {
 	$uri = parse_url(wrap_setting('request_uri'));
 	if (empty($uri['path'])) return false;
 	if (str_starts_with($uri['path'], '_')) return true;
-	if (str_ends_with($uri['path'], '.php')) return true;
-	if (str_ends_with($uri['path'], '.cgi')) return true;
-	if (str_ends_with($uri['path'], '.html')) return true;
-	if (str_ends_with($uri['path'], '.asp')) return true;
-	if (str_ends_with($uri['path'], '.json')) return true;
+	foreach (wrap_setting('clubs_unwanted_file_endings') as $ending)
+		if (str_ends_with($uri['path'], '.'.$ending)) return true;
 	return false;
 }	
