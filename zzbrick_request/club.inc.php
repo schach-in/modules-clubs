@@ -169,7 +169,7 @@ function mod_clubs_club($params) {
 	}
 	parse_str($org['parameters'], $org['parameters']);
 	$org += mf_contacts_contactdetails($org['contact_id']);
-	if ($org['members'] < wrap_setting('club_stats_min_members')) {
+	if ($org['members'] < wrap_setting('clubs_stats_min_members')) {
 		$org['keine_statistik'] = true;
 	}
 	$org['edit'] = $edit;

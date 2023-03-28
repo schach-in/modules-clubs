@@ -12,3 +12,4 @@
 
 
 /* 2023-03-22-1 */	UPDATE _settings SET setting_key = 'club_stats_min_members' WHERE setting_key = 'clubs_statistik_min_mitglieder';
+/* 2023-03-28-1 */	UPDATE _settings SET setting_key = 'clubs_stats_min_members' WHERE setting_key = 'club_stats_min_members';
