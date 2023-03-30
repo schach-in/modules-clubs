@@ -16,8 +16,6 @@
 
 
 function mod_clubs_club($params) {
-	global $zz_conf;
-
 	// this script is getting all URLs, shortcuts for URLs that definitely
 	// are not for this script
 	if(mod_clubs_club_known_urls()) return false;
@@ -314,7 +312,7 @@ function mod_clubs_club($params) {
 	$wochentermine = wrap_db_fetch($sql, 'wochentermin_id');
 
 	if ($org['edit']) {
-		require_once $zz_conf['dir'].'/revisions.inc.php';
+		wrap_include_files('revisions', 'zzform');
 		$revisions = zz_revisions_read('contacts', $org['contact_id']);
 		foreach ($revisions as $key => $value) {
 			if (is_array($value)) {
