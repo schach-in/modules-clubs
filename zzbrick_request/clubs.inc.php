@@ -261,7 +261,7 @@ function mod_clubs_clubs_similar_places($data, $q) {
 	for ($i = 0; $i < mb_strlen($q); $i++) {
 		$this_splitstring = $splitstring;
 		$this_splitstring[$i] = '%';
-		$likes[] = wrap_db_escape(implode('', $this_splitstring));
+		$likes[] = wrap_db_escape(implode('', $this_splitstring).'%');
 	}
 
 	$sql = 'SELECT COUNT(*) AS count, place
@@ -271,7 +271,7 @@ function mod_clubs_clubs_similar_places($data, $q) {
 		GROUP BY place';
 	$sql = sprintf($sql
 		, implode('" OR place LIKE "', $likes)
-		, wrap_id('countries', 'de')
+		, wrap_id('countries', 'DE')
 	);
 	$data['similar_places'] = wrap_db_fetch($sql, '_dummy_', 'numeric');
 	return $data;
