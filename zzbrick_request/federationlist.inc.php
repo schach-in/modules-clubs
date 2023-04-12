@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016-2022 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2023 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -26,7 +26,7 @@ function mod_clubs_federationlist($params) {
 	if (!$data) {
 		$categories = mf_clubs_from_category($params[0]);
 		if (!$categories) {
-			$sql = sprintf(wrap_sql('redirects')
+			$sql = sprintf(wrap_sql_query('core_redirects')
 				, '/'.wrap_db_escape($params[0])
 				, '/'.wrap_db_escape($params[0])
 				, '/'.wrap_db_escape($params[0])
