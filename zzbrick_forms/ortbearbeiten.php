@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016-2017, 2019-2022 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2017, 2019-2023 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -41,8 +41,8 @@ switch ($brick['vars'][1]) {
 		wrap_quit(404);
 }
 
-$zz['if']['add']['explanation'] = '';
-$zz['unless']['add']['explanation'] = '<strong>Hinweis:</strong> Bitte korrigiere hier nur Angaben zu diesem Spielort. Bei <strong>Wechsel</strong> des Spielorts lösche bitte den alten und <a href="../../ort-neu/">ergänze einen neuen</a>!';
+$zz['if']['insert']['explanation'] = '';
+$zz['unless']['insert']['explanation'] = '<strong>Hinweis:</strong> Bitte korrigiere hier nur Angaben zu diesem Spielort. Bei <strong>Wechsel</strong> des Spielorts lösche bitte den alten und <a href="../../ort-neu/">ergänze einen neuen</a>!';
 
 // contact
 $zz['fields'][2]['title'] = 'Spielort';
