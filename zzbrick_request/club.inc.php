@@ -250,7 +250,7 @@ function mod_clubs_club($params) {
 	}
 
 	$sql = 'SELECT team_id, event, team, team_no
-			, teams.identifier AS team_identifier
+			, IF(tournaments.teilnehmerliste = "ja", teams.identifier, events.identifier) AS team_identifier
 			, events.event
 			, CONCAT(events.date_begin, "/", IFNULL(events.date_end, "")) AS duration
 			, categories.category AS series
@@ -262,7 +262,6 @@ function mod_clubs_club($params) {
 			ON events.series_category_id = categories.category_id
 		WHERE club_contact_id = %d
 		AND teams.team_status = "Teilnehmer"
-		AND tournaments.teilnehmerliste = "ja"
 		ORDER BY IFNULL(events.date_begin, events.date_end) DESC, events.event DESC
 	';
 	$sql = sprintf($sql, $org['contact_id']);
