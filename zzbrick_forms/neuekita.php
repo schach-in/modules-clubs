@@ -13,7 +13,7 @@
  */
 
 
-$zz = zzform_include_table('organisationen'); // @todo use contacts directly
+$zz = zzform_include('organisationen'); // @todo use contacts directly
 
 if (empty($_SESSION['login_id']))
 	$zz['revisions_only'] = true;

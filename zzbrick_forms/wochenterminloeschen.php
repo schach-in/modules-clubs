@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2017, 2019, 2021 Gustaf Mossakowski
+ * @copyright Copyright © 2017, 2019, 2021, 2023 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -17,7 +17,7 @@ if (count($brick['vars']) !== 2) wrap_quit(404);
 $verein = mf_clubs_club($brick['vars'][0]);
 if (!$verein) wrap_quit(404);
 
-$zz = zzform_include_table('wochentermine');
+$zz = zzform_include('wochentermine');
 
 $sql = 'SELECT wochentermin_id
 	FROM wochentermine

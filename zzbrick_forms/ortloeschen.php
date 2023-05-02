@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016, 2019-2022 Gustaf Mossakowski
+ * @copyright Copyright © 2016, 2019-2023 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -30,7 +30,7 @@ if (!$cc_id) {
 	wrap_quit(404);
 }
 
-$zz = zzform_include_table('contacts-contacts');
+$zz = zzform_include('contacts-contacts');
 $zz['where']['cc_id'] = $cc_id;
 
 // sequence
