@@ -56,8 +56,6 @@ unset($zz['fields'][10]);
 $zz['fields'][3]['fields'] = [
 	'addresses.country_id[country_code]', 'addresses.place', 'contact'
 ];
-$zz['fields'][3]['conf_identifier']['concat'] = '/';
-$zz['fields'][3]['conf_identifier']['ignore_this_if_identical']['place'] = 'contact';
 $zz['fields'][3]['hide_in_form'] = true;
 
 // contact_category_id
