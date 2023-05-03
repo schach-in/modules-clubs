@@ -17,7 +17,7 @@ wrap_setting('cache', false);
 
 $values['contactdetails_restrict_to'] = 'school';
 $values['relations_restrict_to'] = 'school';
-$zz = zzform_include('contacts/contacts', $values);
+$zz = zzform_include('contacts/contacts', $values, 'forms');
 
 $zz['title'] = 'Add school chess group';
 

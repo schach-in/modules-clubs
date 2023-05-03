@@ -19,7 +19,7 @@ if (!$club) wrap_quit(404);
 
 $values['contactdetails_restrict_to'] = 'places';
 $values['relations_restrict_to'] = 'places';
-$zz = zzform_include('contacts/contacts', $values);
+$zz = zzform_include('contacts/contacts', $values, 'forms');
 
 $zz['title'] = $club['contact'];
 
