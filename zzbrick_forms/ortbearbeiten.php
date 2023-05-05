@@ -117,7 +117,7 @@ $zz['fields'][32]['fields'][3]['explanation'] = 'Festnetz vor Ort. '
 	.$zz['fields'][32]['fields'][3]['explanation'];
 
 for ($i = 30; $i < 40; $i++) {
-	if (!isset($zz['fields'][$i])) break;
+	if (empty($zz['fields'][$i])) break;
 	$zz['fields'][$i]['field_sequence'] = $i;
 }
 
