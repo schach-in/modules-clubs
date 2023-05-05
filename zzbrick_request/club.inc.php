@@ -167,9 +167,12 @@ function mod_clubs_club($params) {
 	}
 	parse_str($org['parameters'], $org['parameters']);
 	$org += mf_contacts_contactdetails($org['contact_id']);
-	if ($org['members'] < wrap_setting('clubs_stats_min_members')) {
+	// remove old URLs
+	if (!empty($org['url']))
+		foreach ($org['url'] as $index => $url)
+			if (!empty($url['parameters']['hidden'])) unset($org['url'][$index]);
+	if ($org['members'] < wrap_setting('clubs_stats_min_members'))
 		$org['keine_statistik'] = true;
-	}
 	$org['edit'] = $edit;
 	if ($org['end_date']) {
 		$sql = 'SELECT contact AS nachfolger, identifier AS nachfolger_kennung
