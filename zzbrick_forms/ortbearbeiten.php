@@ -54,7 +54,7 @@ unset($zz['fields'][10]);
 
 // identifier
 $zz['fields'][3]['fields'] = [
-	'addresses.country_id[country_code]', 'addresses.place', 'contact'
+	'address_0.country_id[country_code]', 'address_0.place', 'contact', 'contact_category_id[parameters]'
 ];
 $zz['fields'][3]['hide_in_form'] = true;
 
