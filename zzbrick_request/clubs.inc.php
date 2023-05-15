@@ -123,6 +123,9 @@ function mod_clubs_clubs($params, $settings = []) {
 		}
 		$page['status'] = 404;
 		$data['not_found'] = true;
+		$page['title'] = wrap_text('Search');
+		$page['breadcrumbs'][]['title'] = wrap_text('Search');
+		$page['extra']['not_home'] = true;
 		$page['text'] = wrap_template('clubsearch', $data);
 		return $page;
 	}

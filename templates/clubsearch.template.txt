@@ -8,7 +8,6 @@
 # @copyright Copyright © 2022-2023 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
-<h1>Suche</h1>
 %%% condition if not_found %%%
 %%% condition if title %%%
 <p>Wir konnten leider zu »%%% item title %%%« keine Daten finden.</p>
