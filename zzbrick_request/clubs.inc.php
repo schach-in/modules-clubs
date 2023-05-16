@@ -118,10 +118,11 @@ function mod_clubs_clubs($params, $settings = []) {
 			$data = mod_clubs_clubs_similar_places($data, $_GET['q']);
 		}
 		
-		if (!empty($data['federation_with_clubs'])) {
+		if (!empty($data['federation_with_clubs']))
 			return wrap_redirect(sprintf('/%s/liste/', $params[0]), 307);
-		}
-		$page['status'] = 404;
+
+		wrap_setting('cache', false);
+		$page['status'] = !empty($data['similar_places']) ? 200 : 404;
 		$data['not_found'] = true;
 		$page['title'] = wrap_text('Search');
 		$page['breadcrumbs'][]['title'] = wrap_text('Search');
