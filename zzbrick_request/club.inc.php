@@ -517,7 +517,8 @@ function mod_clubs_club($params) {
 function mod_clubs_club_known_urls() {
 	$uri = parse_url(wrap_setting('host_base').wrap_setting('request_uri'));
 	if (empty($uri['path'])) return false;
-	if (str_starts_with($uri['path'], '_')) return true;
+	foreach (wrap_setting('clubs_unwanted_path_beginnings') as $beginning)
+		if (str_starts_with($uri['path'], $beginning)) return true;
 	foreach (wrap_setting('clubs_unwanted_file_endings') as $ending)
 		if (str_ends_with($uri['path'], '.'.$ending)) return true;
 	return false;
