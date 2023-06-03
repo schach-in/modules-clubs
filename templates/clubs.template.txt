@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2015-2022 Gustaf Mossakowski
+# @copyright Copyright © 2015-2023 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 # List of fields:
@@ -20,7 +20,7 @@
 %%% condition if title | q | lat | lon %%%
 <a href="/deutschland" target="_top">
 %%% condition endif %%%
-<img src="/_layout/clubs/logo-schachvereine-60.png" alt="" width="60" height="60" srcset='/_layout/clubs/logo-schachvereine-60.png 1x, /_layout/clubs/logo-schachvereine-120.png 2x'>
+<img src="%%% setting layout_path %%%/schachin/logo-schachvereine-60.png" alt="" width="60" height="60" srcset='%%% setting layout_path %%%/schachin/logo-schachvereine-60.png 1x, %%% setting layout_path %%%/schachin/logo-schachvereine-120.png 2x'>
 %%% condition if title | q | lat | lon %%%
 </a>
 %%% condition endif %%%
