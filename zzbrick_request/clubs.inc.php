@@ -53,16 +53,9 @@ function mod_clubs_clubs($params, $settings = []) {
 
 	// check if lat or lon are both set or not set and if they are numeric values
 	// if not numeric, still show output, but send 404 page status
-	if (!empty($_GET['lat']) AND empty($_GET['lon'])) return false;
-	if (!empty($_GET['lon']) AND empty($_GET['lat'])) return false;
-	if (isset($_GET['lat']) AND !is_numeric($_GET['lat'])) {
-		$_GET['lat'] = filter_var($_GET['lat'], FILTER_SANITIZE_NUMBER_FLOAT);
-		$page['status'] = 404;
-	}
-	if (isset($_GET['lon']) AND !is_numeric($_GET['lon'])) {
-		$_GET['lon'] = filter_var($_GET['lon'], FILTER_SANITIZE_NUMBER_FLOAT);
-		$page['status'] = 404;
-	}
+	$check = mf_clubs_latlon_check();
+	if (!$check) return false;
+	if ($check !== true) $page['status'] = $check;
 
 	$data = brick_request_data('clubs', $params, $settings);
 	if (!empty($data['url_ending'])) $page['url_ending'] = $data['url_ending'];
@@ -165,8 +158,8 @@ function mod_clubs_clubs($params, $settings = []) {
 	if (empty($data['q']))
 		$data['q'] = isset($_GET['q']) ? $_GET['q'] : false;
 	if ($data['q'] === '0') $data['q'] = 0;
-	$data['lat'] = isset($_GET['lat']) ? $_GET['lat'] : false;
-	$data['lon'] = isset($_GET['lon']) ? $_GET['lon'] : false;
+	$data['lat'] = $_GET['lat'] ?? false;
+	$data['lon'] = $_GET['lon'] ?? false;
 	if (!empty($data['coordinates']))
 		$data['places'] = count($data['coordinates']);
 	if (empty($data['title'])) {

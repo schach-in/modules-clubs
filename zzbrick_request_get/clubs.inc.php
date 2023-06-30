@@ -100,6 +100,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 		$data['url_ending'] = 'none';
 
 	} elseif (!empty($_GET['lat']) AND !empty($_GET['lon'])) {
+		$check = mf_clubs_latlon_check();
 		$condition = [];
 		$condition[] = [
 			'lat' => $_GET['lat'], 'lon' => $_GET['lon']

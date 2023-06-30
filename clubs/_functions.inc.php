@@ -99,3 +99,27 @@ function mf_clubs_from_category($category) {
 	);
 	return $categories;
 }
+
+/**
+ * check lat and lon parameters
+ *
+ * @return mixed (bool true/false or HTTP status code)
+ */
+function mf_clubs_latlon_check() {
+	$status = true;
+	if (!empty($_GET['lat']) AND empty($_GET['lon'])) return false;
+	if (!empty($_GET['lon']) AND empty($_GET['lat'])) return false;
+	if (isset($_GET['lat']) AND !is_numeric($_GET['lat'])) {
+		$_GET['lat'] = filter_var($_GET['lat'], FILTER_SANITIZE_NUMBER_FLOAT);
+		$status = 404;
+	}
+	if (isset($_GET['lat']) AND $_GET['lat'] > 90) $_GET['lat'] = 90;
+	if (isset($_GET['lat']) AND $_GET['lat'] < -90) $_GET['lat'] = -90;
+	if (isset($_GET['lon']) AND !is_numeric($_GET['lon'])) {
+		$_GET['lon'] = filter_var($_GET['lon'], FILTER_SANITIZE_NUMBER_FLOAT);
+		$status = 404;
+	}
+	if (isset($_GET['lon']) AND $_GET['lon'] > 180) $_GET['lon'] = 180;
+	if (isset($_GET['lon']) AND $_GET['lon'] < -180) $_GET['lon'] = -180;
+	return $status;
+}
