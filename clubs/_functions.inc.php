@@ -84,6 +84,7 @@ function mf_clubs_add_user_from_ip() {
 function mf_clubs_from_category($category) {
 	$sql = 'SELECT category_id, category, description
 			, SUBSTRING_INDEX(path, "/", -1) AS path
+			, parameters
 		FROM categories
 		WHERE SUBSTRING_INDEX(path, "/", -1) = "%s"';
 	$sql = sprintf($sql, wrap_db_escape($category));
@@ -93,10 +94,14 @@ function mf_clubs_from_category($category) {
 		, 'SELECT category_id, category, SUBSTRING_INDEX(path, "/", -1) AS path
 			, (SELECT IFNULL(COUNT(DISTINCT contact_id), NULL) FROM awards
 				WHERE awards.award_category_id = categories.category_id) AS awards
+			, parameters
 			FROM categories
 			WHERE main_category_id IN (%s)'
 		, 'category_id'
 	);
+	foreach ($categories as $category_id => $category) {
+		if ($category['parameters']) parse_str($category['parameters'], $categories[$category_id]['parameters']);
+	}
 	return $categories;
 }
 
