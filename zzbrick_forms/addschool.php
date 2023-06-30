@@ -84,4 +84,4 @@ $zz['fields'][14]['value'] = 'no';
 $zz['fields'][15]['hide_in_form'] = true;
 
 $zz['access'] = 'add_then_edit';
-$zz_conf['no_timeframe'] = true;
+$zz['record']['no_timeframe'] = true;

@@ -41,10 +41,10 @@ $url = explode('/', $_SERVER['REQUEST_URI']);
 array_pop($url); // slash
 array_pop($url); // ID
 array_pop($url); // ort-loeschen
-$zz_conf['redirect']['successful_delete'] = implode('/', $url).'/';
+$zz['record']['redirect']['successful_delete'] = implode('/', $url).'/';
 
 if (empty($_SESSION['login_id'])) {
 	$zz['revisions_only'] = true;
 }
 
-$zz_conf['no_timeframe'] = true;
+$zz['record']['no_timeframe'] = true;

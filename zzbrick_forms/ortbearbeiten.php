@@ -192,4 +192,4 @@ if (empty($_SESSION['login_id'])) {
 }
 
 $zz_conf['revisions_url'] = '/orte/'; // @todo solve differently
-$zz_conf['no_timeframe'] = true;
+$zz['record']['no_timeframe'] = true;

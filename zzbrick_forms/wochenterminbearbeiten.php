@@ -96,4 +96,4 @@ if (empty($_SESSION['login_id'])) {
 	$zz['fields'][10]['if']['insert']['value'] = 'nein';
 }
 
-$zz_conf['no_timeframe'] = true;
+$zz['record']['no_timeframe'] = true;

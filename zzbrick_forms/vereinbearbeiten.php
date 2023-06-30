@@ -85,4 +85,4 @@ $zz['fields'][12]['field_sequence'] = 8;
 $zz['fields'][18]['field_sequence'] = 9;
 
 $zz_conf['referer'] = '../';
-$zz_conf['no_timeframe'] = true;
+$zz['record']['no_timeframe'] = true;
