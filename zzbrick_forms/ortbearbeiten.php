@@ -26,7 +26,7 @@ $zz['title'] = $club['contact'];
 switch ($brick['vars'][1]) {
 	case 'add':
 		$zz['access'] = 'add_then_edit';
-		$zz_conf['referer'] = '../';
+		$zz['page']['referer'] = '../';
 		break;
 	case 'edit':
 		if (empty($brick['vars'][2])) wrap_quit(404);
@@ -35,7 +35,7 @@ switch ($brick['vars'][1]) {
 			$zz['revisions_only'] = true;
 		}
 		$zz['where']['contact_id'] = $brick['vars'][2];
-		$zz_conf['referer'] = '../../';
+		$zz['page']['referer'] = '../../';
 		break;
 	default:
 		wrap_quit(404);

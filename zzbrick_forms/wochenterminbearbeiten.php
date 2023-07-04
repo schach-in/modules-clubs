@@ -23,7 +23,7 @@ $mode = false;
 switch ($brick['vars'][1]) {
 	case 'add':
 		$zz['access'] = 'add_then_edit';
-		$zz_conf['referer'] = '../';
+		$zz['page']['referer'] = '../';
 		switch ($brick['vars'][2]) {
 			case 'monat': $mode = 'monat'; break;
 			case 'woche': $mode = 'woche'; break;
@@ -36,7 +36,7 @@ switch ($brick['vars'][1]) {
 			$zz['revisions_only'] = true;
 		}
 		$zz['where']['wochentermin_id'] = $brick['vars'][2];
-		$zz_conf['referer'] = '../../';
+		$zz['page']['referer'] = '../../';
 		$sql = 'SELECT FIND_IN_SET("monat=1", parameters) FROM categories
 			LEFT JOIN wochentermine
 				ON wochentermine.wochentermin_category_id = categories.category_id

@@ -36,7 +36,7 @@ if (!$zz['where']['wochentermin_id']) {
 if (empty($_POST)) $_GET['mode'] = 'delete';
 elseif (empty($_POST['zz_action']) OR $_POST['zz_action'] !== 'delete') wrap_quit(403);
 
-$zz_conf['referer'] = '../../';
+$zz['page']['referer'] = '../../';
 $url = explode('/', $_SERVER['REQUEST_URI']);
 array_pop($url); // slash
 array_pop($url); // ID
