@@ -84,20 +84,20 @@ function mod_clubs_club($params) {
 		}
 		switch ($params[2]) {
 		case 'info':
-			$page['breadcrumbs'][] = 'Allgemeine Infos';
+			$page['breadcrumbs'][]['title'] = 'Allgemeine Infos';
 			break;
 		case 'ort-loeschen':
 		case 'ort-bearbeiten':
 		case 'ort-neu':
-			$page['breadcrumbs'][] = 'Spielorte';
+			$page['breadcrumbs'][]['title'] = 'Spielorte';
 			break;
 		case 'wochentermin-loeschen':
 		case 'wochentermin-bearbeiten':
 		case 'wochentermin-neu':
-			$page['breadcrumbs'][] = 'Wochentermine';
+			$page['breadcrumbs'][]['title'] = 'Wochentermine';
 			break;
 		case 'monatstermin-neu':
-			$page['breadcrumbs'][] = 'Monatstermine';
+			$page['breadcrumbs'][]['title'] = 'Monatstermine';
 			break;
 		}
 		return $page;
@@ -478,10 +478,10 @@ function mod_clubs_club($params) {
 	}
 	if ($org['edit']) {
 		$page['breadcrumbs'][] = sprintf('<a href="../">%s</a>', $org['contact']);
-		$page['breadcrumbs'][] = 'Bearbeiten';
+		$page['breadcrumbs'][]['title'] = 'Bearbeiten';
 		$page['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];
 	} else {
-		$page['breadcrumbs'][] = $org['contact'];
+		$page['breadcrumbs'][]['title'] = $org['contact'];
 	}
 	$page['head'] = wrap_template('clubs-map-head');
 	if (!empty($org['lat_min'])) {

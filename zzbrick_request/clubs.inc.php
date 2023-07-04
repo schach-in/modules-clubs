@@ -178,11 +178,11 @@ function mod_clubs_clubs($params, $settings = []) {
 	$page['dont_show_h1'] = true;
 	if (!empty($data['title'])) {
 		$page['title'] = 'Schachvereine: '.$data['title'];
-		$page['breadcrumbs'][] = $data['title'];
+		$page['breadcrumbs'][]['title'] = $data['title'];
 	} else {
 		$page['title'] = 'Schachvereine und Schulschachgruppen';
 		if (!empty($params[0])) {
-			$page['breadcrumbs'][] = 'Suche: '.wrap_html_escape($params[0]);
+			$page['breadcrumbs'][]['title'] = 'Suche: '.wrap_html_escape($params[0]);
 		}
 	}
 	if ($data['q'] OR $data['q'] === '0' OR $data['q'] === 0)

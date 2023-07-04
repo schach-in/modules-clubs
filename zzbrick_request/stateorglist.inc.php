@@ -120,7 +120,7 @@ function mod_clubs_stateorglist($params, $settings) {
 	if (!empty($top['description'])) $data['description'] = $top['description'];
 	
 	$page['title'] = $top['contact'];
-	$page['breadcrumbs'][] = $top['contact'];
+	$page['breadcrumbs'][]['title'] = $top['contact'];
 	$page['text'] = wrap_template('clublist', $data);
 	return $page;
 }

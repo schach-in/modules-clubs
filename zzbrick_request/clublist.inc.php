@@ -145,10 +145,10 @@ function mod_clubs_clublist($params) {
 	
 	if ($verband) {
 		$page['title'] = $verband['contact'];
-		$page['breadcrumbs'][] = $verband['contact'];
+		$page['breadcrumbs'][]['title'] = $verband['contact'];
 	} else {
 		$page['title'] = $category['category'];
-		$page['breadcrumbs'][] = $category['category'];
+		$page['breadcrumbs'][]['title'] = $category['category'];
 	}
 	$page['text'] = wrap_template('clublist', $data);
 	return $page;
