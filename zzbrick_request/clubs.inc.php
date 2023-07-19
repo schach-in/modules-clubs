@@ -42,9 +42,9 @@ function mod_clubs_clubs($params, $settings = []) {
 	$page['query_strings'][] = 'embed';
 	if (empty($params))
 		$page['query_strings'][] = 'q';
-		
-	$url = parse_url(wrap_setting('request_uri'));
-	if ($url['path'] === '/' AND !empty($_GET)) {
+	
+	$url = parse_url(wrap_setting('host_base').wrap_setting('request_uri'));
+	if (in_array($url['path'], ['/', '//']) AND !empty($_GET)) {
 		foreach ($_GET as $key => $value)
 			if (!in_array($key, $page['query_strings'])) unset($_GET[$key]);
 		if (empty($_GET))
