@@ -38,31 +38,31 @@ function mod_clubs_club($params) {
 		if (count($params) === 3) {
 			switch ($params[2]) {
 			case 'info':
-				$page = brick_format('%%% forms vereinbearbeiten '.$org['contact_id'].' %%%');
+				$page = brick_format('%%% forms club-edit '.$org['contact_id'].' %%%');
 				break;
 			case 'ort-neu':
-				$page = brick_format('%%% forms ortbearbeiten '.$org['contact_id'].' add %%%');
+				$page = brick_format('%%% forms place-edit '.$org['contact_id'].' add %%%');
 				break;
 			case 'wochentermin-neu':
-				$page = brick_format('%%% forms wochenterminbearbeiten '.$org['contact_id'].' add woche %%%');
+				$page = brick_format('%%% forms weekly-edit '.$org['contact_id'].' add woche %%%');
 				break;
 			case 'monatstermin-neu':
-				$page = brick_format('%%% forms wochenterminbearbeiten '.$org['contact_id'].' add monat %%%');
+				$page = brick_format('%%% forms weekly-edit '.$org['contact_id'].' add monat %%%');
 				break;
 			}
 		} elseif (count($params) === 4) {
 			switch ($params[2]) {
 			case 'ort-bearbeiten':
-				$page = brick_format('%%% forms ortbearbeiten '.$org['contact_id'].' edit '.$params[3].' %%%');
+				$page = brick_format('%%% forms place-edit '.$org['contact_id'].' edit '.$params[3].' %%%');
 				break;
 			case 'ort-loeschen':
-				$page = brick_format('%%% forms ortloeschen '.$org['contact_id'].' '.$params[3].' %%%');
+				$page = brick_format('%%% forms place-delete '.$org['contact_id'].' '.$params[3].' %%%');
 				break;
 			case 'wochentermin-bearbeiten':
-				$page = brick_format('%%% forms wochenterminbearbeiten '.$org['contact_id'].' edit '.$params[3].' %%%');
+				$page = brick_format('%%% forms weekly-edit '.$org['contact_id'].' edit '.$params[3].' %%%');
 				break;
 			case 'wochentermin-loeschen':
-				$page = brick_format('%%% forms wochenterminloeschen '.$org['contact_id'].' '.$params[3].' %%%');
+				$page = brick_format('%%% forms weekly-delete '.$org['contact_id'].' '.$params[3].' %%%');
 				break;
 			}
 		}

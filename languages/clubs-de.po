@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/projects/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2022 Gustaf Mossakowski
+# @copyright Copyright © 2022–2023 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 msgid ""
@@ -22,19 +22,19 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.12\n"
 
-#: zzbrick_forms/addschool.php
+#: zzbrick_forms/school-add.php
 msgid "Add school chess group"
 msgstr "Schulschachgruppe hinzufügen"
 
-#: zzbrick_forms/addschool.php
+#: zzbrick_forms/school-add.php
 msgid "Name of the school"
 msgstr "Name der Schule"
 
-#: zzbrick_forms/addschool.php
+#: zzbrick_forms/school-add.php
 msgid "State"
 msgstr "Bundesland"
 
-#: zzbrick_forms/addschool.php
+#: zzbrick_forms/school-add.php
 msgid "About us"
 msgstr "Über uns"
 
