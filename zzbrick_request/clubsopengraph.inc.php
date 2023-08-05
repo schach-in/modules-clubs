@@ -64,8 +64,8 @@ function mod_clubs_clubsopengraph($params, $settings = []) {
 	$image_width = 1200;
 	$darkColor = imagecolorallocate($img, 47, 54, 61);
 	$lightColor = imagecolorallocate($img, 150, 156, 164);
-	$boldFont = __DIR__ . '/../../../themes/chess16/layout/fonts/FiraSans-Bold.ttf';
-	$regularFont = __DIR__ . '/../../../themes/chess16/layout/fonts/FiraSans-Regular.ttf';
+	$boldFont = wrap_setting('themes_dir').'/chess16/layout/fonts/FiraSans-Bold.ttf';
+	$regularFont = wrap_setting('themes_dir').'/chess16/layout/fonts/FiraSans-Regular.ttf';
 	$title_fontSize = 99;
 	$subtitle_fontSize = 38;
 	$stats_fontSize = 38;
@@ -82,7 +82,8 @@ function mod_clubs_clubsopengraph($params, $settings = []) {
 		$title_height = $title_box[1] - $title_box[7];
 	} while ($title_width > $image_width - $title_leftPad - $title_rightPad);
 	imagettftext($img, $title_fontSize, 0, $title_leftPad, 490, $darkColor, $boldFont, $title);
-	imagettftext($img, $subtitle_fontSize, 0, $title_leftPad + floor($title_fontSize/40), 555, $darkColor, $regularFont, $org['country']);
+	// @todo show country of federation if country does not exist here
+	imagettftext($img, $subtitle_fontSize, 0, $title_leftPad + floor($title_fontSize/40), 555, $darkColor, $regularFont, $org['country'] ?? '');
 
 	// stats
 	imagettftext($img, $label_fontSize, 0, 130, 160, $lightColor, $regularFont, 'Mitglieder');
