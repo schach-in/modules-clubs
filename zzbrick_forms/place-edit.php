@@ -44,148 +44,141 @@ switch ($brick['vars'][1]) {
 $zz['if']['insert']['explanation'] = '';
 $zz['unless']['insert']['explanation'] = '<strong>Hinweis:</strong> Bitte korrigiere hier nur Angaben zu diesem Spielort. Bei <strong>Wechsel</strong> des Spielorts lösche bitte den alten und <a href="../../ort-neu/">ergänze einen neuen</a>!';
 
-// contact
-$zz['fields'][2]['title'] = 'Spielort';
-$zz['fields'][2]['explanation'] = 'Name des Orts, ggf. Vereinsnamen verwenden';
-$zz['fields'][97]['field_sequence'] = 1;
+foreach ($zz['fields'] as $no => $field) {
+	if (empty($zz['fields'][$no])) continue;
 
-// contact_short
-unset($zz['fields'][10]);
+	$identifier = $field['field_name'] ?? $field['table'];
+	$identifier = str_replace('/*_PREFIX_*/', '', $identifier);
+	switch ($identifier) {
+	case 'contact':
+		$zz['fields'][$no]['title'] = 'Spielort';
+		$zz['fields'][$no]['explanation'] = 'Name des Orts, ggf. Vereinsnamen verwenden';
+		break;
 
-// identifier
-$zz['fields'][3]['fields'] = [
-	'address_0.country_id[country_code]', 'address_0.place', 'contact', 'contact_category_id[parameters]'
-];
-$zz['fields'][3]['hide_in_form'] = true;
+	case 'description':
+		$zz['fields'][$no]['title'] = 'Hinweis <br>Anfahrt';
+		$zz['fields'][$no]['explanation'] = 'Anfahrt mit Bahn, Auto, Lage des Spielorts';
+		$zz['fields'][$no]['rows'] = 4;
+		$zz['fields'][$no]['field_sequence'] = 12;
+		break;
 
-// contact_category_id
-$zz['fields'][4]['type'] = 'hidden';
-$zz['fields'][4]['type_detail'] = 'select';
-$zz['fields'][4]['hide_in_form'] = true;
-$zz['fields'][4]['hide_in_list'] = true;
-$zz['fields'][4]['value'] = wrap_category_id('contact/place');
+	case 'identifier':
+		$zz['fields'][$no]['fields'] = [
+			'address_0.country_id[country_code]', 'address_0.place', 'contact', 'contact_category_id[parameters]'
+		];
+		$zz['fields'][$no]['hide_in_form'] = true;
+		break;
 
-// addresses
-$zz['fields'][5]['min_records'] = 1;
-$zz['fields'][5]['min_records_required'] = 1;
-$zz['fields'][5]['max_records'] = 1;
-$zz['fields'][5]['form_display'] = 'inline';
-// @todo dont_show_missing?
+	case 'contact_category_id':
+		$zz['fields'][$no]['type'] = 'hidden';
+		$zz['fields'][$no]['type_detail'] = 'select';
+		$zz['fields'][$no]['hide_in_form'] = true;
+		$zz['fields'][$no]['hide_in_list'] = true;
+		$zz['fields'][$no]['value'] = wrap_category_id('contact/place');
+		break;
 
-// addresses.address
-$zz['fields'][5]['fields'][3]['field_sequence'] = 3;
+	case 'addresses':
+		$zz['fields'][$no]['min_records'] = 1;
+		$zz['fields'][$no]['min_records_required'] = 1;
+		$zz['fields'][$no]['max_records'] = 1;
+		$zz['fields'][$no]['form_display'] = 'inline';
+		$zz['fields'][$no]['separator_before'] = false;
+		// @todo dont_show_missing?
 
-// addresses.postcode
-$zz['fields'][5]['fields'][4]['field_sequence'] = 4;
+		// addresses.address
+		$zz['fields'][$no]['fields'][3]['field_sequence'] = 3;
 
-// addresses.place
-$zz['fields'][5]['fields'][5]['field_sequence'] = 5;
+		// addresses.postcode
+		$zz['fields'][$no]['fields'][4]['field_sequence'] = 4;
 
-// addresses.country_id
-$zz['fields'][5]['fields'][6]['sql'] = sprintf('SELECT country_id
-		, country_code, country, main_country_id
-	FROM countries
-	WHERE country_category_id = %d
-	ORDER BY country, country_code3', wrap_category_id('politische-einheiten/staat'));
-$zz['fields'][5]['fields'][6]['show_hierarchy'] = 'main_country_id';
-$zz['fields'][5]['fields'][6]['default'] = wrap_id('countries', 'DE');
-$zz['fields'][5]['fields'][6]['field_sequence'] = 6;
+		// addresses.place
+		$zz['fields'][$no]['fields'][5]['field_sequence'] = 5;
 
-// addresses.latitude
-$zz['fields'][5]['fields'][7]['hide_in_form'] = true;
+		// addresses.country_id
+		$zz['fields'][$no]['fields'][6]['sql'] = sprintf('SELECT country_id
+				, country_code, country, main_country_id
+			FROM countries
+			WHERE country_category_id = %d
+			ORDER BY country, country_code3', wrap_category_id('politische-einheiten/staat'));
+		$zz['fields'][$no]['fields'][6]['show_hierarchy'] = 'main_country_id';
+		$zz['fields'][$no]['fields'][6]['default'] = wrap_id('countries', 'DE');
+		$zz['fields'][$no]['fields'][6]['field_sequence'] = 6;
 
-// addresses.longitude
-$zz['fields'][5]['fields'][8]['hide_in_form'] = true;
+		// addresses.latitude
+		$zz['fields'][$no]['fields'][7]['hide_in_form'] = true;
 
-// addresses.address_category_id
-$zz['fields'][5]['fields'][9]['type'] = 'hidden';
-$zz['fields'][5]['fields'][9]['type_detail'] = 'select';
-$zz['fields'][5]['fields'][9]['value'] = wrap_category_id('adressen/dienstlich');
-$zz['fields'][5]['fields'][9]['hide_in_form'] = true;
+		// addresses.longitude
+		$zz['fields'][$no]['fields'][8]['hide_in_form'] = true;
 
-// contactdetails
-// e-mail
-$zz['fields'][30]['hide_in_form'] = true;
+		// addresses.address_category_id
+		$zz['fields'][$no]['fields'][9]['type'] = 'hidden';
+		$zz['fields'][$no]['fields'][9]['type_detail'] = 'select';
+		$zz['fields'][$no]['fields'][9]['value'] = wrap_category_id('adressen/dienstlich');
+		$zz['fields'][$no]['fields'][9]['hide_in_form'] = true;
+		break;
 
-// website
-$zz['fields'][31]['fields'][3]['explanation']
-	= 'Nur Website des Spielortes, falls vorhanden, nicht Vereinswebsite.';
+	case 'published':
+		$zz['fields'][$no]['hide_in_form'] = true;
+		break;
 
-// work phone
-$zz['fields'][32]['title'] = 'Telefon';
-$zz['fields'][32]['fields'][3]['explanation'] = 'Festnetz vor Ort. '
-	.$zz['fields'][32]['fields'][3]['explanation'];
+	case 'created':
+		$zz['fields'][$no]['field_sequence'] = 97;
+		break;
 
-for ($i = 30; $i < 40; $i++) {
-	if (empty($zz['fields'][$i])) break;
-	$zz['fields'][$i]['field_sequence'] = $i;
+	case 'last_update':
+		$zz['fields'][$no]['hide_in_form'] = true;
+		$zz['fields'][$no]['field_sequence'] = 99;
+		break;
+
+	case 'contactdetails':
+		$zz['fields'][$no]['field_sequence'] = $no;
+		break;
+	
+	case 'contacts_contacts':
+		$zz['fields'][$no]['min_records_required'] = 1;
+		$zz['fields'][$no]['max_records'] = 1;
+		$zz['fields'][$no]['form_display'] = 'inline';
+
+		// contacts_contacts.sequence
+		$zz['fields'][$no]['fields'][6]['title'] = 'Reihenfolge';
+		$zz['fields'][$no]['fields'][6]['field_sequence'] = 20;
+		$zz['fields'][$no]['fields'][6]['explanation'] = '(Sortierung, falls es mehrere Spielorte gibt)';
+
+		// contacts_contacts.main_contact_id
+		$zz['fields'][$no]['fields'][3]['type'] = 'hidden';
+		$zz['fields'][$no]['fields'][3]['type_detail'] = 'select';
+		$zz['fields'][$no]['fields'][3]['value'] = $club['contact_id'];
+		$zz['fields'][$no]['fields'][3]['hide_in_form'] = true;
+
+		// contacts_contacts.remarks
+		$zz['fields'][$no]['fields'][9]['title'] = 'Hinweis <br>Verein';
+		$zz['fields'][$no]['fields'][9]['hide_in_form'] = false;
+		$zz['fields'][$no]['fields'][9]['rows'] = 4;
+		$zz['fields'][$no]['fields'][9]['format'] = 'markdown';
+		$zz['fields'][$no]['fields'][9]['field_sequence'] = 19;
+		unset($zz['fields'][$no]['fields'][9]['explanation']);
+
+		// contacts_contacts.published
+		if (empty($_SESSION['login_id'])) {
+			$zz['fields'][$no]['if']['insert']['fields'][10]['value'] = 'no';
+		} else {
+			$zz['fields'][$no]['if']['insert']['fields'][10]['value'] = 'yes';
+		}
+		break;
+
+	case 'contact_abbr':
+	case 'contact_short':
+	case 'start_date':
+	case 'end_date':
+	case 'country_id':
+	case 'remarks':
+	case 'contacts_identifiers':
+	case 'parameters':
+		unset($zz['fields'][$no]);
+		break;
+
+	}
 }
-
-// description
-$zz['fields'][12]['title'] = 'Hinweis <br>Anfahrt';
-$zz['fields'][12]['explanation'] = 'Anfahrt mit Bahn, Auto, Lage des Spielorts';
-$zz['fields'][12]['rows'] = 4;
-$zz['fields'][12]['field_sequence'] = 12;
-
-// contacts_contacts
-$zz['fields'][60]['min_records'] = 1;
-$zz['fields'][60]['min_records_required'] = 1;
-$zz['fields'][60]['max_records'] = 1;
-$zz['fields'][60]['form_display'] = 'inline';
-
-// contacts_contacts.sequence
-$zz['fields'][60]['fields'][6]['title'] = 'Reihenfolge';
-$zz['fields'][60]['fields'][6]['field_sequence'] = 20;
-$zz['fields'][60]['fields'][6]['explanation'] = '(Sortierung, falls es mehrere Spielorte gibt)';
-
-// contacts_contacts.main_contact_id
-$zz['fields'][60]['fields'][3]['type'] = 'hidden';
-$zz['fields'][60]['fields'][3]['type_detail'] = 'select';
-$zz['fields'][60]['fields'][3]['value'] = $club['contact_id'];
-$zz['fields'][60]['fields'][3]['hide_in_form'] = true;
-
-// contacts_contacts.remarks
-$zz['fields'][60]['fields'][9]['title'] = 'Hinweis <br>Verein';
-$zz['fields'][60]['fields'][9]['hide_in_form'] = false;
-$zz['fields'][60]['fields'][9]['rows'] = 4;
-$zz['fields'][60]['fields'][9]['format'] = 'markdown';
-$zz['fields'][60]['fields'][9]['field_sequence'] = 19;
-unset($zz['fields'][60]['fields'][9]['explanation']);
-
-// contacts_contacts.published
-if (empty($_SESSION['login_id'])) {
-	$zz['fields'][60]['if']['insert']['fields'][10]['value'] = 'no';
-} else {
-	$zz['fields'][60]['if']['insert']['fields'][10]['value'] = 'yes';
-}
-
-// start_date
-unset($zz['fields'][16]);
-
-// end_date
-unset($zz['fields'][17]);
-
-// country_id
-unset($zz['fields'][18]);
-
-// remarks
-unset($zz['fields'][13]);
-
-// published
-$zz['fields'][14]['hide_in_form'] = true;
-
-// contacts_identifiers
-unset($zz['fields'][19]);
-
-// parameters
-unset($zz['fields'][15]);
-
-// created
-$zz['fields'][97]['field_sequence'] = 97;
-
-// last_update
-$zz['fields'][99]['hide_in_form'] = true;
-$zz['fields'][99]['field_sequence'] = 99;
 
 if (empty($_SESSION['login_id'])) {
 	$zz['hooks']['after_insert'] = 'mf_clubs_add_revision_public';
