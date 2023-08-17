@@ -60,69 +60,8 @@ function mod_clubs_clubs($params, $settings = []) {
 	$data = brick_request_data('clubs', $params, $settings);
 	if (!empty($data['url_ending'])) $page['url_ending'] = $data['url_ending'];
 
-	if (empty($data['coordinates'])) {
-		if (!empty($_GET['q'])) {
-			$qs = explode(' ', wrap_db_escape($_GET['q']));
-			// Verein direkt?
-			$sql = 'SELECT contact_id, identifier
-				FROM contacts
-				LEFT JOIN categories
-					ON contacts.contact_category_id = categories.category_id
-				WHERE contact LIKE "%%%s%%"
-				AND categories.parameters LIKE "%%&organisation=1%%"
-				AND ISNULL(end_date)';
-			$sql = sprintf($sql, implode('%', $qs));
-			$club = wrap_db_fetch($sql);
-			if (!$club) {
-				$q = wrap_filename($_GET['q'], '', ['-' => '']);
-				$sql = 'SELECT contact_id, identifier
-				FROM contacts
-				LEFT JOIN categories
-					ON contacts.contact_category_id = categories.category_id
-				WHERE REPLACE(identifier, "-", "") LIKE "%%%s%%"
-				AND categories.parameters LIKE "%%&organisation=1%%"
-				AND ISNULL(end_date)';
-				$sql = sprintf($sql, wrap_db_escape($q));
-				$club = wrap_db_fetch($sql);
-			}
-			if (!$club) {
-				$change = false;
-				foreach ($qs as $index => $qstring) {
-					if (strlen($qstring) > 3) continue;
-					unset ($qs[$index]);
-					$change = true;
-				}
-				if ($change) {
-					$sql = 'SELECT contact_id, identifier
-						FROM contacts
-						LEFT JOIN categories
-							ON contacts.contact_category_id = categories.category_id
-						WHERE contact LIKE "%%%s%%"
-						AND categories.parameters LIKE "%%&organisation=1%%"
-						AND ISNULL(end_date)';
-					$sql = sprintf($sql, implode('%', $qs));
-					$club = wrap_db_fetch($sql);
-				}
-			}
-			if ($club) {
-				return wrap_redirect(sprintf('/%s/', $club['identifier']));
-			}
-
-			$data = mod_clubs_clubs_similar_places($data, $_GET['q']);
-		}
-		
-		if (!empty($data['federation_with_clubs']))
-			return wrap_redirect(sprintf('/%s/liste/', $params[0]), 307);
-
-		wrap_setting('cache', false);
-		$page['status'] = !empty($data['similar_places']) ? 200 : 404;
-		$data['not_found'] = true;
-		$page['title'] = wrap_text('Search');
-		$page['breadcrumbs'][]['title'] = wrap_text('Search');
-		$page['extra']['not_home'] = true;
-		$page['text'] = wrap_template('clubsearch', $data);
-		return $page;
-	}
+	if (empty($data['coordinates']))
+		return mod_clubs_clubs_search($page, $data);
 
 	if (!empty($data['categories'])) {
 		if (count($data['categories']) === 1) {
@@ -273,4 +212,79 @@ function mod_clubs_clubs_similar_places($data, $q) {
 	);
 	$data['similar_places'] = wrap_db_fetch($sql, '_dummy_', 'numeric');
 	return $data;
+}
+
+/**
+ * no coordinates found, search
+ *
+ * @param array $page
+ * @param array $data
+ * @return array (or redirect)
+ */
+function mod_clubs_clubs_search($page, $data) {
+	if (!empty($_GET['q'])) {
+		// get search string, remove some characters
+		$search = $_GET['q'];
+		$search = str_replace('"', '', $search);
+		$qs = explode(' ', wrap_db_escape($search));
+
+		// name of a club?
+		$sql = 'SELECT contact_id, identifier
+			FROM contacts
+			LEFT JOIN categories
+				ON contacts.contact_category_id = categories.category_id
+			WHERE contact LIKE "%%%s%%"
+			AND categories.parameters LIKE "%%&organisation=1%%"
+			AND ISNULL(end_date)';
+		$sql = sprintf($sql, implode('%', $qs));
+		$club = wrap_db_fetch($sql);
+		if (!$club) {
+			$q = wrap_filename($_GET['q'], '', ['-' => '']);
+			$sql = 'SELECT contact_id, identifier
+			FROM contacts
+			LEFT JOIN categories
+				ON contacts.contact_category_id = categories.category_id
+			WHERE REPLACE(identifier, "-", "") LIKE "%%%s%%"
+			AND categories.parameters LIKE "%%&organisation=1%%"
+			AND ISNULL(end_date)';
+			$sql = sprintf($sql, wrap_db_escape($q));
+			$club = wrap_db_fetch($sql);
+		}
+		if (!$club) {
+			$change = false;
+			foreach ($qs as $index => $qstring) {
+				if (strlen($qstring) > 3) continue;
+				unset ($qs[$index]);
+				$change = true;
+			}
+			if ($change) {
+				$sql = 'SELECT contact_id, identifier
+					FROM contacts
+					LEFT JOIN categories
+						ON contacts.contact_category_id = categories.category_id
+					WHERE contact LIKE "%%%s%%"
+					AND categories.parameters LIKE "%%&organisation=1%%"
+					AND ISNULL(end_date)';
+				$sql = sprintf($sql, implode('%', $qs));
+				$club = wrap_db_fetch($sql);
+			}
+		}
+		if ($club) {
+			return wrap_redirect(sprintf('/%s/', $club['identifier']));
+		}
+
+		$data = mod_clubs_clubs_similar_places($data, $_GET['q']);
+	}
+	
+	if (!empty($data['federation_with_clubs']))
+		return wrap_redirect(sprintf('/%s/liste/', $params[0]), 307);
+
+	wrap_setting('cache', false);
+	$page['status'] = !empty($data['similar_places']) ? 200 : 404;
+	$data['not_found'] = true;
+	$page['title'] = wrap_text('Search');
+	$page['breadcrumbs'][]['title'] = wrap_text('Search');
+	$page['extra']['not_home'] = true;
+	$page['text'] = wrap_template('clubsearch', $data);
+	return $page;
 }
