@@ -32,7 +32,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 	$condition = '';
 	$condition_cc = '';
 	$data['geojson'] = 'deutschland';
-	if ($params[0] === 'deutschland' OR (!$params[0] AND empty($_GET))) {
+	if ($params[0] === 'deutschland' OR (!$params[0] AND empty($_GET['q']) AND empty($_GET['lat']) AND empty($_GET['lon']))) {
 		// show all clubs
 
 	} elseif ($params[0] === 'twitter') {
