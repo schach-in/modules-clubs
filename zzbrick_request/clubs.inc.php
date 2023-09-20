@@ -98,16 +98,12 @@ function mod_clubs_clubs($params, $settings = []) {
 		$data['description'] = $category['description'];
 	}
 	
-	if (empty($data['q']))
-		$data['q'] = isset($_GET['q']) ? $_GET['q'] : false;
-	if ($data['q'] === '0') $data['q'] = 0;
 	$data['lat'] = $_GET['lat'] ?? false;
 	$data['lon'] = $_GET['lon'] ?? false;
 	if (!empty($data['coordinates']))
 		$data['places'] = count($data['coordinates']);
-	if (empty($data['title'])) {
-		$data['verbaende'] = !empty($_GET['q']) ? mod_clubs_clubs_federations($_GET['q'], $data['coordinates']) : [];
-	}
+	if (empty($data['title']))
+		$data['verbaende'] = mod_clubs_clubs_federations($data['q'], $data['coordinates']);
 	
 	$sql = 'SELECT COUNT(*) FROM contacts
 		WHERE contact_category_id IN (%d, %d) AND ISNULL(end_date)';
@@ -127,7 +123,7 @@ function mod_clubs_clubs($params, $settings = []) {
 			$page['breadcrumbs'][]['title'] = 'Suche: '.wrap_html_escape($params[0]);
 		}
 	}
-	if ($data['q'] OR $data['q'] === '0' OR $data['q'] === 0)
+	if ($data['q'] !== NULL)
 		$page['title'] .= sprintf(': Suche nach »%s«', wrap_html_escape($data['q']));
 	if ($data['lat'] AND $data['lon']) $page['title'] .= sprintf(', Koordinaten %s/%s', wrap_latitude($data['lat']), wrap_longitude($data['lon']));
 	$page['head'] = wrap_template('clubs-head');
@@ -153,6 +149,7 @@ function mod_clubs_clubs($params, $settings = []) {
  * @return array
  */
 function mod_clubs_clubs_federations($q, $coordinates) {
+	if (!$q) return [];
 	$sql = 'SELECT o.contact_id, o.identifier, o.contact
 				, h.contact AS main_contact
 				, o.contact_category_id
@@ -226,13 +223,12 @@ function mod_clubs_clubs_similar_places($data, $q) {
  * @return array (or redirect)
  */
 function mod_clubs_clubs_search($page, $data, $params) {
-	if (!empty($_GET['q'])) {
-		$search = $_GET['q'];
-		$club = mod_clubs_clubs_search_club($search);
+	if ($data['q']) {
+		$club = mod_clubs_clubs_search_club($data['q']);
 		if ($club)
 			return wrap_redirect(sprintf('/%s/', $club['identifier']));
 
-		$data = mod_clubs_clubs_similar_places($data, $_GET['q']);
+		$data = mod_clubs_clubs_similar_places($data, $data['q']);
 	}
 	
 	if (!empty($data['federation_with_clubs']))
