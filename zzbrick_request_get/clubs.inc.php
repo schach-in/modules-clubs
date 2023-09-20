@@ -210,6 +210,11 @@ function mod_clubs_get_clubs_condition($q) {
 	while (substr($q, -1) === '*') $q = substr($q, 0, -1);
 
 	if (strstr($q, '/')) $q = str_replace('/', ' ', $q);
+	// some people look for postcode_place e. g. 91781Weissenburg without spaces
+	if (!strstr(' ', $q) AND preg_match('/^(\d+)(\w+)$/', $q, $matches)) {
+		unset($matches[0]);
+		$q = implode(' ', $matches);
+	}
 	if (strstr($q, ' ')) {
 		$q = mod_clubs_get_clubs_condition_parts($q);
 	}
