@@ -119,15 +119,14 @@ function mod_clubs_clubs($params, $settings = []) {
 		$page['breadcrumbs'][]['title'] = $data['title'];
 	} else {
 		$page['title'] = 'Schachvereine und Schulschachgruppen';
-		if (!empty($params[0])) {
-			$page['breadcrumbs'][]['title'] = 'Suche: '.wrap_html_escape($params[0]);
-		}
+		if ($data['q'])
+			$page['breadcrumbs'][]['title'] = 'Suche: '.wrap_html_escape($data['q']);
 	}
 	if ($data['q'] !== NULL)
 		$page['title'] .= sprintf(': Suche nach »%s«', wrap_html_escape($data['q']));
 	if ($data['lat'] AND $data['lon']) $page['title'] .= sprintf(', Koordinaten %s/%s', wrap_latitude($data['lat']), wrap_longitude($data['lon']));
 	$page['head'] = wrap_template('clubs-head');
-	$page['extra']['body_attributes'] = 'id="map"';
+	$page['extra']['id'] = 'map';
 	if (!empty($data['noindex'])) {
 		$page['meta'][] = [
 			'name' => 'robots', 'content' => 'noindex,follow'
@@ -135,9 +134,11 @@ function mod_clubs_clubs($params, $settings = []) {
 	}
 	if (!empty($_GET) AND array_key_exists('embed', $_GET)) {
 		$data['embed'] = true;
-		$page['extra']['body_attributes'] = 'id="map" class="embed"';
+		$page['extra']['id'] = 'map';
+		$page['extra']['class'] = 'embed';
 	}
 	$page['text'] = wrap_template('clubs', $data);
+	$page['extra']['not_home'] = true;
 	return $page;
 }
 
