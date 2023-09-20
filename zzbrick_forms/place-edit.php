@@ -14,14 +14,14 @@
 
 
 if (empty($brick['vars'])) wrap_quit(404);
-$club = mf_clubs_club($brick['vars'][0]);
-if (!$club) wrap_quit(404);
+$contact = mf_clubs_club($brick['vars'][0]);
+if (!$contact) wrap_quit(404);
 
 $values['contactdetails_restrict_to'] = 'places';
 $values['relations_restrict_to'] = 'places';
 $zz = zzform_include('contacts/contacts', $values, 'forms');
 
-$zz['title'] = $club['contact'];
+$zz['title'] = $contact['contact'];
 
 switch ($brick['vars'][1]) {
 	case 'add':
@@ -147,7 +147,7 @@ foreach ($zz['fields'] as $no => $field) {
 		// contacts_contacts.main_contact_id
 		$zz['fields'][$no]['fields'][3]['type'] = 'hidden';
 		$zz['fields'][$no]['fields'][3]['type_detail'] = 'select';
-		$zz['fields'][$no]['fields'][3]['value'] = $club['contact_id'];
+		$zz['fields'][$no]['fields'][3]['value'] = $contact['contact_id'];
 		$zz['fields'][$no]['fields'][3]['hide_in_form'] = true;
 
 		// contacts_contacts.remarks

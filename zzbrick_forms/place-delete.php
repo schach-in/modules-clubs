@@ -14,8 +14,8 @@
 
 
 if (count($brick['vars']) !== 2) wrap_quit(404);
-$verein = mf_clubs_club($brick['vars'][0]);
-if (!$verein) wrap_quit(404);
+$contact = mf_clubs_club($brick['vars'][0]);
+if (!$contact) wrap_quit(404);
 
 $sql = 'SELECT cc_id
 	FROM contacts_contacts

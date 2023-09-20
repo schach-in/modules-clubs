@@ -14,8 +14,8 @@
 
 
 if (empty($brick['vars'])) wrap_quit(404);
-$verein = mf_clubs_club($brick['vars'][0]);
-if (!$verein) wrap_quit(404);
+$contact = mf_clubs_club($brick['vars'][0]);
+if (!$contact) wrap_quit(404);
 
 $zz = zzform_include('wochentermine');
 
@@ -49,8 +49,8 @@ switch ($brick['vars'][1]) {
 		wrap_quit(404);
 }
 
-$zz['title'] = $verein['contact'];
-$zz['where']['contact_id'] = $verein['contact_id'];
+$zz['title'] = $contact['contact'];
+$zz['where']['contact_id'] = $contact['contact_id'];
 unset($zz['subtitle']);
 
 // Vereinsname
@@ -80,7 +80,7 @@ $sql_ort = sprintf('SELECT contacts.contact_id
 	LEFT JOIN addresses USING (contact_id)
 	LEFT JOIN contacts_contacts USING (contact_id)
 	WHERE main_contact_id = %d
-	ORDER BY postcode', $verein['contact_id']);
+	ORDER BY postcode', $contact['contact_id']);
 $orte = wrap_db_fetch($sql_ort, 'contact_id');
 if (count($orte) > 1) {
 	// Spielorte nur vorgegebene

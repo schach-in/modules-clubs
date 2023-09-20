@@ -14,16 +14,16 @@
 
 
 if (empty($brick['vars'])) wrap_quit(404);
-$club = mf_clubs_club($brick['vars'][0]);
-if (!$club) wrap_quit(404);
+$contact = mf_clubs_club($brick['vars'][0]);
+if (!$contact) wrap_quit(404);
 
-$values['contact_category_id'] = $club['contact_category_id'];
+$values['contact_category_id'] = $contact['contact_category_id'];
 $zz = zzform_include('contacts', $values, 'forms');
 
 unset($zz['filter']);
 
-$zz['title'] = $club['contact'];
-$zz['where']['contact_id'] = $club['contact_id'];
+$zz['title'] = $contact['contact'];
+$zz['where']['contact_id'] = $contact['contact_id'];
 $zz['access'] = 'edit_only';
 if (empty($_SESSION['login_id']))
 	$zz['revisions_only'] = true;
@@ -62,7 +62,7 @@ foreach ($zz['fields'] as $no => $field) {
 		$zz['fields'][$no]['append_next'] = false;
 		$zz['fields'][$no]['title_append'] = false;
 		$zz['fields'][$no]['explanation'] = 'Falls bekannt: Datum oder Jahr der Gründung';
-		if (empty($club['parameters']['foundation_date'])) // @todo why is this here?
+		if (empty($contact['parameters']['foundation_date'])) // @todo why is this here?
 			$zz['fields'][$no]['hide_in_form'] = true;
 		break;
 
