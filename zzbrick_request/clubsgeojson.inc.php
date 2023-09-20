@@ -29,7 +29,6 @@ function mod_clubs_clubsgeojson($params, $settings = []) {
 	if (!$source['coordinates']) return false;
 
 	$page['content_type'] = 'geojson';
-	$page['query_strings'][] = 'q';
 	$page['ending'] = 'none';
 	$page['headers']['filename'] = sprintf('%s.geojson', $params[0]);
 

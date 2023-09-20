@@ -161,7 +161,7 @@ oder Ortsname</p>
 	var markers = L.markerClusterGroup({maxClusterRadius: 20});
 	// @todo set to 10 if zoom is above 10
 
-	var geoJsonUrl = '/%%% item geojson %%%.geojson%%% condition unless boundingbox %%%%%% condition if q %%%?q=%%% item q rawurlencode %%%%%% condition endif %%%%%% condition endif %%%';
+	var geoJsonUrl = '/%%% item geojson %%%.geojson';
 
 	fetch(geoJsonUrl)
 		.then(function (response) { return response.json() })
