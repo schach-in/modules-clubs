@@ -484,9 +484,8 @@ function mod_clubs_club($params) {
 		$page['breadcrumbs'][]['title'] = $org['contact'];
 	}
 	$page['head'] = wrap_template('clubs-map-head');
-	if (!empty($org['lat_min'])) {
-		$page['extra']['body_attributes'] = ' id="clubmap"';
-	}
+	if (!empty($org['lat_min']))
+		$page['extra']['id'] = 'clubmap';
 	$page['dont_show_h1'] = true;
 	if (!empty($org['description'])) {
 	    $description = markdown($org['description']);
