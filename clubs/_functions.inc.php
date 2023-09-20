@@ -20,7 +20,7 @@
  * @return array
  */
 function mf_clubs_club($id) {
-	$sql = 'SELECT contact_id, contact, categories.path, categories.parameters
+	$sql = 'SELECT contact_id, contact, categories.path, categories.parameters, contact_category_id
 		FROM contacts
 		LEFT JOIN categories
 			ON contacts.contact_category_id = categories.category_id
