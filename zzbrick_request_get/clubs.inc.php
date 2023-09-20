@@ -18,21 +18,14 @@ function mod_clubs_get_clubs($params, $settings = []) {
 		array_unshift($params, $settings['category']);
 	if (empty($params)) $params[0] = false;
 
-	if (isset($_GET['q']) AND $_GET['q'] !== '') {
-		$_GET['q'] = trim($_GET['q']);
-		if (strlen($_GET['q']) > 64) {
-			// extra_ is not created since zzbrick() was not called
-			wrap_quit(414, 'Die maximale Länge der Suchbegriffe beträgt 64 Zeichen.');
-		}
-		if (substr($_GET['q'], -1) === '*') $_GET['q'] = substr($_GET['q'], 0, -1);
-	}
+	$data['q'] = mod_clubs_get_clubs_q();
 
 	$having = '';
 	$extra_field = '';
 	$condition = '';
 	$condition_cc = '';
 	$data['geojson'] = 'deutschland';
-	if ($params[0] === 'deutschland' OR (!$params[0] AND empty($_GET['q']) AND empty($_GET['lat']) AND empty($_GET['lon']))) {
+	if ($params[0] === 'deutschland' OR (!$params[0] AND $data['q'] === NULL AND empty($_GET['lat']) AND empty($_GET['lon']))) {
 		// show all clubs
 
 	} elseif ($params[0] === 'twitter') {
@@ -80,9 +73,8 @@ function mod_clubs_get_clubs($params, $settings = []) {
 			$data['zoomtofit'] = true;
 		}
 		
-	} elseif ($search = !empty($_GET['q']) ? $_GET['q'] : urldecode($params[0])
-		AND $condition = mod_clubs_get_clubs_condition($search)
-	) {
+	} elseif ($condition = mod_clubs_get_clubs_condition($data['q'] ?? urldecode($params[0]))) {
+		if ($data['q'] === NULL) $data['q'] = urldecode($params[0]);
 		if (!empty($condition[0]['boundingbox'])) {
 			$data['boundingbox'] = sprintf(
 				'[[%s, %s], [%s, %s]]'
@@ -93,9 +85,8 @@ function mod_clubs_get_clubs($params, $settings = []) {
 			$data['reselect'] = (count($condition) !== 1) ? $condition : [];
 		} else {
 			$data['zoomtofit'] = true;
-			$data['geojson'] = $search;
+			$data['geojson'] = $data['q'];
 		}
-		$data['q'] = $search;
 		$data['noindex'] = true;
 		$data['url_ending'] = 'none';
 
@@ -179,6 +170,23 @@ function mod_clubs_get_clubs($params, $settings = []) {
 }
 
 /**
+ * check query string
+ *
+ * @return mixed
+ */
+function mod_clubs_get_clubs_q() {
+	$q = $_GET['q'] ?? NULL;
+	if ($q === '') return NULL;
+	if ($q === '0') return 0;
+	if (!$q) return $q;
+	$q = trim($q);
+	if (strlen($q) > 64)
+		wrap_quit(414, 'Die maximale Länge der Suchbegriffe beträgt 64 Zeichen.');
+	if (substr($q, -1) === '*') $q = substr($q, 0, -1);
+	return $q;
+};
+
+/**
  * check if identifier in URL is organisation
  *
  * @param string $identifier
@@ -202,7 +210,8 @@ function mod_clubs_get_clubs_federation($identifier) {
  * @return mixed string: SQL condition, array: list of results
  */
 function mod_clubs_get_clubs_condition($q) {
-	if ($q === 'deutschland') $q = '';
+	if (!$q) return '';
+	if ($q === 'deutschland') return '';
 	$condition = '';
 	if (strstr($q, '%')) return "AND 1=2"; // no % allowed, most of the time hackers
 
