@@ -25,7 +25,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 	$condition = '';
 	$condition_cc = '';
 	$data['geojson'] = 'deutschland';
-	if ($params[0] === 'deutschland' OR (!$params[0] AND $data['q'] === NULL AND empty($_GET['lat']) AND empty($_GET['lon']))) {
+	if ($params[0] === 'deutschland' OR ((!$params[0] AND $params[0] !== '0') AND $data['q'] === NULL AND empty($_GET['lat']) AND empty($_GET['lon']))) {
 		// show all clubs
 
 	} elseif ($params[0] === 'twitter') {
@@ -75,6 +75,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 		
 	} elseif ($condition = mod_clubs_get_clubs_condition($data['q'] ?? urldecode($params[0]))) {
 		if ($data['q'] === NULL) $data['q'] = urldecode($params[0]);
+		if ($data['q'] === '0') $data['q'] = 0;
 		if (!empty($condition[0]['boundingbox'])) {
 			$data['boundingbox'] = sprintf(
 				'[[%s, %s], [%s, %s]]'
@@ -210,7 +211,8 @@ function mod_clubs_get_clubs_federation($identifier) {
  * @return mixed string: SQL condition, array: list of results
  */
 function mod_clubs_get_clubs_condition($q) {
-	if (!$q) return '';
+	// string 0 from params
+	if (!$q AND $q !== 0 AND $q !== '0') return '';
 	if ($q === 'deutschland') return '';
 	$condition = '';
 	if (strstr($q, '%')) return "AND 1=2"; // no % allowed, most of the time hackers
