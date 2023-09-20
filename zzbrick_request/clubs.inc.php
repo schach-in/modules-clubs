@@ -34,7 +34,7 @@ function mod_clubs_clubs($params, $settings = []) {
 
 	if (wrap_setting('request_uri') === '/' AND empty($_GET))
 		return wrap_redirect('/deutschland', 307);
-	if (isset($_GET['q']) AND empty($_GET['q']))
+	if (isset($_GET['q']) AND $_GET['q'] === '')
 		return wrap_redirect('/deutschland', 307);
 
 	$page['query_strings'][] = 'lat';
@@ -58,7 +58,7 @@ function mod_clubs_clubs($params, $settings = []) {
 	if ($check !== true) $page['status'] = $check;
 
 	$data = brick_request_data('clubs', $params, $settings);
-	if (!empty($data['coordinates']) AND count($data['coordinates']) === 1)
+	if (!empty($data['coordinates']) AND count($data['coordinates']) === 1 AND empty($data['boundingbox']))
 		wrap_redirect(sprintf('/%s/', $data['coordinates'][0]['identifier']));
 
 	if (!empty($data['url_ending'])) $page['url_ending'] = $data['url_ending'];
