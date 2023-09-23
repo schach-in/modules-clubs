@@ -86,7 +86,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 			$data['reselect'] = (count($condition) !== 1) ? $condition : [];
 		} else {
 			$data['zoomtofit'] = true;
-			$data['geojson'] = $data['q'];
+			$data['geojson'] = mod_clubs_get_clubs_geojson($data['q']);
 		}
 		$data['noindex'] = true;
 		$data['url_ending'] = 'none';
@@ -389,4 +389,18 @@ function mod_clubs_get_clubs_from_contact_categories($identifier) {
 	$sql = sprintf($sql, $category_id);
 	$categories = wrap_db_fetch($sql, 'category_id');
 	return $categories;
+}
+
+/**
+ * prepare query string for GeoJSON URL
+ *
+ * @param string $string
+ * @return string
+ */
+function mod_clubs_get_clubs_geojson($string) {
+	$string = str_replace('/', ' ', $string);
+	while (strstr($string, '  '))
+		$string = str_replace('  ', ' ', $string);
+	$string = urlencode($string);
+	return $string;
 }
