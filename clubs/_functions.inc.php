@@ -82,6 +82,8 @@ function mf_clubs_add_user_from_ip() {
  * @return array
  */
 function mf_clubs_from_category($category) {
+	// categories must be lowercase, exclude some abbreviations here
+	if (strtolower($category) !== $category) return false;
 	$sql = 'SELECT category_id, category, description
 			, SUBSTRING_INDEX(path, "/", -1) AS path
 			, parameters

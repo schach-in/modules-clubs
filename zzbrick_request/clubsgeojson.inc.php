@@ -26,6 +26,7 @@ function mod_clubs_clubsgeojson($params, $settings = []) {
 		$params[$last] = substr($params[$last], 0, -8);
 
 	$source = brick_request_data('clubs', $params, $settings);
+	if (!$source) return false;
 	if (!$source['coordinates']) return false;
 
 	$page['content_type'] = 'geojson';
