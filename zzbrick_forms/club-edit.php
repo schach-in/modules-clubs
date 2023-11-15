@@ -13,6 +13,7 @@
  */
 
 
+mf_clubs_deny_bots();
 if (empty($brick['vars'])) wrap_quit(404);
 $contact = mf_clubs_club($brick['vars'][0]);
 if (!$contact) wrap_quit(404);

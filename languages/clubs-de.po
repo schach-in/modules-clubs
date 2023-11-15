@@ -22,6 +22,10 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.12\n"
 
+#: clubs/_functions.inc.php
+msgid "Bots are not allowed to access this resource."
+msgstr "Bots dürfen nicht auf diese Ressource zugreifen."
+
 #: zzbrick_forms/school-add.php
 msgid "Add school chess group"
 msgstr "Schulschachgruppe hinzufügen"

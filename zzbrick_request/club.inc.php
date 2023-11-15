@@ -103,6 +103,7 @@ function mod_clubs_club($params) {
 		return $page;
 	} elseif (count($params) === 2) {
 		if ($params[1] === 'bearbeiten') {
+			mf_clubs_deny_bots();
 			wrap_setting('cache', false);
 			$edit = true;
 			array_pop($params);

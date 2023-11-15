@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016-2022 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2023 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -129,4 +129,27 @@ function mf_clubs_latlon_check() {
 	if (isset($_GET['lon']) AND $_GET['lon'] > 180) $_GET['lon'] = 180;
 	if (isset($_GET['lon']) AND $_GET['lon'] < -180) $_GET['lon'] = -180;
 	return $status;
+}
+
+/**
+ * deny access to edit pages for bots
+ *
+ * @return void
+ */
+function mf_clubs_deny_bots() {
+	$is_bot = mf_clubs_deny_bots_check();
+	if (!$is_bot) return;
+	wrap_quit(403, wrap_text('Bots are not allowed to access this resource.'));
+}
+
+/**
+ * check if it is a bot access
+ *
+ * @return void
+ */
+function mf_clubs_deny_bots_check() {
+	if (empty($_SERVER['HTTP_USER_AGENT'])) return false;
+	if (strstr($_SERVER['HTTP_USER_AGENT'], 'spider')) return true;
+	if (strstr($_SERVER['HTTP_USER_AGENT'], 'bot')) return true;
+	return false;
 }
