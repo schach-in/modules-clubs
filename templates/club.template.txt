@@ -45,7 +45,7 @@ Du hast einen Zugang zu unserer Website?
 
 %%% condition if end_date %%%
 %%% condition if schulschachgruppe %%%
-<p>Diese Schule gibt es seit <span itemprop="dissolutionDate" datetime="%%% item end_date %%%">%%% item end_date %%%</span> nicht mehr.</p>
+<p>Diese Schulschachgruppe gibt es seit <span itemprop="dissolutionDate" datetime="%%% item end_date %%%">%%% item end_date %%%</span> nicht mehr.</p>
 %%% condition elseif schachkindergarten %%%
 <p>Dieser Kindergarten bietet aktuell nach unserem Kenntnisstand kein Schach mehr an.</p>
 %%% condition elseif schachhort %%%
