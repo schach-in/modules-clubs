@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016-2023 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2024 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -117,13 +117,15 @@ function mf_clubs_latlon_check() {
 	if (!empty($_GET['lat']) AND empty($_GET['lon'])) return false;
 	if (!empty($_GET['lon']) AND empty($_GET['lat'])) return false;
 	if (isset($_GET['lat']) AND !is_numeric($_GET['lat'])) {
-		$_GET['lat'] = filter_var($_GET['lat'], FILTER_SANITIZE_NUMBER_FLOAT);
+		preg_match('/[0-9]+\.[0-9]+/', $_GET['lat'], $matches);
+		$_GET['lat'] = $matches[0];
 		$status = 404;
 	}
 	if (isset($_GET['lat']) AND $_GET['lat'] > 90) $_GET['lat'] = 90;
 	if (isset($_GET['lat']) AND $_GET['lat'] < -90) $_GET['lat'] = -90;
 	if (isset($_GET['lon']) AND !is_numeric($_GET['lon'])) {
-		$_GET['lon'] = filter_var($_GET['lon'], FILTER_SANITIZE_NUMBER_FLOAT);
+		preg_match('/[0-9]+\.[0-9]+/', $_GET['lon'], $matches);
+		$_GET['lon'] = $matches[0];
 		$status = 404;
 	}
 	if (isset($_GET['lon']) AND $_GET['lon'] > 180) $_GET['lon'] = 180;
