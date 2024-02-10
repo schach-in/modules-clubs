@@ -8,7 +8,9 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Falco Nogatz <fnogatz@gmail.com>
+ * @author Gustaf Mossakowski <gustaf@koenige.org>
  * @copyright Copyright © 2023 Falco Nogatz
+ * @copyright Copyright © 2023-2024 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -86,14 +88,22 @@ function mod_clubs_clubsopengraph($params, $settings = []) {
 	imagettftext($img, $subtitle_fontSize, 0, $title_leftPad + floor($title_fontSize/40), 555, $darkColor, $regularFont, $org['country'] ?? '');
 
 	// stats
-	imagettftext($img, $label_fontSize, 0, 130, 160, $lightColor, $regularFont, 'Mitglieder');
-	imagettftext($img, $stats_fontSize, 0, 130, 118, $darkColor, $boldFont, $org['members']);
-	imagettftext($img, $label_fontSize, 0, 572, 160, $lightColor, $regularFont, '∅ Alter');
-	imagettftext($img, $stats_fontSize, 0, 572, 118, $darkColor, $boldFont, $org['avg_age']);
-	imagettftext($img, $label_fontSize, 0, 130, 300, $lightColor, $regularFont, 'Jugendliche');
-	imagettftext($img, $stats_fontSize, 0, 130, 258, $darkColor, $boldFont, $org['members_u25']);
-	imagettftext($img, $label_fontSize, 0, 572, 300, $lightColor, $regularFont, '∅ DWZ');
-	imagettftext($img, $stats_fontSize, 0, 572, 258, $darkColor, $boldFont, $org['avg_rating']);
+	if (isset($org['members'])) {
+		imagettftext($img, $label_fontSize, 0, 130, 160, $lightColor, $regularFont, 'Mitglieder');
+		imagettftext($img, $stats_fontSize, 0, 130, 118, $darkColor, $boldFont, $org['members']);
+	}
+	if (isset($org['avg_age'])) {
+		imagettftext($img, $label_fontSize, 0, 572, 160, $lightColor, $regularFont, '∅ Alter');
+		imagettftext($img, $stats_fontSize, 0, 572, 118, $darkColor, $boldFont, $org['avg_age']);
+	}
+	if (isset($org['members_u25'])) {
+		imagettftext($img, $label_fontSize, 0, 130, 300, $lightColor, $regularFont, 'Jugendliche');
+		imagettftext($img, $stats_fontSize, 0, 130, 258, $darkColor, $boldFont, $org['members_u25']);
+	}
+	if (isset($org['avg_rating'])) {
+		imagettftext($img, $label_fontSize, 0, 572, 300, $lightColor, $regularFont, '∅ DWZ');
+		imagettftext($img, $stats_fontSize, 0, 572, 258, $darkColor, $boldFont, $org['avg_rating']);
+	}
 
 	// output png
 	ob_start();
