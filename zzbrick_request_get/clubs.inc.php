@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2015-2023 Gustaf Mossakowski
+ * @copyright Copyright © 2015-2024 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -346,16 +346,16 @@ function mod_clubs_get_clubs_condition_parts($q) {
  * geocode search string
  * returns places for first result, rest of results will be shown as list
  *
- * @param string $url
+ * @param string $path
  * @param string $q
  * @param array $wanted (optional)
  * @return array
  * @see http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
  */
-function mod_clubs_get_clubs_geocode($url, $q, $wanted = []) {
+function mod_clubs_get_clubs_geocode($path, $q, $wanted = []) {
 	require_once wrap_setting('core').'/syndication.inc.php';
 
-	$url = 'https://nominatim.openstreetmap.org/search.php?'.$url;
+	$url = 'https://nominatim.openstreetmap.org/search.php?'.$path;
 	$url = sprintf($url, rawurlencode($q));
 	wrap_lock_wait('nominatim', 1); // just 1 request per second
 	$results = wrap_syndication_get($url);
@@ -368,6 +368,13 @@ function mod_clubs_get_clubs_geocode($url, $q, $wanted = []) {
 				continue;
 			}
 		}
+	}
+	// district of a city, e. g. `Dortmund-Eving`, rewrite as `Eving, Dortmund`
+	if (!$results AND strstr($q, '-')) {
+		$qnew = explode('-', $q);
+		$qnew = array_reverse($qnew);
+		$qnew = implode(', ', $qnew);
+		return mod_clubs_get_clubs_geocode($path, $qnew, $wanted);
 	}
 	return $results;
 }
