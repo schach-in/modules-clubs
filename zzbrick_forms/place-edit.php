@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016-2017, 2019-2023 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2017, 2019-2024 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -64,9 +64,6 @@ foreach ($zz['fields'] as $no => $field) {
 		break;
 
 	case 'identifier':
-		$zz['fields'][$no]['fields'] = [
-			'address_0.country_id[country_code]', 'address_0.place', 'contact', 'contact_category_id[parameters]'
-		];
 		$zz['fields'][$no]['hide_in_form'] = true;
 		break;
 
