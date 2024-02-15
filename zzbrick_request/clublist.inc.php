@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016-2023 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2024 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -17,18 +17,22 @@ function mod_clubs_clublist($params) {
 	if (count($params) !== 1) return false;
 	$extra_field = '';
 
-	$sql = 'SELECT contact_id, contact, mother_contact_id, 0 AS _level
+	$sql = 'SELECT contacts.contact_id, contact, main_contact_id, 0 AS _level
 			, contacts.identifier, contacts.description
 		FROM contacts
+		LEFT JOIN contacts_contacts
+			ON contacts_contacts.contact_id = contacts.contact_id
+			AND relation_category_id = %d
 		WHERE contacts.identifier = "%s"
 		AND contact_category_id = %d';
 	$sql = sprintf($sql
+		, wrap_category_id('relation/member')
 		, wrap_db_escape($params[0])
 		, wrap_category_id('contact/federation')
 	);
 	$verband = wrap_db_fetch($sql);
 	if ($verband) {
-		$condition = sprintf('WHERE mother_contact_id = %d
+		$condition = sprintf('WHERE main_contact_id = %d
 			AND contact_category_id IN (%d, %d) 
 			AND ISNULL(end_date)'
 			, $verband['contact_id']
@@ -59,13 +63,14 @@ function mod_clubs_clublist($params) {
 	$top['members_u25'] = 0;
 	$top['members_female'] = 0;
 	
-	$sql = 'SELECT contact_id, contact, contacts.identifier
+	$sql = 'SELECT contacts.contact_id, contact, contacts.identifier
 			, contacts_identifiers.identifier AS zps_code
 			, members, members_female, members_u25
 			, members_u25/members AS anteil_members_u25
 			, members_female/members AS anteil_members_female
 			, IF((SELECT COUNT(*) FROM contacts_contacts
 				WHERE contacts_contacts.main_contact_id = contacts.contact_id
+				AND contacts_contacts.relation_category_id = %d
 				AND contacts_contacts.published = "yes"), "ja", "nein"
 			) AS spielort
 			, 1 AS _level
@@ -75,9 +80,17 @@ function mod_clubs_clublist($params) {
 		LEFT JOIN contacts_identifiers USING (contact_id)
 		LEFT JOIN vereinsdb_stats USING (contact_id)
 		LEFT JOIN awards USING (contact_id)
+		LEFT JOIN contacts_contacts
+			ON contacts_contacts.contact_id = contacts.contact_id
+			AND contacts_contacts.relation_category_id = %d
 		%s
 		ORDER BY contacts_identifiers.identifier, contacts.identifier';
-	$sql = sprintf($sql, $extra_field, $condition);
+	$sql = sprintf($sql
+		, wrap_category_id('relation/spielort')
+		, $extra_field
+		, wrap_category_id('relation/member')
+		, $condition
+	);
 	$data['vereine'] = wrap_db_fetch($sql, 'contact_id');
 	if (!$data['vereine']) return false;
 	

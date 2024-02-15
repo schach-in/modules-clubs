@@ -30,7 +30,9 @@ function mod_clubs_clubsopengraph($params, $settings = []) {
 			, members, members_female, members_u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
 			, members_passive
 			, SUBSTRING_INDEX(categories.path, "/", -1) AS category
-			, (SELECT COUNT(*) FROM contacts members WHERE members.mother_contact_id = org.contact_id) AS member_orgs
+			, (SELECT COUNT(*) FROM contacts_contacts members
+				WHERE members.main_contact_id = org.contact_id
+				AND members.relation_category_id = %d) AS member_orgs
 			, categories.parameters
 			, countries.country, countries.identifier AS country_identifier
 		FROM contacts org
@@ -47,6 +49,7 @@ function mod_clubs_clubsopengraph($params, $settings = []) {
 		AND categories.parameters LIKE "%%&clubpage=1%%"
 	';
 	$sql = sprintf($sql
+		, wrap_category_id('relation/member')
 		, wrap_category_id('identifiers/zps')
 		, wrap_db_escape($params[0])
 	);

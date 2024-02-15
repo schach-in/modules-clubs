@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2015-2023 Gustaf Mossakowski
+ * @copyright Copyright © 2015-2024 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -154,36 +154,44 @@ function mod_clubs_clubs_federations($q, $coordinates) {
 	$sql = 'SELECT o.contact_id, o.identifier, o.contact
 				, h.contact AS main_contact
 				, o.contact_category_id
-				, (SELECT COUNT(*) FROM contacts WHERE mother_contact_id = o.contact_id) AS rang
+				, (SELECT COUNT(*) FROM contacts_contacts
+					WHERE main_contact_id = o.contact_id
+					AND relation_category_id = %d
+				) AS rang
 		FROM contacts o
 		LEFT JOIN categories
 			ON o.contact_category_id = categories.category_id
+		LEFT JOIN contacts_contacts
+			ON contacts_contacts.contact_id = o.contact_id
+			AND contacts_contacts.relation_category_id = %d
 		LEFT JOIN contacts h
-			ON o.mother_contact_id = h.contact_id
+			ON contacts_contacts.main_contact_id = h.contact_id
 		WHERE o.contact LIKE "%%%s%%"
 		AND categories.parameters LIKE "%%&organisation=1%%"
 		AND ISNULL(o.end_date)
 		ORDER BY rang DESC, o.identifier
 	';
-	$sql = sprintf($sql,
-		wrap_db_escape($q)
+	$sql = sprintf($sql
+		, wrap_category_id('relation/member')
+		, wrap_category_id('relation/member')
+		, wrap_db_escape($q)
 	);
-	$verbaende = wrap_db_fetch($sql, 'contact_id');
+	$federations = wrap_db_fetch($sql, 'contact_id');
 	foreach ($coordinates as $spielort) {
-		if (in_array($spielort['contact_id'], array_keys($verbaende))) {
+		if (in_array($spielort['contact_id'], array_keys($federations))) {
 			// sind schon auf Karte
-			unset($verbaende[$spielort['contact_id']]);
+			unset($federations[$spielort['contact_id']]);
 		}
 	}
 	// zuviele? dann nur Verbände anzeigen
-	if (count($verbaende) > 5) {
-		foreach ($verbaende as $id => $verband) {
-			if ($verband['contact_category_id'] !== wrap_category_id('contact/federation'))
-				unset($verbaende[$id]);
+	if (count($federations) > 5) {
+		foreach ($federations as $id => $federation) {
+			if ($federation['contact_category_id'] !== wrap_category_id('contact/federation'))
+				unset($federations[$id]);
 		}
 	}
 	
-	return $verbaende;
+	return $federations;
 }
 
 /**

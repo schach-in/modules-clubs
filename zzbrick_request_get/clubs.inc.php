@@ -38,14 +38,20 @@ function mod_clubs_get_clubs($params, $settings = []) {
 
 	} elseif ($federation = mod_clubs_get_clubs_federation($params[0])) {
 		// member organisations?
-		$contact_ids = wrap_db_children(
-			$federation['contact_id'],
-			sprintf('SELECT contact_id
-			FROM contacts WHERE mother_contact_id IN (%%s)
+		$sql = 'SELECT contacts.contact_id
+			FROM contacts
+			LEFT JOIN contacts_contacts
+				ON contacts.contact_id = contacts_contacts.contact_id
+				AND contacts_contacts.relation_category_id = %d
+			WHERE main_contact_id IN (%%s)
 			AND contact_category_id = %d
-			AND ISNULL(end_date)', wrap_category_id('contact/federation'))
+			AND ISNULL(end_date)';
+		$sql = sprintf($sql
+			, wrap_category_id('relation/member')
+			, wrap_category_id('contact/federation')
 		);
-		$condition = sprintf('AND organisationen.mother_contact_id IN (%s)', implode(',', $contact_ids));
+		$contact_ids = wrap_db_children($federation['contact_id'], $sql);
+		$condition = sprintf('AND federations.main_contact_id IN (%s)', implode(',', $contact_ids));
 		$data['title'] = $federation['contact'];
 		$data['zoomtofit'] = true;
 		$data['geojson'] = $params[0];
@@ -132,6 +138,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 		LEFT JOIN contacts_contacts
 			ON contacts_contacts.main_contact_id = organisationen.contact_id
 			AND contacts_contacts.published = "yes"
+			AND contacts_contacts.relation_category_id = %d
 			%s
 		LEFT JOIN contacts places
 			ON contacts_contacts.contact_id = places.contact_id
@@ -141,12 +148,22 @@ function mod_clubs_get_clubs($params, $settings = []) {
 			ON organisationen.contact_category_id = categories.category_id
 		LEFT JOIN countries
 			ON organisationen.country_id = countries.country_id
+		LEFT JOIN contacts_contacts federations
+			ON federations.contact_id = organisationen.contact_id
+			AND federations.relation_category_id = %d
 		WHERE ISNULL(organisationen.end_date)
 		AND NOT ISNULL(latitude) AND NOT ISNULL(longitude)
 		AND categories.parameters LIKE "%%&organisation=1%%"
 		%s
 	';
-	$csql = sprintf($sql, $extra_field, $having, $condition_cc, $condition);
+	$csql = sprintf($sql
+		, $extra_field
+		, $having
+		, wrap_category_id('relation/spielort')
+		, $condition_cc
+		, wrap_category_id('relation/member')
+		, $condition
+	);
 	$data['coordinates'] = wrap_db_fetch($csql, '_dummy_', 'numeric');
 
 	if (!$data['coordinates'] AND $having) {

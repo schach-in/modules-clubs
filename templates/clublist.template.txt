@@ -5,12 +5,8 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2016-2017, 2019, 2021-2022 Gustaf Mossakowski
+# @copyright Copyright © 2016-2017, 2019, 2021-2022, 2024 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
-#
-# List of fields:
-# contact_id, contact, mother_contact_id, vereine { contact_id, contact,
-# identifier }
 #
 %%% item description markdown %%%
 %%% condition if url %%%

@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2022-2023 Gustaf Mossakowski
+ * @copyright Copyright © 2022-2024 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -48,6 +48,7 @@ function mod_clubs_stateorglist($params, $settings) {
 			, members_female/members AS anteil_members_female
 			, IF((SELECT COUNT(*) FROM contacts_contacts
 				WHERE contacts_contacts.main_contact_id = contacts.contact_id
+				AND contacts_contacts.relation_category_id = %d
 				AND contacts_contacts.published = "yes"), "ja", "nein"
 			) AS spielort
 			, 1 AS _level
@@ -59,7 +60,11 @@ function mod_clubs_stateorglist($params, $settings) {
 		WHERE country_id = %d
 		%s
 		ORDER BY contacts_identifiers.identifier, contacts.identifier';
-	$sql = sprintf($sql, $top['country_id'], $condition);
+	$sql = sprintf($sql
+		, wrap_category_id('relation/spielort')
+		, $top['country_id']
+		, $condition
+	);
 	$data['vereine'] = wrap_db_fetch($sql, 'contact_id');
 	if (!$data['vereine']) return false;
 

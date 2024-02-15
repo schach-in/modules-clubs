@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016, 2019-2023 Gustaf Mossakowski
+ * @copyright Copyright © 2016, 2019-2024 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -21,8 +21,13 @@ if (!$contact) wrap_quit(404);
 $sql = 'SELECT cc_id
 	FROM contacts_contacts
 	WHERE main_contact_id = %d
+	AND relation_category_id = %d
 	AND contact_id = %d';
-$sql = sprintf($sql, $brick['vars'][0], $brick['vars'][1]);
+$sql = sprintf($sql
+	, $brick['vars'][0]
+	, wrap_category_id('relation/spielort')
+	, $brick['vars'][1]
+);
 $cc_id = wrap_db_fetch($sql, '', 'single value');
 if (!$cc_id) {
 	if (wrap_db_auto_increment('contacts') > $brick['vars'][1]) {

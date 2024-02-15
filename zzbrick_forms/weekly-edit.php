@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2017, 2019, 2021-2023 Gustaf Mossakowski
+ * @copyright Copyright © 2017, 2019, 2021-2024 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -75,17 +75,22 @@ if ($mode !== 'monat') {
 	$zz['fields'][9]['hide_in_form'] = true;
 }
 
-$sql_ort = sprintf('SELECT contacts.contact_id
+$sql = 'SELECT contacts.contact_id
 		, CONCAT(postcode, " ", place), contact AS veranstaltungsort
 	FROM contacts
 	LEFT JOIN addresses USING (contact_id)
 	LEFT JOIN contacts_contacts USING (contact_id)
 	WHERE main_contact_id = %d
-	ORDER BY postcode', $contact['contact_id']);
-$orte = wrap_db_fetch($sql_ort, 'contact_id');
-if (count($orte) > 1) {
+	AND relation_category_id = %d
+	ORDER BY postcode';
+$sql = sprintf($sql
+	, $contact['contact_id']
+	, wrap_category_id('relation/spielort')
+);
+$places = wrap_db_fetch($sql, 'contact_id');
+if (count($places) > 1) {
 	// Spielorte nur vorgegebene
-	$zz['fields'][8]['sql'] = $sql_ort;
+	$zz['fields'][8]['sql'] = $sql;
 	unset($zz['fields'][8]['explanation']);
 } else {
 	$zz['fields'][8]['hide_in_form'] = true;

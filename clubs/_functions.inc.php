@@ -39,7 +39,12 @@ function mf_clubs_club($id) {
  * @return string
  */
 function mf_clubs_parent_orgs($contact_id) {
-	$contact_ids = wrap_db_parents($contact_id, 'SELECT mother_contact_id FROM contacts WHERE contact_id IN (%s)');
+	$sql = 'SELECT main_contact_id
+		FROM contacts_contacts
+		WHERE contact_id IN (%%s)
+		AND relation_category_id = %d';
+	$sql = sprintf($sql, wrap_category_id('relation/member'));
+	$contact_ids = wrap_db_parents($contact_id, $sql);
 	if (!$contact_ids) return '';	
 
 	$org = [];

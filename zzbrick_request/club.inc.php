@@ -9,7 +9,7 @@
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
  * @author Falco Nogatz <fnogatz@gmail.com>
- * @copyright Copyright © 2015-2023 Gustaf Mossakowski
+ * @copyright Copyright © 2015-2024 Gustaf Mossakowski
  * @copyright Copyright © 2020, 2023 Falco Nogatz <fnogatz@gmail.com>
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
@@ -127,7 +127,9 @@ function mod_clubs_club($params) {
 			, IF(categories.category_id = "%d", 1, NULL) AS verein
 			, IF(categories.category_id = "%d", 1, NULL) AS schachabteilung
 			, IF(categories.category_id = "%d", 1, NULL) AS schachhort
-			, (SELECT COUNT(*) FROM contacts members WHERE members.mother_contact_id = org.contact_id) AS member_orgs
+			, (SELECT COUNT(*) FROM contacts_contacts members
+				WHERE members.main_contact_id = org.contact_id
+				AND members.relation_category_id = %d) AS member_orgs
 			, categories.parameters
 			, countries.country, countries.identifier AS country_identifier
 			, IF(categories.category_id IN (%d, %d, %d), 1, NULL) AS state
@@ -151,6 +153,8 @@ function mod_clubs_club($params) {
 		, wrap_category_id('contact/club')
 		, wrap_category_id('contact/chess-department')
 		, wrap_category_id('contact/hort')
+
+		, wrap_category_id('relation/member')
 
 		, wrap_category_id('contact/school')
 		, wrap_category_id('contact/kindergarten')
@@ -249,9 +253,8 @@ function mod_clubs_club($params) {
 	}
 
 	// website, telefon, telefax, e_mail
-	foreach ($details as $contact_id => $contactdetails) {
+	foreach ($details as $contact_id => $contactdetails)
 		$org['orte'][$contact_id]['details'] = $contactdetails;
-	}
 
 	$sql = 'SELECT team_id, event, team, team_no
 			, IF(tournaments.teilnehmerliste = "ja", teams.identifier, events.identifier) AS team_identifier
@@ -275,12 +278,16 @@ function mod_clubs_club($params) {
 		$org['parent_orgs'] = mf_clubs_parent_orgs($org['contact_id']);
 	
 	// Main Contact
-	$sql = 'SELECT main_contacts.contact AS main_contact
-		FROM contacts main_contacts
-		LEFT JOIN contacts
-		ON main_contacts.contact_id = contacts.mother_contact_id
-		WHERE contacts.contact_id = %d';
-	$sql = sprintf($sql, $org['contact_id']);
+	$sql = 'SELECT contact AS main_contact
+		FROM contacts
+		LEFT JOIN contacts_contacts
+			ON contacts.contact_id = contacts_contacts.main_contact_id
+		WHERE contacts_contacts.contact_id = %d
+		AND relation_category_id = %d';
+	$sql = sprintf($sql
+		, $org['contact_id']
+		, wrap_category_id('relation/member')
+	);
 	$org['main_contact'] = wrap_db_fetch($sql, '', 'single value');
 	
 	// Auszeichnungen

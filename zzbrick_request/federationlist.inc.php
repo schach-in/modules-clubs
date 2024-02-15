@@ -8,20 +8,27 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016-2023 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2024 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
 
 function mod_clubs_federationlist($params) {
-	$sql = 'SELECT contact_id, contact, category_id, category, mother_contact_id
+	$sql = 'SELECT contacts.contact_id, contact, category_id, category
+			, main_contact_id
 			, 1 AS aktiv
 			, contacts.identifier
 		FROM contacts
+		LEFT JOIN contacts_contacts
+			ON contacts.contact_id = contacts_contacts.contact_id
+			AND contacts_contacts.relation_category_id = %d
 		LEFT JOIN categories
 			ON contacts.contact_category_id = categories.category_id
 		WHERE contacts.identifier = "%s"';
-	$sql = sprintf($sql, wrap_db_escape($params[0]));
+	$sql = sprintf($sql
+		, wrap_category_id('relation/member')
+		, wrap_db_escape($params[0])
+	);
 	$data = wrap_db_fetch($sql);
 	if (!$data) {
 		$categories = mf_clubs_from_category($params[0]);
@@ -43,6 +50,7 @@ function mod_clubs_federationlist($params) {
 			, (SELECT COUNT(*) FROM contacts_contacts
 				WHERE contacts_contacts.main_contact_id = contacts.contact_id
 				AND contacts_contacts.published = "yes"
+				AND relation_category_id = %d
 			) AS spielorte
 			, members, members_female, members_u25, category_id
 		FROM contacts
@@ -52,10 +60,17 @@ function mod_clubs_federationlist($params) {
 		LEFT JOIN contacts_identifiers
 			ON contacts_identifiers.contact_id = contacts.contact_id
 			AND contacts_identifiers.current = "yes"
-		WHERE mother_contact_id IN (%s)
+		LEFT JOIN contacts_contacts
+			ON contacts_contacts.contact_id = contacts.contact_id
+			AND contacts_contacts.relation_category_id = %d
+		WHERE main_contact_id IN (%%s)
 		AND ISNULL(end_date)
 		ORDER BY categories.sequence, contact_short, contacts_identifiers.identifier';
-	$children = wrap_db_children([$data], $sql, 'contact_id', 'mother_contact_id');
+	$sql = sprintf($sql
+		, wrap_category_id('relation/spielort')
+		, wrap_category_id('relation/member')
+	);
+	$children = wrap_db_children([$data], $sql, 'contact_id', 'main_contact_id');
 	if (count($children['ids']) === 1) return false; // only main club
 	
 	$federations = [
@@ -70,7 +85,7 @@ function mod_clubs_federationlist($params) {
 		} else {
 			$parent = false;
 			for ($i = $org['_level']; $i > 0; $i--) {
-				if (!$parent) $parent = $org['mother_contact_id'];
+				if (!$parent) $parent = $org['main_contact_id'];
 				$data['children'][$parent]['members'] = $data['children'][$parent]['members'] ?? 0;
 				$data['children'][$parent]['members_female'] = $data['children'][$parent]['members_female'] ?? 0;
 				$data['children'][$parent]['members_u25'] = $data['children'][$parent]['members_u25'] ?? 0;
@@ -87,8 +102,8 @@ function mod_clubs_federationlist($params) {
 						$data['children'][$parent]['spielorte']++;
 					}
 				}
-				if (isset($data['children'][$parent]['mother_contact_id'])) {
-					$parent = $data['children'][$parent]['mother_contact_id'];
+				if (isset($data['children'][$parent]['main_contact_id'])) {
+					$parent = $data['children'][$parent]['main_contact_id'];
 				}
 			}
 		}
