@@ -67,7 +67,7 @@ function mod_clubs_federationlist($params) {
 		AND ISNULL(end_date)
 		ORDER BY categories.sequence, contact_short, contacts_identifiers.identifier';
 	$sql = sprintf($sql
-		, wrap_category_id('relation/spielort')
+		, wrap_category_id('relation/venue')
 		, wrap_category_id('relation/member')
 	);
 	$children = wrap_db_children([$data], $sql, 'contact_id', 'main_contact_id');

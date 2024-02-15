@@ -61,7 +61,7 @@ function mod_clubs_stateorglist($params, $settings) {
 		%s
 		ORDER BY contacts_identifiers.identifier, contacts.identifier';
 	$sql = sprintf($sql
-		, wrap_category_id('relation/spielort')
+		, wrap_category_id('relation/venue')
 		, $top['country_id']
 		, $condition
 	);

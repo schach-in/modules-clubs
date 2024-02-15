@@ -241,7 +241,7 @@ function mod_clubs_club($params) {
 			ORDER BY sequence, places.contact, postcode, place, address';
 		$sql = sprintf($sql
 			, $org['contact_id']
-			, wrap_category_id('relation/spielort')
+			, wrap_category_id('relation/venue')
 		);
 		$org['orte'] = wrap_db_fetch($sql, 'contact_id');
 		$details = mf_contacts_contactdetails(array_keys($org['orte']));

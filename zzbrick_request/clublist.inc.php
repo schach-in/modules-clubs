@@ -86,7 +86,7 @@ function mod_clubs_clublist($params) {
 		%s
 		ORDER BY contacts_identifiers.identifier, contacts.identifier';
 	$sql = sprintf($sql
-		, wrap_category_id('relation/spielort')
+		, wrap_category_id('relation/venue')
 		, $extra_field
 		, wrap_category_id('relation/member')
 		, $condition

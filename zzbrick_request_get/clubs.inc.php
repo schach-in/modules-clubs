@@ -159,7 +159,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 	$csql = sprintf($sql
 		, $extra_field
 		, $having
-		, wrap_category_id('relation/spielort')
+		, wrap_category_id('relation/venue')
 		, $condition_cc
 		, wrap_category_id('relation/member')
 		, $condition

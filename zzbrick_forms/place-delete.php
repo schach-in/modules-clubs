@@ -25,7 +25,7 @@ $sql = 'SELECT cc_id
 	AND contact_id = %d';
 $sql = sprintf($sql
 	, $brick['vars'][0]
-	, wrap_category_id('relation/spielort')
+	, wrap_category_id('relation/venue')
 	, $brick['vars'][1]
 );
 $cc_id = wrap_db_fetch($sql, '', 'single value');

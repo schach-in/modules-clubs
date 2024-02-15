@@ -85,7 +85,7 @@ $sql = 'SELECT contacts.contact_id
 	ORDER BY postcode';
 $sql = sprintf($sql
 	, $contact['contact_id']
-	, wrap_category_id('relation/spielort')
+	, wrap_category_id('relation/venue')
 );
 $places = wrap_db_fetch($sql, 'contact_id');
 if (count($places) > 1) {
