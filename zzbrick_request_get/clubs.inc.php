@@ -178,7 +178,14 @@ function mod_clubs_get_clubs($params, $settings = []) {
 				case 50: $data['maxzoom'] = 8; break;
 			}
 			$condition = sprintf($condition, $orte_umkreissuche_km); 
-			$csql = sprintf($sql, $extra_field, $having, $condition_cc, $condition);
+			$csql = sprintf($sql
+				, $extra_field
+				, $having
+				, wrap_category_id('relation/venue')
+				, $condition_cc
+				, wrap_category_id('relation/member')
+				, $condition
+			);
 			$data['coordinates'] = wrap_db_fetch($csql, '_dummy_', 'numeric');
 			if ($data['coordinates']) break;
 		}
