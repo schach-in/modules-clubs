@@ -123,14 +123,14 @@ function mf_clubs_latlon_check() {
 	if (!empty($_GET['lon']) AND empty($_GET['lat'])) return false;
 	if (isset($_GET['lat']) AND !is_numeric($_GET['lat'])) {
 		preg_match('/[0-9]+\.[0-9]+/', $_GET['lat'], $matches);
-		$_GET['lat'] = $matches[0];
+		$_GET['lat'] = $matches[0] ?? NULL;
 		$status = 404;
 	}
 	if (isset($_GET['lat']) AND $_GET['lat'] > 90) $_GET['lat'] = 90;
 	if (isset($_GET['lat']) AND $_GET['lat'] < -90) $_GET['lat'] = -90;
 	if (isset($_GET['lon']) AND !is_numeric($_GET['lon'])) {
 		preg_match('/[0-9]+\.[0-9]+/', $_GET['lon'], $matches);
-		$_GET['lon'] = $matches[0];
+		$_GET['lon'] = $matches[0] ?? NULL;
 		$status = 404;
 	}
 	if (isset($_GET['lon']) AND $_GET['lon'] > 180) $_GET['lon'] = 180;
