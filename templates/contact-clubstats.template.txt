@@ -1,0 +1,24 @@
+# clubs module
+# template for contact: participations
+# 
+# Part of »Zugzwang Project«
+# https://www.zugzwang.org/modules/clubs
+#
+# @author Gustaf Mossakowski <gustaf@koenige.org>
+# @copyright Copyright © 2024 Gustaf Mossakowski
+# @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+# 
+%%% condition if members %%%
+<tr><th>%%% text Members %%%</th>
+<td>%%% item members %%%</td>
+<tr><th>%%% text Members, female %%%</th>
+<td>%%% item members_female %%%</td>
+<tr><th>%%% text Members, U25 %%%</th>
+<td>%%% item members_u25 %%%</td>
+<tr><th>%%% text Members, passive %%%</th>
+<td>%%% item members_passive %%%</td>
+<tr><th>%%% text ∅ Age %%%</th>
+<td>%%% item avg_byear %%%</td>
+<tr><th>%%% text ∅ Rating %%%</th>
+<td>%%% item avg_rating %%%</td>
+%%% condition endif %%%
