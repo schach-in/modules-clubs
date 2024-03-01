@@ -24,6 +24,6 @@ function mf_clubs_contact($data, $ids) {
 	foreach ($stats as $contact_id => $stat)
 		$data[$contact_id] += $stat;
 	
-	$data['templates']['contact_4'][] = 'contact-clubstats';
+	$data['templates']['contact_5'][] = 'contact-clubstats';
 	return $data;
 }

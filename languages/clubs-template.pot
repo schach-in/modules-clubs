@@ -5,63 +5,64 @@
 # https://www.zugzwang.org/projects/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2022–2023 Gustaf Mossakowski
+# @copyright Copyright © 2022–2024 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Zugzwang Project -- zzform\n"
+"Project-Id-Version: Zugzwang Project -- clubs\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: Gustaf Mossakowski <gustaf@koenige.org>\n"
 "Language-Team: \n"
-"Language: de\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 1.8.12\n"
 
 #: clubs/_functions.inc.php
 msgid "Bots are not allowed to access this resource."
-msgstr "Bots dürfen nicht auf diese Ressource zugreifen."
+msgstr ""
 
 #: templates/contact-clubstats.template.txt
 msgid "Members"
-msgstr "Mitglieder"
+msgstr ""
 
 #: templates/contact-clubstats.template.txt
 msgid "%d female"
-msgstr "%d weiblich"
+msgstr ""
 
 #: templates/contact-clubstats.template.txt
 msgid "%d under 25"
-msgstr "%d unter 25"
+msgstr ""
 
 #: templates/contact-clubstats.template.txt
 msgid "%d passive"
-msgstr "%d passiv"
+msgstr ""
 
 #: templates/contact-clubstats.template.txt
 msgid "∅ Age"
-msgstr "∅ Alter"
+msgstr ""
 
 #: templates/contact-clubstats.template.txt
 msgid "∅ Rating"
-msgstr "∅ Wertung"
+msgstr ""
 
 #: zzbrick_forms/school-add.php
 msgid "Add school chess group"
-msgstr "Schulschachgruppe hinzufügen"
+msgstr ""
 
 #: zzbrick_forms/school-add.php
 msgid "Name of the school"
-msgstr "Name der Schule"
+msgstr ""
 
 #: zzbrick_forms/school-add.php
 msgid "State"
-msgstr "Bundesland"
+msgstr ""
 
 #: zzbrick_forms/school-add.php
 msgid "About us"
-msgstr "Über uns"
+msgstr ""
+

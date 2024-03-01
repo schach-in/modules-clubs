@@ -10,13 +10,7 @@
 # 
 %%% condition if members %%%
 <tr><th>%%% text Members %%%</th>
-<td>%%% item members %%%</td>
-<tr><th>%%% text Members, female %%%</th>
-<td>%%% item members_female %%%</td>
-<tr><th>%%% text Members, U25 %%%</th>
-<td>%%% item members_u25 %%%</td>
-<tr><th>%%% text Members, passive %%%</th>
-<td>%%% item members_passive %%%</td>
+<td>%%% item members %%% (%%% text "%d female" members_female %%%, %%% text "%d under 25" members_u25 %%%, %%% text "%d passive" members_passive %%%)</td>
 <tr><th>%%% text ∅ Age %%%</th>
 <td>%%% item avg_byear %%%</td>
 <tr><th>%%% text ∅ Rating %%%</th>
