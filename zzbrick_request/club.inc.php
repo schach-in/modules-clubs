@@ -386,8 +386,12 @@ function mod_clubs_club($params) {
 			foreach ($revisions as $key => $value) {
 				if (is_array($value)) {
 					foreach ($value as $subtable) {
-						foreach ($subtable as $subkey => $subvalue) {
-							$org['orte'][$contact_id][$subkey] = $subvalue;
+						if (is_array($subtable)) {
+							foreach ($subtable as $subkey => $subvalue)
+								$org['orte'][$contact_id][$subkey] = $subvalue;
+						} else {
+							// @todo something was deleted, e. g. contact details
+							// but these are not shown here anyways
 						}
 					}
 				} else {
