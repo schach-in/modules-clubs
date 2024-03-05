@@ -232,7 +232,7 @@ function mod_clubs_clubs_similar_places($data, $q) {
  * @return array (or redirect)
  */
 function mod_clubs_clubs_search($page, $data, $params) {
-	if ($data['q']) {
+	if (!empty($data['q'])) {
 		$club = mod_clubs_clubs_search_club($data['q']);
 		if ($club)
 			return wrap_redirect(sprintf('/%s/', $club['identifier']));
