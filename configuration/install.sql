@@ -6,7 +6,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2021 Gustaf Mossakowski
+ * @copyright Copyright © 2021, 2024 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -26,7 +26,7 @@ CREATE TABLE `wochentermine` (
   PRIMARY KEY (`wochentermin_id`),
   KEY `contact_id` (`contact_id`),
   KEY `wochentermin_kategorie_id` (`wochentermin_category_id`),
-  KEY `ort_id` (`place_contact_id`)
+  KEY `place_contact_id` (`place_contact_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO _relations (`master_db`, `master_table`, `master_field`, `detail_db`, `detail_table`, `detail_id_field`, `detail_field`, `delete`) VALUES ((SELECT DATABASE()), 'contacts', 'contact_id', (SELECT DATABASE()), 'wochentermine', 'wochentermin_id', 'contact_id', 'delete');
