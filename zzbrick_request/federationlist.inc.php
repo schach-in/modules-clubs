@@ -51,7 +51,7 @@ function mod_clubs_federationlist($params) {
 				WHERE contacts_contacts.main_contact_id = contacts.contact_id
 				AND contacts_contacts.published = "yes"
 				AND relation_category_id = %d
-			) AS spielorte
+			) AS venues
 			, members, members_female, members_u25, category_id
 		FROM contacts
 		LEFT JOIN categories
@@ -90,7 +90,7 @@ function mod_clubs_federationlist($params) {
 				$data['children'][$parent]['members_female'] = $data['children'][$parent]['members_female'] ?? 0;
 				$data['children'][$parent]['members_u25'] = $data['children'][$parent]['members_u25'] ?? 0;
 				$data['children'][$parent]['vereine'] = $data['children'][$parent]['vereine'] ?? 0;
-				$data['children'][$parent]['spielorte'] = $data['children'][$parent]['spielorte'] ?? 0;
+				$data['children'][$parent]['venues'] = $data['children'][$parent]['venues'] ?? 0;
 				$data['children'][$parent]['members'] += $org['members'];
 				$data['children'][$parent]['members_female'] += $org['members_female'];
 				$data['children'][$parent]['members_u25'] += $org['members_u25'];
@@ -98,8 +98,8 @@ function mod_clubs_federationlist($params) {
 					wrap_category_id('contact/club'), wrap_category_id('contact/chess-department')
 				])) {
 					$data['children'][$parent]['vereine']++;
-					if ($org['spielorte']) {
-						$data['children'][$parent]['spielorte']++;
+					if ($org['venues']) {
+						$data['children'][$parent]['venues']++;
 					}
 				}
 				if (isset($data['children'][$parent]['main_contact_id'])) {
@@ -110,11 +110,11 @@ function mod_clubs_federationlist($params) {
 	}
 	foreach ($data['children'] as $id => $org) {
 		if (!empty($org['vereine'])) {
-			$data['children'][$id]['anteil_spielorte'] = $org['spielorte'] / $org['vereine'];
+			$data['children'][$id]['share_venues'] = $org['venues'] / $org['vereine'];
 		}
 		if (!empty($org['members'])) {
-			$data['children'][$id]['anteil_members_female'] = $org['members_female'] / $org['members'];
-			$data['children'][$id]['anteil_members_u25'] = $org['members_u25'] / $org['members'];
+			$data['children'][$id]['share_members_female'] = $org['members_female'] / $org['members'];
+			$data['children'][$id]['share_members_u25'] = $org['members_u25'] / $org['members'];
 		}
 	}
 	if (count($data['children']) <= 2) {
@@ -133,7 +133,7 @@ function mod_clubs_federationlist($params) {
 			unset($data['children'][$org['contact_id']]['members_female']);
 			unset($data['children'][$org['contact_id']]['members_u25']);
 			unset($data['children'][$org['contact_id']]['vereine']);
-			unset($data['children'][$org['contact_id']]['spielorte']);
+			unset($data['children'][$org['contact_id']]['venues']);
 		}
 	}
 

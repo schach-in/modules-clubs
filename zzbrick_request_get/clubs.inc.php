@@ -124,7 +124,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 		$having = sprintf($having, $result['lat'], $result['lat'], $result['lon']);
 	}
 
-	$sql = 'SELECT organisationen.contact AS title, places.contact AS veranstaltungsort
+	$sql = 'SELECT organisationen.contact AS title, places.contact AS place_contact
 			, latitude AS x_latitude, longitude AS y_longitude
 			, SUBSTRING_INDEX(categories.path, "/", -1) AS category
 			, members, members_female AS female, members_u25 AS u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating

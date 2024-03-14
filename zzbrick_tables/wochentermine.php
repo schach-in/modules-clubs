@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2006-2012, 2016-2017, 2019-2021 Gustaf Mossakowski
+ * @copyright Copyright © 2006-2012, 2016-2017, 2019-2021, 2024 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -78,13 +78,13 @@ $zz['fields'][8]['field_name'] = 'place_contact_id';
 $zz['fields'][8]['key_field_name'] = 'contact_id';
 $zz['fields'][8]['id_field_name'] = 'contacts.contact_id';
 $zz['fields'][8]['type'] = 'select';
-$zz['fields'][8]['sql'] = sprintf('SELECT contact_id, postcode, contact AS veranstaltungsort
+$zz['fields'][8]['sql'] = sprintf('SELECT contact_id, postcode, contact AS place_contact
 	FROM contacts
 	LEFT JOIN addresses USING (contact_id)
 	WHERE contact_category_id = %d
-	ORDER BY postcode', wrap_category_id('kontakte/veranstaltungsort')
+	ORDER BY postcode', wrap_category_id('contact/place')
 );
-$zz['fields'][8]['display_field'] = 'veranstaltungsort';
+$zz['fields'][8]['display_field'] = 'place_contact';
 $zz['fields'][8]['search'] = 'places.contact';
 $zz['fields'][8]['character_set'] = 'utf8';
 $zz['fields'][8]['explanation'] = 'Nur angeben, falls Spielort vom normalen Vereinslokal abweicht';
@@ -106,7 +106,7 @@ $zz['fields'][99]['hide_in_list'] = true;
 $zz['sql'] = 'SELECT /*_PREFIX_*/wochentermine.* 
 		, TIME_FORMAT(uhrzeit_beginn, "%H:%i") AS uhrzeit_beginn
 		, TIME_FORMAT(uhrzeit_ende, "%H:%i") AS uhrzeit_ende
-		, places.contact AS veranstaltungsort
+		, places.contact AS place_contact
 		, /*_PREFIX_*/organisationen.contact
 		, /*_PREFIX_*/categories.category
 	FROM /*_PREFIX_*/wochentermine

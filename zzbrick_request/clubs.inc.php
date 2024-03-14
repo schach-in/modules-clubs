@@ -177,10 +177,10 @@ function mod_clubs_clubs_federations($q, $coordinates) {
 		, wrap_db_escape($q)
 	);
 	$federations = wrap_db_fetch($sql, 'contact_id');
-	foreach ($coordinates as $spielort) {
-		if (in_array($spielort['contact_id'], array_keys($federations))) {
+	foreach ($coordinates as $coordinate) {
+		if (in_array($coordinate['contact_id'], array_keys($federations))) {
 			// sind schon auf Karte
-			unset($federations[$spielort['contact_id']]);
+			unset($federations[$coordinate['contact_id']]);
 		}
 	}
 	// zuviele? dann nur Verbände anzeigen

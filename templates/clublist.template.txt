@@ -49,10 +49,10 @@
 %%% condition else %%%
 %%% item contact %%%
 %%% condition endif %%%
-%%% condition unless spielort %%% &middot; Karte%%% condition endif %%%%%% condition unless end_date %%%</a>%%% condition endif %%%</td>
+%%% condition unless has_venue %%% &middot; Karte%%% condition endif %%%%%% condition unless end_date %%%</a>%%% condition endif %%%</td>
 %%% condition unless with_usernames %%%
 %%% condition unless with_awards %%%
-<td>%%% item spielort %%%</td>
+<td>%%% item has_venue %%%</td>
 %%% condition endif %%%
 %%% condition endif %%%
 %%% condition unless without_members %%%
@@ -61,14 +61,14 @@
 %%% item members_u25 wrap_number %%%
 %%% condition else %%%–%%% condition endif %%%</td>
 <td class="number percent"><span class="sortonly">%%% item members_female %%% </span>%%% condition if members_u25 %%%
-%%% item anteil_members_u25 wrap_percent %%%
+%%% item share_members_u25 wrap_percent %%%
 %%% condition else %%%–%%% condition endif %%%</td>
 <td class="number"><span class="sortonly">%%% item zps_code %%% </span>%%% condition if members_female %%%
 %%% item members_female wrap_number %%%
 %%% condition else %%%–%%% condition endif %%%</td>
 <td class="number percent">%%% condition if awards %%%%%% loop awards 1 %%%<span class="sortonly">%%% item award_year %%% </span>%%% loop end %%%%%% condition endif %%%
 %%% condition if members_female %%%
-%%% item anteil_members_female wrap_percent %%%
+%%% item share_members_female wrap_percent %%%
 %%% condition else %%%–%%% condition endif %%%</td>
 <td>%%% condition unless end_date %%%
 <a href="https://www.schachbund.de/verein/%%% item zps_code %%%.html">%%% item zps_code %%%</a>

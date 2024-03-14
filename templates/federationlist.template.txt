@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2016-2017, 2021-2022 Gustaf Mossakowski
+# @copyright Copyright © 2016-2017, 2021-2022, 2024 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 %%% condition if url %%%
@@ -39,13 +39,13 @@
 %%% condition endif %%%
 %%% condition endif %%%
 <td class="number maincol">%%% item vereine wrap_number %%%</td>
-<td class="number">%%% item spielorte wrap_number %%%</td>
-<td class="number percent">%%% item anteil_spielorte wrap_percent %%%</td>
+<td class="number">%%% item venues wrap_number %%%</td>
+<td class="number percent">%%% item share_venues wrap_percent %%%</td>
 <td class="number maincol">%%% item members wrap_number %%%</td>
 <td class="number">%%% item members_u25 wrap_number %%%</td>
-<td class="number percent">%%% item anteil_members_u25 wrap_percent %%%</td>
+<td class="number percent">%%% item share_members_u25 wrap_percent %%%</td>
 <td class="number">%%% item members_female wrap_number %%%</td>
-<td class="number percent">%%% item anteil_members_female wrap_percent %%%</td>
+<td class="number percent">%%% item share_members_female wrap_percent %%%</td>
 </tr>
 %%% loop end %%%
 </tbody>

@@ -66,13 +66,13 @@ function mod_clubs_clublist($params) {
 	$sql = 'SELECT contacts.contact_id, contact, contacts.identifier
 			, contacts_identifiers.identifier AS zps_code
 			, members, members_female, members_u25
-			, members_u25/members AS anteil_members_u25
-			, members_female/members AS anteil_members_female
+			, members_u25/members AS share_members_u25
+			, members_female/members AS share_members_female
 			, IF((SELECT COUNT(*) FROM contacts_contacts
 				WHERE contacts_contacts.main_contact_id = contacts.contact_id
 				AND contacts_contacts.relation_category_id = %d
 				AND contacts_contacts.published = "yes"), "ja", "nein"
-			) AS spielort
+			) AS has_venue
 			, 1 AS _level
 			, end_date
 			%s
@@ -137,8 +137,8 @@ function mod_clubs_clublist($params) {
 		$top['members_female'] += $verein['members_female'];
 	}
 	if ($top['members']) {
-		$top['anteil_members_u25'] = $top['members_u25'] / $top['members'];
-		$top['anteil_members_female'] = $top['members_female'] / $top['members'];
+		$top['share_members_u25'] = $top['members_u25'] / $top['members'];
+		$top['share_members_female'] = $top['members_female'] / $top['members'];
 	} else {
 		$top['members'] = '';
 		$top['members_u25'] = '';

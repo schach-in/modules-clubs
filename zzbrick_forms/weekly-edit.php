@@ -76,7 +76,7 @@ if ($mode !== 'monat') {
 }
 
 $sql = 'SELECT contacts.contact_id
-		, CONCAT(postcode, " ", place), contact AS veranstaltungsort
+		, CONCAT(postcode, " ", place), contact AS place_contact
 	FROM contacts
 	LEFT JOIN addresses USING (contact_id)
 	LEFT JOIN contacts_contacts USING (contact_id)
