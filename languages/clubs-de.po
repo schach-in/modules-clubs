@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/projects/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2022–2023 Gustaf Mossakowski
+# @copyright Copyright © 2022–2024 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 msgid ""
@@ -25,6 +25,13 @@ msgstr ""
 #: clubs/_functions.inc.php
 msgid "Bots are not allowed to access this resource."
 msgstr "Bots dürfen nicht auf diese Ressource zugreifen."
+
+#: templates/club.template.txt
+msgctxt "club"
+msgid "Venue"
+msgid_plural "Venues"
+msgstr[0] "Spielort"
+msgstr[1] "Spielorte"
 
 #: templates/contact-clubstats.template.txt
 msgid "Members"

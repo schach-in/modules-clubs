@@ -215,7 +215,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% condition if orte %%%
 
 %%% condition if verein | schachabteilung %%%
-<h2>Spielort%%% condition if orte_plural %%%e%%% condition endif %%%</h2>
+<h2>%%% text "Venues" count_places context=club %%%</h2>
 %%% condition else %%%
 <h2>Adresse</h2>
 %%% condition endif %%%
@@ -252,7 +252,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% condition endif %%%
 %%% condition else %%%
 %%% condition if edit %%%
-<h2>Spielorte</h2>
+<h2>%%% text Venues context=club %%%</h2>
 <p><a href="ort-neu/" class="edit">Spielort ergänzen</a></p>
 %%% condition endif %%%
 

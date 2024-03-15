@@ -26,6 +26,13 @@ msgstr ""
 msgid "Bots are not allowed to access this resource."
 msgstr ""
 
+#: templates/club.template.txt
+msgctxt "club"
+msgid "Venue"
+msgid_plural "Venues"
+msgstr[0] ""
+msgstr[1] ""
+
 #: templates/contact-clubstats.template.txt
 msgid "Members"
 msgstr ""

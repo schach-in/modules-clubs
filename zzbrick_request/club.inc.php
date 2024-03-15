@@ -482,7 +482,7 @@ function mod_clubs_club($params) {
 		$org['longitude'] = array_sum($longitude) / count($longitude);
 		$org['latitude'] = array_sum($latitude) / count($latitude);
 	}
-	if (count($org['orte']) > 1) $org['orte_plural'] = true;
+	$org['count_places'] = count($org['orte']);
 
 	$page['title'] = $org['contact'];
 	if ($org['schachabteilung']) {
