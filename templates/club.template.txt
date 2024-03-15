@@ -14,7 +14,7 @@
 # description, zps_code, members, members_female, members_u25, avg_age,
 # avg_rating, nachfolger, nachfolger_kennung, category, schulschachgruppe,
 # schachkindergarten, topten { FIDE_Titel, Spielername, DWZ, FIDE_Elo, no,
-# spieler }, orte { contact_id, contact, address, postcode, place,
+# spieler }, places { contact_id, contact, address, postcode, place,
 # description, latitude, longitude, remarks }, lon_min, lon_max, lat_min,
 # lat_max, longitude, latitude, teams { team_id, event, team, team_no,
 # team_identifier, duration }, parent_orgs, awards { category,
@@ -136,7 +136,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 	});
 %%% condition endif %%%
 %%% condition endif %%%
-%%% loop orte %%%
+%%% loop places %%%
 %%% condition if longitude %%%
 	L.marker([%%% item latitude %%%, %%% item longitude %%%], {icon: Icon, title: "%%% item contact wrap_js_escape %%%"}).addTo(map)
 	    .bindPopup('%%% item contact wrap_js_nl2br %%%');
@@ -212,7 +212,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 <p><a href="info/?focus=website" class="edit">Profile auf anderer Website ergänzen</a></p>
 %%% condition endif %%%
 
-%%% condition if orte %%%
+%%% condition if places %%%
 
 %%% condition if verein | schachabteilung %%%
 <h2>%%% text "Venues" count_places context=club %%%</h2>
@@ -221,7 +221,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% condition endif %%%
 
 <dl class="places" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-%%% loop orte %%%
+%%% loop places %%%
 <dt>%%% item contact %%%</dt>
 %%% item remarks "<dd><em>%s</em></dd>" %%%
 <dd itemprop="streetAddress">%%% item address nl2br %%%</dd>

@@ -243,18 +243,18 @@ function mod_clubs_club($params) {
 			, $org['contact_id']
 			, wrap_category_id('relation/venue')
 		);
-		$org['orte'] = wrap_db_fetch($sql, 'contact_id');
-		$details = mf_contacts_contactdetails(array_keys($org['orte']));
+		$org['places'] = wrap_db_fetch($sql, 'contact_id');
+		$details = mf_contacts_contactdetails(array_keys($org['places']));
 	} else {
 		$addresses = mf_contacts_addresses($org['contact_id']);
 		if ($addresses)
-			$org['orte'][$org['contact_id']] = reset($addresses); // only one = @todo change key to address_id
+			$org['places'][$org['contact_id']] = reset($addresses); // only one = @todo change key to address_id
 		$details[$org['contact_id']] = mf_contacts_contactdetails($org['contact_id']);
 	}
 
 	// website, telefon, telefax, e_mail
 	foreach ($details as $contact_id => $contactdetails)
-		$org['orte'][$contact_id]['details'] = $contactdetails;
+		$org['places'][$contact_id]['details'] = $contactdetails;
 
 	$sql = 'SELECT team_id, event, team, team_no
 			, IF(tournaments.teilnehmerliste = "ja", teams.identifier, events.identifier) AS team_identifier
@@ -371,43 +371,43 @@ function mod_clubs_club($params) {
 				}
 			}
 		}
-		$orte_sort = [];
-		foreach ($org['orte'] as $contact_id => $ort) {
-			$revisions = zz_revisions_read('contacts_contacts', $ort['cc_id']);
+		$places_sort = [];
+		foreach ($org['places'] as $contact_id => $place) {
+			$revisions = zz_revisions_read('contacts_contacts', $place['cc_id']);
 			if (is_null($revisions)) {
-				unset($org['orte'][$contact_id]);
+				unset($org['places'][$contact_id]);
 				continue;
 			} elseif ($revisions) {
 				// ...
 				echo wrap_print('not yet supported');
 				exit;
 			}
-			$revisions = zz_revisions_read('contacts', $ort['contact_id']);
+			$revisions = zz_revisions_read('contacts', $place['contact_id']);
 			foreach ($revisions as $key => $value) {
 				if (is_array($value)) {
 					foreach ($value as $subtable) {
 						if (is_array($subtable)) {
 							foreach ($subtable as $subkey => $subvalue)
-								$org['orte'][$contact_id][$subkey] = $subvalue;
+								$org['places'][$contact_id][$subkey] = $subvalue;
 						} else {
 							// @todo something was deleted, e. g. contact details
 							// but these are not shown here anyways
 						}
 					}
 				} else {
-					$org['orte'][$contact_id][$key] = $value;
+					$org['places'][$contact_id][$key] = $value;
 				}
 			}
-			$ort = $org['orte'][$contact_id];
-			$orte_sort[] = sprintf('%02d-%s-%s-%s-%s'
-				, $ort['sequence'], $ort['contact'], $ort['postcode']
-				, $ort['place'], $ort['address']
+			$place = $org['places'][$contact_id];
+			$places_sort[] = sprintf('%02d-%s-%s-%s-%s'
+				, $place['sequence'], $place['contact'], $place['postcode']
+				, $place['place'], $place['address']
 			);
 		}
-		$keys = array_keys($org['orte']);
-		array_multisort($org['orte'], $orte_sort);
-		array_multisort($keys, $orte_sort);
-		$org['orte'] = array_combine($keys, $org['orte']);
+		$keys = array_keys($org['places']);
+		array_multisort($org['places'], $places_sort);
+		array_multisort($keys, $places_sort);
+		$org['places'] = array_combine($keys, $org['places']);
 		foreach ($wochentermine as $id => $wochentermin) {
 			$revisions = zz_revisions_read('wochentermine', $id);
 			if (is_null($revisions)) {
@@ -429,52 +429,52 @@ function mod_clubs_club($params) {
 		}
 	}
 	// nichtöffentliche Orte entfernen
-	foreach ($org['orte'] as $contact_id => $ort) {
-		if (empty($ort['published'])) continue;
-		if ($ort['published'] === 'no') unset($org['orte'][$contact_id]);
+	foreach ($org['places'] as $contact_id => $place) {
+		if (empty($place['published'])) continue;
+		if ($place['published'] === 'no') unset($org['places'][$contact_id]);
 	}
 	foreach ($wochentermine as $id => $wochentermin) {
 		if ($wochentermin['oeffentlich'] === 'nein') unset($wochentermine[$id]);
 	}
 
-	if (!empty($org['orte'])) {
+	if (!empty($org['places'])) {
 		foreach ($wochentermine as $wochentermin) {
 			if (!$wochentermin['place_contact_id']) {
-				$place = reset($org['orte']);
+				$place = reset($org['places']);
 				$contact_id = $place['contact_id'];
 			} else {
-				foreach ($org['orte'] as $ort) {
-					if ($ort['contact_id'] !== $wochentermin['place_contact_id']) continue;
-					$contact_id = $ort['contact_id'];
+				foreach ($org['places'] as $place) {
+					if ($place['contact_id'] !== $wochentermin['place_contact_id']) continue;
+					$contact_id = $place['contact_id'];
 				}
 				if (!$contact_id) {
 					// @todo read from database which place
 					continue;
 				}
 			}
-			$org['orte'][$contact_id]['wochentermine'][] = $wochentermin;
+			$org['places'][$contact_id]['wochentermine'][] = $wochentermin;
 		}
 	}
 
 	// Karte mit Spielorten
-	foreach ($org['orte'] as $id => $ort) {
-		if (empty($ort['longitude'])) continue; // platforms
-		if ($org['edit']) $org['orte'][$id]['edit'] = true;
-		$longitude[] = $ort['longitude'];
-		$latitude[] = $ort['latitude'];
+	foreach ($org['places'] as $id => $place) {
+		if (empty($place['longitude'])) continue; // platforms
+		if ($org['edit']) $org['places'][$id]['edit'] = true;
+		$longitude[] = $place['longitude'];
+		$latitude[] = $place['latitude'];
 		if (!isset($org['lon_min'])) {
-			$org['lon_min'] = $ort['longitude'];
-			$org['lon_max'] = $ort['longitude'];
-			$org['lat_min'] = $ort['latitude'];
-			$org['lat_max'] = $ort['latitude'];
+			$org['lon_min'] = $place['longitude'];
+			$org['lon_max'] = $place['longitude'];
+			$org['lat_min'] = $place['latitude'];
+			$org['lat_max'] = $place['latitude'];
 		} else {
-			if ($ort['longitude']) {
-				if ($ort['longitude'] < $org['lon_min']) $org['lon_min'] = $ort['longitude'];
-				if ($ort['longitude'] > $org['lon_max']) $org['lon_max'] = $ort['longitude'];
+			if ($place['longitude']) {
+				if ($place['longitude'] < $org['lon_min']) $org['lon_min'] = $place['longitude'];
+				if ($place['longitude'] > $org['lon_max']) $org['lon_max'] = $place['longitude'];
 			}
-			if ($ort['latitude']) {
-				if ($ort['latitude'] < $org['lat_min']) $org['lat_min'] = $ort['latitude'];
-				if ($ort['latitude'] > $org['lat_max']) $org['lat_max'] = $ort['latitude'];
+			if ($place['latitude']) {
+				if ($place['latitude'] < $org['lat_min']) $org['lat_min'] = $place['latitude'];
+				if ($place['latitude'] > $org['lat_max']) $org['lat_max'] = $place['latitude'];
 			}
 		}
 	}
@@ -482,7 +482,7 @@ function mod_clubs_club($params) {
 		$org['longitude'] = array_sum($longitude) / count($longitude);
 		$org['latitude'] = array_sum($latitude) / count($latitude);
 	}
-	$org['count_places'] = count($org['orte']);
+	$org['count_places'] = count($org['places']);
 
 	$page['title'] = $org['contact'];
 	if ($org['schachabteilung']) {
