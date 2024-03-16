@@ -484,6 +484,7 @@ function mod_clubs_club($params) {
 	}
 	$org['count_places'] = count($org['places']);
 
+	wrap_setting('leaflet_fullscreen', true);
 	$page['title'] = $org['contact'];
 	if ($org['schachabteilung']) {
 		$page['title'] .= ' <br><em>Schachabteilung</em>'; 
@@ -495,7 +496,7 @@ function mod_clubs_club($params) {
 	} else {
 		$page['breadcrumbs'][]['title'] = $org['contact'];
 	}
-	$page['head'] = wrap_template('clubs-map-head');
+	$page['head'] = wrap_template('leaflet-head');
 	if (!empty($org['lat_min']))
 		$page['extra']['id'] = 'clubmap';
 	$page['dont_show_h1'] = true;

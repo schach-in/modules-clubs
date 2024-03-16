@@ -6,7 +6,7 @@
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
 # @author Falco Nogatz <fnogatz@gmail.com>
-# @copyright Copyright © 2015-2019, 2021-2023 Gustaf Mossakowski
+# @copyright Copyright © 2015-2019, 2021-2024 Gustaf Mossakowski
 # @copyright Copyright © 2020 Falco Nogatz
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
@@ -59,12 +59,9 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 </p>
 %%% condition endif %%%
 %%% condition if lat_min %%%
+%%% template leaflet-js %%%
 <script type="text/javascript">
-
-	var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/%%% setting mapbox_user %%%/%%% setting mapbox_style %%%/tiles/512/{z}/{x}/{y}?access_token=%%% setting mapbox_access_token %%%', {
-		maxZoom: 18, tileSize: 512,  zoomOffset: -1,
-		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-	});
+	%%% template leaflet-tiles-mapbox %%%
 	var map = L.map('bannermap', {scrollWheelZoom: false}).addLayer(tiles);
 	map.fitBounds([[%%% item lat_min %%%, %%% item lon_min %%%], [%%% item lat_max %%%, %%% item lon_max %%%]], {maxZoom: 13});
 

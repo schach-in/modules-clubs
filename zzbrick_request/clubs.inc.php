@@ -125,6 +125,8 @@ function mod_clubs_clubs($params, $settings = []) {
 	if ($data['q'] !== NULL)
 		$page['title'] .= sprintf(': Suche nach »%s«', wrap_html_escape($data['q']));
 	if ($data['lat'] AND $data['lon']) $page['title'] .= sprintf(', Koordinaten %s/%s', wrap_latitude($data['lat']), wrap_longitude($data['lon']));
+
+	wrap_setting('leaflet_markercluster', true);
 	$page['head'] = wrap_template('clubs-head');
 	$page['extra']['id'] = 'map';
 	if (!empty($data['noindex'])) {

@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2015-2023 Gustaf Mossakowski
+# @copyright Copyright © 2015-2024 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 # List of fields:
@@ -91,12 +91,9 @@ oder Ortsname</p>
 </div>
 %%% condition endif %%%
 
+%%% template leaflet-js %%%
 <script type="text/javascript">
-
-	var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/%%% setting mapbox_user %%%/%%% setting mapbox_style %%%/tiles/512/{z}/{x}/{y}?access_token=%%% setting mapbox_access_token %%%', {
-		maxZoom: 18, tileSize: 512,  zoomOffset: -1,
-		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-	});
+	%%% template leaflet-tiles-mapbox %%%
 
 	var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 	var map = L.map('fullmap').addLayer(tiles);
