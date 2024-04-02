@@ -9,7 +9,7 @@
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
  * @author Falco Nogatz <nogatz@gmail.com>
- * @copyright Copyright © 2016-2023 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2024 Gustaf Mossakowski
  * @copyright Copyright © Falco Nogatz
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
@@ -58,7 +58,7 @@ function mod_clubs_make_clubstats() {
 			AND contacts_identifiers.current = "yes"
 			AND contacts_identifiers.identifier_category_id = %d
 		GROUP BY contact_id';
-	$sql = sprintf($sql, wrap_category_id('identifiers/zps'));
+	$sql = sprintf($sql, wrap_category_id('identifiers/pass_dsb'));
 	$result = wrap_db_query($sql);
 	if (!$result) {
 		wrap_error('Fehler beim Erstellen der Vereinsstatistiken.', E_USER_ERROR);

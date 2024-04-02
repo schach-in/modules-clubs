@@ -160,7 +160,7 @@ function mod_clubs_club($params) {
 		, wrap_category_id('contact/kindergarten')
 		, wrap_category_id('contact/hort')
 
-		, wrap_category_id('identifiers/zps')
+		, wrap_category_id('identifiers/pass_dsb')
 		, wrap_db_escape($params[0])
 	);
 	$org = wrap_db_fetch($sql);

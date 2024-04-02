@@ -35,7 +35,7 @@ function mod_clubs_clubsapi($params, $settings = []) {
 			ORDER BY contacts_identifiers.identifier';
 		$sql = sprintf($sql
 			, wrap_db_escape($params[0])
-			, wrap_category_id('identifiers/zps')
+			, wrap_category_id('identifiers/pass_dsb')
 			, wrap_category_id('contact/person')
 		);
 		break;

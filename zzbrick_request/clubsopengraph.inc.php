@@ -50,7 +50,7 @@ function mod_clubs_clubsopengraph($params, $settings = []) {
 	';
 	$sql = sprintf($sql
 		, wrap_category_id('relation/member')
-		, wrap_category_id('identifiers/zps')
+		, wrap_category_id('identifiers/pass_dsb')
 		, wrap_db_escape($params[0])
 	);
 	$org = wrap_db_fetch($sql);
