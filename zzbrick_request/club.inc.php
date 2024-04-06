@@ -23,7 +23,7 @@ function mod_clubs_club($params) {
 	$edit = false;
 	if ((count($params) === 3 OR count($params) === 4) AND $params[1] === 'bearbeiten') {
 		wrap_setting('cache', false);
-		$sql = 'SELECT contact_id, contact
+		$sql = 'SELECT contact_id, contact, contact_short
 			FROM contacts
 			WHERE identifier = "%s"
 			AND ISNULL(end_date)';
@@ -76,10 +76,10 @@ function mod_clubs_club($params) {
 		$page['title'] = 'Bearbeiten: '.$org['contact'];
 		unset($page['breadcrumbs']);
 		if (count($params) === 3) {
-			$page['breadcrumbs'][] = sprintf('<a href="../../">%s</a>', $org['contact']);
+			$page['breadcrumbs'][] = sprintf('<a href="../../">%s</a>', $org['contact_short'] ?? $org['contact']);
 			$page['breadcrumbs'][] = '<a href="../">Bearbeiten</a>';
 		} elseif (count($params) === 4) {
-			$page['breadcrumbs'][] = sprintf('<a href="../../../">%s</a>', $org['contact']);
+			$page['breadcrumbs'][] = sprintf('<a href="../../../">%s</a>', $$org['contact_short'] ?? org['contact']);
 			$page['breadcrumbs'][] = '<a href="../../">Bearbeiten</a>';
 		}
 		switch ($params[2]) {
@@ -116,7 +116,7 @@ function mod_clubs_club($params) {
 	}
 	if (count($params) !== 1) return false;
 
-	$sql = 'SELECT org.contact_id, org.contact
+	$sql = 'SELECT org.contact_id, org.contact, org.contact_short
 			, YEAR(org.end_date) AS end_date, org.start_date, org.description
 			, ok.identifier AS zps_code
 			, members, members_female, members_u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
@@ -490,11 +490,11 @@ function mod_clubs_club($params) {
 		$page['title'] .= ' <br><em>Schachabteilung</em>'; 
 	}
 	if ($org['edit']) {
-		$page['breadcrumbs'][] = sprintf('<a href="../">%s</a>', $org['contact']);
+		$page['breadcrumbs'][] = sprintf('<a href="../">%s</a>', $org['contact_short'] ?? $org['contact']);
 		$page['breadcrumbs'][]['title'] = 'Bearbeiten';
 		$page['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];
 	} else {
-		$page['breadcrumbs'][]['title'] = $org['contact'];
+		$page['breadcrumbs'][]['title'] = $org['contact_short'] ?? $org['contact'];
 	}
 	$page['head'] = wrap_template('leaflet-head');
 	if (!empty($org['lat_min']))
