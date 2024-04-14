@@ -14,6 +14,31 @@
 
 
 /**
+ * get federation per identifier
+ *
+ * @param string $identifier
+ * @return array
+ */
+function mf_clubs_federation($identifier) {
+	$sql = 'SELECT contact_id
+			, contact_short AS federation_short
+			, identifier AS federation_identifier
+		FROM contacts
+		JOIN contacts_contacts USING (contact_id)
+		WHERE identifier = "%s"
+		AND contacts_contacts.main_contact_id = %d
+		AND contacts_contacts.relation_category_id = %d
+		AND contact_category_id = %d';
+	$sql = sprintf($sql
+		, wrap_db_escape($identifier)
+		, wrap_setting('clubs_confederation_contact_id')
+		, wrap_category_id('relation/member')
+		, wrap_category_id('contact/federation')
+	);
+	return wrap_db_fetch($sql);
+}
+
+/**
  * get a club by its ID
  *
  * @param int $id
