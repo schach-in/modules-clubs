@@ -92,14 +92,14 @@ function mf_clubs_parent_orgs($contact_id) {
  * @return bool
  */
 function mf_clubs_add_user_from_ip() {
-	$values = [];
-	$values['action'] = 'insert';
-	$values['POST']['contact_category_id'] = wrap_category_id('kontakte/rechner');
-	$values['POST']['contact'] = 'IP '.$_SERVER['REMOTE_ADDR'];
-	$ops = zzform_multi('contacts', $values);
-	if (!$ops['id']) wrap_quit(403, 'Zur Zeit sind keine Änderungen möglich');
+	$line = [
+		'contact_category_id' => wrap_category_id('contact/computer'),
+		'contact' => 'IP '.$_SERVER['REMOTE_ADDR']
+	];
+	$contact_id = zzform_insert('contacts', $line);
+	if (!$contact_id) wrap_quit(403, 'Zur Zeit sind keine Änderungen möglich');
 	wrap_session_start();
-	$_SESSION['user_id'] = $ops['id'];
+	$_SESSION['user_id'] = $contact_id;
 	$_SESSION['username'] = 'IP '.$_SERVER['REMOTE_ADDR'];
 	session_write_close();
 	return true;
