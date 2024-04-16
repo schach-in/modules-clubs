@@ -22,20 +22,7 @@
  * @return array
  */
 function mod_clubs_xhr_clubs($request, $parameters) {
-	$data = [];
-	$text = mb_strtolower($request['text']);
-	$limit = $request['limit'] + 1;
-
-	$concat = ' | ';
-	$equal = substr($text, -1) === ' ' ? true : false;
-	$text = trim($text);
-	if (strstr($text, $concat)) {
-		$text = explode($concat, $text);
-	} else {
-		$text = [$text];
-	}
-
-	$sql = sprintf('SELECT contacts.contact_id, contact
+	$def['sql'] = sprintf('SELECT contacts.contact_id, contact
 			, contacts_identifiers.identifier AS zps_code
 		FROM contacts
 		LEFT JOIN contacts_identifiers
@@ -47,10 +34,35 @@ function mod_clubs_xhr_clubs($request, $parameters) {
 		, wrap_category_id('contact/club')
 		, wrap_category_id('contact/chess-department')
 	);
-	$collation = '_utf8';
+	$def['sql_fields'] = ['contact', 'contacts_identifiers.identifier'];
 
-	$sql_fields = ['contact', 'contacts_identifiers.identifier'];
-	foreach ($sql_fields as $no => $sql_field) {
+	wrap_include_files('zzbrick_xhr/autosuggest', 'default');
+	return mod_default_xhr_autosuggest($request, $def);
+}
+
+/**
+ * check given query for matching autosuggest values
+ *
+ * @param array $request
+ * @param array $def
+ *		string 'sql'
+ *		array 'sql_fields'
+ * @return array
+ */
+function mod_default_xhr_autosuggest($request, $def) {
+	$text = mb_strtolower($request['text']);
+	$limit = $request['limit'] + 1;
+	$concat = ' | ';
+	$equal = substr($text, -1) === ' ' ? true : false;
+	$text = trim($text);
+	if (strstr($text, $concat)) {
+		$text = explode($concat, $text);
+	} else {
+		$text = [$text];
+	}
+
+	$collation = '_utf8';
+	foreach ($def['sql_fields'] as $no => $sql_field) {
 		foreach ($text as $index => $value) {
 			$query = $equal ? 'LOWER(%s) = %s"%s"' : 'LOWER(%s) LIKE %s"%%%s%%"';
 			$where[$index][] = sprintf($query, $sql_field, $collation, wrap_db_escape($value));
@@ -60,20 +72,21 @@ function mod_clubs_xhr_clubs($request, $parameters) {
 	foreach ($where as $condition) {
 		$conditions[] = sprintf('(%s)', implode(' OR ', $condition));
 	}
-	if (str_starts_with(trim($sql), 'SHOW')) {
-		$sql .= sprintf(' LIKE "%%%s%%"', $text[0]);
+	if (str_starts_with(trim($def['sql']), 'SHOW')) {
+		$def['sql'] .= sprintf(' LIKE "%%%s%%"', $text[0]);
 	} else {
-		$sql = wrap_edit_sql($sql, 'WHERE', implode(' AND ', $conditions));
+		$def['sql'] = wrap_edit_sql($def['sql'], 'WHERE', implode(' AND ', $conditions));
 	}
-	if ($sql_fields) {
-	 	$id_field_name = $sql_fields[0];
+	if ($def['sql_fields']) {
+	 	$id_field_name = $def['sql_fields'][0];
 		if (strstr($id_field_name, '.'))
 			$id_field_name = substr($id_field_name, strrpos($id_field_name, '.') + 1);
-		$records = wrap_db_fetch($sql, $id_field_name);
+		$records = wrap_db_fetch($def['sql'], $id_field_name);
 	} else {
-		$records = wrap_db_fetch($sql, '_dummy_', 'numeric');
+		$records = wrap_db_fetch($def['sql'], '_dummy_', 'numeric');
 	}
 	$records = array_values($records);
+	$data = [];
 	if (count($records) > $limit) {
 		// more records than we might show
 		$data['entries'] = [];
@@ -114,7 +127,8 @@ function mod_clubs_xhr_clubs($request, $parameters) {
 	foreach ($records as $record) {
 		$j = 0;
 		$text = [];
-		unset($record['contact_id']);
+		// remove ID
+		array_shift($record);
 		// search entry for zzform, concatenated and space at the end
 		$data['entries'][$i]['text'] = implode($concat, $record).' ';
 		$i++;
