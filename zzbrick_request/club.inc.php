@@ -79,7 +79,7 @@ function mod_clubs_club($params) {
 			$page['breadcrumbs'][] = sprintf('<a href="../../">%s</a>', $org['contact_short'] ?? $org['contact']);
 			$page['breadcrumbs'][] = '<a href="../">Bearbeiten</a>';
 		} elseif (count($params) === 4) {
-			$page['breadcrumbs'][] = sprintf('<a href="../../../">%s</a>', $$org['contact_short'] ?? org['contact']);
+			$page['breadcrumbs'][] = sprintf('<a href="../../../">%s</a>', $org['contact_short'] ?? $org['contact']);
 			$page['breadcrumbs'][] = '<a href="../../">Bearbeiten</a>';
 		}
 		switch ($params[2]) {
