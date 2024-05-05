@@ -118,7 +118,7 @@ function mod_clubs_clublist($params) {
 		foreach ($contactdetails as $contact_id => $details) {
 			if (empty($details['username'])) continue;
 			foreach ($details['username'] as $username) {
-				if ($username['category'] !== 'Twitter') continue;
+				if ($username['category'] !== 'X / Twitter') continue;
 				$data['vereine'][$contact_id]['usernames'][] = [
 					'username_url' => $username['username_url'],
 					'username' => $username['identification']

@@ -83,7 +83,7 @@
 %%% loopposition first|middle ", " %%%
 %%% loop end %%%</td>
 %%% condition endif %%%
-%%% condition if usernames %%%
+%%% condition if with_usernames %%%
 <td>%%% loop usernames %%%
 <a href="%%% item username_url %%%">@%%% item username %%%</a>
 %%% loop end %%%
@@ -107,7 +107,11 @@
 <script type="text/javascript">
 	var sortTableObject = vxJS.widget.sorTable(document.getElementById('js-clubs'), {
 		columnFormat: [
+%%% condition if with_usernames %%%
+			null, 'float', 'float', 'float', null, null
+%%% condition else %%%
 			null, null, 'float', 'float', 'float', null
+%%% condition endif %%%
 		]
 	});
 </script>
