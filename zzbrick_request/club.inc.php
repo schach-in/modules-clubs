@@ -199,12 +199,9 @@ function mod_clubs_club($params) {
 			$mpage = wrap_session_check('clubedit');
 			if ($mpage !== true) return $mpage;
 		}
-		if (empty($_SESSION['user_id'])) {
+		if (empty($_SESSION['user_id']))
 			mf_clubs_add_user_from_ip();
-		}
-		$org['logged_in'] = !empty($_SESSION['logged_in']) ? true : false;
-		$org['remote_addr'] = $_SERVER['REMOTE_ADDR'];
-		$org['request_uri'] = $_SERVER['REQUEST_URI'];
+		$org['logged_in'] = $_SESSION['logged_in'] ?? false;
 	}
 
 	if ($org['verein'] OR $org['schachabteilung']) {

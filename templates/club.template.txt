@@ -37,9 +37,9 @@
 %%% condition unless logged_in %%%
 <p><strong>Hinweis:</strong> Deine Änderungen werden erst nach Prüfung durch uns
 für alle sichtbar freigegeben. Für die Änderungen speichern wir Deine IP-Adresse
-<code>%%% item remote_addr %%%</code>. 
+<code>%%% setting remote_ip %%%</code>. 
 Du hast einen Zugang zu unserer Website?
-<a href="https://in.schach.in%%% condition if setting local_access %%%.local%%% condition endif %%%/s-in%%% item request_uri %%%">Dann melde Dich an!</a></p>
+<a href="https://in.schach.in%%% condition if setting local_access %%%.local%%% condition endif %%%/s-in%%% setting request_uri %%%">Dann melde Dich an!</a></p>
 %%% condition endif %%%
 %%% condition endif %%%
 
