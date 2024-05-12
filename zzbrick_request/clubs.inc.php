@@ -58,7 +58,7 @@ function mod_clubs_clubs($params, $settings = []) {
 	if ($check !== true) $page['status'] = $check;
 
 	$data = brick_request_data('clubs', $params, $settings);
-	if (!empty($data['coordinates']) AND count($data['coordinates']) === 1 AND empty($data['boundingbox']))
+	if (mod_clubs_clubs_check_redirect($data))
 		wrap_redirect(sprintf('/%s/', $data['coordinates'][0]['identifier']));
 
 	if (!empty($data['url_ending'])) $page['url_ending'] = $data['url_ending'];
@@ -310,4 +310,24 @@ function mod_clubs_clubs_search_club($search) {
 	if ($club) return $club;
 	
 	return [];
+}
+
+/**
+ * check if it results show a single club and then redirect to it
+ *
+ * @param array $data
+ * @return bool
+ */
+function mod_clubs_clubs_check_redirect($data) {
+	if (empty($data['coordinates'])) return false;
+	if (!empty($data['boundingbox'])) return false;
+
+	if (count($data['coordinates']) === 1) return true;
+
+	$identifier = NULL;
+	foreach ($data['coordinates'] as $coordinate) {
+		if (!$identifier) $identifier = $coordinate['identifier'];
+		elseif ($identifier !== $coordinate['identifier']) return false;
+	}
+	return true;
 }
