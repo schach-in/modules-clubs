@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016-2023 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2024 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -54,7 +54,7 @@ function mf_clubs_add_revision_public($ops) {
 		}
 	}
 	if ($my_ops) {
-		wrap_include_files('revisions', 'zzform');
+		wrap_include('revisions', 'zzform');
 		return zz_revisions($my_ops, [], true);
 	}
 }

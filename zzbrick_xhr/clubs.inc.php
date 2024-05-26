@@ -36,6 +36,6 @@ function mod_clubs_xhr_clubs($request, $parameters) {
 	);
 	$def['sql_fields'] = ['contact', 'contacts_identifiers.identifier'];
 
-	wrap_include_files('zzbrick_xhr/autosuggest', 'default');
+	wrap_include('zzbrick_xhr/autosuggest', 'default');
 	return mod_default_xhr_autosuggest($request, $def);
 }

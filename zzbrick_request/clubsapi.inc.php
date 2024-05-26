@@ -44,7 +44,7 @@ function mod_clubs_clubsapi($params, $settings = []) {
 	}
 
 	$ids = wrap_db_fetch($sql, 'contact_id');
-	wrap_include_files('zzbrick_request_get/contactdata', 'contacts');
+	wrap_include('zzbrick_request_get/contactdata', 'contacts');
 	$data = mod_contacts_get_contactdata($ids);
 	if (!$data) return false;
 	$data = wrap_data_cleanup($data);

@@ -319,7 +319,7 @@ function mod_clubs_club($params) {
 	$wochentermine = wrap_db_fetch($sql, 'wochentermin_id');
 
 	if ($org['edit']) {
-		wrap_include_files('revisions', 'zzform');
+		wrap_include('revisions', 'zzform');
 		$revisions = zz_revisions_read('contacts', $org['contact_id']);
 		foreach ($revisions as $key => $value) {
 			if (is_array($value)) {
