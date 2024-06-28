@@ -262,3 +262,6 @@ a.edit:before	{ content: "\2192  "; }
 .searchform		{ margin: 1em 0; }
 .searchform label
 				{ display: none; }
+
+.searchmenu .searchform
+				{ margin: 0; display: inline-block; }
