@@ -116,23 +116,26 @@ function mod_clubs_club($params) {
 	}
 	if (count($params) !== 1) return false;
 
+	// @todo set if to read `state` in categories.parameters
 	$sql = 'SELECT org.contact_id, org.contact, org.contact_short
 			, YEAR(org.end_date) AS end_date, org.start_date, org.description
 			, ok.identifier AS zps_code
 			, members, members_female, members_u25, (YEAR(CURDATE()) - avg_byear) AS avg_age, avg_rating
 			, members_passive
 			, SUBSTRING_INDEX(categories.path, "/", -1) AS category
-			, IF(categories.category_id = "%d", 1, NULL) AS schulschachgruppe
-			, IF(categories.category_id = "%d", 1, NULL) AS schachkindergarten
-			, IF(categories.category_id = "%d", 1, NULL) AS verein
-			, IF(categories.category_id = "%d", 1, NULL) AS schachabteilung
-			, IF(categories.category_id = "%d", 1, NULL) AS schachhort
+			, IF(categories.category_id = /*_ID categories contact/school _*/, 1, NULL) AS schulschachgruppe
+			, IF(categories.category_id = /*_ID categories contact/kindergarten _*/, 1, NULL) AS schachkindergarten
+			, IF(categories.category_id = /*_ID categories contact/club _*/, 1, NULL) AS verein
+			, IF(categories.category_id = /*_ID categories contact/chess-department _*/, 1, NULL) AS schachabteilung
+			, IF(categories.category_id = /*_ID categories contact/hort _*/, 1, NULL) AS schachhort
 			, (SELECT COUNT(*) FROM contacts_contacts members
 				WHERE members.main_contact_id = org.contact_id
-				AND members.relation_category_id = %d) AS member_orgs
+				AND members.relation_category_id = /*_ID categories relation/member _*/) AS member_orgs
 			, categories.parameters
 			, countries.country, countries.identifier AS country_identifier
-			, IF(categories.category_id IN (%d, %d, %d), 1, NULL) AS state
+			, IF(categories.category_id IN (
+				/*_ID categories contact/school _*/, /*_ID categories contact/kindergarten _*/, /*_ID categories contact/hort _*/), 1, NULL
+			) AS state
 			, org.identifier
 		FROM contacts org
 		LEFT JOIN categories
@@ -140,29 +143,14 @@ function mod_clubs_club($params) {
 		LEFT JOIN vereinsdb_stats USING (contact_id)
 		LEFT JOIN contacts_identifiers ok
 			ON ok.contact_id = org.contact_id
-			AND ok.identifier_category_id = %d
+			AND ok.identifier_category_id = /*_ID categories identifiers/pass_dsb _*/
 			AND NOT ISNULL(ok.current)
 		LEFT JOIN countries
 			ON org.country_id = countries.country_id
 		WHERE org.identifier = "%s"
 		AND categories.parameters LIKE "%%&clubpage=1%%"
 	';
-	$sql = sprintf($sql
-		, wrap_category_id('contact/school')
-		, wrap_category_id('contact/kindergarten')
-		, wrap_category_id('contact/club')
-		, wrap_category_id('contact/chess-department')
-		, wrap_category_id('contact/hort')
-
-		, wrap_category_id('relation/member')
-
-		, wrap_category_id('contact/school')
-		, wrap_category_id('contact/kindergarten')
-		, wrap_category_id('contact/hort')
-
-		, wrap_category_id('identifiers/pass_dsb')
-		, wrap_db_escape($params[0])
-	);
+	$sql = sprintf($sql, wrap_db_escape($params[0]));
 	$org = wrap_db_fetch($sql);
 	if (!$org) {
 		return brick_format('%%% request clubs '.$params[0].' %%%');
@@ -184,12 +172,9 @@ function mod_clubs_club($params) {
 			FROM contacts_contacts
 			LEFT JOIN contacts
 				ON contacts.contact_id = contacts_contacts.main_contact_id
-			WHERE relation_category_id = %d
+			WHERE relation_category_id = /*_ID categories relation/successor _*/
 			AND contacts_contacts.contact_id = %d';
-		$sql = sprintf($sql
-			, wrap_category_id('relation/successor')
-			, $org['contact_id']
-		);
+		$sql = sprintf($sql, $org['contact_id']);
 		$org += wrap_db_fetch($sql);
 		$page['status'] = 410;
 		$org['edit'] = false;
@@ -205,20 +190,23 @@ function mod_clubs_club($params) {
 	}
 
 	if ($org['verein'] OR $org['schachabteilung']) {
-		$sql = 'SELECT FIDE_Titel, Spielername, DWZ, FIDE_Elo
+		$sql = 'SELECT title, title_women, Spielername, DWZ, standard_rating
 			FROM dwz_spieler
+			LEFT JOIN fide_players
+				ON dwz_spieler.fide_id = fide_players.player_id
 			WHERE ZPS = "%s"
 			AND (Status = "A" OR ISNULL(Status))
-			ORDER BY DWZ DESC
+			ORDER BY DWZ DESC, standard_rating DESC
 			LIMIT 10';
 		$sql = sprintf($sql, $org['zps_code']);
 		$org['topten'] = wrap_db_fetch($sql, '_dummy_', 'numeric');
 		$i = 1;
-		foreach ($org['topten'] as $index => $spieler) {
-			$org['topten'][$index]['no'] = $i;
-			$spieler = explode(',', $spieler['Spielername']);
-			$spieler = array_reverse($spieler);
-			$org['topten'][$index]['spieler'] = implode(' ', $spieler);
+		foreach ($org['topten'] as $index => &$player) {
+			$player['no'] = $i;
+			$player_name = explode(',', $player['Spielername']);
+			$player_name = array_reverse($player_name);
+			$player['spieler'] = implode(' ', $player_name);
+			$player = mf_ratings_fidetitle($player);
 			$i++;
 		}
 	}
@@ -234,12 +222,9 @@ function mod_clubs_club($params) {
 			LEFT JOIN addresses
 				ON places.contact_id = addresses.contact_id
 			WHERE contacts_contacts.main_contact_id = %d
-			AND contacts_contacts.relation_category_id = %d
+			AND contacts_contacts.relation_category_id = /*_ID categories relation/venue _*/
 			ORDER BY sequence, places.contact, postcode, place, address';
-		$sql = sprintf($sql
-			, $org['contact_id']
-			, wrap_category_id('relation/venue')
-		);
+		$sql = sprintf($sql, $org['contact_id']);
 		$org['places'] = wrap_db_fetch($sql, 'contact_id');
 		$details = mf_contacts_contactdetails(array_keys($org['places']));
 	} else {
@@ -280,11 +265,8 @@ function mod_clubs_club($params) {
 		LEFT JOIN contacts_contacts
 			ON contacts.contact_id = contacts_contacts.main_contact_id
 		WHERE contacts_contacts.contact_id = %d
-		AND relation_category_id = %d';
-	$sql = sprintf($sql
-		, $org['contact_id']
-		, wrap_category_id('relation/member')
-	);
+		AND relation_category_id = /*_ID categories relation/member _*/';
+	$sql = sprintf($sql, $org['contact_id']);
 	$org['main_contact'] = wrap_db_fetch($sql, '', 'single value');
 	
 	// Auszeichnungen

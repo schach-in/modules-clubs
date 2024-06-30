@@ -10,17 +10,6 @@
 # @copyright Copyright © 2020 Falco Nogatz
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
-# List of fields: contact_id, contact, url, end_date, start_date,
-# description, zps_code, members, members_female, members_u25, avg_age,
-# avg_rating, nachfolger, nachfolger_kennung, category, schulschachgruppe,
-# schachkindergarten, topten { FIDE_Titel, Spielername, DWZ, FIDE_Elo, no,
-# spieler }, places { contact_id, contact, address, postcode, place,
-# description, latitude, longitude, remarks }, lon_min, lon_max, lat_min,
-# lat_max, longitude, latitude, teams { team_id, event, team, team_no,
-# team_identifier, duration }, parent_orgs, awards { category,
-# award_year { award_id, category_id, category, award_year, award_year_to,
-# identifier }, identifier }
-#
 <div itemscope itemprop="organization" itemtype="http://schema.org/Organization">
 <h1 itemprop="name">%%% item contact %%%
 %%% condition if schachabteilung %%%
@@ -304,7 +293,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 </thead>
 <tbody>
 %%% loop topten %%%
-<tr class="%%% loopposition uneven "un" %%%even"><td>%%% item no %%%</td><td>%%% item FIDE_Titel %%% %%% item spieler %%%</td><td class="number">%%% item DWZ %%%</td><td class="number">%%% item FIDE_Elo %%%</td></tr>
+<tr class="%%% loopposition uneven "un" %%%even"><td>%%% item no %%%</td><td><abbr title="%%% item fide_title_long %%%">%%% item fide_title %%%</abbr> %%% item spieler %%%</td><td class="number">%%% item DWZ %%%</td><td class="number">%%% item standard_rating %%%</td></tr>
 %%% loop end %%%
 </tbody>
 </table>
