@@ -195,6 +195,7 @@ function mod_clubs_club($params) {
 	}
 
 	if (in_array('ratings', wrap_setting('modules'))) {
+		wrap_include('functions', 'ratings');
 		$org['topten'] = mf_ratings_toplist($org);
 	}
 
@@ -500,42 +501,4 @@ function mod_clubs_club_known_urls() {
 	foreach (wrap_setting('clubs_unwanted_file_endings') as $ending)
 		if (str_ends_with($uri['path'], '.'.$ending)) return true;
 	return false;
-}
-
-/**
- * get top ten active players of club
- *
- * @param array $club
- * @return array
- */
-function mf_ratings_toplist($club) {
-	$data = [];
-	$has_toplist = false;
-	if (!empty($club['contact_parameters']['ratings_members'])) $has_toplist = true;
-	elseif (!empty($club['parameters']['ratings_members'])) $has_toplist = true;
-	if (!$has_toplist)
-		return $data;
-		
-	$club['code'] = $club['contact_parameters']['ratings_club_code'] ?? $club['zps_code'];
-
-	$sql = 'SELECT title, title_women, Spielername, DWZ, standard_rating
-		FROM dwz_spieler
-		LEFT JOIN fide_players
-			ON dwz_spieler.fide_id = fide_players.player_id
-		WHERE ZPS = "%s"
-		AND (Status = "A" OR ISNULL(Status))
-		ORDER BY DWZ DESC, standard_rating DESC
-		LIMIT 10';
-	$sql = sprintf($sql, $club['code']);
-	$data = wrap_db_fetch($sql, '_dummy_', 'numeric');
-	$i = 1;
-	foreach ($data as $index => &$player) {
-		$player['no'] = $i;
-		$player_name = explode(',', $player['Spielername']);
-		$player_name = array_reverse($player_name);
-		$player['spieler'] = implode(' ', $player_name);
-		$player = mf_ratings_fidetitle($player);
-		$i++;
-	}
-	return $data;
 }
