@@ -431,11 +431,12 @@ function mod_clubs_get_clubs_from_contact_categories($identifier) {
  * @return string
  */
 function mod_clubs_get_clubs_geojson($string) {
-	$remove_strings = ['/', ','];
+	$remove_strings = ['/', ',', '='];
 	foreach ($remove_strings as $remove_string)
 		$string = str_replace($remove_string, ' ', $string);
 	while (strstr($string, '  '))
 		$string = str_replace('  ', ' ', $string);
+	$string = trim($string);
 	$string = urlencode($string);
 	$string = 'q/'.$string;
 	return $string;
