@@ -158,7 +158,7 @@ oder Ortsname</p>
 	var markers = L.markerClusterGroup({maxClusterRadius: 20});
 	// @todo set to 10 if zoom is above 10
 
-	var geoJsonUrl = '/%%% item geojson %%%.geojson';
+	var geoJsonUrl = '%%% path clubs_geojson geojson %%%';
 
 	fetch(geoJsonUrl)
 		.then(function (response) { return response.json() })

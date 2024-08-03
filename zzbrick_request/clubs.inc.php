@@ -27,9 +27,6 @@ function mod_clubs_clubs($params, $settings = []) {
 	if ($params AND end($params) === 'opengraph.png') {
 		return brick_format('%%% request clubsopengraph * %%%');
 	}
-	if ($params AND str_ends_with(end($params), '.geojson')) {
-		return brick_format('%%% request clubsgeojson * %%%');
-	}
 	if (count($params) > 1) return false;
 
 	if (wrap_setting('request_uri') === '/' AND empty($_GET))
