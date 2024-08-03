@@ -29,9 +29,9 @@ function mod_clubs_get_clubs($params, $settings = []) {
 		// show all clubs
 
 	} elseif ($params[0] === 'twitter') {
-		$extra_field = sprintf(', (SELECT COUNT(*) FROM contactdetails
+		$extra_field = ', (SELECT COUNT(*) FROM contactdetails
 			WHERE contactdetails.contact_id = organisationen.contact_id
-			AND provider_category_id = %d) AS website_username', wrap_category_id('provider/twitter'));
+			AND provider_category_id = /*_ID categories provider/twitter _*/) AS website_username';
 		$condition = 'HAVING website_username > 0';
 		$data['title'] = 'Twitter';
 		$data['geojson'] = $params[0];
@@ -42,14 +42,10 @@ function mod_clubs_get_clubs($params, $settings = []) {
 			FROM contacts
 			LEFT JOIN contacts_contacts
 				ON contacts.contact_id = contacts_contacts.contact_id
-				AND contacts_contacts.relation_category_id = %d
-			WHERE main_contact_id IN (%%s)
-			AND contact_category_id = %d
+				AND contacts_contacts.relation_category_id = /*_ID categories relation/member _*/
+			WHERE main_contact_id IN (%s)
+			AND contact_category_id = /*_ID categories contact/federation _*/
 			AND ISNULL(end_date)';
-		$sql = sprintf($sql
-			, wrap_category_id('relation/member')
-			, wrap_category_id('contact/federation')
-		);
 		$contact_ids = wrap_db_children($federation['contact_id'], $sql);
 		$condition = sprintf('AND federations.main_contact_id IN (%s)', implode(',', $contact_ids));
 		$data['title'] = $federation['contact'];
@@ -138,7 +134,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 		LEFT JOIN contacts_contacts
 			ON contacts_contacts.main_contact_id = organisationen.contact_id
 			AND contacts_contacts.published = "yes"
-			AND contacts_contacts.relation_category_id = %d
+			AND contacts_contacts.relation_category_id = /*_ID categories relation/venue _*/
 			%s
 		LEFT JOIN contacts places
 			ON contacts_contacts.contact_id = places.contact_id
@@ -150,7 +146,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 			ON organisationen.country_id = countries.country_id
 		LEFT JOIN contacts_contacts federations
 			ON federations.contact_id = organisationen.contact_id
-			AND federations.relation_category_id = %d
+			AND federations.relation_category_id = /*_ID categories relation/member _*/
 		WHERE ISNULL(organisationen.end_date)
 		AND NOT ISNULL(latitude) AND NOT ISNULL(longitude)
 		AND categories.parameters LIKE "%%&organisation=1%%"
@@ -159,9 +155,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 	$csql = sprintf($sql
 		, $extra_field
 		, $having
-		, wrap_category_id('relation/venue')
 		, $condition_cc
-		, wrap_category_id('relation/member')
 		, $condition
 	);
 	$data['coordinates'] = wrap_db_fetch($csql, '_dummy_', 'numeric');
@@ -181,9 +175,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 			$csql = sprintf($sql
 				, $extra_field
 				, $having
-				, wrap_category_id('relation/venue')
 				, $condition_cc
-				, wrap_category_id('relation/member')
 				, $condition
 			);
 			$data['coordinates'] = wrap_db_fetch($csql, '_dummy_', 'numeric');
@@ -321,7 +313,7 @@ function mod_clubs_get_clubs_condition($q) {
 				$condition .= sprintf('OR organisationen.identifier LIKE LOWER(_latin1"%%%s%%")', wrap_db_escape($q));
 				$condition .= sprintf('OR (SELECT identification FROM contactdetails
 					WHERE contactdetails.contact_id = organisationen.contact_id
-					AND provider_category_id = %d LIKE "%%%s%%")', wrap_category_id('provider/website'), wrap_db_escape($q));
+					AND provider_category_id = /*_ID categories provider/website _*/ LIKE "%%%s%%")', wrap_db_escape($q));
 			}
 			$condition .= ') OR (';
 			foreach ($qs as $index => $q) {
@@ -329,7 +321,7 @@ function mod_clubs_get_clubs_condition($q) {
 				$condition .= sprintf('place LIKE "%%%s%%"', wrap_db_escape($q));
 				$condition .= sprintf('OR (SELECT identification FROM contactdetails
 					WHERE contactdetails.contact_id = organisationen.contact_id
-					AND provider_category_id = %d LIKE "%%%s%%")', wrap_category_id('provider/website'), wrap_db_escape($q));
+					AND provider_category_id = /*_ID categories provider/website _*/ LIKE "%%%s%%")', wrap_db_escape($q));
 			}
 			$condition .= '))';
 		}
