@@ -18,7 +18,12 @@ function mod_clubs_get_clubs($params, $settings = []) {
 		array_unshift($params, $settings['category']);
 	if (empty($params)) $params[0] = false;
 
-	$data['q'] = mod_clubs_get_clubs_q();
+	if ($params[0] === 'q') {
+		// shortcut for search, which is different than direct access
+		$data['q'] = urldecode($params[1]);
+		$params = [0 => false];
+	} else
+		$data['q'] = mod_clubs_get_clubs_q();
 
 	$having = '';
 	$extra_field = '';
@@ -432,5 +437,6 @@ function mod_clubs_get_clubs_geojson($string) {
 	while (strstr($string, '  '))
 		$string = str_replace('  ', ' ', $string);
 	$string = urlencode($string);
+	$string = 'q/'.$string;
 	return $string;
 }
