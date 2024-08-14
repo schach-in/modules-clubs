@@ -73,8 +73,8 @@ ul.orghierarchy
 .orghierarchy li
 			{ margin: 0; padding: 0; list-style: disc; }
 @media screen and (max-width: 640px) {
-ul.orghierarchy
-			{ margin: 0 .5em; }
+	ul.orghierarchy
+				{ margin: 0 .75em; }
 }
 
 .awards		{ margin: 1em 0; padding: 0; list-style: none; }
@@ -245,6 +245,9 @@ ul.orghierarchy
 
 /* Bearbeiten */
 form.edit		{ margin: 1em 0; }
+@media screen and (max-width: 640px) {
+	form.edit		{ padding: 0 .75rem; }
+}
 /* Bearbeiten */
 a.edit			{ background: #fdf0be; }
 a.edit:before	{ content: "\2192  "; }
