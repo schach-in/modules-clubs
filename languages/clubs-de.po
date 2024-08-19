@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: clubs/_functions.inc.php
 msgid "Bots are not allowed to access this resource."
@@ -32,6 +32,18 @@ msgid "Venue"
 msgid_plural "Venues"
 msgstr[0] "Spielort"
 msgstr[1] "Spielorte"
+
+#: templates/clubs.template.txt
+msgid "Minimum members"
+msgstr "Min. Mitglieder"
+
+#: templates/clubs.template.txt
+msgid "Minimum U25 members"
+msgstr "Min. Mitglieder U25"
+
+#: templates/clubs.template.txt
+msgid "Minimum female members"
+msgstr "Min. Mitglieder weiblich"
 
 #: templates/contact-clubstats.template.txt
 msgid "Members"

@@ -71,6 +71,9 @@ oder Ortsname</p>
 </div>
 <div class="innerbox_detail">
 
+<div id="filters">
+</div>
+
 %%% condition if reselect | verbaende %%%
 
 <h2>Weitere Treffer</h2>
@@ -157,13 +160,23 @@ oder Ortsname</p>
         
 	var markers = L.markerClusterGroup({maxClusterRadius: 20});
 	// @todo set to 10 if zoom is above 10
+	var geoJsonLayer; // Declare geoJsonLayer in the global scope
+	var geojsonData; // Declare geojsonData to store the fetched data
+
+	// Define the properties we want to filter
+	var filterProperties = [
+		{ name: 'members', label: '%%% text Minimum members %%%', max: %%% item max_members %%%, step: %%% setting clubs_map_filter_steps %%% },
+		{ name: 'u25', label: '%%% text Minimum U25 members %%%', max: %%% item max_u25 %%%, step: %%% setting clubs_map_filter_steps %%% },
+		{ name: 'female', label: '%%% text Minimum female members %%%', max: %%% item max_female %%%, step: %%% setting clubs_map_filter_steps %%% }
+	];
 
 	var geoJsonUrl = '%%% path clubs_geojson geojson %%%';
 
 	fetch(geoJsonUrl)
 		.then(function (response) { return response.json() })
 		.then(function (locations) {
-			var geoJsonLayer = L.geoJson(locations, {
+			geojsonData = locations; // Store the fetched data
+			geoJsonLayer = L.geoJson(locations, {
 				pointToLayer: function(feature, latlng) {
 					if (feature.properties.category == 'schulschachgruppe') {
 						if (feature.properties.awards > 0) {
@@ -210,9 +223,12 @@ oder Ortsname</p>
 				}
 			});
 			markers.addLayer(geoJsonLayer);
-
 			map.addLayer(markers);
 
+			// Initial filter call
+			clubsCreateFilterControls();
+			clubsFilterMap();
+        
 			map.on('move', function() {
 				// Construct an empty list to fill with onscreen markers.
 				var inBounds = [],
@@ -286,3 +302,4 @@ oder Ortsname</p>
 %%% condition endif %%%
 
 </script>
+<script src="%%% setting behaviour_path %%%/clubs/mapfilters.js"></script>

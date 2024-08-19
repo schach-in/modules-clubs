@@ -33,6 +33,18 @@ msgid_plural "Venues"
 msgstr[0] ""
 msgstr[1] ""
 
+#: templates/clubs.template.txt
+msgid "Minimum members"
+msgstr ""
+
+#: templates/clubs.template.txt
+msgid "Minimum U25 members"
+msgstr ""
+
+#: templates/clubs.template.txt
+msgid "Minimum female members"
+msgstr ""
+
 #: templates/contact-clubstats.template.txt
 msgid "Members"
 msgstr ""
