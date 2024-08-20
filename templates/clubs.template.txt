@@ -95,6 +95,7 @@ oder Ortsname</p>
 %%% condition endif %%%
 
 %%% template leaflet-js %%%
+<script src="%%% setting behaviour_path %%%/clubs/mapfilters.js"></script>
 <script type="text/javascript">
 	%%% template leaflet-tiles-mapbox %%%
 
@@ -302,4 +303,3 @@ oder Ortsname</p>
 %%% condition endif %%%
 
 </script>
-<script src="%%% setting behaviour_path %%%/clubs/mapfilters.js"></script>
