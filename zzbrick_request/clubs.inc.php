@@ -136,6 +136,14 @@ function mod_clubs_clubs($params, $settings = []) {
 		$page['extra']['id'] = 'map';
 		$page['extra']['class'] = 'embed';
 	}
+	// get max values
+	$member_keys = ['members', 'u25', 'female'];
+	foreach ($member_keys as $key) {
+		$data['max_'.$key] = 0;
+		foreach ($data['coordinates'] as $coordinate)
+			if ($coordinate[$key] > $data['max_'.$key]) $data['max_'.$key] = $coordinate[$key];
+	}
+	
 	$page['text'] = wrap_template('clubs', $data);
 	$page['extra']['not_home'] = true;
 	return $page;
