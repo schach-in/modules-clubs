@@ -48,7 +48,7 @@ function clubsFilterMap() {
 				return filterProperties.every(prop => {
 					var value = parseInt(document.getElementById(prop.name + 'Slider').value);
 					document.getElementById(prop.name + 'Value').textContent = value;
-					return feature.properties[prop.name] >= value;
+					return (feature.properties[prop.name] === undefined && value === 0) || feature.properties[prop.name] >= value;
 				});
 			})
 		};
