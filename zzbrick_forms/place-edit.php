@@ -48,8 +48,7 @@ $zz['unless']['insert']['explanation'] = '<strong>Hinweis:</strong> Bitte korrig
 foreach ($zz['fields'] as $no => $field) {
 	if (empty($zz['fields'][$no])) continue;
 
-	$identifier = $field['field_name'] ?? $field['table'];
-	$identifier = str_replace('/*_PREFIX_*/', '', $identifier);
+	$identifier = zzform_field_identifier($field);
 	switch ($identifier) {
 	case 'contact':
 		$zz['fields'][$no]['title'] = 'Spielort';

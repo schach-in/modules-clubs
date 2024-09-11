@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016, 2019, 2021-2023 Gustaf Mossakowski
+ * @copyright Copyright © 2016, 2019, 2021-2024 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -38,7 +38,7 @@ foreach ($zz['fields'] as $no => $field) {
 	$i++;
 	if ($i === 8) $i = $i + 2;
 
-	$identifier = $field['field_name'] ?? $field['table'];
+	$identifier = zzform_field_identifier($field);
 	switch ($identifier) {
 	case 'contact':
 		$zz['fields'][$no]['type'] = 'hidden';
