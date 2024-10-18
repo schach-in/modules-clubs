@@ -76,11 +76,11 @@ function mod_clubs_club($params) {
 		$page['title'] = 'Bearbeiten: '.$org['contact'];
 		unset($page['breadcrumbs']);
 		if (count($params) === 3) {
-			$page['breadcrumbs'][] = sprintf('<a href="../../">%s</a>', $org['contact_short'] ?? $org['contact']);
-			$page['breadcrumbs'][] = '<a href="../">Bearbeiten</a>';
+			$page['breadcrumbs'][] = ['title' => $org['contact_short'] ?? $org['contact'], 'url_path' => '../../'];
+			$page['breadcrumbs'][] = ['title' => 'Bearbeiten', 'url_path' => '../'];
 		} elseif (count($params) === 4) {
-			$page['breadcrumbs'][] = sprintf('<a href="../../../">%s</a>', $org['contact_short'] ?? $org['contact']);
-			$page['breadcrumbs'][] = '<a href="../../">Bearbeiten</a>';
+			$page['breadcrumbs'][] = ['title' => $org['contact_short'] ?? $org['contact'], 'url_path' => '../../../'];
+			$page['breadcrumbs'][] = ['title' => 'Bearbeiten', 'url_path' => '../../'];
 		}
 		switch ($params[2]) {
 		case 'info':
@@ -457,7 +457,7 @@ function mod_clubs_club($params) {
 		$page['title'] .= ' <br><em>Schachabteilung</em>'; 
 	}
 	if ($org['edit']) {
-		$page['breadcrumbs'][] = sprintf('<a href="../">%s</a>', $org['contact_short'] ?? $org['contact']);
+		$page['breadcrumbs'][] = ['title' => $org['contact_short'] ?? $org['contact'], 'url_path' => '../'];
 		$page['breadcrumbs'][]['title'] = 'Bearbeiten';
 		$page['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];
 	} else {

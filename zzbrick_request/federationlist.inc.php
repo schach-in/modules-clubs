@@ -139,7 +139,7 @@ function mod_clubs_federationlist($params) {
 
 	$page['title'] = 'Liste '.$data['contact'];
 	if ($params[0] !== 'dsb') {
-		$page['breadcrumbs'][] = '<a href="../">'.$data['contact'].'</a>';
+		$page['breadcrumbs'][] = ['title' => $data['contact'], 'url_path' => '../'];
 	}
 	$page['breadcrumbs'][]['title'] = 'Liste';
 	$page['text'] = wrap_template('federationlist', $data);
