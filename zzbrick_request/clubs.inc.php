@@ -269,6 +269,7 @@ function mod_clubs_clubs_search($page, $data, $params) {
 function mod_clubs_clubs_search_club($search) {
 	// get search string, remove some characters
 	$search = str_replace('"', '', $search);
+	$search = trim($search, '+'); // + at the beginning or end has no meaning
 	$qs = explode(' ', wrap_db_escape($search));
 
 	// name of a club?
