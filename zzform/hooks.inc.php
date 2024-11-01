@@ -45,7 +45,7 @@ function mf_clubs_add_revision_public($ops) {
 			$my_ops['record_diff'][$index][$field_name] = 'same';
 		}
 	}
-	if (!array_key_exists(0, $my_ops['return'])) {
+	if (!$my_ops OR !array_key_exists(0, $my_ops['return'])) {
 		$my_ops['return'][0] = $ops['return'][0];
 		$my_ops['record_diff'][0] = $ops['record_diff'][0];
 		$my_ops['record_new'][0] = $ops['record_new'][0];
