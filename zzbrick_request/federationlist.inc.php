@@ -33,12 +33,7 @@ function mod_clubs_federationlist($params) {
 	if (!$data) {
 		$categories = mf_clubs_from_category($params[0]);
 		if (!$categories) {
-			$sql = sprintf(wrap_sql_query('core_redirects')
-				, '/'.wrap_db_escape($params[0])
-				, '/'.wrap_db_escape($params[0])
-				, '/'.wrap_db_escape($params[0])
-			);
-			$redirect = wrap_db_fetch($sql);
+			$redirect = mf_clubs_redirect_check($params[0]);
 			if (!$redirect) return false;
 			return wrap_redirect(sprintf('%sliste/', $redirect['new_url']));
 		}

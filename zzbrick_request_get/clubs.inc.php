@@ -292,6 +292,8 @@ function mod_clubs_get_clubs_condition($q) {
 			$condition[] .= sprintf('addresses.postcode LIKE "%s%%"', $postcode);
 		}
 		$condition = sprintf('AND (%s)', implode(' OR ', $condition));
+	} elseif ($redirect = mf_clubs_redirect_check($q)) {
+		return wrap_redirect($redirect['new_url']);
 	} else {
 		// city= is experimental and does not work with Bremen, München
 		// $url = 'http://nominatim.openstreetmap.org/search.php?city=%s&country=de&format=jsonv2';

@@ -185,3 +185,18 @@ function mf_clubs_deny_bots_check() {
 	if (strstr($_SERVER['HTTP_USER_AGENT'], 'bot')) return true;
 	return false;
 }
+
+/**
+ * check if path is in redirect list
+ *
+ * @param string $path
+ * @return array
+ */
+function mf_clubs_redirect_check($path) {
+	$sql = sprintf(wrap_sql_query('core_redirects')
+		, '/'.wrap_db_escape($path)
+		, '/'.wrap_db_escape($path)
+		, '/'.wrap_db_escape($path)
+	);
+	return wrap_db_fetch($sql);
+}
