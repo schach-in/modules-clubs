@@ -14,16 +14,18 @@
 
 
 if (count($brick['vars']) !== 2) wrap_quit(404);
-$contact = mf_clubs_club($brick['vars'][0]);
-if (!$contact) wrap_quit(404);
+if ($brick['vars'][1].'' !== intval($brick['vars'][1]).'') wrap_quit(404);
+mf_clubs_editform($brick['data']);
 
 $zz = zzform_include('wochentermine');
+global $zz_page;
+$zz['title'] = sprintf('%s<br>%s', $zz_page['db']['title'], $brick['data']['contact']);
 
 $sql = 'SELECT wochentermin_id
 	FROM wochentermine
 	WHERE contact_id = %d
 	AND wochentermin_id = %d';
-$sql = sprintf($sql, $brick['vars'][0], $brick['vars'][1]);
+$sql = sprintf($sql, $brick['data']['contact_id'], $brick['vars'][1]);
 $zz['where']['wochentermin_id'] = wrap_db_fetch($sql, '', 'single value');
 if (!$zz['where']['wochentermin_id']) {
 	if (wrap_db_auto_increment('wochentermine') > $brick['vars'][1]) {
@@ -37,14 +39,10 @@ if (empty($_POST)) $_GET['mode'] = 'delete';
 elseif (empty($_POST['zz_action']) OR $_POST['zz_action'] !== 'delete') wrap_quit(403);
 
 $zz['page']['referer'] = '../../';
-$url = explode('/', $_SERVER['REQUEST_URI']);
-array_pop($url); // slash
-array_pop($url); // ID
-array_pop($url); // ort-loeschen
-$zz['record']['redirect']['successful_delete'] = implode('/', $url).'/';
-
-if (empty($_SESSION['login_id'])) {
+$zz['page']['dont_show_title_as_breadcrumb'] = true;
+$zz['page']['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];
+$zz['record']['redirect']['successful_delete'] = wrap_path('clubs_edit', $brick['data']['identifier']);
+if (empty($_SESSION['login_id']))
 	$zz['revisions_only'] = true;
-}
 
 $zz['record']['no_timeframe'] = true;

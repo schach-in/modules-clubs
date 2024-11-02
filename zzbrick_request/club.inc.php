@@ -49,9 +49,6 @@ function mod_clubs_club($params, $settings) {
 			case 'wochentermin-bearbeiten':
 				$page = brick_format('%%% forms weekly-edit '.$org['contact_id'].' edit '.$params[3].' %%%');
 				break;
-			case 'wochentermin-loeschen':
-				$page = brick_format('%%% forms weekly-delete '.$org['contact_id'].' '.$params[3].' %%%');
-				break;
 			}
 		}
 		if (!$page) return false;
@@ -71,7 +68,6 @@ function mod_clubs_club($params, $settings) {
 			$page['breadcrumbs'][] = ['title' => 'Bearbeiten', 'url_path' => '../../'];
 		}
 		switch ($params[2]) {
-		case 'wochentermin-loeschen':
 		case 'wochentermin-bearbeiten':
 		case 'wochentermin-neu':
 			$page['breadcrumbs'][]['title'] = 'Wochentermine';
