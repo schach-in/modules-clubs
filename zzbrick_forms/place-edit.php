@@ -47,7 +47,7 @@ $zz['unless']['insert']['explanation'] = '<strong>Hinweis:</strong> Bitte korrig
 foreach ($zz['fields'] as $no => $field) {
 	if (empty($zz['fields'][$no])) continue;
 
-	$identifier = zzform_field_identifier($field);
+	$identifier = zzform_field_identifier($field, true);
 	switch ($identifier) {
 	case 'contact':
 		$zz['fields'][$no]['title'] = 'Spielort';
@@ -73,7 +73,7 @@ foreach ($zz['fields'] as $no => $field) {
 		$zz['fields'][$no]['value'] = wrap_category_id('contact/place');
 		break;
 
-	case 'addresses':
+	case 'address':
 		$zz['fields'][$no]['min_records'] = 1;
 		$zz['fields'][$no]['min_records_required'] = 1;
 		$zz['fields'][$no]['max_records'] = 1;
