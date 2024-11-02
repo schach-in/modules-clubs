@@ -13,15 +13,14 @@
  */
 
 
-if (empty($brick['vars'])) wrap_quit(404);
-$contact = mf_clubs_club($brick['vars'][0]);
-if (!$contact) wrap_quit(404);
+mf_clubs_editform($brick['data']);
 
 $values['contactdetails_restrict_to'] = 'places';
 $values['relations_restrict_to'] = 'places';
 $zz = zzform_include('contacts/contacts', $values, 'forms');
 
-$zz['title'] = $contact['contact'];
+global $zz_page;
+$zz['title'] = sprintf('%s<br>%s', $zz_page['db']['title'], $brick['data']['contact']);
 
 switch ($brick['vars'][1]) {
 	case 'add':
@@ -143,7 +142,7 @@ foreach ($zz['fields'] as $no => $field) {
 		// contacts_contacts.main_contact_id
 		$zz['fields'][$no]['fields'][3]['type'] = 'hidden';
 		$zz['fields'][$no]['fields'][3]['type_detail'] = 'select';
-		$zz['fields'][$no]['fields'][3]['value'] = $contact['contact_id'];
+		$zz['fields'][$no]['fields'][3]['value'] = $brick['data']['contact_id'];
 		$zz['fields'][$no]['fields'][3]['hide_in_form'] = true;
 
 		// contacts_contacts.remarks
@@ -182,3 +181,5 @@ if (empty($_SESSION['login_id'])) {
 
 $zz_conf['revisions_url'] = '/orte/'; // @todo solve differently
 $zz['record']['no_timeframe'] = true;
+$zz['page']['dont_show_title_as_breadcrumb'] = true;
+$zz['page']['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];

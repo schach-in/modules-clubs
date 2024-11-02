@@ -16,6 +16,7 @@
 
 
 function mod_clubs_club($params, $settings) {
+	if ($params[0] === 'sv-ottenbronn') wrap_quit(404);
 	// this script is getting all URLs, shortcuts for URLs that definitely
 	// are not for this script
 	if(mod_clubs_club_known_urls()) return false;
@@ -36,9 +37,6 @@ function mod_clubs_club($params, $settings) {
 		mf_clubs_editform($org);
 		if (count($params) === 3) {
 			switch ($params[2]) {
-			case 'ort-neu':
-				$page = brick_format('%%% forms place-edit '.$org['contact_id'].' add %%%');
-				break;
 			case 'wochentermin-neu':
 				$page = brick_format('%%% forms weekly-edit '.$org['contact_id'].' add woche %%%');
 				break;
@@ -48,9 +46,6 @@ function mod_clubs_club($params, $settings) {
 			}
 		} elseif (count($params) === 4) {
 			switch ($params[2]) {
-			case 'ort-bearbeiten':
-				$page = brick_format('%%% forms place-edit '.$org['contact_id'].' edit '.$params[3].' %%%');
-				break;
 			case 'ort-loeschen':
 				$page = brick_format('%%% forms place-delete '.$org['contact_id'].' '.$params[3].' %%%');
 				break;
@@ -80,8 +75,6 @@ function mod_clubs_club($params, $settings) {
 		}
 		switch ($params[2]) {
 		case 'ort-loeschen':
-		case 'ort-bearbeiten':
-		case 'ort-neu':
 			$page['breadcrumbs'][]['title'] = 'Spielorte';
 			break;
 		case 'wochentermin-loeschen':
