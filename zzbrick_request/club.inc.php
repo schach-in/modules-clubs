@@ -26,58 +26,7 @@ function mod_clubs_club($params, $settings) {
 		mf_clubs_deny_bots();
 		wrap_setting('cache', false);
 	}
-	if ((count($params) === 3 OR count($params) === 4) AND $params[1] === 'bearbeiten') {
-		$sql = 'SELECT contact_id, contact, contact_short, identifier, end_date
-			FROM contacts
-			WHERE identifier = "%s"';
-		$sql = sprintf($sql, wrap_db_escape($params[0]));
-		$org = wrap_db_fetch($sql);
-		if (!$org) return false;
-		$page = [];
-		mf_clubs_editform($org);
-		if (count($params) === 3) {
-			switch ($params[2]) {
-			case 'wochentermin-neu':
-				$page = brick_format('%%% forms weekly-edit '.$org['contact_id'].' add woche %%%');
-				break;
-			case 'monatstermin-neu':
-				$page = brick_format('%%% forms weekly-edit '.$org['contact_id'].' add monat %%%');
-				break;
-			}
-		} elseif (count($params) === 4) {
-			switch ($params[2]) {
-			case 'wochentermin-bearbeiten':
-				$page = brick_format('%%% forms weekly-edit '.$org['contact_id'].' edit '.$params[3].' %%%');
-				break;
-			}
-		}
-		if (!$page) return false;
-		if (empty($page['head'])) $page['head'] = ''; // might come from forms!
-		$page['dont_show_h1'] = true;
-		$page['meta'][] = [
-			'name' => 'robots',
-			'content' => 'noindex, follow, noarchive'
-		];
-		$page['title'] = 'Bearbeiten: '.$org['contact'];
-		unset($page['breadcrumbs']);
-		if (count($params) === 3) {
-			$page['breadcrumbs'][] = ['title' => $org['contact_short'] ?? $org['contact'], 'url_path' => '../../'];
-			$page['breadcrumbs'][] = ['title' => 'Bearbeiten', 'url_path' => '../'];
-		} elseif (count($params) === 4) {
-			$page['breadcrumbs'][] = ['title' => $org['contact_short'] ?? $org['contact'], 'url_path' => '../../../'];
-			$page['breadcrumbs'][] = ['title' => 'Bearbeiten', 'url_path' => '../../'];
-		}
-		switch ($params[2]) {
-		case 'wochentermin-bearbeiten':
-		case 'wochentermin-neu':
-			$page['breadcrumbs'][]['title'] = 'Wochentermine';
-			break;
-		case 'monatstermin-neu':
-			$page['breadcrumbs'][]['title'] = 'Monatstermine';
-			break;
-		}
-		return $page;
-	} elseif (count($params) === 2) {
+	if (count($params) === 2) {
 		// funny URLs like http://schach.in/[club]/%20'A=0
 		if (substr($params[1], 0, 1) === '%') return false;
 		if (substr($params[1], 0, 1) === '+') return false;

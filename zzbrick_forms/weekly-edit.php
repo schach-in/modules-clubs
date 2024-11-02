@@ -13,9 +13,7 @@
  */
 
 
-if (empty($brick['vars'])) wrap_quit(404);
-$contact = mf_clubs_club($brick['vars'][0]);
-if (!$contact) wrap_quit(404);
+mf_clubs_editform($brick['data']);
 
 $zz = zzform_include('wochentermine');
 
@@ -25,8 +23,8 @@ switch ($brick['vars'][1]) {
 		$zz['access'] = 'add_then_edit';
 		$zz['page']['referer'] = '../';
 		switch ($brick['vars'][2]) {
-			case 'monat': $mode = 'monat'; break;
-			case 'woche': $mode = 'woche'; break;
+			case 'month': $mode = 'month'; break;
+			case 'week': $mode = 'week'; break;
 		}
 		break;
 	case 'edit':
@@ -37,27 +35,29 @@ switch ($brick['vars'][1]) {
 		}
 		$zz['where']['wochentermin_id'] = $brick['vars'][2];
 		$zz['page']['referer'] = '../../';
-		$sql = 'SELECT FIND_IN_SET("monat=1", parameters) FROM categories
+		$sql = 'SELECT wochentermin_id FROM categories
 			LEFT JOIN wochentermine
 				ON wochentermine.wochentermin_category_id = categories.category_id
-			WHERE wochentermin_id = %d';
+			WHERE wochentermin_id = %d
+			AND parameters LIKE "%%&monat=1%%"';
 		$sql = sprintf($sql, $brick['vars'][2]);
 		$parameter = wrap_db_fetch($sql, '', 'single value');
-		$mode = $parameter ? 'monat' : 'woche';
+		$mode = $parameter ? 'month' : 'week';
 		break;
 	default:
 		wrap_quit(404);
 }
 
-$zz['title'] = $contact['contact'];
-$zz['where']['contact_id'] = $contact['contact_id'];
+global $zz_page;
+$zz['title'] = sprintf('%s<br>%s', $zz_page['db']['title'], $brick['data']['contact']);
+$zz['where']['contact_id'] = $brick['data']['contact_id'];
 unset($zz['subtitle']);
 
 // Vereinsname
 $zz['fields'][2]['hide_in_form'] = true;
 
 // Kategorien
-if ($mode !== 'monat') {
+if ($mode !== 'month') {
 	$zz['fields'][6]['sql'] = 'SELECT category_id, category, main_category_id
 		FROM categories
 		WHERE (ISNULL(parameters) OR parameters NOT LIKE "%&monat=1%")
@@ -70,7 +70,7 @@ if ($mode !== 'monat') {
 }
 
 // Wochen im Monat
-if ($mode !== 'monat') {
+if ($mode !== 'month') {
 	$zz['fields'][9]['hide_in_form'] = true;
 }
 
@@ -80,12 +80,9 @@ $sql = 'SELECT contacts.contact_id
 	LEFT JOIN addresses USING (contact_id)
 	LEFT JOIN contacts_contacts USING (contact_id)
 	WHERE main_contact_id = %d
-	AND relation_category_id = %d
+	AND relation_category_id = /*_ID categories relation/venue _*/
 	ORDER BY postcode';
-$sql = sprintf($sql
-	, $contact['contact_id']
-	, wrap_category_id('relation/venue')
-);
+$sql = sprintf($sql, $brick['data']['contact_id']);
 $places = wrap_db_fetch($sql, 'contact_id');
 if (count($places) > 1) {
 	// Spielorte nur vorgegebene
@@ -102,3 +99,5 @@ if (empty($_SESSION['login_id'])) {
 }
 
 $zz['record']['no_timeframe'] = true;
+$zz['page']['dont_show_title_as_breadcrumb'] = true;
+$zz['page']['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];
