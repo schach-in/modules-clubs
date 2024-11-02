@@ -200,3 +200,17 @@ function mf_clubs_redirect_check($path) {
 	);
 	return wrap_db_fetch($sql);
 }
+
+/**
+ * allow public anonymous form editing
+ *
+ * @param string $identifier
+ * @return array
+ */
+function mf_clubs_editform($identifier) {
+	wrap_setting('cache', false);
+	wrap_session_start();
+	if (empty($_SESSION)) {
+		return wrap_redirect(wrap_path('clubs_edit', $identifier), 307, false);
+	}
+}

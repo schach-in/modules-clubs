@@ -26,7 +26,6 @@ function mod_clubs_club($params, $settings) {
 		wrap_setting('cache', false);
 	}
 	if ((count($params) === 3 OR count($params) === 4) AND $params[1] === 'bearbeiten') {
-		wrap_setting('cache', false);
 		$sql = 'SELECT contact_id, contact, contact_short
 			FROM contacts
 			WHERE identifier = "%s"
@@ -35,10 +34,7 @@ function mod_clubs_club($params, $settings) {
 		$org = wrap_db_fetch($sql);
 		if (!$org) return false;
 		$page = [];
-		wrap_session_start();
-		if (empty($_SESSION)) {
-			return wrap_redirect(sprintf('/%s/bearbeiten/', $params[0]), 307, false);
-		}
+		mf_clubs_editform($params[0]);
 		if (count($params) === 3) {
 			switch ($params[2]) {
 			case 'info':
