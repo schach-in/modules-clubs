@@ -13,17 +13,15 @@
  */
 
 
-if (empty($brick['vars'])) wrap_quit(404);
-$contact = mf_clubs_club($brick['vars'][0]);
-if (!$contact) wrap_quit(404);
-
-$values['contact_category_id'] = $contact['contact_category_id'];
+mf_clubs_editform($brick['data']);
+$values['contact_category_id'] = $brick['data']['contact_category_id'];
 $zz = zzform_include('contacts', $values, 'forms');
 
 unset($zz['filter']);
 
-$zz['title'] = $contact['contact'];
-$zz['where']['contact_id'] = $contact['contact_id'];
+global $zz_page;
+$zz['title'] = sprintf('%s<br>%s', $zz_page['db']['title'], $brick['data']['contact']);
+$zz['where']['contact_id'] = $brick['data']['contact_id'];
 $zz['access'] = 'edit_only';
 if (empty($_SESSION['login_id']))
 	$zz['revisions_only'] = true;
@@ -62,7 +60,7 @@ foreach ($zz['fields'] as $no => $field) {
 		$zz['fields'][$no]['append_next'] = false;
 		$zz['fields'][$no]['title_append'] = false;
 		$zz['fields'][$no]['explanation'] = 'Falls bekannt: Datum oder Jahr der Gründung';
-		if (empty($contact['parameters']['foundation_date'])) // @todo why is this here?
+		if (empty($brick['data']['category_parameters']['foundation_date']))
 			$zz['fields'][$no]['hide_in_form'] = true;
 		break;
 
@@ -93,4 +91,7 @@ foreach ($zz['fields'] as $no => $field) {
 }
 
 $zz['page']['referer'] = '../';
+$zz['page']['dont_show_title_as_breadcrumb'] = true;
+$zz['page']['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];
+
 $zz['record']['no_timeframe'] = true;

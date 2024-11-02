@@ -36,9 +36,6 @@ function mod_clubs_club($params, $settings) {
 		mf_clubs_editform($org);
 		if (count($params) === 3) {
 			switch ($params[2]) {
-			case 'info':
-				$page = brick_format('%%% forms club-edit '.$org['contact_id'].' %%%');
-				break;
 			case 'ort-neu':
 				$page = brick_format('%%% forms place-edit '.$org['contact_id'].' add %%%');
 				break;
@@ -82,9 +79,6 @@ function mod_clubs_club($params, $settings) {
 			$page['breadcrumbs'][] = ['title' => 'Bearbeiten', 'url_path' => '../../'];
 		}
 		switch ($params[2]) {
-		case 'info':
-			$page['breadcrumbs'][]['title'] = 'Allgemeine Infos';
-			break;
 		case 'ort-loeschen':
 		case 'ort-bearbeiten':
 		case 'ort-neu':
