@@ -46,9 +46,6 @@ function mod_clubs_club($params, $settings) {
 			}
 		} elseif (count($params) === 4) {
 			switch ($params[2]) {
-			case 'ort-loeschen':
-				$page = brick_format('%%% forms place-delete '.$org['contact_id'].' '.$params[3].' %%%');
-				break;
 			case 'wochentermin-bearbeiten':
 				$page = brick_format('%%% forms weekly-edit '.$org['contact_id'].' edit '.$params[3].' %%%');
 				break;
@@ -74,9 +71,6 @@ function mod_clubs_club($params, $settings) {
 			$page['breadcrumbs'][] = ['title' => 'Bearbeiten', 'url_path' => '../../'];
 		}
 		switch ($params[2]) {
-		case 'ort-loeschen':
-			$page['breadcrumbs'][]['title'] = 'Spielorte';
-			break;
 		case 'wochentermin-loeschen':
 		case 'wochentermin-bearbeiten':
 		case 'wochentermin-neu':

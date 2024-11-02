@@ -14,17 +14,15 @@
 
 
 if (count($brick['vars']) !== 2) wrap_quit(404);
-$contact = mf_clubs_club($brick['vars'][0]);
-if (!$contact) wrap_quit(404);
+mf_clubs_editform($brick['data']);
 
 $sql = 'SELECT cc_id
 	FROM contacts_contacts
 	WHERE main_contact_id = %d
-	AND relation_category_id = %d
+	AND relation_category_id = /*_ID categories relation/venue _*/
 	AND contact_id = %d';
 $sql = sprintf($sql
-	, $brick['vars'][0]
-	, wrap_category_id('relation/venue')
+	, $brick['data']['contact_id']
 	, $brick['vars'][1]
 );
 $cc_id = wrap_db_fetch($sql, '', 'single value');
@@ -36,6 +34,8 @@ if (!$cc_id) {
 }
 
 $zz = zzform_include('contacts-contacts');
+global $zz_page;
+$zz['title'] = sprintf('%s<br>%s', $zz_page['db']['title'], $brick['data']['contact']);
 $zz['where']['cc_id'] = $cc_id;
 
 // sequence
@@ -75,3 +75,5 @@ if (empty($_SESSION['login_id'])) {
 }
 
 $zz['record']['no_timeframe'] = true;
+$zz['page']['dont_show_title_as_breadcrumb'] = true;
+$zz['page']['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];
