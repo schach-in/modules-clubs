@@ -15,12 +15,16 @@
  */
 
 
-function mod_clubs_club($params) {
+function mod_clubs_club($params, $settings) {
 	// this script is getting all URLs, shortcuts for URLs that definitely
 	// are not for this script
 	if(mod_clubs_club_known_urls()) return false;
 	if (!isset($params[0])) return false;
-	$edit = false;
+	$edit = $settings['edit'] ?? false;
+	if ($edit) {
+		mf_clubs_deny_bots();
+		wrap_setting('cache', false);
+	}
 	if ((count($params) === 3 OR count($params) === 4) AND $params[1] === 'bearbeiten') {
 		wrap_setting('cache', false);
 		$sql = 'SELECT contact_id, contact, contact_short
@@ -102,17 +106,10 @@ function mod_clubs_club($params) {
 		}
 		return $page;
 	} elseif (count($params) === 2) {
-		if ($params[1] === 'bearbeiten') {
-			mf_clubs_deny_bots();
-			wrap_setting('cache', false);
-			$edit = true;
-			array_pop($params);
-		} else {
-			// funny URLs like http://schach.in/[club]/%20'A=0
-			if (substr($params[1], 0, 1) === '%') return false;
-			if (substr($params[1], 0, 1) === '+') return false;
-			return brick_format('%%% request clubs '.$params[0].' '.$params[1].' %%%');
-		}
+		// funny URLs like http://schach.in/[club]/%20'A=0
+		if (substr($params[1], 0, 1) === '%') return false;
+		if (substr($params[1], 0, 1) === '+') return false;
+		return brick_format('%%% request clubs '.$params[0].' '.$params[1].' %%%');
 	}
 	if (count($params) !== 1) return false;
 
