@@ -8,12 +8,11 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2017, 2019, 2021, 2023 Gustaf Mossakowski
+ * @copyright Copyright © 2017, 2019, 2021, 2023-2024 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
 
-mf_clubs_deny_bots();
 if (count($brick['vars']) !== 2) wrap_quit(404);
 $contact = mf_clubs_club($brick['vars'][0]);
 if (!$contact) wrap_quit(404);

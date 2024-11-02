@@ -26,15 +26,14 @@ function mod_clubs_club($params, $settings) {
 		wrap_setting('cache', false);
 	}
 	if ((count($params) === 3 OR count($params) === 4) AND $params[1] === 'bearbeiten') {
-		$sql = 'SELECT contact_id, contact, contact_short
+		$sql = 'SELECT contact_id, contact, contact_short, identifier, end_date
 			FROM contacts
-			WHERE identifier = "%s"
-			AND ISNULL(end_date)';
+			WHERE identifier = "%s"';
 		$sql = sprintf($sql, wrap_db_escape($params[0]));
 		$org = wrap_db_fetch($sql);
 		if (!$org) return false;
 		$page = [];
-		mf_clubs_editform($params[0]);
+		mf_clubs_editform($org);
 		if (count($params) === 3) {
 			switch ($params[2]) {
 			case 'info':

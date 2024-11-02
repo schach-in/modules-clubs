@@ -204,13 +204,15 @@ function mf_clubs_redirect_check($path) {
 /**
  * allow public anonymous form editing
  *
- * @param string $identifier
+ * @param array $contact
  * @return array
  */
-function mf_clubs_editform($identifier) {
+function mf_clubs_editform($contact) {
+	mf_clubs_deny_bots();
+	if ($contact['end_date']) wrap_quit(404);
 	wrap_setting('cache', false);
 	wrap_session_start();
 	if (empty($_SESSION)) {
-		return wrap_redirect(wrap_path('clubs_edit', $identifier), 307, false);
+		return wrap_redirect(wrap_path('clubs_edit', $contact['identifier']), 307, false);
 	}
 }
