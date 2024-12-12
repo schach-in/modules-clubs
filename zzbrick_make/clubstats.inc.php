@@ -22,7 +22,7 @@
  * @return array $page
  */
 function mod_clubs_make_clubstats() {
-	require_once wrap_setting('core').'/syndication.inc.php';
+	wrap_include('syndication', 'zzwrap');
 	wrap_setting('cache', false);
 
 	if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
