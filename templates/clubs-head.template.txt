@@ -11,8 +11,8 @@
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 %%% include leaflet-head %%%
-%%% condition unless q %%%
-%%% condition unless lat %%%
+%%% unless q %%%
+%%% unless lat %%%
 	<script type="application/ld+json">
 	{
 	   "@context": "http://schema.org",
@@ -25,5 +25,5 @@
 	   }
 	}
 	</script>
-%%% condition endif %%%
-%%% condition endif %%%
+%%% endif %%%
+%%% endif %%%

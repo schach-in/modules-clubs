@@ -8,11 +8,11 @@
 # @copyright Copyright © 2016-2017, 2021-2022, 2024 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
-%%% condition if url %%%
+%%% if url %%%
 %%% loop url 1 %%%
 <p><a href="%%% item identification %%%" target="_blank" itemprop="url">%%% item identification wrap_punycode_decode %%%</a></p>
 %%% loop end %%%
-%%% condition endif %%%
+%%% endif %%%
 <div class="statistics">
 <table>
 <thead>
@@ -29,15 +29,15 @@
 %%% loop children %%%
 <tr class="level%%% item _level %%% %%% loopposition uneven "un" %%%even">
 <td>
-%%% condition unless vereine %%%<a href="%%% setting base_path %%%/%%% item identifier %%%/">%%% condition endif %%%
+%%% unless vereine %%%<a href="%%% setting base_path %%%/%%% item identifier %%%/">%%% endif %%%
 %%% item contact %%%
-%%% condition unless vereine %%%</a>%%% condition endif %%%
-%%% condition if vereine %%%
+%%% unless vereine %%%</a>%%% endif %%%
+%%% if vereine %%%
 &nbsp;&nbsp; <a href="%%% setting base_path %%%/%%% item identifier %%%/" title="Karte mit Vereinen mit bekannten Spielorten aus %%% item contact %%%">Karte</a>
-%%% condition unless aktiv %%%
+%%% unless aktiv %%%
  &middot; <a href="%%% setting base_path %%%/%%% item identifier %%%/liste/" title="Liste mit Vereinen aus %%% item contact %%%">Liste</a>
-%%% condition endif %%%
-%%% condition endif %%%
+%%% endif %%%
+%%% endif %%%
 <td class="number maincol">%%% item vereine wrap_number %%%</td>
 <td class="number">%%% item venues wrap_number %%%</td>
 <td class="number percent">%%% item share_venues wrap_percent %%%</td>

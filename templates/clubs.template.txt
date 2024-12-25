@@ -13,51 +13,51 @@
 # display_name, place_rank, category, type, importance, icon }, q, places
 #
 <div id="fullmap" class="smallmap"> </div>
-%%% condition unless embed %%%
+%%% unless embed %%%
 <div class="box"></div>
 <div class="innerbox">
 <p class="logo-right">
-%%% condition if title | q | lat | lon %%%
+%%% if title | q | lat | lon %%%
 <a href="/deutschland" target="_top">
-%%% condition endif %%%
+%%% endif %%%
 <img src="%%% setting layout_path %%%/schachin/logo-schachvereine-60.png" alt="" width="60" height="60" srcset='%%% setting layout_path %%%/schachin/logo-schachvereine-60.png 1x, %%% setting layout_path %%%/schachin/logo-schachvereine-120.png 2x'>
-%%% condition if title | q | lat | lon %%%
+%%% if title | q | lat | lon %%%
 </a>
-%%% condition endif %%%
+%%% endif %%%
 </p>
 
-%%% condition if title %%%
+%%% if title %%%
 <h1><a href="/deutschland" target="_top">Schachvereine</a>: %%% item title %%%</h1>
-%%% condition else %%%
+%%% else %%%
 <h1>
-%%% condition if q | lat | lon %%%
+%%% if q | lat | lon %%%
 <a href="/deutschland" target="_top">
-%%% condition endif %%%
+%%% endif %%%
 Schachvereine und Schulschachgruppen
-%%% condition if q | lat | lon %%%
+%%% if q | lat | lon %%%
 </a>
-%%% condition endif %%%
+%%% endif %%%
 </h1>
-%%% condition endif %%%
+%%% endif %%%
 <div class="innerbox_detail">
-%%% condition if description | links %%%
+%%% if description | links %%%
 %%% item description markdown %%%
-%%% condition if links %%%
+%%% if links %%%
 <ul class="awards-links">
 %%% loop links %%%
 <li><a href="%%% item url %%%">%%% item title %%%</a></li>
 %%% loop end %%%
 </ul>
-%%% condition endif %%%
-%%% condition else %%%
+%%% endif %%%
+%%% else %%%
 <p>In Deutschland gibt es %%% item vereine %%% Schachvereine. Finde hier den richtigen für Dich!</p>
-%%% condition endif %%%
+%%% endif %%%
 
-%%% condition if q %%%
+%%% if q %%%
 <h2>Suche: %%% item q wrap_html_escape %%%</h2>
-%%% condition elseif lat & lon %%%
+%%% elseif lat & lon %%%
 <h2>Suche: Im Umkreis von %%% item lat wrap_latitude %%% / %%% item lon wrap_longitude %%%</h2>
-%%% condition endif %%%
+%%% endif %%%
 <p class="explanation">Anzahl der angezeigten Spielorte:&nbsp;%%% item places %%%</p>
 
 </div>
@@ -74,7 +74,7 @@ oder Ortsname</p>
 <div id="filters">
 </div>
 
-%%% condition if reselect | verbaende %%%
+%%% if reselect | verbaende %%%
 
 <h2>Weitere Treffer</h2>
 <ul class="hits">
@@ -85,14 +85,14 @@ oder Ortsname</p>
 <li><a href="./?lat=%%% item lat %%%&amp;lon=%%% item lon %%%">%%% item display_name %%%</a></li>
 %%% loop end %%%
 </ul>
-%%% condition else %%%
-<h2><a href="liste/">Liste der %%% condition if contact_category %%%%%% item contact_category %%%%%% condition else %%%Vereine%%% condition endif %%%</a></h2>
-%%% condition endif %%%
+%%% else %%%
+<h2><a href="liste/">Liste der %%% if contact_category %%%%%% item contact_category %%%%%% else %%%Vereine%%% endif %%%</a></h2>
+%%% endif %%%
 
 </div>
 <div id="clubs"></div>
 </div>
-%%% condition endif %%%
+%%% endif %%%
 
 %%% template leaflet-js %%%
 <script src="%%% setting behaviour_path %%%/clubs/mapfilters.js"></script>
@@ -102,17 +102,17 @@ oder Ortsname</p>
 	var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 	var map = L.map('fullmap').addLayer(tiles);
 
-%%% condition unless not_found %%%
-%%% condition unless q %%%
-%%% condition unless lat %%%
-%%% condition unless title %%%
+%%% unless not_found %%%
+%%% unless q %%%
+%%% unless lat %%%
+%%% unless title %%%
 	map.locate({setView: true, maxZoom: 12});
-%%% condition endif %%%
-%%% condition endif %%%
-%%% condition endif %%%
-%%% condition endif %%%
+%%% endif %%%
+%%% endif %%%
+%%% endif %%%
+%%% endif %%%
 
-%%% condition unless not_found %%%
+%%% unless not_found %%%
 	var oldIcons = [];
 	function hoverMarker() {
 		var id = this.getAttribute('data-leaflet-id');
@@ -276,30 +276,30 @@ oder Ortsname</p>
 				}
 			});
 
-		%%% condition if boundingbox %%%
+		%%% if boundingbox %%%
 			if (width > 640) {
 				map.fitBounds(%%% item boundingbox %%%, {maxZoom: %%% item maxzoom %%%, paddingTopLeft: [5, 5], paddingBottomRight: [300, 5] });
 			} else {
 				map.fitBounds(%%% item boundingbox %%%, {maxZoom: %%% item maxzoom %%%, paddingTopLeft: [50, 0], paddingBottomRight: [20, 0] });
 			}
-		%%% condition elseif zoomtofit %%%
+		%%% elseif zoomtofit %%%
 			if (width > 640) {
 				map.fitBounds(markers.getBounds(), {maxZoom: 12, paddingTopLeft: [5, 5], paddingBottomRight: [300, 5]});
 			} else {
 				map.fitBounds(markers.getBounds(), {maxZoom: 12, paddingTopLeft: [50, 0], paddingBottomRight: [20, 0] });
 			}
-		%%% condition elseif embed %%%
+		%%% elseif embed %%%
 			map.fitBounds(markers.getBounds(), {padding: [5, 5]});
-		%%% condition endif %%%
+		%%% endif %%%
 		});
-%%% condition endif %%%
+%%% endif %%%
 
-%%% condition unless embed %%%
+%%% unless embed %%%
 	if (width > 640) {
 		map.setView([51.163375, 12.4476833333], 6);
 	} else {
 		map.setView([51.163375, 10.4476833333], 6);
 	}
-%%% condition endif %%%
+%%% endif %%%
 
 </script>

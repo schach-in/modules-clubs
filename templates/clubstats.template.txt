@@ -5,18 +5,18 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2021 Gustaf Mossakowski
+# @copyright Copyright © 2021, 2024 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
-%%% condition if wait %%%
+%%% if wait %%%
 <p class="error">Bitte warten. Die Statistik kann nur einmal alle %%% item wait wrap_duration %%% aktualisiert werden.</p>
-%%% condition endif %%%
-%%% condition if request %%%
+%%% endif %%%
+%%% if request %%%
 <form method="POST" action="">
 <input type="submit" value="Vereinsstatistik aktualisieren">
 </form>
 
-%%% condition elseif done %%%
+%%% elseif done %%%
 <p>Vereinsstatistik aktualisiert.</p>
 
-%%% condition endif %%%
+%%% endif %%%

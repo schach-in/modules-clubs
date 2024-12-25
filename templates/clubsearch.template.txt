@@ -5,17 +5,17 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2022-2023 Gustaf Mossakowski
+# @copyright Copyright © 2022-2024 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
-%%% condition if not_found %%%
-%%% condition if title %%%
+%%% if not_found %%%
+%%% if title %%%
 <p>Wir konnten leider zu »%%% item title %%%« keine Daten finden.</p>
 
-%%% condition else %%%
+%%% else %%%
 <p>Wir konnten leider keinen Treffer zu Ihrer Suche finden.</p>
 
-%%% condition if similar_places %%%
+%%% if similar_places %%%
 <p>Meinten Sie:</p>
 
 <ul>
@@ -23,10 +23,10 @@
 <li><strong><a href="/?q=%%% item place rawurlencode %%%">%%% item place %%%</a></strong></li>
 %%% loop end %%%
 </ul>
-%%% condition endif %%%
+%%% endif %%%
 
-%%% condition endif %%%
-%%% condition endif %%%
+%%% endif %%%
+%%% endif %%%
 
 %%% template searchform %%%
 

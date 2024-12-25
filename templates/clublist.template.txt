@@ -9,86 +9,86 @@
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 %%% item description markdown %%%
-%%% condition if url %%%
+%%% if url %%%
 %%% loop url 1 %%%
 <p><a href="%%% item identification %%%" target="_blank" itemprop="url">%%% item identification wrap_punycode_decode %%%</a></p>
 %%% loop end %%%
-%%% condition endif %%%
+%%% endif %%%
 <div class="statistics">
 <table>
 <thead>
 <tr class="sortable">
-<th>%%% condition if org_category %%%%%% item org_category %%%%%% condition else %%%Verein%%% condition endif %%%</th>
-%%% condition unless with_usernames %%%
-%%% condition unless with_awards %%%
+<th>%%% if org_category %%%%%% item org_category %%%%%% else %%%Verein%%% endif %%%</th>
+%%% unless with_usernames %%%
+%%% unless with_awards %%%
 <th><abbr title="Spielort auf Karte?">Karte?</abbr></th>
-%%% condition endif %%%
-%%% condition endif %%%
-%%% condition unless without_members %%%
+%%% endif %%%
+%%% endif %%%
+%%% unless without_members %%%
 <th class="maincol">Mitglieder</th>
 <th colspan="2">jugendlich U25</th>
 <th colspan="2">weiblich</th>
 <th>DWZ-Liste</th>
-%%% condition endif %%%
-%%% condition if with_awards %%%
+%%% endif %%%
+%%% if with_awards %%%
 <th>Auszeichnung</th>
-%%% condition elseif with_usernames %%%
+%%% elseif with_usernames %%%
 <th>Handle oder Benutzername</th>
-%%% condition endif %%%
+%%% endif %%%
 </tr>
 </thead>
 <tbody>
 %%% loop vereine %%%
 <tr class="level%%% item _level %%% %%% loopposition uneven "un" %%%even">
-<td>%%% condition unless end_date %%%<a href="%%% setting base_path %%%/%%% item identifier %%%/">%%% condition endif %%%
-%%% condition if contact_display_names %%%
+<td>%%% unless end_date %%%<a href="%%% setting base_path %%%/%%% item identifier %%%/">%%% endif %%%
+%%% if contact_display_names %%%
 %%% loop contact_display_names %%%
 %%% item contact_display_name %%%
 %%% loopposition first|middle " / " %%%
 %%% loop end %%%
-%%% condition else %%%
+%%% else %%%
 %%% item contact %%%
-%%% condition endif %%%
-%%% condition unless has_venue %%% &middot; Karte%%% condition endif %%%%%% condition unless end_date %%%</a>%%% condition endif %%%</td>
-%%% condition unless with_usernames %%%
-%%% condition unless with_awards %%%
+%%% endif %%%
+%%% unless has_venue %%% &middot; Karte%%% endif %%%%%% unless end_date %%%</a>%%% endif %%%</td>
+%%% unless with_usernames %%%
+%%% unless with_awards %%%
 <td>%%% item has_venue %%%</td>
-%%% condition endif %%%
-%%% condition endif %%%
-%%% condition unless without_members %%%
+%%% endif %%%
+%%% endif %%%
+%%% unless without_members %%%
 <td class="number maincol">%%% item members wrap_number %%%</td>
-<td class="number"><span class="sortonly">%%% item members_u25 %%% </span>%%% condition if members_u25 %%%
+<td class="number"><span class="sortonly">%%% item members_u25 %%% </span>%%% if members_u25 %%%
 %%% item members_u25 wrap_number %%%
-%%% condition else %%%–%%% condition endif %%%</td>
-<td class="number percent"><span class="sortonly">%%% item members_female %%% </span>%%% condition if members_u25 %%%
+%%% else %%%–%%% endif %%%</td>
+<td class="number percent"><span class="sortonly">%%% item members_female %%% </span>%%% if members_u25 %%%
 %%% item share_members_u25 wrap_percent %%%
-%%% condition else %%%–%%% condition endif %%%</td>
-<td class="number"><span class="sortonly">%%% item zps_code %%% </span>%%% condition if members_female %%%
+%%% else %%%–%%% endif %%%</td>
+<td class="number"><span class="sortonly">%%% item zps_code %%% </span>%%% if members_female %%%
 %%% item members_female wrap_number %%%
-%%% condition else %%%–%%% condition endif %%%</td>
-<td class="number percent">%%% condition if awards %%%%%% loop awards 1 %%%<span class="sortonly">%%% item award_year %%% </span>%%% loop end %%%%%% condition endif %%%
-%%% condition if members_female %%%
+%%% else %%%–%%% endif %%%</td>
+<td class="number percent">%%% if awards %%%%%% loop awards 1 %%%<span class="sortonly">%%% item award_year %%% </span>%%% loop end %%%%%% endif %%%
+%%% if members_female %%%
 %%% item share_members_female wrap_percent %%%
-%%% condition else %%%–%%% condition endif %%%</td>
-<td>%%% condition unless end_date %%%
+%%% else %%%–%%% endif %%%</td>
+<td>%%% unless end_date %%%
 <a href="https://www.schachbund.de/verein/%%% item zps_code %%%.html">%%% item zps_code %%%</a>
-%%% condition endif %%%</td>
-%%% condition endif %%%
-%%% condition if with_awards %%%
+%%% endif %%%</td>
+%%% endif %%%
+%%% if with_awards %%%
 <td>%%% loop awards %%%
-%%% condition if category %%%
+%%% if category %%%
 %%% item category %%% 
-%%% condition endif %%%
+%%% endif %%%
 %%% item award_year %%%%%% item award_year_to "–%s" %%%
 %%% loopposition first|middle ", " %%%
 %%% loop end %%%</td>
-%%% condition endif %%%
-%%% condition if with_usernames %%%
+%%% endif %%%
+%%% if with_usernames %%%
 <td>%%% loop usernames %%%
 <a href="%%% item username_url %%%">@%%% item username %%%</a>
 %%% loop end %%%
 </td>
-%%% condition endif %%%
+%%% endif %%%
 </tr>
 </tr>
 
@@ -107,11 +107,11 @@
 <script type="text/javascript">
 	var sortTableObject = vxJS.widget.sorTable(document.getElementById('js-clubs'), {
 		columnFormat: [
-%%% condition if with_usernames %%%
+%%% if with_usernames %%%
 			null, 'float', 'float', 'float', null, null
-%%% condition else %%%
+%%% else %%%
 			null, null, 'float', 'float', 'float', null
-%%% condition endif %%%
+%%% endif %%%
 		]
 	});
 </script>

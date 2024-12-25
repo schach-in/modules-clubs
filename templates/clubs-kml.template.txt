@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2011, 2022 Gustaf Mossakowski
+# @copyright Copyright © 2011, 2022, 2024 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 # fields:
@@ -32,22 +32,22 @@
 	<Placemark>
 		<name>%%% item title wrap_html_escape %%%</name>
 		<description><![CDATA[
-%%% condition if members %%%
+%%% if members %%%
 <p>Mitglieder: %%% item members %%%
 <br>Mitglieder U25: %%% item members_u25 %%%
 <br>Mitglieder weiblich: %%% item members_female %%%
 <br>ø-Alter: %%% item avg_age %%%
 <br>ø-DWZ: %%% item avg_rating %%%</p>
-%%% condition endif %%%
+%%% endif %%%
 <p class='more'><a href='%%% item identifier %%%/'>Weitere Informationen</a></p>
 		]]></description>
 		<styleUrl>#%%% item style %%%</styleUrl>
-%%% condition if longitude %%%
+%%% if longitude %%%
 		<Point>
 			<coordinates>%%% item longitude %%%,%%% item latitude %%%,%%% item altitude %%%</coordinates>
 		</Point>
-%%% condition endif %%%
-%%% condition if extended_data %%%
+%%% endif %%%
+%%% if extended_data %%%
 		<ExtendedData>
 %%% loop extended_data %%%
 		<Data name="%%% item field_name %%%">
@@ -56,7 +56,7 @@
 		</Data>
 %%% loop end %%%
 		</ExtendedData>
-%%% condition endif %%%
+%%% endif %%%
 	</Placemark>
 %%% loop end %%%
 	</Document>
