@@ -21,14 +21,11 @@ function mod_clubs_federationlist($params) {
 		FROM contacts
 		LEFT JOIN contacts_contacts
 			ON contacts.contact_id = contacts_contacts.contact_id
-			AND contacts_contacts.relation_category_id = %d
+			AND contacts_contacts.relation_category_id = /*_ID categories relation/member _*/
 		LEFT JOIN categories
 			ON contacts.contact_category_id = categories.category_id
 		WHERE contacts.identifier = "%s"';
-	$sql = sprintf($sql
-		, wrap_category_id('relation/member')
-		, wrap_db_escape($params[0])
-	);
+	$sql = sprintf($sql, wrap_db_escape($params[0]));
 	$data = wrap_db_fetch($sql);
 	if (!$data) {
 		$categories = mf_clubs_from_category($params[0]);
@@ -45,7 +42,7 @@ function mod_clubs_federationlist($params) {
 			, (SELECT COUNT(*) FROM contacts_contacts
 				WHERE contacts_contacts.main_contact_id = contacts.contact_id
 				AND contacts_contacts.published = "yes"
-				AND relation_category_id = %d
+				AND relation_category_id = /*_ID categories relation/venue _*/
 			) AS venues
 			, members, members_female, members_u25, category_id
 		FROM contacts
@@ -57,14 +54,10 @@ function mod_clubs_federationlist($params) {
 			AND contacts_identifiers.current = "yes"
 		LEFT JOIN contacts_contacts
 			ON contacts_contacts.contact_id = contacts.contact_id
-			AND contacts_contacts.relation_category_id = %d
-		WHERE main_contact_id IN (%%s)
+			AND contacts_contacts.relation_category_id = /*_ID categories relation/member _*/
+		WHERE main_contact_id IN (%s)
 		AND ISNULL(end_date)
 		ORDER BY categories.sequence, contact_short, contacts_identifiers.identifier';
-	$sql = sprintf($sql
-		, wrap_category_id('relation/venue')
-		, wrap_category_id('relation/member')
-	);
 	$children = wrap_db_children([$data], $sql, 'contact_id', 'main_contact_id');
 	if (count($children['ids']) === 1) return false; // only main club
 	

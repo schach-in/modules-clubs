@@ -103,11 +103,10 @@ function mod_clubs_clubs($params, $settings = []) {
 		$data['verbaende'] = mod_clubs_clubs_federations($data['q'], $data['coordinates']);
 	
 	$sql = 'SELECT COUNT(*) FROM contacts
-		WHERE contact_category_id IN (%d, %d) AND ISNULL(end_date)';
-	$sql = sprintf($sql
-		, wrap_category_id('contact/club')
-		, wrap_category_id('contact/chess-department')
-	);
+		WHERE contact_category_id IN (
+			/*_ID categories contact/club _*/,
+			/*_ID categories contact/chess-department _*/
+		) AND ISNULL(end_date)';
 	$data['vereine'] = wrap_db_fetch($sql, '', 'single value');
 
 	$page['dont_show_h1'] = true;
@@ -163,14 +162,14 @@ function mod_clubs_clubs_federations($q, $coordinates) {
 				, o.contact_category_id
 				, (SELECT COUNT(*) FROM contacts_contacts
 					WHERE main_contact_id = o.contact_id
-					AND relation_category_id = %d
+					AND relation_category_id = /*_ID categories relation/member _*/
 				) AS rang
 		FROM contacts o
 		LEFT JOIN categories
 			ON o.contact_category_id = categories.category_id
 		LEFT JOIN contacts_contacts
 			ON contacts_contacts.contact_id = o.contact_id
-			AND contacts_contacts.relation_category_id = %d
+			AND contacts_contacts.relation_category_id = /*_ID categories relation/member _*/
 		LEFT JOIN contacts h
 			ON contacts_contacts.main_contact_id = h.contact_id
 		WHERE o.contact LIKE "%%%s%%"
@@ -178,11 +177,7 @@ function mod_clubs_clubs_federations($q, $coordinates) {
 		AND ISNULL(o.end_date)
 		ORDER BY rang DESC, o.identifier
 	';
-	$sql = sprintf($sql
-		, wrap_category_id('relation/member')
-		, wrap_category_id('relation/member')
-		, wrap_db_escape($q)
-	);
+	$sql = sprintf($sql, wrap_db_escape($q));
 	$federations = wrap_db_fetch($sql, 'contact_id');
 	foreach ($coordinates as $coordinate) {
 		if (in_array($coordinate['contact_id'], array_keys($federations))) {
@@ -220,12 +215,9 @@ function mod_clubs_clubs_similar_places($data, $q) {
 	$sql = 'SELECT COUNT(*) AS count, place
 		FROM addresses
 		WHERE place LIKE "%s"
-		AND country_id = %d
+		AND country_id = /*_ID countries DE _*/
 		GROUP BY place';
-	$sql = sprintf($sql
-		, implode('" OR place LIKE "', $likes)
-		, wrap_id('countries', 'DE')
-	);
+	$sql = sprintf($sql, implode('" OR place LIKE "', $likes));
 	$data['similar_places'] = wrap_db_fetch($sql, '_dummy_', 'numeric');
 	return $data;
 }

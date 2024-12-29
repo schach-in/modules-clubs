@@ -56,9 +56,8 @@ function mod_clubs_make_clubstats() {
 		LEFT JOIN contacts_identifiers
 			ON IF(SUBSTRING(dwz_spieler.ZPS, 4, 2) = "00", SUBSTRING(dwz_spieler.ZPS, 1, 3), dwz_spieler.ZPS) = contacts_identifiers.identifier
 			AND contacts_identifiers.current = "yes"
-			AND contacts_identifiers.identifier_category_id = %d
+			AND contacts_identifiers.identifier_category_id = /*_ID categories identifiers/pass_dsb _*/
 		GROUP BY contact_id';
-	$sql = sprintf($sql, wrap_category_id('identifiers/pass_dsb'));
 	$result = wrap_db_query($sql);
 	if (!$result) {
 		wrap_error('Fehler beim Erstellen der Vereinsstatistiken.', E_USER_ERROR);

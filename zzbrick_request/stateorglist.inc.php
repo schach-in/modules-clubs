@@ -48,7 +48,7 @@ function mod_clubs_stateorglist($params, $settings) {
 			, members_female/members AS share_members_female
 			, IF((SELECT COUNT(*) FROM contacts_contacts
 				WHERE contacts_contacts.main_contact_id = contacts.contact_id
-				AND contacts_contacts.relation_category_id = %d
+				AND contacts_contacts.relation_category_id = /*_ID categories relation/venue _*/
 				AND contacts_contacts.published = "yes"), "ja", "nein"
 			) AS has_venue
 			, 1 AS _level
@@ -61,7 +61,6 @@ function mod_clubs_stateorglist($params, $settings) {
 		%s
 		ORDER BY contacts_identifiers.identifier, contacts.identifier';
 	$sql = sprintf($sql
-		, wrap_category_id('relation/venue')
 		, $top['country_id']
 		, $condition
 	);

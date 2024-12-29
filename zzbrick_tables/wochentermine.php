@@ -78,12 +78,11 @@ $zz['fields'][8]['field_name'] = 'place_contact_id';
 $zz['fields'][8]['key_field_name'] = 'contact_id';
 $zz['fields'][8]['id_field_name'] = 'contacts.contact_id';
 $zz['fields'][8]['type'] = 'select';
-$zz['fields'][8]['sql'] = sprintf('SELECT contact_id, postcode, contact AS place_contact
+$zz['fields'][8]['sql'] = 'SELECT contact_id, postcode, contact AS place_contact
 	FROM contacts
 	LEFT JOIN addresses USING (contact_id)
-	WHERE contact_category_id = %d
-	ORDER BY postcode', wrap_category_id('contact/place')
-);
+	WHERE contact_category_id = /*_ID categories contact/place _*/
+	ORDER BY postcode';
 $zz['fields'][8]['display_field'] = 'place_contact';
 $zz['fields'][8]['search'] = 'places.contact';
 $zz['fields'][8]['character_set'] = 'utf8';

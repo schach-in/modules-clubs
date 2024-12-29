@@ -26,15 +26,10 @@ function mf_clubs_federation($identifier) {
 		FROM contacts
 		JOIN contacts_contacts USING (contact_id)
 		WHERE identifier = "%s"
-		AND contacts_contacts.main_contact_id = %d
-		AND contacts_contacts.relation_category_id = %d
-		AND contact_category_id = %d';
-	$sql = sprintf($sql
-		, wrap_db_escape($identifier)
-		, wrap_setting('clubs_confederation_contact_id')
-		, wrap_category_id('relation/member')
-		, wrap_category_id('contact/federation')
-	);
+		AND contacts_contacts.main_contact_id = /*_SETTING clubs_confederation_contact_id _*/
+		AND contacts_contacts.relation_category_id = /*_ID categories relation/member _*/
+		AND contact_category_id = /*_ID categories contact/federation _*/';
+	$sql = sprintf($sql, wrap_db_escape($identifier));
 	return wrap_db_fetch($sql);
 }
 
@@ -66,9 +61,8 @@ function mf_clubs_club($id) {
 function mf_clubs_parent_orgs($contact_id) {
 	$sql = 'SELECT main_contact_id
 		FROM contacts_contacts
-		WHERE contact_id IN (%%s)
-		AND relation_category_id = %d';
-	$sql = sprintf($sql, wrap_category_id('relation/member'));
+		WHERE contact_id IN (%s)
+		AND relation_category_id = /*_ID categories relation/member _*/';
 	$contact_ids = wrap_db_parents($contact_id, $sql);
 	if (!$contact_ids) return '';	
 

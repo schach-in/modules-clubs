@@ -22,29 +22,26 @@ function mod_clubs_clublist($params) {
 		FROM contacts
 		LEFT JOIN contacts_contacts
 			ON contacts_contacts.contact_id = contacts.contact_id
-			AND relation_category_id = %d
+			AND relation_category_id = /*_ID categories relation/member _*/
 		WHERE contacts.identifier = "%s"
-		AND contact_category_id = %d';
-	$sql = sprintf($sql
-		, wrap_category_id('relation/member')
-		, wrap_db_escape($params[0])
-		, wrap_category_id('contact/federation')
-	);
+		AND contact_category_id = /*_ID categories contact/federation _*/';
+	$sql = sprintf($sql, wrap_db_escape($params[0]));
 	$verband = wrap_db_fetch($sql);
 	if ($verband) {
 		$condition = sprintf('WHERE main_contact_id = %d
-			AND contact_category_id IN (%d, %d) 
+			AND contact_category_id IN (
+				/*_ID categories contact/club _*/,
+				/*_ID categories contact/chess-department_*/
+			) 
 			AND ISNULL(end_date)'
 			, $verband['contact_id']
-			, wrap_category_id('contact/club')
-			, wrap_category_id('contact/chess-department')
 		);
 		$top = $verband;
 		$categories = false;
 	} elseif ($params[0] === 'twitter') {
-		$extra_field = sprintf(', (SELECT COUNT(*) FROM contactdetails
+		$extra_field = ', (SELECT COUNT(*) FROM contactdetails
 			WHERE contactdetails.contact_id = contacts.contact_id
-			AND provider_category_id = %d) AS website_username', wrap_category_id('provider/twitter'));
+			AND provider_category_id = /*_ID categories provider/twitter _*/) AS website_username';
 		$condition = 'HAVING website_username > 0';
 		$top['contact'] = 'Twitter';
 		$top['identifier'] = 'twitter';
@@ -70,7 +67,7 @@ function mod_clubs_clublist($params) {
 			, members_female/members AS share_members_female
 			, IF((SELECT COUNT(*) FROM contacts_contacts
 				WHERE contacts_contacts.main_contact_id = contacts.contact_id
-				AND contacts_contacts.relation_category_id = %d
+				AND contacts_contacts.relation_category_id = /*_ID categories relation/venue _*/
 				AND contacts_contacts.published = "yes"), "ja", "nein"
 			) AS has_venue
 			, 1 AS _level
@@ -82,13 +79,11 @@ function mod_clubs_clublist($params) {
 		LEFT JOIN awards USING (contact_id)
 		LEFT JOIN contacts_contacts
 			ON contacts_contacts.contact_id = contacts.contact_id
-			AND contacts_contacts.relation_category_id = %d
+			AND contacts_contacts.relation_category_id = /*_ID categories relation/member _*/
 		%s
 		ORDER BY contacts_identifiers.identifier, contacts.identifier';
 	$sql = sprintf($sql
-		, wrap_category_id('relation/venue')
 		, $extra_field
-		, wrap_category_id('relation/member')
 		, $condition
 	);
 	$data['vereine'] = wrap_db_fetch($sql, 'contact_id');

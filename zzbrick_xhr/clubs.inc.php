@@ -22,18 +22,18 @@
  * @return array
  */
 function mod_clubs_xhr_clubs($request, $parameters) {
-	$def['sql'] = sprintf('SELECT contacts.contact_id, contact
+	$def['sql'] = 'SELECT contacts.contact_id, contact
 			, contacts_identifiers.identifier AS zps_code
 		FROM contacts
 		LEFT JOIN contacts_identifiers
 			ON contacts_identifiers.contact_id = contacts.contact_id
 			AND contacts_identifiers.current = "yes"
 		WHERE ISNULL(end_date)
-		AND contact_category_id IN (%d, %d)
-		ORDER BY contacts_identifiers.identifier, contact_abbr'
-		, wrap_category_id('contact/club')
-		, wrap_category_id('contact/chess-department')
-	);
+		AND contact_category_id IN (
+			/*_ID categories contact/club _*/,
+			/*_ID categories contact/chess-department_*/
+		)
+		ORDER BY contacts_identifiers.identifier, contact_abbr';
 	$def['sql_fields'] = ['contact', 'contacts_identifiers.identifier'];
 
 	wrap_include('zzbrick_xhr/autosuggest', 'default');

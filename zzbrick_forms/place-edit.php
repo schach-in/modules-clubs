@@ -90,11 +90,11 @@ foreach ($zz['fields'] as $no => $field) {
 		$zz['fields'][$no]['fields'][5]['field_sequence'] = 5;
 
 		// addresses.country_id
-		$zz['fields'][$no]['fields'][6]['sql'] = sprintf('SELECT country_id
+		$zz['fields'][$no]['fields'][6]['sql'] = 'SELECT country_id
 				, country_code, country, main_country_id
 			FROM countries
-			WHERE country_category_id = %d
-			ORDER BY country, country_code3', wrap_category_id('politische-einheiten/staat'));
+			WHERE country_category_id = /*_ID categories politische-einheiten/staat _*/
+			ORDER BY country, country_code3';
 		$zz['fields'][$no]['fields'][6]['show_hierarchy'] = 'main_country_id';
 		$zz['fields'][$no]['fields'][6]['default'] = wrap_id('countries', 'DE');
 		$zz['fields'][$no]['fields'][6]['field_sequence'] = 6;

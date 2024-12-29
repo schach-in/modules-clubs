@@ -33,9 +33,9 @@ function mod_clubs_zps($params) {
 	$sql = 'SELECT contacts.identifier
 		FROM contacts
 		LEFT JOIN contacts_identifiers ok USING (contact_id)
-		WHERE identifier_category_id = %d
+		WHERE identifier_category_id = /*_ID categories identifiers/pass_dsb_*/
 		AND ok.identifier = "%s"';
-	$sql = sprintf($sql, wrap_category_id('identifiers/pass_dsb'), wrap_db_escape($code));
+	$sql = sprintf($sql, wrap_db_escape($code));
 	$identifier = wrap_db_fetch($sql, '', 'single value');
 	if (!$identifier) return false;
 	return wrap_redirect(sprintf('/%s/', $identifier), 307);
