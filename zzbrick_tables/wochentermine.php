@@ -75,8 +75,6 @@ $zz['fields'][7]['format'] = 'markdown';
 
 $zz['fields'][8]['title'] = 'Spielort';
 $zz['fields'][8]['field_name'] = 'place_contact_id';
-$zz['fields'][8]['key_field_name'] = 'contact_id';
-$zz['fields'][8]['id_field_name'] = 'contacts.contact_id';
 $zz['fields'][8]['type'] = 'select';
 $zz['fields'][8]['sql'] = 'SELECT contact_id, postcode, contact AS place_contact
 	FROM contacts
