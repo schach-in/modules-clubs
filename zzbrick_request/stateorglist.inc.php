@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2022-2024 Gustaf Mossakowski
+ * @copyright Copyright © 2022-2025 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -30,9 +30,9 @@ function mod_clubs_stateorglist($params, $settings) {
 	
 	$condition = '';
 	if (!empty($settings['category'])) {
-		$condition = sprintf('AND contact_category_id = %d', wrap_category_id('contact/'.$settings['category']));
-		$sql = 'SELECT category FROM categories WHERE category_id = %d';
-		$sql = sprintf($sql, wrap_category_id('contact/'.$settings['category']));
+		$condition = sprintf('AND contact_category_id = /*_ID categories contact/%s _*/', $settings['category']);
+		$sql = 'SELECT category FROM categories WHERE category_id = /*_ID categories contact/%s _*/';
+		$sql = sprintf($sql, $settings['category']);
 		$data['org_category'] = wrap_db_fetch($sql, '', 'single value');
 	}
 	

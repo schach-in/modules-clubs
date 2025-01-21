@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016, 2019, 2021-2024 Gustaf Mossakowski
+ * @copyright Copyright © 2016, 2019, 2021-2025 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -45,7 +45,7 @@ foreach ($zz['fields'] as $no => $field) {
 	case 'contact_category_id':
 		$zz['fields'][$no]['title'] = 'Typ';
 		$zz['fields'][$no]['sql'] = wrap_edit_sql($zz['fields'][4]['sql'], 'WHERE',
-			sprintf('category_id IN (%d, %d)', wrap_category_id('contact/club'), wrap_category_id('contact/chess-department'))
+			'category_id IN (/*_ID categories contact/club _*/, /*_ID categories contact/chess-department _*/)'
 		);
 		$zz['fields'][$no]['show_values_as_list'] = true;
 		break;
