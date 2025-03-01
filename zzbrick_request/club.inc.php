@@ -16,7 +16,6 @@
 
 
 function mod_clubs_club($params, $settings) {
-	if ($params[0] === 'sv-ottenbronn') wrap_quit(404);
 	// this script is getting all URLs, shortcuts for URLs that definitely
 	// are not for this script
 	if(mod_clubs_club_known_urls()) return false;
