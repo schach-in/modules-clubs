@@ -33,7 +33,7 @@ function mod_clubs_clubsopengraph($params, $settings = []) {
 			, (SELECT COUNT(*) FROM contacts_contacts members
 				WHERE members.main_contact_id = org.contact_id
 				AND members.relation_category_id = /*_ID categories relation/member _*/) AS member_orgs
-			, categories.parameters
+			, category_id, categories.parameters
 			, countries.country, countries.identifier AS country_identifier
 		FROM contacts org
 		LEFT JOIN categories
@@ -53,7 +53,7 @@ function mod_clubs_clubsopengraph($params, $settings = []) {
 	if (!$org) {
 		return brick_format('%%% request clubs '.$params[0].' %%%');
 	}
-	if (!in_array($org['category_id'], [wrap_category_id('contact/club'), wrap_category_id('contact/chess-deparment')])) {
+	if (!in_array($org['category_id'], [wrap_category_id('contact/club'), wrap_category_id('contact/chess-department')])) {
 		// as of now, we only support clubs
 		return false;
 	}
