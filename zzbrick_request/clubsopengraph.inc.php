@@ -10,7 +10,7 @@
  * @author Falco Nogatz <fnogatz@gmail.com>
  * @author Gustaf Mossakowski <gustaf@koenige.org>
  * @copyright Copyright © 2023 Falco Nogatz
- * @copyright Copyright © 2023-2024 Gustaf Mossakowski
+ * @copyright Copyright © 2023-2025 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -53,7 +53,7 @@ function mod_clubs_clubsopengraph($params, $settings = []) {
 	if (!$org) {
 		return brick_format('%%% request clubs '.$params[0].' %%%');
 	}
-	if (!in_array($org['category'], ['verein', 'schachabteilung'])) {
+	if (!in_array($org['category_id'], [wrap_category_id('contact/club'), wrap_category_id('contact/chess-deparment')])) {
 		// as of now, we only support clubs
 		return false;
 	}
