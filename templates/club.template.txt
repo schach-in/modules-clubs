@@ -297,7 +297,12 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% loop end %%%
 </tbody>
 </table>
+%%% endif %%%
 
+%%% if zps_code %%%
+%%% unless topten %%%
+<h2>Wertungszahlen</h2>
+%%% endif %%%
 <!-- <p><a href="https://www.schachbund.de/verein.html?zps=%%% item zps_code %%%">Komplette DWZ-Liste</a></p> -->
 <p><a href="/zahlen/%%% item zps_code %%%/">Komplette DWZ-Liste</a></p>
 %%% endif %%%
