@@ -53,10 +53,8 @@ function mod_clubs_clubsopengraph($params, $settings = []) {
 	if (!$org) {
 		return brick_format('%%% request clubs '.$params[0].' %%%');
 	}
-	if (!in_array($org['category_id'], [wrap_category_id('contact/club'), wrap_category_id('contact/chess-department')])) {
-		// as of now, we only support clubs
-		return false;
-	}
+	$supported = mf_clubs_opengraph_supported($org);
+	if (!$supported) return false;
 
 	$page['content_type'] = 'png';
 	$img = imagecreatefrompng(__DIR__ . '/../layout/opengraph/verein.png');

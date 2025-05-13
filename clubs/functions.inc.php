@@ -210,3 +210,16 @@ function mf_clubs_editform($contact) {
 		return wrap_redirect(wrap_path('clubs_edit', $contact['identifier']), 307, false);
 	}
 }
+
+/**
+ * check if this category supports opengraph data
+ *
+ * @param array $data
+ * @return bool
+ */
+function mf_clubs_opengraph_supported($data) {
+	if ($data['category_id'] === wrap_category_id('contact/club')) return true;
+	if ($data['category_id'] === wrap_category_id('contact/chess-department')) return true;
+	if ($data['category_id'] === wrap_category_id('contact/federation') AND $data['members']) return true;
+	return false;
+}

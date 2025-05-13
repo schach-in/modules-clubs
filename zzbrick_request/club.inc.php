@@ -45,6 +45,7 @@ function mod_clubs_club($params, $settings) {
 			, IF(categories.category_id = /*_ID categories contact/club _*/, 1, NULL) AS verein
 			, IF(categories.category_id = /*_ID categories contact/chess-department _*/, 1, NULL) AS schachabteilung
 			, IF(categories.category_id = /*_ID categories contact/hort _*/, 1, NULL) AS schachhort
+			, categories.category_id
 			, (SELECT COUNT(*) FROM contacts_contacts members
 				WHERE members.main_contact_id = org.contact_id
 				AND members.relation_category_id = /*_ID categories relation/member _*/) AS member_orgs
@@ -393,7 +394,7 @@ function mod_clubs_club($params, $settings) {
 	} else {
 		$page['opengraph']['og:description'] = 'Profil bei schach.in';
 	}
-	if (in_array($org['category'], ['verein', 'schachabteilung'])) {
+	if (mf_clubs_opengraph_supported($org)) {
 		$page['opengraph']['og:width'] = '1200';
 		$page['opengraph']['og:height'] = '630';
 		$page['opengraph']['og:image'] = wrap_setting('host_base') . sprintf('/%s/opengraph.png', $org['identifier']);
