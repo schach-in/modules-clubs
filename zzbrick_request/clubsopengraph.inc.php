@@ -38,7 +38,7 @@ function mod_clubs_clubsopengraph($params, $settings = []) {
 		FROM contacts org
 		LEFT JOIN categories
 			ON org.contact_category_id = categories.category_id
-		LEFT JOIN vereinsdb_stats USING (contact_id)
+		LEFT JOIN clubstats USING (contact_id)
 		LEFT JOIN contacts_identifiers ok
 			ON ok.contact_id = org.contact_id
 			AND ok.identifier_category_id = /*_ID categories identifiers/pass_dsb _*/

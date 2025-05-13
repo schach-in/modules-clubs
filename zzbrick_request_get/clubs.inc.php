@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2015-2024 Gustaf Mossakowski
+ * @copyright Copyright © 2015-2025 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -135,7 +135,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 			, organisationen.contact_id
 			%s %s
 		FROM contacts organisationen
-		LEFT JOIN vereinsdb_stats USING (contact_id)
+		LEFT JOIN clubstats USING (contact_id)
 		LEFT JOIN contacts_contacts
 			ON contacts_contacts.main_contact_id = organisationen.contact_id
 			AND contacts_contacts.published = "yes"

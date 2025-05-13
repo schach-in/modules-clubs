@@ -9,7 +9,7 @@
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
  * @author Falco Nogatz <fnogatz@gmail.com>
- * @copyright Copyright © 2015-2024 Gustaf Mossakowski
+ * @copyright Copyright © 2015-2025 Gustaf Mossakowski
  * @copyright Copyright © 2020, 2023 Falco Nogatz <fnogatz@gmail.com>
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
@@ -58,7 +58,7 @@ function mod_clubs_club($params, $settings) {
 		FROM contacts org
 		LEFT JOIN categories
 			ON org.contact_category_id = categories.category_id
-		LEFT JOIN vereinsdb_stats USING (contact_id)
+		LEFT JOIN clubstats USING (contact_id)
 		LEFT JOIN contacts_identifiers ok
 			ON ok.contact_id = org.contact_id
 			AND ok.identifier_category_id = /*_ID categories identifiers/pass_dsb _*/

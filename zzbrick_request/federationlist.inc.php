@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016-2024 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2025 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -48,7 +48,7 @@ function mod_clubs_federationlist($params) {
 		FROM contacts
 		LEFT JOIN categories
 			ON contacts.contact_category_id = categories.category_id
-		LEFT JOIN vereinsdb_stats USING (contact_id)
+		LEFT JOIN clubstats USING (contact_id)
 		LEFT JOIN contacts_identifiers
 			ON contacts_identifiers.contact_id = contacts.contact_id
 			AND contacts_identifiers.current = "yes"

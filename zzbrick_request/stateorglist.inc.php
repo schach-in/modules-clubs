@@ -55,7 +55,7 @@ function mod_clubs_stateorglist($params, $settings) {
 			, end_date
 		FROM contacts
 		LEFT JOIN contacts_identifiers USING (contact_id)
-		LEFT JOIN vereinsdb_stats USING (contact_id)
+		LEFT JOIN clubstats USING (contact_id)
 		LEFT JOIN awards USING (contact_id)
 		WHERE country_id = %d
 		%s
