@@ -1,0 +1,27 @@
+# clubs module
+# clubstats: send mail with new clubs
+#
+# Part of »Zugzwang Project«
+# https://www.zugzwang.org/modules/clubs
+#
+# @author Gustaf Mossakowski <gustaf@koenige.org>
+# @copyright Copyright © 2025 Gustaf Mossakowski
+# @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+#
+# @todo path does not work here, because the path is on the admin server
+#
+Subject: Clubs were dissolved
+Dear Admins,
+
+these clubs may have been dissolved. They no longer have any members.
+
+%%% loop start %%%
+ - %%% item code %%%: %%% item club %%% 
+%%% loop end %%%
+
+Please visit
+
+<%%% setting protocol %%%://%%% setting admin_hostname %%%%%% if setting local_access %%%.local%%% endif %%%%%% path contacts_general check_rights=0 %%%>
+
+Best regards
+%%% item project %%%
