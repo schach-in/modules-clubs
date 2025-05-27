@@ -299,7 +299,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 </table>
 %%% endif %%%
 
-%%% if zps_code %%%
+%%% if zps_code & members %%%
 %%% unless topten %%%
 <h2>Wertungszahlen</h2>
 %%% endif %%%
