@@ -32,7 +32,7 @@ function mod_clubs_clubs_search($page, $data, $params) {
 		if ($club)
 			return wrap_redirect(sprintf('/%s/', $club['identifier']));
 
-		$data = mf_clubs_search_similar_places($data, $data['q']);
+		$data['similar_places'] = mf_clubs_search_similar_places($_GET['q']);
 	}
 	
 	if (!empty($data['federation_with_clubs']))
@@ -109,11 +109,10 @@ function mf_clubs_search_club($search) {
 /**
  * try to find something similar to the search term
  *
- * @param array $data
  * @param string $q
  * @return array
  */
-function mf_clubs_search_similar_places($data, $q) {
+function mf_clubs_search_similar_places($q) {
 	$likes = [];
 	$splitstring = mb_str_split($q);
 	for ($i = 0; $i < mb_strlen($q); $i++) {
@@ -128,6 +127,5 @@ function mf_clubs_search_similar_places($data, $q) {
 		AND country_id = /*_ID countries DE _*/
 		GROUP BY place';
 	$sql = sprintf($sql, implode('" OR place LIKE "', $likes));
-	$data['similar_places'] = wrap_db_fetch($sql, '_dummy_', 'numeric');
-	return $data;
+	return wrap_db_fetch($sql, '_dummy_', 'numeric');
 }
