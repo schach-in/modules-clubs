@@ -102,7 +102,6 @@ oder Ortsname</p>
 	var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 	var map = L.map('fullmap').addLayer(tiles);
 
-%%% unless not_found %%%
 %%% unless q %%%
 %%% unless lat %%%
 %%% unless title %%%
@@ -110,9 +109,7 @@ oder Ortsname</p>
 %%% endif %%%
 %%% endif %%%
 %%% endif %%%
-%%% endif %%%
 
-%%% unless not_found %%%
 	var oldIcons = [];
 	function hoverMarker() {
 		var id = this.getAttribute('data-leaflet-id');
@@ -292,7 +289,6 @@ oder Ortsname</p>
 			map.fitBounds(markers.getBounds(), {padding: [5, 5]});
 		%%% endif %%%
 		});
-%%% endif %%%
 
 %%% unless embed %%%
 	if (width > 640) {
