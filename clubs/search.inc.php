@@ -26,24 +26,21 @@ function mf_clubs_search($q) {
  * @param array $params
  * @return array (or redirect)
  */
-function mod_clubs_clubs_search($page, $data, $params) {
-	if (!empty($data['q'])) {
-		$club = mf_clubs_search_club($data['q']);
-		if ($club)
-			return wrap_redirect(sprintf('/%s/', $club['identifier']));
+function mod_clubs_clubs_search() {
+	$club = mf_clubs_search_club($_GET['q']);
+	if ($club)
+		return wrap_redirect(sprintf('/%s/', $club['identifier']));
 
-		$data['similar_places'] = mf_clubs_search_similar_places($_GET['q']);
-	}
+	$data['similar_places'] = mf_clubs_search_similar_places($_GET['q']);
 	
-	if (!empty($data['federation_with_clubs']))
-		return wrap_redirect(sprintf('/%s/liste/', $params[0]), 307);
-
 	wrap_setting('cache', false);
 	$page['status'] = !empty($data['similar_places']) ? 200 : 404;
 	$data['not_found'] = true;
 	$page['title'] = wrap_text('Search');
 	$page['breadcrumbs'][]['title'] = wrap_text('Search');
 	$page['extra']['not_home'] = true;
+	$page['query_strings'][] = 'q';
+	$page['url_ending'] = 'none';
 	$page['text'] = wrap_template('search-clubs', $data);
 	return $page;
 }
