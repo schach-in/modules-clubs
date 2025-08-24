@@ -65,7 +65,7 @@ function mod_clubs_clubs($params, $settings = []) {
 			return wrap_redirect(sprintf('/%s/liste/', $params[0]), 307);
 
 		$_GET['q'] = $data['q']; // URL path is treated as search query, so assign to q here
-		$page = brick_format('%%% request search %%%');
+		$page = brick_format('%%% request search search_url=/ %%%');
 		$page['extra']['not_home'] = true;
 		$page['url_ending'] = 'none';
 		$page['breadcrumbs'][]['title'] = wrap_text('Search');
