@@ -293,7 +293,10 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 </thead>
 <tbody>
 %%% loop topten %%%
-<tr class="%%% loopposition uneven "un" %%%even"><td>%%% item no %%%</td><td><abbr title="%%% item fide_title_long %%%">%%% item fide_title %%%</abbr> %%% item spieler %%%</td><td class="number">%%% item DWZ %%%</td><td class="number">%%% item standard_rating %%%</td></tr>
+<tr class="%%% loopposition uneven "un" %%%even"><td>%%% item no %%%</td><td><abbr title="%%% item fide_title_long %%%">%%% item fide_title %%%</abbr> %%% if wikipedia_url %%%<a href="%%% item wikipedia_url %%%" title="Wikipedia">%%% endif %%%
+%%% item contact %%%
+%%% if wikipedia_url %%%</a>%%% endif %%%
+</td><td class="number">%%% item DWZ %%%</td><td class="number">%%% item standard_rating %%%</td></tr>
 %%% loop end %%%
 </tbody>
 </table>
