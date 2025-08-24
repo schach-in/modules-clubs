@@ -248,7 +248,7 @@ function mod_clubs_clubs_search($page, $data, $params) {
 	$page['title'] = wrap_text('Search');
 	$page['breadcrumbs'][]['title'] = wrap_text('Search');
 	$page['extra']['not_home'] = true;
-	$page['text'] = wrap_template('clubsearch', $data);
+	$page['text'] = wrap_template('search-clubs', $data);
 	return $page;
 }
 
