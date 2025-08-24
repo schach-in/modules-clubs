@@ -8,14 +8,9 @@
 # @copyright Copyright © 2022-2024 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
-%%% if not_found %%%
-%%% if title %%%
-<p>Wir konnten leider zu »%%% item title %%%« keine Daten finden.</p>
-
-%%% else %%%
-<p>Wir konnten leider keinen Treffer zu Ihrer Suche finden.</p>
-
+%%% loop clubs %%%
 %%% if similar_places %%%
+<h2>Vereine oder Orte</h2>
 <p>Meinten Sie:</p>
 
 <ul>
@@ -24,10 +19,4 @@
 %%% loop end %%%
 </ul>
 %%% endif %%%
-
-%%% endif %%%
-%%% endif %%%
-
-%%% template searchform %%%
-
-%%% helptext Search Hints %%%
+%%% loop end %%%

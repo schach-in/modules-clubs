@@ -64,9 +64,13 @@ function mod_clubs_clubs($params, $settings = []) {
 		if (!empty($data['federation_with_clubs']))
 			return wrap_redirect(sprintf('/%s/liste/', $params[0]), 307);
 
-		wrap_include('search', 'clubs');
 		$_GET['q'] = $data['q']; // URL path is treated as search query, so assign to q here
-		return mod_clubs_clubs_search();
+		$page = brick_format('%%% request search %%%');
+		$page['extra']['not_home'] = true;
+		$page['url_ending'] = 'none';
+		$page['breadcrumbs'][]['title'] = wrap_text('Search');
+		wrap_setting('cache', false);
+		return $page;
 	}
 
 	if (!empty($data['categories'])) {

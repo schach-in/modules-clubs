@@ -14,48 +14,30 @@
 
 
 function mf_clubs_search($q) {
-	$data = [];
-	return $data;
-}
-
-/**
- * no coordinates found, search
- *
- * @param array $page
- * @param array $data
- * @param array $params
- * @return array (or redirect)
- */
-function mod_clubs_clubs_search() {
-	$club = mf_clubs_search_club($_GET['q']);
+	$club = mf_clubs_search_club($q);
 	if ($club)
 		return wrap_redirect(sprintf('/%s/', $club['identifier']));
 
-	$data['similar_places'] = mf_clubs_search_similar_places($_GET['q']);
-	
-	wrap_setting('cache', false);
-	$page['status'] = !empty($data['similar_places']) ? 200 : 404;
-	$data['not_found'] = true;
-	$page['title'] = wrap_text('Search');
-	$page['breadcrumbs'][]['title'] = wrap_text('Search');
-	$page['extra']['not_home'] = true;
-	$page['query_strings'][] = 'q';
-	$page['url_ending'] = 'none';
-	$page['text'] = wrap_template('search-clubs', $data);
-	return $page;
+	$data = ['clubs' => []];
+	$similar_places = mf_clubs_search_similar_places($q);
+	if ($similar_places)
+		$data['clubs'][0]['similar_places'] = $similar_places;
+
+	return $data;
 }
 
 /**
  * search a single club
  *
- * @param string $search
+ * @param array $search
  * @return array
  */
 function mf_clubs_search_club($search) {
 	// get search string, remove some characters
+	$search = implode(' ', $search);
 	$search = str_replace('"', '', $search);
 	$search = trim($search, '+'); // + at the beginning or end has no meaning
-	$qs = explode(' ', wrap_db_escape($search));
+	$qs = explode(' ', $search);
 
 	// name of a club?
 	$sql = 'SELECT contact_id, identifier
@@ -106,10 +88,11 @@ function mf_clubs_search_club($search) {
 /**
  * try to find something similar to the search term
  *
- * @param string $q
+ * @param array $q
  * @return array
  */
 function mf_clubs_search_similar_places($q) {
+	$q = implode(' ', $q);
 	$likes = [];
 	$splitstring = mb_str_split($q);
 	for ($i = 0; $i < mb_strlen($q); $i++) {
