@@ -28,11 +28,11 @@ function mf_clubs_search($q) {
  */
 function mod_clubs_clubs_search($page, $data, $params) {
 	if (!empty($data['q'])) {
-		$club = mod_clubs_clubs_search_club($data['q']);
+		$club = mf_clubs_search_club($data['q']);
 		if ($club)
 			return wrap_redirect(sprintf('/%s/', $club['identifier']));
 
-		$data = mod_clubs_clubs_similar_places($data, $data['q']);
+		$data = mf_clubs_search_similar_places($data, $data['q']);
 	}
 	
 	if (!empty($data['federation_with_clubs']))
@@ -54,7 +54,7 @@ function mod_clubs_clubs_search($page, $data, $params) {
  * @param string $search
  * @return array
  */
-function mod_clubs_clubs_search_club($search) {
+function mf_clubs_search_club($search) {
 	// get search string, remove some characters
 	$search = str_replace('"', '', $search);
 	$search = trim($search, '+'); // + at the beginning or end has no meaning
@@ -113,7 +113,7 @@ function mod_clubs_clubs_search_club($search) {
  * @param string $q
  * @return array
  */
-function mod_clubs_clubs_similar_places($data, $q) {
+function mf_clubs_search_similar_places($data, $q) {
 	$likes = [];
 	$splitstring = mb_str_split($q);
 	for ($i = 0; $i < mb_strlen($q); $i++) {
