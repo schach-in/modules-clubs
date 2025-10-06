@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2024 Gustaf Mossakowski
+ * @copyright Copyright © 2024-2025 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -40,8 +40,8 @@ function mod_clubs_clubsapi($params, $settings = []) {
 	}
 
 	$ids = wrap_db_fetch($sql, 'contact_id');
-	wrap_include('zzbrick_request_get/contactdata', 'contacts');
-	$data = mod_contacts_get_contactdata($ids);
+	wrap_include('data', 'zzwrap');
+	$data = wrap_data('contacts', $ids);
 	if (!$data) return false;
 	$data = wrap_data_cleanup($data);
 
