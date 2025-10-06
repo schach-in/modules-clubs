@@ -39,9 +39,9 @@ function mod_clubs_clubsapi($params, $settings = []) {
 		return false;
 	}
 
-	$ids = wrap_db_fetch($sql, 'contact_id');
+	$data = wrap_db_fetch($sql, 'contact_id');
 	wrap_include('data', 'zzwrap');
-	$data = wrap_data('contacts', $ids);
+	$data = wrap_data('contacts', $data);
 	if (!$data) return false;
 	$data = wrap_data_cleanup($data);
 
