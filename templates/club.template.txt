@@ -6,7 +6,7 @@
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
 # @author Falco Nogatz <fnogatz@gmail.com>
-# @copyright Copyright © 2015-2019, 2021-2024 Gustaf Mossakowski
+# @copyright Copyright © 2015-2019, 2021-2025 Gustaf Mossakowski
 # @copyright Copyright © 2020 Falco Nogatz
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
@@ -49,7 +49,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% endif %%%
 %%% if lat_min %%%
 %%% template leaflet-js %%%
-<script type="text/javascript">
+<script>
 	%%% template leaflet-tiles-mapbox %%%
 	var map = L.map('bannermap', {scrollWheelZoom: false}).addLayer(tiles);
 	map.fitBounds([[%%% item lat_min %%%, %%% item lon_min %%%], [%%% item lat_max %%%, %%% item lon_max %%%]], {maxZoom: 13});

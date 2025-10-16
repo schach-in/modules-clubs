@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2016-2017, 2019, 2021-2022, 2024 Gustaf Mossakowski
+# @copyright Copyright © 2016-2017, 2019, 2021-2022, 2024-2025 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 %%% item description markdown %%%
@@ -102,9 +102,9 @@
 
 <p><a href="../">Anzeige auf der Karte</a></p>
 
-<script type="text/javascript" src="%%% setting behaviour_path %%%/vxjs/src/core.js"></script>
-<script type="text/javascript" src="%%% setting behaviour_path %%%/vxjs/src/widgets/sortable.js"></script>
-<script type="text/javascript">
+%%% script vxjs/src/core.js %%%
+%%% script vxjs/src/widgets/sortable.js %%%
+<script>
 	var sortTableObject = vxJS.widget.sorTable(document.getElementById('js-clubs'), {
 		columnFormat: [
 %%% if with_usernames %%%

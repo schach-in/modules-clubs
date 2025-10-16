@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2015-2024 Gustaf Mossakowski
+# @copyright Copyright © 2015-2025 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 # List of fields:
@@ -95,8 +95,8 @@ oder Ortsname</p>
 %%% endif %%%
 
 %%% template leaflet-js %%%
-<script src="%%% setting behaviour_path %%%/clubs/mapfilters.js"></script>
-<script type="text/javascript">
+%%% script clubs/mapfilters.js %%%
+<script>
 	%%% template leaflet-tiles-mapbox %%%
 
 	var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
