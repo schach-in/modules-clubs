@@ -208,7 +208,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 
 <dl class="places" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
 %%% loop places %%%
-<dt>%%% item contact %%%</dt>
+<dt>%%% item contact nl2br %%%</dt>
 %%% item remarks "<dd><em>%s</em></dd>" %%%
 <dd itemprop="streetAddress">%%% item address nl2br %%%</dd>
 <dd><span itemprop="postalCode">%%% item postcode %%%</span> <span itemprop="addressLocality">%%% item place %%%</span>
