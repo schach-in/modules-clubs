@@ -419,7 +419,7 @@ function mod_clubs_club_known_urls() {
 	foreach (wrap_setting('clubs_unwanted_file_endings') as $ending)
 		if (str_ends_with($uri['path'], '.'.$ending)) return true;
 	// no human uses underscore in search words
-	if (strpos($string, '_') !== false) return true;
+	if (strpos($uri['path'], '_') !== false) return true;
 	
 	return false;
 }
