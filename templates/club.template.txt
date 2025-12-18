@@ -177,6 +177,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% loop awards %%%
 <li itemprop="award"><strong><a href="/%%% item path %%%/">%%% item category %%%</a></strong>
  %%% loop award_year %%%%%% item award_year %%%%%% item award_year_to "–%d" %%%
+%%% item award_level " (%s)" %%%
 %%% loopposition first|middle ", " %%%
  %%% loop end %%%
 </li>

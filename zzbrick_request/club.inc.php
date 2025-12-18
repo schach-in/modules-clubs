@@ -176,7 +176,7 @@ function mod_clubs_club($params, $settings) {
 	$org['main_contact'] = wrap_db_fetch($sql, '', 'single value');
 	
 	// Auszeichnungen
-	$sql = 'SELECT award_id, category_id, category, award_year, award_year_to
+	$sql = 'SELECT award_id, category_id, category, award_level, award_year, award_year_to
 			, SUBSTRING_INDEX(path, "/", -1) AS path
 		FROM awards
 		LEFT JOIN categories
