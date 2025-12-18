@@ -388,7 +388,7 @@ function mod_clubs_get_clubs_geocode($path, $q, $wanted = []) {
 	$url = 'https://nominatim.openstreetmap.org/search.php?'.$path;
 	$url = sprintf($url, rawurlencode($q));
 	wrap_lock_wait('nominatim', 1); // just 1 request per second
-	$results = wrap_syndication_get($url);
+	$results = wrap_syndication($url);
 	wrap_unlock('nominatim');
 	unset($results['_']);
 	if ($wanted) {
