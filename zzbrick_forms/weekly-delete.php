@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2017, 2019, 2021, 2023-2024 Gustaf Mossakowski
+ * @copyright Copyright © 2017, 2019, 2021, 2023-2025 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -28,7 +28,7 @@ $sql = 'SELECT wochentermin_id
 $sql = sprintf($sql, $brick['data']['contact_id'], $brick['vars'][1]);
 $zz['where']['wochentermin_id'] = wrap_db_fetch($sql, '', 'single value');
 if (!$zz['where']['wochentermin_id']) {
-	if (wrap_db_auto_increment('wochentermine') > $brick['vars'][1]) {
+	if (wrap_mysql_increment('wochentermine') > $brick['vars'][1]) {
 		wrap_quit(410, 'Der Eintrag wurde bereits gelöscht.');
 	}
 	wrap_quit(404);
