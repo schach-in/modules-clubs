@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016-2017, 2019-2024 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2017, 2019-2024, 2026 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -179,7 +179,7 @@ if (empty($_SESSION['login_id'])) {
 	$zz['hooks']['after_insert'] = 'mf_clubs_add_revision_public';
 }
 
-$zz_conf['revisions_url'] = '/orte/'; // @todo solve differently
+$zz['revisions_url'] = '/orte/'; // @todo solve differently, with path and 'area'
 $zz['record']['no_timeframe'] = true;
 $zz['page']['dont_show_title_as_breadcrumb'] = true;
 $zz['page']['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];
