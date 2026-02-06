@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2015-2025 Gustaf Mossakowski
+# @copyright Copyright © 2015-2026 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 # List of fields:
@@ -41,7 +41,7 @@ Schachvereine und Schulschachgruppen
 %%% endif %%%
 <div class="innerbox_detail">
 %%% if description | links %%%
-%%% item description markdown %%%
+%%% item description format=markdown %%%
 %%% if links %%%
 <ul class="awards-links">
 %%% loop links %%%
@@ -54,16 +54,16 @@ Schachvereine und Schulschachgruppen
 %%% endif %%%
 
 %%% if q %%%
-<h2>Suche: %%% item q wrap_html_escape %%%</h2>
+<h2>Suche: %%% item q format=html_escape %%%</h2>
 %%% elseif lat & lon %%%
-<h2>Suche: Im Umkreis von %%% item lat wrap_latitude %%% / %%% item lon wrap_longitude %%%</h2>
+<h2>Suche: Im Umkreis von %%% item lat format=latitude %%% / %%% item lon format=longitude %%%</h2>
 %%% endif %%%
 <p class="explanation">Anzahl der angezeigten Spielorte:&nbsp;%%% item places %%%</p>
 
 </div>
 <div class="search">
 <form action="/" method="GET">
-<input type="text" name="q" value="%%% item q wrap_html_escape %%%" maxlength="64" placeholder="PLZ oder Ort">
+<input type="text" name="q" value="%%% item q format=html_escape %%%" maxlength="64" placeholder="PLZ oder Ort">
 <input type="submit" value="Such!">
 <p class="explanation">Postleitzahl (oder Beginn davon, wie z. B. 28 = Bremen)
 oder Ortsname</p>

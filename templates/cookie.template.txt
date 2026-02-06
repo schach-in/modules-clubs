@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2016 Gustaf Mossakowski
+# @copyright Copyright © 2016, 2026 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 <h1>Cookies</h1>
@@ -19,5 +19,5 @@ nachverfolgen. Beim Schließen des Browsers werden die Daten automatisch gelösc
 
 <hr>
 <p>Wenn Du die Einstellung geändert hast, kannst Du einen
-<strong><a href="%%% item url wrap_html_escape %%%">erneuten Versuch</a></strong>
+<strong><a href="%%% item url format=html_escape %%%">erneuten Versuch</a></strong>
 starten.</p>

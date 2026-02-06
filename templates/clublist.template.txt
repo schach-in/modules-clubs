@@ -5,13 +5,13 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2016-2017, 2019, 2021-2022, 2024-2025 Gustaf Mossakowski
+# @copyright Copyright © 2016-2017, 2019, 2021-2022, 2024-2026 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
-%%% item description markdown %%%
+%%% item description format=markdown %%%
 %%% if url %%%
 %%% loop url 1 %%%
-<p><a href="%%% item identification %%%" target="_blank" itemprop="url">%%% item identification wrap_punycode_decode %%%</a></p>
+<p><a href="%%% item identification %%%" target="_blank" itemprop="url">%%% item identification format=punycode_decode %%%</a></p>
 %%% loop end %%%
 %%% endif %%%
 <div class="statistics">
@@ -56,19 +56,19 @@
 %%% endif %%%
 %%% endif %%%
 %%% unless without_members %%%
-<td class="number maincol">%%% item members wrap_number %%%</td>
+<td class="number maincol">%%% item members format=number %%%</td>
 <td class="number"><span class="sortonly">%%% item members_u25 %%% </span>%%% if members_u25 %%%
-%%% item members_u25 wrap_number %%%
+%%% item members_u25 format=number %%%
 %%% else %%%–%%% endif %%%</td>
 <td class="number percent"><span class="sortonly">%%% item members_female %%% </span>%%% if members_u25 %%%
-%%% item share_members_u25 wrap_percent %%%
+%%% item share_members_u25 format=percent %%%
 %%% else %%%–%%% endif %%%</td>
 <td class="number"><span class="sortonly">%%% item zps_code %%% </span>%%% if members_female %%%
-%%% item members_female wrap_number %%%
+%%% item members_female format=number %%%
 %%% else %%%–%%% endif %%%</td>
 <td class="number percent">%%% if awards %%%%%% loop awards 1 %%%<span class="sortonly">%%% item award_year %%% </span>%%% loop end %%%%%% endif %%%
 %%% if members_female %%%
-%%% item share_members_female wrap_percent %%%
+%%% item share_members_female format=percent %%%
 %%% else %%%–%%% endif %%%</td>
 <td>%%% unless end_date %%%
 <a href="https://www.schachbund.de/verein/%%% item zps_code %%%.html">%%% item zps_code %%%</a>

@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2022-2024 Gustaf Mossakowski
+# @copyright Copyright © 2022-2024, 2026 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 %%% loop clubs %%%
@@ -15,7 +15,7 @@
 
 <ul>
 %%% loop similar_places %%%
-<li><strong><a href="/?q=%%% item place rawurlencode %%%">%%% item place %%%</a></strong></li>
+<li><strong><a href="/?q=%%% item place format=rawurlencode %%%">%%% item place %%%</a></strong></li>
 %%% loop end %%%
 </ul>
 %%% endif %%%

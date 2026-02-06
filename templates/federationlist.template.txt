@@ -5,12 +5,12 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2016-2017, 2021-2022, 2024 Gustaf Mossakowski
+# @copyright Copyright © 2016-2017, 2021-2022, 2024, 2026 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 %%% if url %%%
 %%% loop url 1 %%%
-<p><a href="%%% item identification %%%" target="_blank" itemprop="url">%%% item identification wrap_punycode_decode %%%</a></p>
+<p><a href="%%% item identification %%%" target="_blank" itemprop="url">%%% item identification format=punycode_decode %%%</a></p>
 %%% loop end %%%
 %%% endif %%%
 <div class="statistics">
@@ -38,14 +38,14 @@
  &middot; <a href="%%% setting base_path %%%/%%% item identifier %%%/liste/" title="Liste mit Vereinen aus %%% item contact %%%">Liste</a>
 %%% endif %%%
 %%% endif %%%
-<td class="number maincol">%%% item vereine wrap_number %%%</td>
-<td class="number">%%% item venues wrap_number %%%</td>
-<td class="number percent">%%% item share_venues wrap_percent %%%</td>
-<td class="number maincol">%%% item members wrap_number %%%</td>
-<td class="number">%%% item members_u25 wrap_number %%%</td>
-<td class="number percent">%%% item share_members_u25 wrap_percent %%%</td>
-<td class="number">%%% item members_female wrap_number %%%</td>
-<td class="number percent">%%% item share_members_female wrap_percent %%%</td>
+<td class="number maincol">%%% item vereine format=number %%%</td>
+<td class="number">%%% item venues format=number %%%</td>
+<td class="number percent">%%% item share_venues format=percent %%%</td>
+<td class="number maincol">%%% item members format=number %%%</td>
+<td class="number">%%% item members_u25 format=number %%%</td>
+<td class="number percent">%%% item share_members_u25 format=percent %%%</td>
+<td class="number">%%% item members_female format=number %%%</td>
+<td class="number percent">%%% item share_members_female format=percent %%%</td>
 </tr>
 %%% loop end %%%
 </tbody>

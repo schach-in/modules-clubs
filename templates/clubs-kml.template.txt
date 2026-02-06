@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2011, 2022, 2024 Gustaf Mossakowski
+# @copyright Copyright © 2011, 2022, 2024, 2026 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 # fields:
@@ -30,7 +30,7 @@
 %%% loop end %%%
 %%% loop placemarks %%%
 	<Placemark>
-		<name>%%% item title wrap_html_escape %%%</name>
+		<name>%%% item title format=html_escape %%%</name>
 		<description><![CDATA[
 %%% if members %%%
 <p>Mitglieder: %%% item members %%%

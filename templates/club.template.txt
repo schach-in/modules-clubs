@@ -6,7 +6,7 @@
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
 # @author Falco Nogatz <fnogatz@gmail.com>
-# @copyright Copyright © 2015-2019, 2021-2025 Gustaf Mossakowski
+# @copyright Copyright © 2015-2019, 2021-2026 Gustaf Mossakowski
 # @copyright Copyright © 2020 Falco Nogatz
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
@@ -124,8 +124,8 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% endif %%%
 %%% loop places %%%
 %%% if longitude %%%
-	L.marker([%%% item latitude %%%, %%% item longitude %%%], {icon: Icon, title: "%%% item contact wrap_js_escape %%%"}).addTo(map)
-	    .bindPopup('%%% item contact wrap_js_nl2br %%%');
+	L.marker([%%% item latitude %%%, %%% item longitude %%%], {icon: Icon, title: "%%% item contact format=js_escape %%%"}).addTo(map)
+	    .bindPopup('%%% item contact format=js_nl2br %%%');
 %%% endif %%%
 %%% loop end %%%
 
@@ -134,7 +134,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% unless end_date %%%
 %%% if url %%%
 %%% loop url 1 %%%
-<p>Website: <a href="%%% item identification %%%" target="_blank" itemprop="url">%%% item identification wrap_punycode_decode %%%</a></p>
+<p>Website: <a href="%%% item identification %%%" target="_blank" itemprop="url">%%% item identification format=punycode_decode %%%</a></p>
 %%% loop end %%%
 %%% if edit %%%
 <p><a href="info/?focus=website" class="edit">Website ändern</a></p>
@@ -160,7 +160,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% endif %%%
 <tr><th>Spielstärke</th><td class="number">DWZ ∅ %%% item avg_rating %%%</td></tr>
 %%% if start_date %%%
-<tr><th>Gründung</th><td class="number" itemprop="foundingDate" datetime="%%% item start_date %%%">%%% item start_date wrap_date %%%
+<tr><th>Gründung</th><td class="number" itemprop="foundingDate" datetime="%%% item start_date %%%">%%% item start_date format=date %%%
 %%% if edit %%%
 <p><a href="info/?focus=start_date" class="edit">Gründungsdatum ändern</a></p>
 %%% endif %%%
@@ -209,11 +209,11 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 
 <dl class="places" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
 %%% loop places %%%
-<dt>%%% item contact nl2br %%%</dt>
+<dt>%%% item contact format=nl2br %%%</dt>
 %%% item remarks "<dd><em>%s</em></dd>" %%%
-<dd itemprop="streetAddress">%%% item address nl2br %%%</dd>
+<dd itemprop="streetAddress">%%% item address format=nl2br %%%</dd>
 <dd><span itemprop="postalCode">%%% item postcode %%%</span> <span itemprop="addressLocality">%%% item place %%%</span>
-%%% item description markdown %%%
+%%% item description format=markdown %%%
 <!-- , website, telefon, telefax, e_mail -->
 %%% if edit %%%
 <dd><a href="ort-bearbeiten/%%% item contact_id %%%/" class="edit">Spielort ändern</a> | <a href="ort-loeschen/%%% item contact_id %%%/" class="edit">Spielort löschen</a></dd>
@@ -222,8 +222,8 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 <dd><ul class="weekly">
 %%% loop wochentermine %%%
 <li><em>%%% if letzte %%%Letzter %%% else %%%%%% item woche_im_monat "%s. "%%%%%% endif %%%%%% item wochentag %%%%%% if woche_im_monat %%% im Monat%%% else %%%s%%% endif %%%
-%%% unless uhrzeit_ende %%% ab %%% endif %%% %%% item uhrzeit_beginn wrap_time %%%%%% item uhrzeit_ende wrap_time "–%s" %%% Uhr: %%% item category %%%</em>
-%%% item wbeschreibung markdown %%%
+%%% unless uhrzeit_ende %%% ab %%% endif %%% %%% item uhrzeit_beginn format=time %%%%%% item uhrzeit_ende format=time "–%s" %%% Uhr: %%% item category %%%</em>
+%%% item wbeschreibung format=markdown %%%
 %%% if edit %%%
 <a href="wochentermin-bearbeiten/%%% item wochentermin_id %%%/" class="edit">Termin ändern</a> | <a href="wochentermin-loeschen/%%% item wochentermin_id %%%/" class="edit">Termin löschen</a>
 %%% endif %%%
@@ -283,7 +283,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% elseif edit %%%
 <p><a href="info/?focus=description" class="edit">Beschreibung ergänzen</a></p>
 %%% endif %%%
-%%% item description markdown %%%
+%%% item description format=markdown %%%
 
 %%% if topten %%%
 <h2>Top10 aktive Spieler</h2>
@@ -322,7 +322,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 <tbody>
 %%% loop teams %%%
 <tr class="%%% loopposition uneven "un" %%%even">
-<td>%%% item duration wrap_date %%%</td>
+<td>%%% item duration format=date %%%</td>
 <td>
 %%% if series %%%
 <abbr title="%%% item series %%%">%%% item event %%%</abbr>

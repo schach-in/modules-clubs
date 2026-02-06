@@ -5,11 +5,11 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2021, 2024 Gustaf Mossakowski
+# @copyright Copyright © 2021, 2024, 2026 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 %%% if wait %%%
-<p class="error">Bitte warten. Die Statistik kann nur einmal alle %%% item wait wrap_duration %%% aktualisiert werden.</p>
+<p class="error">Bitte warten. Die Statistik kann nur einmal alle %%% item wait format=duration %%% aktualisiert werden.</p>
 %%% endif %%%
 %%% if request %%%
 <form method="POST" action="">
