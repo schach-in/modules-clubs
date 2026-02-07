@@ -9,7 +9,7 @@
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
  * @author Falco Nogatz <fnogatz@gmail.com>
- * @copyright Copyright © 2015-2025 Gustaf Mossakowski
+ * @copyright Copyright © 2015-2026 Gustaf Mossakowski
  * @copyright Copyright © 2020, 2023 Falco Nogatz <fnogatz@gmail.com>
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
@@ -258,14 +258,17 @@ function mod_clubs_club($params, $settings) {
 		}
 		$places_sort = [];
 		foreach ($org['places'] as $contact_id => $place) {
-			$revisions = zz_revisions_read('contacts_contacts', $place['cc_id']);
-			if (is_null($revisions)) {
-				unset($org['places'][$contact_id]);
-				continue;
-			} elseif ($revisions) {
-				// ...
-				echo wrap_print('not yet supported');
-				exit;
+			if (array_key_exists('cc_id', $place)) {
+				// some contacts have a direct address, no cc_id
+				$revisions = zz_revisions_read('contacts_contacts', $place['cc_id']);
+				if (is_null($revisions)) {
+					unset($org['places'][$contact_id]);
+					continue;
+				} elseif ($revisions) {
+					// ...
+					echo wrap_print('not yet supported');
+					exit;
+				}
 			}
 			$revisions = zz_revisions_read('contacts', $place['contact_id']);
 			foreach ($revisions as $key => $value) {
@@ -285,8 +288,8 @@ function mod_clubs_club($params, $settings) {
 			}
 			$place = $org['places'][$contact_id];
 			$places_sort[] = sprintf('%02d-%s-%s-%s-%s'
-				, $place['sequence'], $place['contact'], $place['postcode']
-				, $place['place'], $place['address']
+				, $place['sequence'] ?? 0, $place['contact'] ?? $org['contact']
+				, $place['postcode'], $place['place'], $place['address']
 			);
 		}
 		$keys = array_keys($org['places']);
