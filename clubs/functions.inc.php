@@ -202,6 +202,8 @@ function mf_clubs_redirect_check($path) {
  * @return array
  */
 function mf_clubs_editform($contact) {
+	// no schools currently
+	if ($contact['scope'] === 'schulschachgruppe') wrap_quit(404);
 	mf_clubs_deny_bots();
 	if ($contact['end_date']) wrap_quit(404);
 	wrap_setting('cache', false);
