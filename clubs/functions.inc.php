@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016-2024 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2026 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -205,6 +205,8 @@ function mf_clubs_editform($contact) {
 	mf_clubs_deny_bots();
 	if ($contact['end_date']) wrap_quit(404);
 	wrap_setting('cache', false);
+	if (!wrap_session_value('user_id'))
+		mf_clubs_add_user_from_ip();
 	wrap_session_start();
 	if (empty($_SESSION)) {
 		return wrap_redirect(wrap_path('clubs_edit', $contact['identifier']), 307, false);
