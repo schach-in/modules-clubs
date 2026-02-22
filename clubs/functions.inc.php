@@ -163,21 +163,9 @@ function mf_clubs_latlon_check() {
  * @return void
  */
 function mf_clubs_deny_bots() {
-	$is_bot = mf_clubs_deny_bots_check();
+	$is_bot = wrap_http_is_bot();
 	if (!$is_bot) return;
 	wrap_quit(403, wrap_text('Bots are not allowed to access this resource.'));
-}
-
-/**
- * check if it is a bot access
- *
- * @return void
- */
-function mf_clubs_deny_bots_check() {
-	if (empty($_SERVER['HTTP_USER_AGENT'])) return false;
-	if (strstr($_SERVER['HTTP_USER_AGENT'], 'spider')) return true;
-	if (strstr($_SERVER['HTTP_USER_AGENT'], 'bot')) return true;
-	return false;
 }
 
 /**
