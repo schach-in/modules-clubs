@@ -110,7 +110,7 @@ function mod_clubs_club($params, $settings) {
 		$org['logged_in'] = wrap_session_value('logged_in');
 	}
 
-	if (in_array('ratings', wrap_setting('modules'))) {
+	if (wrap_package('ratings')) {
 		wrap_include('functions', 'ratings');
 		$org['topten'] = mf_ratings_toplist($org);
 	}
