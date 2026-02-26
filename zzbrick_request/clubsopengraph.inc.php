@@ -10,7 +10,7 @@
  * @author Falco Nogatz <fnogatz@gmail.com>
  * @author Gustaf Mossakowski <gustaf@koenige.org>
  * @copyright Copyright © 2023 Falco Nogatz
- * @copyright Copyright © 2023-2025 Gustaf Mossakowski
+ * @copyright Copyright © 2023-2026 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -22,7 +22,7 @@
  * @return array $page
  */
 function mod_clubs_clubsopengraph($params, $settings = []) {
-	if (count($params) !== 2) return false;
+	if (count($params) !== 1) return false;
 
 	$sql = 'SELECT org.contact_id, org.contact
 			, YEAR(org.end_date) AS end_date, org.start_date

@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2015-2024 Gustaf Mossakowski
+ * @copyright Copyright © 2015-2024, 2026 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -23,9 +23,6 @@ function mod_clubs_clubs($params, $settings = []) {
 		if ($params[0] === 'twitter')
 			return brick_format('%%% request clublist '.$params[0].' %%%');
 		return brick_format('%%% request federationlist '.$params[0].' %%%');
-	}
-	if ($params AND end($params) === 'opengraph.png') {
-		return brick_format('%%% request clubsopengraph * %%%');
 	}
 	if (count($params) > 1) return false;
 
