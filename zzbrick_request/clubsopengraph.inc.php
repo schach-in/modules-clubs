@@ -50,9 +50,8 @@ function mod_clubs_clubsopengraph($params, $settings = []) {
 	';
 	$sql = sprintf($sql, wrap_db_escape($params[0]));
 	$org = wrap_db_fetch($sql);
-	if (!$org) {
-		return brick_format('%%% request clubs '.$params[0].' %%%');
-	}
+	if (!$org) return false;
+
 	$supported = mf_clubs_opengraph_supported($org);
 	if (!$supported) return false;
 
