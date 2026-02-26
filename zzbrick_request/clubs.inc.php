@@ -14,16 +14,6 @@
 
 
 function mod_clubs_clubs($params, $settings = []) {
-	if (count($params) > 2) return false;
-
-	// divert?
-	if (end($params) === 'liste') {
-		array_pop($params);
-		if (empty($params)) $params[0] = 'dsb';
-		if ($params[0] === 'twitter')
-			return brick_format('%%% request clublist '.$params[0].' %%%');
-		return brick_format('%%% request federationlist '.$params[0].' %%%');
-	}
 	if (count($params) > 1) return false;
 
 	if (wrap_setting('request_uri') === '/' AND empty($_GET))
