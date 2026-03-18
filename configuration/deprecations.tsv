@@ -1,0 +1,19 @@
+# clubs module
+# Deprecated code patterns and breaking changes
+#
+# This file lists deprecated code patterns (replace with newer alternatives)
+# and breaking changes (migration notes). The checker scans the codebase
+# for deprecations; breaking changes are shown as informational only.
+#
+# Part of »Zugzwang Project«
+# https://www.zugzwang.org/modules/clubs
+#
+# @author Gustaf Mossakowski <gustaf@koenige.org>
+# @copyright Copyright © 2026 Gustaf Mossakowski
+# @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+#
+#: Identifier	Type	Search Text	Message	Exclude Pattern
+# exclude_pattern: files matching this pattern will be excluded from results (multiple patterns separated by semicolon)
+#
+2026-03-18-1	code	clubs_edit_path	removed, paths from routes; use wrap_path()
+2026-03-18-2	code	clubs_geojson_path	removed, paths from routes; use wrap_path()
