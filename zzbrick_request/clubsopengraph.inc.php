@@ -105,7 +105,5 @@ function mod_clubs_clubsopengraph($params, $settings = []) {
 	ob_start();
 	imagepng($img);
 	$page['text'] = ob_get_clean();
-	imagedestroy($img);
-
 	return $page;
 }
