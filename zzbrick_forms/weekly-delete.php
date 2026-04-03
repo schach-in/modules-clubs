@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2017, 2019, 2021, 2023-2025 Gustaf Mossakowski
+ * @copyright Copyright © 2017, 2019, 2021, 2023-2026 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -19,7 +19,7 @@ mf_clubs_editform($brick['data']);
 
 $zz = zzform_include('wochentermine');
 global $zz_page;
-$zz['title'] = sprintf('%s<br>%s', $zz_page['db']['title'], $brick['data']['contact']);
+$zz['title'] = sprintf('%s<br>%s', wrap_page_field('title'), $brick['data']['contact']);
 
 $sql = 'SELECT wochentermin_id
 	FROM wochentermine

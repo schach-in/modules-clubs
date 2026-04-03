@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2016, 2019, 2021-2025 Gustaf Mossakowski
+ * @copyright Copyright © 2016, 2019, 2021-2026 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -20,7 +20,7 @@ $zz = zzform_include('contacts', $values, 'forms');
 unset($zz['filter']);
 
 global $zz_page;
-$zz['title'] = sprintf('%s<br>%s', $zz_page['db']['title'], $brick['data']['contact']);
+$zz['title'] = sprintf('%s<br>%s', wrap_page_field('title'), $brick['data']['contact']);
 $zz['where']['contact_id'] = $brick['data']['contact_id'];
 $zz['access'] = 'edit_only';
 if (empty($_SESSION['login_id']))

@@ -20,7 +20,7 @@ $values['relations_restrict_to'] = 'places';
 $zz = zzform_include('contacts/contacts', $values, 'forms');
 
 global $zz_page;
-$zz['title'] = sprintf('%s<br>%s', $zz_page['db']['title'], $brick['data']['contact']);
+$zz['title'] = sprintf('%s<br>%s', wrap_page_field('title'), $brick['data']['contact']);
 
 switch ($brick['vars'][1]) {
 	case 'add':
