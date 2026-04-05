@@ -34,7 +34,6 @@ if (!$cc_id) {
 }
 
 $zz = zzform_include('contacts-contacts');
-global $zz_page;
 $zz['title'] = sprintf('%s<br>%s', wrap_page_field('title'), $brick['data']['contact']);
 $zz['where']['cc_id'] = $cc_id;
 

@@ -19,7 +19,6 @@ $zz = zzform_include('contacts', $values, 'forms');
 
 unset($zz['filter']);
 
-global $zz_page;
 $zz['title'] = sprintf('%s<br>%s', wrap_page_field('title'), $brick['data']['contact']);
 $zz['where']['contact_id'] = $brick['data']['contact_id'];
 $zz['access'] = 'edit_only';

@@ -18,7 +18,6 @@ if ($brick['vars'][1].'' !== intval($brick['vars'][1]).'') wrap_quit(404);
 mf_clubs_editform($brick['data']);
 
 $zz = zzform_include('wochentermine');
-global $zz_page;
 $zz['title'] = sprintf('%s<br>%s', wrap_page_field('title'), $brick['data']['contact']);
 
 $sql = 'SELECT wochentermin_id
