@@ -307,8 +307,8 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% unless topten %%%
 <h2>Wertungszahlen</h2>
 %%% endif %%%
+%%% if show_rating_link & path ratings_club_ratings %%%
 <!-- <p><a href="https://www.schachbund.de/verein.html?zps=%%% item zps_code %%%">Komplette DWZ-Liste</a></p> -->
-%%% if path ratings_club_ratings %%%
 <p><a href="%%% path ratings_club_ratings zps_code %%%">Komplette DWZ-Liste</a></p>
 %%% endif %%%
 %%% endif %%%

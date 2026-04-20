@@ -113,6 +113,12 @@ function mod_clubs_club($params, $settings) {
 	if (wrap_package('ratings')) {
 		wrap_include('functions', 'ratings');
 		$org['topten'] = mf_ratings_toplist($org);
+		foreach ($org['topten'] as $row) {
+			if (!array_key_exists('DWZ', $row)) continue;
+			if (!$row['DWZ']) continue;
+			$org['show_rating_link'] = true;
+			break;
+		}
 	}
 
 	if (!empty($org['parameters']['has_place_contact'])) {
