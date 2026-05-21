@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/modules/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2025 Gustaf Mossakowski
+# @copyright Copyright © 2025-2026 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 # @todo path does not work here, because the path is on the admin server
@@ -22,7 +22,7 @@ Mitglieder mehr.
 
 Bitte besucht
 
-<%%% setting protocol %%%://%%% setting admin_hostname %%%%%% if setting local_access %%%.local%%% endif %%%%%% path contacts_general check_rights=0 %%%>
+<%%% path contacts_general check_rights=0 absolute=1 path_for_website=1 %%%>
 
 Viele Grüße
 %%% item project %%%

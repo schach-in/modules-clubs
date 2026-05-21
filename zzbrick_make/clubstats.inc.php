@@ -71,6 +71,7 @@ function mod_clubs_make_clubstats() {
 	$sql = 'ALTER TABLE `clubstats` ADD UNIQUE `contact_id` (`contact_id`)';
 	wrap_db_query($sql);
 
+	mod_clubs_make_clubstats_path_website();
 	mod_clubs_make_clubstats_new();
 	mod_clubs_make_clubstats_deleted();
 
@@ -139,4 +140,17 @@ function mod_clubs_make_clubstats_deleted() {
 	$success = wrap_mail($mail);
 	if (!$success)
 		wrap_error('Unable to send mail: '.json_encode($mail));
+}
+
+/**
+ * resolve paths from admin website when it differs from this hostname
+ *
+ */
+function mod_clubs_make_clubstats_path_website() {
+	if (!wrap_setting('admin_hostname')) return false;
+	if (wrap_url_dev_remove(wrap_setting('admin_hostname')) === wrap_url_dev_remove(wrap_setting('hostname')))
+		return false;
+	$website_id = wrap_id('websites', wrap_setting('admin_hostname'));
+	if (!$website_id) return false;
+	wrap_setting('path_website_id', $website_id);
 }
