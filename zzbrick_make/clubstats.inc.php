@@ -9,7 +9,7 @@
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
  * @author Falco Nogatz <nogatz@gmail.com>
- * @copyright Copyright © 2016-2025 Gustaf Mossakowski
+ * @copyright Copyright © 2016-2026 Gustaf Mossakowski
  * @copyright Copyright © Falco Nogatz
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
@@ -148,9 +148,10 @@ function mod_clubs_make_clubstats_deleted() {
  */
 function mod_clubs_make_clubstats_path_website() {
 	if (!wrap_setting('admin_hostname')) return false;
-	if (wrap_url_dev_remove(wrap_setting('admin_hostname')) === wrap_url_dev_remove(wrap_setting('hostname')))
+	$admin_hostname = wrap_url_dev_remove(wrap_setting('admin_hostname'));
+	if ($admin_hostname === wrap_url_dev_remove(wrap_setting('hostname')))
 		return false;
-	$website_id = wrap_id('websites', wrap_setting('admin_hostname'));
+	$website_id = wrap_id('websites', $admin_hostname);
 	if (!$website_id) return false;
 	wrap_setting('path_website_id', $website_id);
 }
