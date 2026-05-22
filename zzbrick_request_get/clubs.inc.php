@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2015-2025 Gustaf Mossakowski
+ * @copyright Copyright © 2015-2026 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -389,7 +389,6 @@ function mod_clubs_get_clubs_geocode($path, $q, $wanted = []) {
 	$url = sprintf($url, rawurlencode($q));
 	wrap_lock_wait('nominatim', 1); // just 1 request per second
 	$results = wrap_syndication($url, ['error_code' => E_USER_WARNING]);
-	wrap_unlock('nominatim');
 	unset($results['_']);
 	if ($wanted) {
 		foreach ($results as $index => $result) {
