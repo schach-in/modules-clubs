@@ -99,7 +99,9 @@ function mod_clubs_club($params, $settings) {
 			AND contacts_contacts.contact_id = %d';
 		$sql = sprintf($sql, $org['contact_id']);
 		$org += wrap_db_fetch($sql);
-		$page['status'] = 410;
+		// we used to have a HTTP status 410 here, but since there is historical content
+		// better only use 'noindex'
+		$page['meta'][] = ['name' => 'robots', 'content' => 'noindex'];
 		$org['edit'] = false;
 	}
 	if ($org['edit']) {
