@@ -165,7 +165,8 @@ function mf_clubs_latlon_check() {
 function mf_clubs_deny_bots() {
 	$is_bot = wrap_http_is_bot();
 	if (!$is_bot) return;
-	wrap_quit(403, wrap_text('Bots are not allowed to access this resource.'));
+	$page = ['log_errors' => false];
+	wrap_quit(403, wrap_text('Bots are not allowed to access this resource.'), $page);
 }
 
 /**
