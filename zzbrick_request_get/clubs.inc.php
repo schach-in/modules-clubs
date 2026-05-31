@@ -383,6 +383,7 @@ function mod_clubs_get_clubs_condition_parts($q) {
 function mod_clubs_get_clubs_geocode($path, $q, $wanted = []) {
 	// do not call Nominatim if it is clear that it is some script kiddie
 	if (wrap_setting('http_forward_ip_unknown')) return [];
+	if (empty($_SERVER['HTTP_USER_AGENT'])) return [];
 	wrap_include('syndication', 'zzwrap');
 
 	$url = 'https://nominatim.openstreetmap.org/search.php?'.$path;
