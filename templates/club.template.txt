@@ -332,7 +332,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% item event %%%
 %%% endif %%%
 </td>
-<td>%%% item platz_no "%s." %%%</td>
+<td>%%% item rank_no "%s." %%%</td>
 <td><a href="//www.deutsche-schachjugend.de/%%% item team_identifier %%%/">%%% item team %%% %%% item team_no %%%</a></td></tr>
 %%% loop end %%%
 </tbody>

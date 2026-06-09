@@ -155,7 +155,7 @@ function mod_clubs_club($params, $settings) {
 			, events.event
 			, CONCAT(events.date_begin, "/", IFNULL(events.date_end, "")) AS duration
 			, categories.category AS series
-			, (SELECT platz_no FROM tabellenstaende WHERE tabellenstaende.team_id = teams.team_id AND tabellenstaende.runde_no = tournaments.runden) AS platz_no
+			, (SELECT rank_no FROM standings WHERE standings.team_id = teams.team_id AND standings.runde_no = tournaments.runden) AS rank_no
 		FROM teams
 		LEFT JOIN events USING (event_id)
 		LEFT JOIN tournaments USING (event_id)
