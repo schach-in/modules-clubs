@@ -41,7 +41,7 @@ function mod_clubs_stateorglist($params, $settings) {
 	$top['members_female'] = 0;
 	
 	// @todo sort by place
-	$sql = 'SELECT contact_id, contact, contacts.identifier
+	$sql = 'SELECT contacts.contact_id, contact, contacts.identifier
 			, contacts_identifiers.identifier AS zps_code
 			, members, members_female, members_u25
 			, members_u25/members AS share_members_u25
@@ -58,8 +58,8 @@ function mod_clubs_stateorglist($params, $settings) {
 			ON contacts_identifiers.contact_id = contacts.contact_id
 			AND contacts_identifiers.current = "yes"
 			AND contacts_identifiers.identifier_category_id = /*_ID categories identifiers/pass_dsb _*/
-		LEFT JOIN clubstats USING (contact_id)
-		LEFT JOIN awards USING (contact_id)
+		LEFT JOIN clubstats ON clubstats.contact_id = contacts.contact_id
+		LEFT JOIN awards ON awards.contact_id = contacts.contact_id
 		WHERE country_id = %d
 		%s
 		ORDER BY contacts_identifiers.identifier, contacts.identifier';

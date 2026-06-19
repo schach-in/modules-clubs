@@ -28,8 +28,8 @@ function mod_clubs_clublist($params) {
 	$sql = sprintf($sql, wrap_db_escape($params[0]));
 	$verband = wrap_db_fetch($sql);
 	if ($verband) {
-		$condition = sprintf('WHERE main_contact_id = %d
-			AND contact_category_id IN (
+		$condition = sprintf('WHERE contacts_contacts.main_contact_id = %d
+			AND contacts.contact_category_id IN (
 				/*_ID categories contact/club _*/,
 				/*_ID categories contact/chess-department_*/
 			) 
@@ -78,8 +78,8 @@ function mod_clubs_clublist($params) {
 			ON contacts_identifiers.contact_id = contacts.contact_id
 			AND contacts_identifiers.current = "yes"
 			AND contacts_identifiers.identifier_category_id = /*_ID categories identifiers/pass_dsb _*/
-		LEFT JOIN clubstats USING (contact_id)
-		LEFT JOIN awards USING (contact_id)
+		LEFT JOIN clubstats ON clubstats.contact_id = contacts.contact_id
+		LEFT JOIN awards ON awards.contact_id = contacts.contact_id
 		LEFT JOIN contacts_contacts
 			ON contacts_contacts.contact_id = contacts.contact_id
 			AND contacts_contacts.relation_category_id = /*_ID categories relation/member _*/
