@@ -16,8 +16,9 @@ diese Vereine haben in der aktuellen DWZ-Auslieferung keine Mitglieder mehr.
 Wo möglich, wurden Auflösungsdaten automatisch gesetzt.
 
 %%% loop start %%%
- - %%% item code %%%: %%% item club %%%%%% if still_on_nuliga %%% — noch auf nuLiga, keine Änderung%%% elseif closed_end_date %%% — geschlossen (Enddatum %%% item closed_end_date %%%)%%% elseif already_closed %%% — bereits geschlossen (%%% item end_date %%%)%%% elseif no_contact %%% — kein schach.in-Verein%%% elseif no_memberstats %%% — nicht auf nuLiga, keine memberstats-Historie%%% elseif no_nuliga_check %%% — nuLiga-Prüfung aus (Ratings-Modul inaktiv)%%% endif %%%
-
+%%% unless already_closed %%%
+ - %%% item code %%%: %%% item club %%%%%% if still_on_nuliga %%% — noch auf nuLiga, keine Änderung%%% elseif closed_end_date %%% — geschlossen (Enddatum %%% item closed_end_date %%%)%%% elseif no_contact %%% — kein schach.in-Verein%%% elseif no_memberstats %%% — nicht auf nuLiga, keine memberstats-Historie%%% endif %%% 
+%%% endif %%%
 %%% loop end %%%
 
 Bitte besucht
@@ -25,4 +26,4 @@ Bitte besucht
 <%%% path contacts_general check_rights=0 absolute=1 path_for_website=1 %%%>
 
 Viele Grüße
-%%% item project %%%%
+%%% setting project %%%
