@@ -120,15 +120,26 @@ function mod_clubs_make_clubstats_new() {
 /**
  * check if there are active clubs with no members
  *
+ * For each candidate, verify on nuLiga (individual ZPS lookup). When the
+ * club is gone from nuLiga, set contacts.end_date from the last memberstats
+ * snapshot month and report the result in the admin mail.
+ *
  */
 function mod_clubs_make_clubstats_deleted() {
 	$sql = 'SELECT DISTINCT ZPS AS code, Vereinname AS club
 		FROM dwz_vereine
 		LEFT JOIN dwz_spieler USING (ZPS)
 		WHERE ISNULL(dwz_spieler.PID)';
-	$data = wrap_db_fetch($sql, 'code');
-	if (!$data) return false;
-	$data = array_values($data); // numerical keys
+	$clubs = wrap_db_fetch($sql, 'code');
+	if (!$clubs) return false;
+
+	if (wrap_package('ratings'))
+		wrap_include('nuliga', 'ratings');
+
+	$data = [];
+	foreach ($clubs as $code => $club) {
+		$data[] = mod_clubs_make_clubstats_deleted_club($code, $club['club']);
+	}
 
 	$mail = [
 		'to' => [
@@ -140,6 +151,109 @@ function mod_clubs_make_clubstats_deleted() {
 	$success = wrap_mail($mail);
 	if (!$success)
 		wrap_error('Unable to send mail: '.json_encode($mail));
+}
+
+/**
+ * process one dissolved club candidate
+ *
+ * @param string $code DSB ZPS from dwz_vereine
+ * @param string $club club name from dwz_vereine
+ * @return array mail row
+ */
+function mod_clubs_make_clubstats_deleted_club($code, $club) {
+	$line = ['code' => $code, 'club' => $club];
+
+	if (!wrap_package('ratings')) {
+		$line['no_nuliga_check'] = true;
+		return $line;
+	}
+
+	$zps = mf_ratings_zps_normalize($code);
+	if (mf_ratings_nuliga_fetch_club_by_zps($zps)) {
+		$line['still_on_nuliga'] = true;
+		usleep(200000);
+		return $line;
+	}
+	usleep(200000);
+
+	$contact = mod_clubs_make_clubstats_contact_by_zps($code);
+	if (!$contact) {
+		$line['no_contact'] = true;
+		return $line;
+	}
+	$line['contact'] = $contact['contact'];
+
+	if ($contact['end_date']) {
+		$line['already_closed'] = true;
+		$line['end_date'] = $contact['end_date'];
+		return $line;
+	}
+
+	$last_snapshot = mod_clubs_make_clubstats_last_memberstats_snapshot($code);
+	if (!$last_snapshot) {
+		$line['no_memberstats'] = true;
+		return $line;
+	}
+
+	$end_date = substr($last_snapshot, 0, 7).'-00';
+	zzform_update('contacts', [
+		'contact_id' => $contact['contact_id'],
+		'end_date' => $end_date,
+	]);
+	$line['closed_end_date'] = $end_date;
+	return $line;
+}
+
+/**
+ * schach.in club contact for a dwz_vereine ZPS code
+ *
+ * @param string $code
+ * @return array|null contact_id, contact, end_date
+ */
+function mod_clubs_make_clubstats_contact_by_zps($code) {
+	$sql = 'SELECT c.contact_id, c.contact, c.end_date
+		FROM contacts c
+		INNER JOIN contacts_identifiers ci ON ci.contact_id = c.contact_id
+		WHERE ci.identifier_category_id = /*_ID categories identifiers/pass_dsb _*/
+		AND ci.current = "yes"
+		AND c.contact_category_id IN (
+			/*_ID categories contact/club _*/,
+			/*_ID categories contact/chess-department _*/
+		)
+		AND ci.identifier = IF(
+			FIND_IN_SET(SUBSTRING("%s", 1, 1), "/*_SETTING ratings_dsb_federations_are_clubs _*/"),
+			SUBSTRING("%s", 1, 3),
+			IF(SUBSTRING("%s", 4, 2) = "00", SUBSTRING("%s", 1, 3), "%s")
+		)';
+	$sql = sprintf($sql
+		, wrap_db_escape($code)
+		, wrap_db_escape($code)
+		, wrap_db_escape($code)
+		, wrap_db_escape($code)
+		, wrap_db_escape($code)
+	);
+	return wrap_db_fetch($sql);
+}
+
+/**
+ * last memberstats snapshot date for a club code
+ *
+ * @param string $code dwz_vereine ZPS
+ * @return string|null YYYY-MM-DD
+ */
+function mod_clubs_make_clubstats_last_memberstats_snapshot($code) {
+	$codes = array_unique(array_filter([
+		$code,
+		mf_ratings_zps_normalize($code),
+	]));
+	$escaped = array_map('wrap_db_escape', $codes);
+	$sql = 'SELECT MAX(snapshot_date) AS last_snapshot
+		FROM memberstats
+		WHERE club_code IN ("'.implode('","', $escaped).'")';
+	$line = wrap_db_fetch($sql);
+	if (empty($line['last_snapshot']))
+		return null;
+	return $line['last_snapshot'];
 }
 
 /**

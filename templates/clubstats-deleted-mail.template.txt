@@ -1,5 +1,5 @@
 # clubs module
-# clubstats: send mail with new clubs
+# clubstats: send mail with dissolved clubs
 #
 # Part of »Zugzwang Project«
 # https://www.zugzwang.org/modules/clubs
@@ -11,10 +11,12 @@
 Subject: Clubs were dissolved
 Dear Admins,
 
-these clubs may have been dissolved. They no longer have any members.
+these clubs no longer have any members in the current DWZ export.
+Where possible, end dates were set automatically.
 
 %%% loop start %%%
- - %%% item code %%%: %%% item club %%% 
+ - %%% item code %%%: %%% item club %%%%%% if still_on_nuliga %%% — still on nuLiga, no change%%% elseif closed_end_date %%% — closed (end date %%% item closed_end_date %%%)%%% elseif already_closed %%% — already closed (%%% item end_date %%%)%%% elseif no_contact %%% — no schach.in contact%%% elseif no_memberstats %%% — not on nuLiga, no memberstats history%%% elseif no_nuliga_check %%% — nuLiga check skipped (ratings module inactive)%%% endif %%%
+
 %%% loop end %%%
 
 Please visit
@@ -22,4 +24,4 @@ Please visit
 <%%% path contacts_general check_rights=0 absolute=1 path_for_website=1 %%%>
 
 Best regards
-%%% item project %%%
+%%% item project %%%%
