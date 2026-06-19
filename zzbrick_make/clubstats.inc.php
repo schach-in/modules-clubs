@@ -171,10 +171,8 @@ function mod_clubs_make_clubstats_deleted_club($code, $club) {
 	$zps = mf_ratings_zps_normalize($code);
 	if (mf_ratings_nuliga_fetch_club_by_zps($zps)) {
 		$line['still_on_nuliga'] = true;
-		usleep(200000);
 		return $line;
 	}
-	usleep(200000);
 
 	$contact = mod_clubs_make_clubstats_contact_by_zps($code);
 	if (!$contact) {
