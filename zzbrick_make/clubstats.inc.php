@@ -24,6 +24,7 @@
 function mod_clubs_make_clubstats() {
 	wrap_include('syndication', 'zzwrap');
 	wrap_setting('cache', false);
+	ini_set('max_execution_time', 0);
 
 	if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 		$data['request'] = true;
@@ -120,26 +121,26 @@ function mod_clubs_make_clubstats_new() {
 /**
  * check if there are active clubs with no members
  *
- * For each candidate, verify on nuLiga (individual ZPS lookup). When the
- * club is gone from nuLiga, set contacts.end_date from the last memberstats
+ * For each candidate, skip nuLiga HTTP when nuliga_clubs already has the ZPS
+ * (LEFT JOIN in the query); otherwise verify on nuLiga (individual ZPS lookup).
+ * When the club is gone from nuLiga, set contacts.end_date from the last memberstats
  * snapshot month and report the result in the admin mail.
  *
  */
 function mod_clubs_make_clubstats_deleted() {
-	$sql = 'SELECT DISTINCT ZPS AS code, Vereinname AS club
+	wrap_include('nuliga', 'ratings');
+	$sql = 'SELECT DISTINCT dwz_vereine.ZPS AS code, dwz_vereine.Vereinname AS club
+		, nc.nuliga_club_id
 		FROM dwz_vereine
 		LEFT JOIN dwz_spieler USING (ZPS)
+		LEFT JOIN nuliga_clubs nc ON nc.zps = dwz_vereine.ZPS
 		WHERE ISNULL(dwz_spieler.PID)';
 	$clubs = wrap_db_fetch($sql, 'code');
 	if (!$clubs) return false;
 
-	if (wrap_package('ratings'))
-		wrap_include('nuliga', 'ratings');
-
 	$data = [];
-	foreach ($clubs as $code => $club) {
-		$data[] = mod_clubs_make_clubstats_deleted_club($code, $club['club']);
-	}
+	foreach ($clubs as $club)
+		$data[] = mod_clubs_make_clubstats_deleted_club($club);
 
 	$mail = [
 		'to' => [
@@ -156,25 +157,24 @@ function mod_clubs_make_clubstats_deleted() {
 /**
  * process one dissolved club candidate
  *
- * @param string $code DSB ZPS from dwz_vereine
- * @param string $club club name from dwz_vereine
+ * @param array $club code, club, optional nuliga_club_id from query
  * @return array mail row
  */
-function mod_clubs_make_clubstats_deleted_club($code, $club) {
-	$line = ['code' => $code, 'club' => $club];
+function mod_clubs_make_clubstats_deleted_club($club) {
+	$line = ['code' => $club['code'], 'club' => $club['club']];
 
-	if (!wrap_package('ratings')) {
-		$line['no_nuliga_check'] = true;
+	if (!empty($club['nuliga_club_id'])) {
+		$line['still_on_nuliga'] = true;
 		return $line;
 	}
 
-	$zps = mf_ratings_zps_normalize($code);
+	$zps = mf_ratings_zps_normalize($club['code']);
 	if (mf_ratings_nuliga_fetch_club_by_zps($zps)) {
 		$line['still_on_nuliga'] = true;
 		return $line;
 	}
 
-	$contact = mod_clubs_make_clubstats_contact_by_zps($code);
+	$contact = mod_clubs_make_clubstats_contact_by_zps($club['code']);
 	if (!$contact) {
 		$line['no_contact'] = true;
 		return $line;
@@ -187,7 +187,7 @@ function mod_clubs_make_clubstats_deleted_club($code, $club) {
 		return $line;
 	}
 
-	$last_snapshot = mod_clubs_make_clubstats_last_memberstats_snapshot($code);
+	$last_snapshot = mod_clubs_make_clubstats_last_memberstats_snapshot($club['code']);
 	if (!$last_snapshot) {
 		$line['no_memberstats'] = true;
 		return $line;
