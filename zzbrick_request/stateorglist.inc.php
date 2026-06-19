@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2022-2025 Gustaf Mossakowski
+ * @copyright Copyright © 2022-2026 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -54,7 +54,10 @@ function mod_clubs_stateorglist($params, $settings) {
 			, 1 AS _level
 			, end_date
 		FROM contacts
-		LEFT JOIN contacts_identifiers USING (contact_id)
+		LEFT JOIN contacts_identifiers
+			ON contacts_identifiers.contact_id = contacts.contact_id
+			AND contacts_identifiers.current = "yes"
+			AND contacts_identifiers.identifier_category_id = /*_ID categories identifiers/pass_dsb _*/
 		LEFT JOIN clubstats USING (contact_id)
 		LEFT JOIN awards USING (contact_id)
 		WHERE country_id = %d
