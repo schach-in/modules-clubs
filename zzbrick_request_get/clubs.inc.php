@@ -382,7 +382,10 @@ function mod_clubs_get_clubs_condition_parts($q) {
  */
 function mod_clubs_get_clubs_geocode($path, $q, $wanted = []) {
 	// do not call Nominatim if it is clear that it is some script kiddie
-	if (wrap_setting('http_forward_ip_unknown')) return [];
+	if (wrap_setting('http_forward_ip_unknown')) {
+		wrap_setting('cache', false);
+		return [];
+	}
 	$bad_user_agent = empty($_SERVER['HTTP_USER_AGENT']);
 	if (!$bad_user_agent) {
 		foreach (wrap_setting('clubs_geocode_deny_user_agents') as $deny_pattern) {
@@ -393,6 +396,7 @@ function mod_clubs_get_clubs_geocode($path, $q, $wanted = []) {
 	}
 	if ($bad_user_agent) {
 		wrap_cache_header('Vary: User-Agent');
+		wrap_setting('cache', false);
 		return [];
 	}
 	wrap_include('syndication', 'zzwrap');
