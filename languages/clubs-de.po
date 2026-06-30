@@ -5,7 +5,7 @@
 # https://www.zugzwang.org/projects/clubs
 #
 # @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2022–2024 Gustaf Mossakowski
+# @copyright Copyright © 2022–2026 Gustaf Mossakowski
 # @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
 #
 msgid ""
@@ -25,6 +25,14 @@ msgstr ""
 #: clubs/_functions.inc.php
 msgid "Bots are not allowed to access this resource."
 msgstr "Bots dürfen nicht auf diese Ressource zugreifen."
+
+#: clubs/functions.inc.php
+msgid "Invalid latitude %s: must be between -90 and 90."
+msgstr "Ungültiger Breitengrad %s: muss zwischen -90 und 90 liegen."
+
+#: clubs/functions.inc.php
+msgid "Invalid longitude %s: must be between -180 and 180."
+msgstr "Ungültiger Längengrad %s: muss zwischen -180 und 180 liegen."
 
 #: templates/club.template.txt
 msgctxt "club"

@@ -145,15 +145,29 @@ function mf_clubs_latlon_check() {
 		$_GET['lat'] = $matches[0] ?? NULL;
 		$status = 404;
 	}
-	if (isset($_GET['lat']) AND $_GET['lat'] > 90) $_GET['lat'] = 90;
-	if (isset($_GET['lat']) AND $_GET['lat'] < -90) $_GET['lat'] = -90;
+	if (isset($_GET['lat']) AND is_numeric($_GET['lat'])) {
+		$lat = (float) $_GET['lat'];
+		if ($lat > 90 OR $lat < -90) {
+			wrap_quit(404, wrap_text(
+				'Invalid latitude %s: must be between -90 and 90.',
+				['values' => [$_GET['lat']]]
+			));
+		}
+	}
 	if (isset($_GET['lon']) AND !is_numeric($_GET['lon'])) {
 		preg_match('/[0-9]+\.[0-9]+/', $_GET['lon'], $matches);
 		$_GET['lon'] = $matches[0] ?? NULL;
 		$status = 404;
 	}
-	if (isset($_GET['lon']) AND $_GET['lon'] > 180) $_GET['lon'] = 180;
-	if (isset($_GET['lon']) AND $_GET['lon'] < -180) $_GET['lon'] = -180;
+	if (isset($_GET['lon']) AND is_numeric($_GET['lon'])) {
+		$lon = (float) $_GET['lon'];
+		if ($lon > 180 OR $lon < -180) {
+			wrap_quit(404, wrap_text(
+				'Invalid longitude %s: must be between -180 and 180.',
+				['values' => [$_GET['lon']]]
+			));
+		}
+	}
 	return $status;
 }
 
