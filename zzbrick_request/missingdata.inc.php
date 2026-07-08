@@ -16,13 +16,13 @@
 function mod_clubs_missingdata($params) {
 	if (count($params) !== 1) return false;
 	
-	if (!wrap_category_id('provider/'.$params[0], 'check')) return false;
+	if (!wrap_category_id('channel/'.$params[0], 'check')) return false;
 
 	$sql = 'SELECT contacts.contact_id, contact, identifier
 		FROM contacts
 		LEFT JOIN contactdetails
 			ON contacts.contact_id = contactdetails.contact_id
-			AND contactdetails.channel_category_id = /*_ID categories provider/%s _*/
+			AND contactdetails.channel_category_id = /*_ID categories channel/%s _*/
 		WHERE contact_category_id IN (/*_ID categories contact/club _*/, /*_ID categories contact/chess-department _*/)
 		AND ISNULL(contactdetails.contactdetail_id)
 		AND ISNULL(end_date)

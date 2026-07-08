@@ -36,7 +36,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 	} elseif ($params[0] === 'twitter') {
 		$extra_field = ', (SELECT COUNT(*) FROM contactdetails
 			WHERE contactdetails.contact_id = organisationen.contact_id
-			AND channel_category_id = /*_ID categories provider/twitter _*/) AS website_username';
+			AND channel_category_id = /*_ID categories channel/twitter _*/) AS website_username';
 		$condition = 'HAVING website_username > 0';
 		$data['title'] = 'Twitter';
 		$data['geojson'] = $params[0];
@@ -320,7 +320,7 @@ function mod_clubs_get_clubs_condition($q) {
 				$condition .= sprintf('OR organisationen.identifier LIKE LOWER(_latin1"%%%s%%")', wrap_db_escape($q));
 				$condition .= sprintf('OR (SELECT identification FROM contactdetails
 					WHERE contactdetails.contact_id = organisationen.contact_id
-					AND channel_category_id = /*_ID categories provider/website _*/ LIKE "%%%s%%")', wrap_db_escape($q));
+					AND channel_category_id = /*_ID categories channel/website _*/ LIKE "%%%s%%")', wrap_db_escape($q));
 			}
 			$condition .= ') OR (';
 			foreach ($qs as $index => $q) {
@@ -328,7 +328,7 @@ function mod_clubs_get_clubs_condition($q) {
 				$condition .= sprintf('place LIKE "%%%s%%"', wrap_db_escape($q));
 				$condition .= sprintf('OR (SELECT identification FROM contactdetails
 					WHERE contactdetails.contact_id = organisationen.contact_id
-					AND channel_category_id = /*_ID categories provider/website _*/ LIKE "%%%s%%")', wrap_db_escape($q));
+					AND channel_category_id = /*_ID categories channel/website _*/ LIKE "%%%s%%")', wrap_db_escape($q));
 			}
 			$condition .= '))';
 		}
