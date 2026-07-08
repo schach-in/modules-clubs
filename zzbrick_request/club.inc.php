@@ -223,7 +223,7 @@ function mod_clubs_club($params, $settings) {
 							if (!$v_value) continue;
 							$sql = 'SELECT category_id, category, parameters
 								FROM categories WHERE category_id = %d';
-							$sql = sprintf($sql, $v_value['provider_category_id']);
+							$sql = sprintf($sql, $v_value['channel_category_id']);
 							$category = wrap_db_fetch($sql);
 							if (!$category) continue; // should not happen
 							parse_str($category['parameters'], $category_parameters);

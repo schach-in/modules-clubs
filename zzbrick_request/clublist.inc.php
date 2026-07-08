@@ -41,7 +41,7 @@ function mod_clubs_clublist($params) {
 	} elseif ($params[0] === 'twitter') {
 		$extra_field = ', (SELECT COUNT(*) FROM contactdetails
 			WHERE contactdetails.contact_id = contacts.contact_id
-			AND provider_category_id = /*_ID categories provider/twitter _*/) AS website_username';
+			AND channel_category_id = /*_ID categories provider/twitter _*/) AS website_username';
 		$condition = 'HAVING website_username > 0';
 		$top['contact'] = 'Twitter';
 		$top['identifier'] = 'twitter';

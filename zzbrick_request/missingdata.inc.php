@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2021, 2024 Gustaf Mossakowski
+ * @copyright Copyright © 2021, 2024, 2026 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -22,7 +22,7 @@ function mod_clubs_missingdata($params) {
 		FROM contacts
 		LEFT JOIN contactdetails
 			ON contacts.contact_id = contactdetails.contact_id
-			AND contactdetails.provider_category_id = /*_ID categories provider/%s _*/
+			AND contactdetails.channel_category_id = /*_ID categories provider/%s _*/
 		WHERE contact_category_id IN (/*_ID categories contact/club _*/, /*_ID categories contact/chess-department _*/)
 		AND ISNULL(contactdetails.contactdetail_id)
 		AND ISNULL(end_date)
