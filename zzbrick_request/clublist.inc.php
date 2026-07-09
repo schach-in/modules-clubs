@@ -149,7 +149,7 @@ function mod_clubs_clublist($params) {
 	array_unshift($data['vereine'], $top);
 
 	if ($verband) {
-		$data += mf_contacts_contactdetails($verband['contact_id']);
+		$data += mf_contacts_contactdetails($verband['contact_id'], ['hidden' => false]);
 		$data['parent_orgs'] = mf_clubs_parent_orgs($top['contact_id']);
 	}
 	if (!empty($top['description'])) $data['description'] = $top['description'];

@@ -82,11 +82,7 @@ function mod_clubs_club($params, $settings) {
 		parse_str($org['contact_parameters'], $org['contact_parameters']);
 	else
 		$org['contact_parameters'] = [];
-	$org += mf_contacts_contactdetails($org['contact_id']);
-	// remove old URLs
-	if (!empty($org['url']))
-		foreach ($org['url'] as $index => $url)
-			if (!empty($url['parameters']['hidden'])) unset($org['url'][$index]);
+	$org += mf_contacts_contactdetails($org['contact_id'], ['hidden' => false]);
 	if ($org['members'] < wrap_setting('clubs_stats_min_members'))
 		$org['keine_statistik'] = true;
 	$org['edit'] = $edit;
