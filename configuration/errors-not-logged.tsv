@@ -15,6 +15,7 @@
 # JS, JSON literal misinterpretation
 404	all	/'%20+%20feature.properties.identifier%20+%20'/
 404	all	/"%20+%20feature.properties.identifier%20+%20"/
+404	all	/%22%20+%20feature.properties.identifier%20+%20%22/
 404	all	/?q={search_term_string}
 
 # Broken script
