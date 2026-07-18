@@ -1,0 +1,21 @@
+# clubs module
+# URLs or parts of URLs for which errors shall not be logged
+#
+# Part of »Zugzwang Project«
+# https://www.zugzwang.org/modules/clubs
+#
+# @author Gustaf Mossakowski <gustaf@koenige.org>
+# @copyright Copyright © 2026 Gustaf Mossakowski
+# @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+# 
+# begin = check if begin of string is identical; end = check end; all: check full
+#: errorcode	type	string
+#key 0 numeric
+
+# JS, JSON literal misinterpretation
+404	all	/'%20+%20feature.properties.identifier%20+%20'/
+404	all	/"%20+%20feature.properties.identifier%20+%20"/
+404	all	/?q={search_term_string}
+
+# Broken script
+404	all	/_layout/clubs/leaflet/
