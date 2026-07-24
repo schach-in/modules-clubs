@@ -19,7 +19,8 @@ $values['contactdetails_restrict_to'] = 'places';
 $values['relations_restrict_to'] = 'places';
 $zz = zzform_include('contacts/contacts', $values, 'forms');
 
-$zz['title'] = sprintf('%s<br>%s', wrap_page_field('title'), $brick['data']['contact']);
+$zz['title'] = wrap_page_field('title'); // @todo is translated again
+$zz['subtitle']['text'] = $brick['data']['contact'];
 
 switch ($brick['vars'][1]) {
 	case 'add':

@@ -46,9 +46,10 @@ switch ($brick['vars'][1]) {
 		wrap_quit(404);
 }
 
-$zz['title'] = sprintf('%s<br>%s', wrap_page_field('title'), $brick['data']['contact']);
-$zz['where']['contact_id'] = $brick['data']['contact_id'];
+$zz['title'] = wrap_page_field('title'); // @todo is translated again
 unset($zz['subtitle']);
+$zz['subtitle']['text'] = $brick['data']['contact'];
+$zz['where']['contact_id'] = $brick['data']['contact_id'];
 
 // Vereinsname
 $zz['fields'][2]['hide_in_form'] = true;
