@@ -43,7 +43,7 @@ function mod_clubs_make_clubstats() {
 	$sql = 'DROP TABLE IF EXISTS clubstats';
 	$result = wrap_db_query($sql);
 	if (!$result) {
-		wrap_error('Fehler beim Löschen der bestehenden Vereinsstatistiken.', E_USER_ERROR);
+		wrap_error(['Error deleting existing club statistics.'], E_USER_ERROR);
 	}
 
 	$sql = 'CREATE TABLE clubstats AS SELECT contact_id
@@ -67,7 +67,7 @@ function mod_clubs_make_clubstats() {
 		GROUP BY contact_id';
 	$result = wrap_db_query($sql);
 	if (!$result) {
-		wrap_error('Fehler beim Erstellen der Vereinsstatistiken.', E_USER_ERROR);
+		wrap_error(['Error creating club statistics.'], E_USER_ERROR);
 	}
 	$sql = 'ALTER TABLE `clubstats` ADD UNIQUE `contact_id` (`contact_id`)';
 	wrap_db_query($sql);
@@ -115,7 +115,7 @@ function mod_clubs_make_clubstats_new() {
 	];
 	$success = wrap_mail($mail);
 	if (!$success)
-		wrap_error('Unable to send mail: '.json_encode($mail));
+		wrap_error(['Unable to send mail', ['data' => $mail]]);
 }
 
 /**
@@ -151,7 +151,7 @@ function mod_clubs_make_clubstats_deleted() {
 	];
 	$success = wrap_mail($mail);
 	if (!$success)
-		wrap_error('Unable to send mail: '.json_encode($mail));
+		wrap_error(['Unable to send mail', ['data' => $mail]]);
 }
 
 /**
