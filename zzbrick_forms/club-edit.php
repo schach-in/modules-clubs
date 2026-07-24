@@ -89,8 +89,8 @@ foreach ($zz['fields'] as $no => $field) {
 	}
 }
 
-$zz['page']['referer'] = '../';
 $zz['page']['dont_show_title_as_breadcrumb'] = true;
 $zz['page']['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];
+$zz['page']['referer'] = wrap_path('clubs_edit', $brick['data']['identifier']);
 
 $zz['record']['no_timeframe'] = true;

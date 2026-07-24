@@ -21,7 +21,6 @@ $mode = false;
 switch ($brick['vars'][1]) {
 	case 'add':
 		$zz['access'] = 'add_then_edit';
-		$zz['page']['referer'] = '../';
 		switch ($brick['vars'][2]) {
 			case 'month': $mode = 'month'; break;
 			case 'week': $mode = 'week'; break;
@@ -34,7 +33,6 @@ switch ($brick['vars'][1]) {
 			$zz['revisions_only'] = true;
 		}
 		$zz['where']['wochentermin_id'] = $brick['vars'][2];
-		$zz['page']['referer'] = '../../';
 		$sql = 'SELECT wochentermin_id FROM categories
 			LEFT JOIN wochentermine
 				ON wochentermine.wochentermin_category_id = categories.category_id
@@ -97,6 +95,8 @@ if (empty($_SESSION['login_id'])) {
 	$zz['fields'][10]['if']['insert']['value'] = 'nein';
 }
 
-$zz['record']['no_timeframe'] = true;
 $zz['page']['dont_show_title_as_breadcrumb'] = true;
 $zz['page']['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];
+$zz['page']['referer'] = wrap_path('clubs_edit', $brick['data']['identifier']);
+
+$zz['record']['no_timeframe'] = true;

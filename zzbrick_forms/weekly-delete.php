@@ -37,11 +37,12 @@ if (!$zz['where']['wochentermin_id']) {
 if (empty($_POST)) $_GET['mode'] = 'delete';
 elseif (empty($_POST['zz_action']) OR $_POST['zz_action'] !== 'delete') wrap_quit(403);
 
-$zz['page']['referer'] = '../../';
 $zz['page']['dont_show_title_as_breadcrumb'] = true;
 $zz['page']['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];
-$zz['record']['redirect']['successful_delete'] = wrap_path('clubs_edit', $brick['data']['identifier']);
-if (empty($_SESSION['login_id']))
-	$zz['revisions_only'] = true;
+$zz['page']['referer'] = wrap_path('clubs_edit', $brick['data']['identifier']);
 
 $zz['record']['no_timeframe'] = true;
+$zz['record']['redirect']['successful_delete'] = $zz['page']['referer'];
+
+if (empty($_SESSION['login_id']))
+	$zz['revisions_only'] = true;

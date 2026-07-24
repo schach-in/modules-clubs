@@ -82,4 +82,7 @@ $zz['fields'][14]['value'] = 'no';
 $zz['fields'][15]['hide_in_form'] = true;
 
 $zz['access'] = 'add_then_edit';
+
+$zz['page']['referer'] = wrap_path('clubs_edit', $brick['data']['identifier']);
+
 $zz['record']['no_timeframe'] = true;

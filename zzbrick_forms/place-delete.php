@@ -62,17 +62,13 @@ $zz['fields'][10]['hide_in_form'] = true;
 if (empty($_POST)) $_GET['mode'] = 'delete';
 elseif (empty($_POST['zz_action']) OR $_POST['zz_action'] !== 'delete') wrap_quit(403);
 
-$zz['page']['referer'] = '../../';
-$url = explode('/', $_SERVER['REQUEST_URI']);
-array_pop($url); // slash
-array_pop($url); // ID
-array_pop($url); // ort-loeschen
-$zz['record']['redirect']['successful_delete'] = implode('/', $url).'/';
-
 if (empty($_SESSION['login_id'])) {
 	$zz['revisions_only'] = true;
 }
 
-$zz['record']['no_timeframe'] = true;
 $zz['page']['dont_show_title_as_breadcrumb'] = true;
 $zz['page']['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];
+$zz['page']['referer'] = wrap_path('clubs_edit', $brick['data']['identifier']);
+
+$zz['record']['redirect']['successful_delete'] = $zz['page']['referer'];
+$zz['record']['no_timeframe'] = true;

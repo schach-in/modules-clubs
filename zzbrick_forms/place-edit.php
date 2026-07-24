@@ -24,7 +24,6 @@ $zz['title'] = sprintf('%s<br>%s', wrap_page_field('title'), $brick['data']['con
 switch ($brick['vars'][1]) {
 	case 'add':
 		$zz['access'] = 'add_then_edit';
-		$zz['page']['referer'] = '../';
 		break;
 	case 'edit':
 		if (empty($brick['vars'][2])) wrap_quit(404);
@@ -33,7 +32,6 @@ switch ($brick['vars'][1]) {
 			$zz['revisions_only'] = true;
 		}
 		$zz['where']['contact_id'] = $brick['vars'][2];
-		$zz['page']['referer'] = '../../';
 		break;
 	default:
 		wrap_quit(404);
@@ -179,6 +177,9 @@ if (empty($_SESSION['login_id'])) {
 }
 
 $zz['revisions_url'] = '/orte/'; // @todo solve differently, with path and 'area'
-$zz['record']['no_timeframe'] = true;
+
 $zz['page']['dont_show_title_as_breadcrumb'] = true;
 $zz['page']['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];
+$zz['page']['referer'] = wrap_path('clubs_edit', $brick['data']['identifier']);
+
+$zz['record']['no_timeframe'] = true;
