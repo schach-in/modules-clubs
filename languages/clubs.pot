@@ -2,94 +2,265 @@
 # Translations
 #
 # Part of »Zugzwang Project«
-# https://www.zugzwang.org/projects/clubs
-#
-# @author Gustaf Mossakowski <gustaf@koenige.org>
-# @copyright Copyright © 2022–2026 Gustaf Mossakowski
-# @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+# https://www.zugzwang.org/modules/clubs
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Zugzwang Project -- clubs\n"
-"POT-Creation-Date: \n"
+"Project-Id-Version: Zugzwang Project -- clubs module\n"
+"POT-Creation-Date: 2026-07-24 14:53+0000\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Gustaf Mossakowski <gustaf@koenige.org>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.12\n"
 
-#: clubs/_functions.inc.php
-msgid "Bots are not allowed to access this resource."
-msgstr ""
-
-#: clubs/functions.inc.php
+#: clubs/functions.inc.php:152
 msgid "Invalid latitude %s: must be between -90 and 90."
 msgstr ""
 
-#: clubs/functions.inc.php
+#: clubs/functions.inc.php:166
 msgid "Invalid longitude %s: must be between -180 and 180."
 msgstr ""
 
-#: templates/club.template.txt
+#: clubs/functions.inc.php:183
+msgid "Bots are not allowed to access this resource."
+msgstr ""
+
+#: templates/club.template.txt:205
+#: templates/club.template.txt:242
 msgctxt "club"
 msgid "Venue"
 msgid_plural "Venues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/clubs.template.txt
+#: templates/clubs.template.txt:166
 msgid "Minimum members"
 msgstr ""
 
-#: templates/clubs.template.txt
+#: templates/clubs.template.txt:167
 msgid "Minimum U25 members"
 msgstr ""
 
-#: templates/clubs.template.txt
+#: templates/clubs.template.txt:168
 msgid "Minimum female members"
 msgstr ""
 
-#: templates/contact-clubstats.template.txt
+#: templates/contact-clubstats.template.txt:12
 msgid "Members"
 msgstr ""
 
-#: templates/contact-clubstats.template.txt
+#: templates/contact-clubstats.template.txt:13
 msgid "%d female"
 msgstr ""
 
-#: templates/contact-clubstats.template.txt
-msgid "%d under 25"
-msgstr ""
-
-#: templates/contact-clubstats.template.txt
+#: templates/contact-clubstats.template.txt:13
 msgid "%d passive"
 msgstr ""
 
-#: templates/contact-clubstats.template.txt
+#: templates/contact-clubstats.template.txt:13
+msgid "%d under 25"
+msgstr ""
+
+#: templates/contact-clubstats.template.txt:14
 msgid "∅ Age"
 msgstr ""
 
-#: templates/contact-clubstats.template.txt
+#: templates/contact-clubstats.template.txt:16
 msgid "∅ Rating"
 msgstr ""
 
-#: zzbrick_forms/school-add.php
-msgid "Add school chess group"
+#: templates/missingdata.template.txt:11
+msgid "Missing data for %s"
 msgstr ""
 
-#: zzbrick_forms/school-add.php
-msgid "Name of the school"
+#: templates/missingdata.template.txt:13
+msgid "Total no. of records without this data: %s"
 msgstr ""
 
-#: zzbrick_forms/school-add.php
+#: zzbrick_forms/club-edit.php:42
+msgid "Name"
+msgstr ""
+
+#: zzbrick_forms/club-edit.php:46
+msgid "Type"
+msgstr ""
+
+#: zzbrick_forms/club-edit.php:54
+msgid "A little about your club (optional)"
+msgstr ""
+
+#: zzbrick_forms/club-edit.php:59
+msgid "Founding or similar"
+msgstr ""
+
+#: zzbrick_forms/club-edit.php:62
+msgid "If known: Date or year of founding"
+msgstr ""
+
+#: zzbrick_forms/club-edit.php:68
+#: zzbrick_forms/school-add.php:65
 msgid "State"
 msgstr ""
 
-#: zzbrick_forms/school-add.php
+#: zzbrick_forms/place-delete.php:31
+#: zzbrick_forms/weekly-delete.php:32
+msgid "This entry has already been deleted."
+msgstr ""
+
+#: zzbrick_forms/place-delete.php:42
+#: zzbrick_forms/place-edit.php:141
+msgid "Sequence"
+msgstr ""
+
+#: zzbrick_forms/place-delete.php:45
+#: zzbrick_forms/place-edit.php:55
+#: zzbrick_tables/wochentermine.php:87
+msgid "Venue"
+msgstr ""
+
+#: zzbrick_forms/place-delete.php:57
+#: zzbrick_forms/place-edit.php:152
+msgid "Note <br>club"
+msgstr ""
+
+#: zzbrick_forms/place-edit.php:43
+msgid "<strong>Note:</strong> Please only correct details regarding this venue here."
+msgstr ""
+
+#: zzbrick_forms/place-edit.php:44
+msgid "If the venue changes, please delete the old one and <a href=\"%s\">add a new one</a>!"
+msgstr ""
+
+#: zzbrick_forms/place-edit.php:56
+msgid "Name of the location; use club names if applicable."
+msgstr ""
+
+#: zzbrick_forms/place-edit.php:60
+msgid "Note <br>Directions"
+msgstr ""
+
+#: zzbrick_forms/place-edit.php:61
+msgid "Getting there by train or car; venue location"
+msgstr ""
+
+#: zzbrick_forms/place-edit.php:143
+msgid "(Sorting, if there are multiple venues)"
+msgstr ""
+
+#: zzbrick_forms/school-add.php:20
+msgid "Add school chess group"
+msgstr ""
+
+#: zzbrick_forms/school-add.php:27
+msgid "Name of the school"
+msgstr ""
+
+#: zzbrick_forms/school-add.php:56
 msgid "About us"
 msgstr ""
 
+#: zzbrick_request/clubs.inc.php:58
+msgid "Search"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:16
+msgid "Weekly events"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:19
+msgid "ID"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:23
+msgid "Club"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:38
+msgid "Week"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:39
+msgid "Week of the month"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:44
+msgid "for appointments such as the first Thursday of the month"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:46
+msgid "Weekday"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:51
+msgctxt "weekdays"
+msgid "Monday"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:52
+msgctxt "weekdays"
+msgid "Tuesday"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:53
+msgctxt "weekdays"
+msgid "Wednesday"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:54
+msgctxt "weekdays"
+msgid "Thursday"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:55
+msgctxt "weekdays"
+msgid "Friday"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:56
+msgctxt "weekdays"
+msgid "Saturday"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:57
+msgctxt "weekdays"
+msgid "Sunday"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:60
+msgid "Begin"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:66
+msgid "End"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:72
+msgid "Category"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:82
+msgid "Description"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:98
+msgid "Only specify if the venue differs from the usual club venue."
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:100
+msgid "Published?"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:104
+msgid "no"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:104
+msgid "yes"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:107
+msgid "Published:"
+msgstr ""

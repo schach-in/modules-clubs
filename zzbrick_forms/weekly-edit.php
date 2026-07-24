@@ -51,10 +51,10 @@ unset($zz['subtitle']);
 $zz['subtitle']['text'] = $brick['data']['contact'];
 $zz['where']['contact_id'] = $brick['data']['contact_id'];
 
-// Vereinsname
+// Club name
 $zz['fields'][2]['hide_in_form'] = true;
 
-// Kategorien
+// Categories
 if ($mode !== 'month') {
 	$zz['fields'][6]['sql'] = 'SELECT category_id, category, main_category_id
 		FROM categories
@@ -67,7 +67,7 @@ if ($mode !== 'month') {
 		ORDER BY sequence';
 }
 
-// Wochen im Monat
+// Weeks in month
 if ($mode !== 'month') {
 	$zz['fields'][9]['hide_in_form'] = true;
 }
@@ -83,7 +83,7 @@ $sql = 'SELECT contacts.contact_id
 $sql = sprintf($sql, $brick['data']['contact_id']);
 $places = wrap_db_fetch($sql, 'contact_id');
 if (count($places) > 1) {
-	// Spielorte nur vorgegebene
+	// Only existing venues
 	$zz['fields'][8]['sql'] = $sql;
 	unset($zz['fields'][8]['explanation']);
 } else {

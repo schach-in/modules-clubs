@@ -43,7 +43,7 @@ foreach ($zz['fields'] as $no => $field) {
 		break;
 
 	case 'contact_category_id':
-		$zz['fields'][$no]['title'] = 'Typ';
+		$zz['fields'][$no]['title'] = 'Type';
 		$zz['fields'][$no]['sql'] = wrap_edit_sql($zz['fields'][4]['sql'], 'WHERE',
 			'category_id IN (/*_ID categories contact/club _*/, /*_ID categories contact/chess-department _*/)'
 		);
@@ -51,21 +51,21 @@ foreach ($zz['fields'] as $no => $field) {
 		break;
 
 	case 'description':
-		$zz['fields'][$no]['explanation'] = 'Etwas über Ihren Verein (optional)'; // 
+		$zz['fields'][$no]['explanation'] = 'A little about your club (optional)'; // 
 		$zz['fields'][$no]['field_sequence'] = 8;
 		break;
 
 	case 'start_date':
-		$zz['fields'][$no]['title'] = 'Gründung o. ä.';
+		$zz['fields'][$no]['title'] = 'Founding or similar';
 		$zz['fields'][$no]['append_next'] = false;
 		$zz['fields'][$no]['title_append'] = false;
-		$zz['fields'][$no]['explanation'] = 'Falls bekannt: Datum oder Jahr der Gründung';
+		$zz['fields'][$no]['explanation'] = 'If known: Date or year of founding';
 		if (empty($brick['data']['category_parameters']['foundation_date']))
 			$zz['fields'][$no]['hide_in_form'] = true;
 		break;
 
 	case 'country_id':
-		$zz['fields'][$no]['title'] = 'Bundesland';
+		$zz['fields'][$no]['title'] = 'State';
 		$zz['fields'][$no]['sql'] = 'SELECT country_id, country, main_country_id
 			FROM countries
 			ORDER BY country_code3';

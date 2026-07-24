@@ -28,7 +28,7 @@ $sql = sprintf($sql
 $cc_id = wrap_db_fetch($sql, '', 'single value');
 if (!$cc_id) {
 	if (wrap_mysql_increment('contacts') > $brick['vars'][1]) {
-		wrap_quit(410, 'Der Eintrag wurde bereits gelöscht.');
+		wrap_quit(410, wrap_text('This entry has already been deleted.'));
 	}
 	wrap_quit(404);
 }
@@ -39,10 +39,10 @@ $zz['subtitle']['text'] = $brick['data']['contact'];
 $zz['where']['cc_id'] = $cc_id;
 
 // sequence
-$zz['fields'][6]['title'] = 'Reihenfolge'; // @todo remove, is in contacts module text
+$zz['fields'][6]['title'] = 'Sequence'; // @todo remove, is in contacts module text
 
 // contact_id
-$zz['fields'][2]['title'] = 'Spielort';
+$zz['fields'][2]['title'] = 'Venue';
 
 // relation_category_id
 $zz['fields'][4]['hide_in_form'] = true;
@@ -54,7 +54,7 @@ $zz['fields'][3]['hide_in_form'] = true;
 $zz['fields'][11]['hide_in_form'] = true;
 
 // remarks
-$zz['fields'][9]['title'] = 'Hinweis<br> Verein';
+$zz['fields'][9]['title'] = 'Note <br>club';
 
 // published
 $zz['fields'][10]['hide_in_form'] = true;

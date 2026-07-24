@@ -1,0 +1,62 @@
+# clubs module
+# Translations, admin
+#
+# Part of »Zugzwang Project«
+# https://www.zugzwang.org/modules/clubs
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Zugzwang Project -- clubs module\n"
+"POT-Creation-Date: 2026-07-24 13:26+0000\n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: configuration/routes.cfg:12
+msgid "Publicly edit contact data"
+msgstr ""
+
+#: configuration/routes.cfg:18
+msgid "GeoJSON URL"
+msgstr ""
+
+#: configuration/settings.cfg:21
+msgid "Contact ID of top federation"
+msgstr ""
+
+#: configuration/settings.cfg:25
+msgid "List of user agents where no geocoding is attempted to save resources"
+msgstr ""
+
+#: configuration/settings.cfg:33
+msgid "For member filters, set steps for range input"
+msgstr ""
+
+#: configuration/settings.cfg:38
+msgid "Minimum number of members to show statistics in club data"
+msgstr ""
+
+#: configuration/settings.cfg:42
+msgid "List of URL endings that point to files, nothing someone would ever really search for, so return immediately with 404"
+msgstr ""
+
+#: configuration/settings.cfg:128
+msgid "List of the beginning of URL paths that nobody searchs for, so return immediately with 404"
+msgstr ""
+
+#: zzbrick_make/clubstats.inc.php:46
+msgid "Error deleting existing club statistics."
+msgstr ""
+
+#: zzbrick_make/clubstats.inc.php:70
+msgid "Error creating club statistics."
+msgstr ""
+
+#: zzbrick_make/clubstats.inc.php:118
+#: zzbrick_make/clubstats.inc.php:154
+msgid "Unable to send mail"
+msgstr ""

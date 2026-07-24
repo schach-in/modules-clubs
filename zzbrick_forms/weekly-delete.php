@@ -29,7 +29,7 @@ $sql = sprintf($sql, $brick['data']['contact_id'], $brick['vars'][1]);
 $zz['where']['wochentermin_id'] = wrap_db_fetch($sql, '', 'single value');
 if (!$zz['where']['wochentermin_id']) {
 	if (wrap_mysql_increment('wochentermine') > $brick['vars'][1]) {
-		wrap_quit(410, 'Der Eintrag wurde bereits gelöscht.');
+		wrap_quit(410, wrap_text('This entry has already been deleted.'));
 	}
 	wrap_quit(404);
 }

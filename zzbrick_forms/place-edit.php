@@ -39,7 +39,12 @@ switch ($brick['vars'][1]) {
 }
 
 $zz['if']['insert']['explanation'] = '';
-$zz['unless']['insert']['explanation'] = '<strong>Hinweis:</strong> Bitte korrigiere hier nur Angaben zu diesem Spielort. Bei <strong>Wechsel</strong> des Spielorts lösche bitte den alten und <a href="../../ort-neu/">ergänze einen neuen</a>!';
+$zz['unless']['insert']['explanation'] = wrap_text([
+	['<strong>Note:</strong> Please only correct details regarding this venue here.'],
+	['If the venue changes, please delete the old one and <a href="%s">add a new one</a>!',
+		['values' => [wrap_path('clubs_place_add', $brick['data']['identifier'])]]
+	]
+]);
 
 foreach ($zz['fields'] as $no => $field) {
 	if (empty($zz['fields'][$no])) continue;
@@ -47,13 +52,13 @@ foreach ($zz['fields'] as $no => $field) {
 	$identifier = zzform_field_identifier($field, true);
 	switch ($identifier) {
 	case 'contact':
-		$zz['fields'][$no]['title'] = 'Spielort';
-		$zz['fields'][$no]['explanation'] = 'Name des Orts, ggf. Vereinsnamen verwenden';
+		$zz['fields'][$no]['title'] = 'Venue';
+		$zz['fields'][$no]['explanation'] = 'Name of the location; use club names if applicable.';
 		break;
 
 	case 'description':
-		$zz['fields'][$no]['title'] = 'Hinweis <br>Anfahrt';
-		$zz['fields'][$no]['explanation'] = 'Anfahrt mit Bahn, Auto, Lage des Spielorts';
+		$zz['fields'][$no]['title'] = 'Note <br>Directions';
+		$zz['fields'][$no]['explanation'] = 'Getting there by train or car; venue location';
 		$zz['fields'][$no]['rows'] = 4;
 		$zz['fields'][$no]['field_sequence'] = 12;
 		break;
@@ -133,9 +138,9 @@ foreach ($zz['fields'] as $no => $field) {
 		$zz['fields'][$no]['form_display'] = 'inline';
 
 		// contacts_contacts.sequence
-		$zz['fields'][$no]['fields'][6]['title'] = 'Reihenfolge';
+		$zz['fields'][$no]['fields'][6]['title'] = 'Sequence';
 		$zz['fields'][$no]['fields'][6]['field_sequence'] = 20;
-		$zz['fields'][$no]['fields'][6]['explanation'] = '(Sortierung, falls es mehrere Spielorte gibt)';
+		$zz['fields'][$no]['fields'][6]['explanation'] = '(Sorting, if there are multiple venues)';
 
 		// contacts_contacts.main_contact_id
 		$zz['fields'][$no]['fields'][3]['type'] = 'hidden';
@@ -144,7 +149,7 @@ foreach ($zz['fields'] as $no => $field) {
 		$zz['fields'][$no]['fields'][3]['hide_in_form'] = true;
 
 		// contacts_contacts.remarks
-		$zz['fields'][$no]['fields'][9]['title'] = 'Hinweis <br>Verein';
+		$zz['fields'][$no]['fields'][9]['title'] = 'Note <br>club';
 		$zz['fields'][$no]['fields'][9]['hide_in_form'] = false;
 		$zz['fields'][$no]['fields'][9]['rows'] = 4;
 		$zz['fields'][$no]['fields'][9]['format'] = 'markdown';
