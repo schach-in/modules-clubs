@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Zugzwang Project -- clubs module\n"
-"POT-Creation-Date: 2026-07-24 14:53+0000\n"
+"POT-Creation-Date: 2026-07-27 09:10+0000\n"
 "PO-Revision-Date: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -186,6 +186,30 @@ msgstr ""
 msgid "Week of the month"
 msgstr ""
 
+#: zzbrick_tables/wochentermine.php:43
+msgid "1st"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:43
+msgid "2nd"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:43
+msgid "3rd"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:43
+msgid "4th"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:43
+msgid "5th"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:43
+msgid "last (4th oder 5th)"
+msgstr ""
+
 #: zzbrick_tables/wochentermine.php:44
 msgid "for appointments such as the first Thursday of the month"
 msgstr ""
@@ -263,4 +287,8 @@ msgstr ""
 
 #: zzbrick_tables/wochentermine.php:107
 msgid "Published:"
+msgstr ""
+
+#: zzbrick_tables/wochentermine.php:111
+msgid "Last update"
 msgstr ""

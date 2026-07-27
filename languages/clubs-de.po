@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Zugzwang Project -- zzform\n"
-"POT-Creation-Date: 2026-07-24 14:53+0000\n"
+"POT-Creation-Date: 2026-07-27 09:10+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Gustaf Mossakowski <gustaf@koenige.org>\n"
 "Language-Team: \n"
@@ -193,6 +193,30 @@ msgstr "Woche"
 msgid "Week of the month"
 msgstr "Woche im Monats"
 
+#: zzbrick_tables/wochentermine.php:43
+msgid "1st"
+msgstr "1."
+
+#: zzbrick_tables/wochentermine.php:43
+msgid "2nd"
+msgstr "2."
+
+#: zzbrick_tables/wochentermine.php:43
+msgid "3rd"
+msgstr "3."
+
+#: zzbrick_tables/wochentermine.php:43
+msgid "4th"
+msgstr "4."
+
+#: zzbrick_tables/wochentermine.php:43
+msgid "5th"
+msgstr "5."
+
+#: zzbrick_tables/wochentermine.php:43
+msgid "last (4th oder 5th)"
+msgstr "letzter (4. oder 5.)"
+
 #: zzbrick_tables/wochentermine.php:44
 msgid "for appointments such as the first Thursday of the month"
 msgstr "für Termine wie z.&nbsp;B. 1. Donnerstag im Monat"
@@ -271,3 +295,7 @@ msgstr "ja"
 #: zzbrick_tables/wochentermine.php:107
 msgid "Published:"
 msgstr "Veröffentlicht:"
+
+#: zzbrick_tables/wochentermine.php:111
+msgid "Last update"
+msgstr "Stand"
