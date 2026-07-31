@@ -1,0 +1,13 @@
+{
+    "search-hints": [
+        {
+            "title": "So können Sie suchen",
+            "language": "de",
+            "package": "clubs",
+            "filename": "help/Search Hints-de.md",
+            "identifier": "search-hints",
+            "type": "md",
+            "audience": []
+        }
+    ]
+}
