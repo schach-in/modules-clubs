@@ -60,7 +60,7 @@ foreach ($zz['fields'] as $no => $field) {
 		$zz['fields'][$no]['append_next'] = false;
 		$zz['fields'][$no]['title_append'] = false;
 		$zz['fields'][$no]['explanation'] = 'If known: Date or year of founding';
-		if (empty($brick['data']['category_parameters']['foundation_date']))
+		if (empty($brick['data']['category_parameters']['contacts_start_date']))
 			$zz['fields'][$no]['hide_in_form'] = true;
 		break;
 

@@ -27,7 +27,7 @@ $zz['fields'][2]['sql'] = 'SELECT contact_id, contact
 	FROM /*_PREFIX_*/contacts
 	LEFT JOIN /*_PREFIX_*/categories
 		ON /*_PREFIX_*/contacts.contact_category_id = /*_PREFIX_*/categories.category_id
-	WHERE /*_PREFIX_*/categories.parameters LIKE "%&weekly_events=1%"';
+	WHERE /*_PREFIX_*/categories.parameters LIKE "%&clubs_weekly_events=1%"';
 $zz['fields'][2]['display_field'] = 'contact';
 $zz['fields'][2]['search'] = 'organisationen.contact';
 $zz['fields'][2]['character_set'] = 'utf8';

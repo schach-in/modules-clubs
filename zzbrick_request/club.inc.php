@@ -67,7 +67,7 @@ function mod_clubs_club($params, $settings) {
 		LEFT JOIN countries
 			ON org.country_id = countries.country_id
 		WHERE org.identifier = "%s"
-		AND categories.parameters LIKE "%%&clubpage=1%%"
+		AND categories.parameters LIKE "%%&clubs_public_page=1%%"
 	';
 	$sql = sprintf($sql, wrap_db_escape($params[0]));
 	$org = wrap_db_fetch($sql);
@@ -119,7 +119,7 @@ function mod_clubs_club($params, $settings) {
 		}
 	}
 
-	if (!empty($org['parameters']['has_place_contact'])) {
+	if (!empty($org['parameters']['contacts_use_place_contact'])) {
 		$sql = 'SELECT places.contact_id, cc_id
 				, contact, address
 				, postcode, place, description
