@@ -223,7 +223,7 @@ function mod_clubs_club($params, $settings) {
 							$category = wrap_db_fetch($sql);
 							if (!$category) continue; // should not happen
 							parse_str($category['parameters'], $category_parameters);
-							$org[$category_parameters['type']][] = array_merge($v_value, $category);
+							$org[$category_parameters['zzform_def']['type']][] = array_merge($v_value, $category);
 						}
 					} else {
 						foreach ($org as $o_key => $o_value) {
