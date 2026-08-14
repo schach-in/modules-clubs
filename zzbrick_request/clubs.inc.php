@@ -80,7 +80,7 @@ function mod_clubs_clubs($params, $settings = []) {
 		} else {
 			foreach ($data['categories'] as $category) {
 				if (empty($category['awards'])) continue;
-				if (empty($category['parameters']['organisation'])) continue;
+				if (empty($category['parameters']['clubs_map'])) continue;
 				$data['links'][] = [
 					'url' => '../'.$category['path'].'/',
 					'title' => $category['category'].' ('.$category['awards'].')'
