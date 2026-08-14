@@ -13,8 +13,8 @@
  */
 
 
-$values['contactdetails_restrict_to'] = 'school';
-$values['relations_restrict_to'] = 'school';
+$values['context']['contactdetails'] = 'contact/school';
+$values['context']['relations'] = 'contact/school';
 $zz = zzform_include('contacts/contacts', $values, 'forms');
 
 $zz['title'] = 'Add school chess group';

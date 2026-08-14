@@ -15,8 +15,8 @@
 
 mf_clubs_editform($brick['data']);
 
-$values['contactdetails_restrict_to'] = 'places';
-$values['relations_restrict_to'] = 'places';
+$values['context']['contactdetails'] = 'contacts_places';
+$values['context']['relations'] = 'contacts_places';
 $zz = zzform_include('contacts/contacts', $values, 'forms');
 
 $zz['title'] = wrap_page_field('title'); // @todo is translated again
