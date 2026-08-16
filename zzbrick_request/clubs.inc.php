@@ -170,7 +170,7 @@ function mod_clubs_clubs_federations($q, $coordinates) {
 		LEFT JOIN contacts h
 			ON contacts_contacts.main_contact_id = h.contact_id
 		WHERE o.contact LIKE "%%%s%%"
-		AND categories.parameters LIKE "%%&organisation=1%%"
+		AND categories.parameters LIKE "%%&contacts_organisation=1%%"
 		AND ISNULL(o.end_date)
 		ORDER BY rang DESC, o.identifier
 	';

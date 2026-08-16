@@ -45,7 +45,7 @@ function mf_clubs_search_club($search) {
 		LEFT JOIN categories
 			ON contacts.contact_category_id = categories.category_id
 		WHERE contact LIKE "%%%s%%"
-		AND categories.parameters LIKE "%%&organisation=1%%"
+		AND categories.parameters LIKE "%%&contacts_organisation=1%%"
 		AND ISNULL(end_date)';
 	$sql = sprintf($sql, implode('%', $qs));
 	$club = wrap_db_fetch($sql);
@@ -57,7 +57,7 @@ function mf_clubs_search_club($search) {
 	LEFT JOIN categories
 		ON contacts.contact_category_id = categories.category_id
 	WHERE REPLACE(identifier, "-", "") LIKE "%%%s%%"
-	AND categories.parameters LIKE "%%&organisation=1%%"
+	AND categories.parameters LIKE "%%&contacts_organisation=1%%"
 	AND ISNULL(end_date)';
 	$sql = sprintf($sql, wrap_db_escape($q));
 	$club = wrap_db_fetch($sql);
@@ -76,7 +76,7 @@ function mf_clubs_search_club($search) {
 		LEFT JOIN categories
 			ON contacts.contact_category_id = categories.category_id
 		WHERE contact LIKE "%%%s%%"
-		AND categories.parameters LIKE "%%&organisation=1%%"
+		AND categories.parameters LIKE "%%&contacts_organisation=1%%"
 		AND ISNULL(end_date)';
 	$sql = sprintf($sql, implode('%', $qs));
 	$club = wrap_db_fetch($sql);

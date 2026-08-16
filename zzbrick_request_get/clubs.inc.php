@@ -154,7 +154,7 @@ function mod_clubs_get_clubs($params, $settings = []) {
 			AND federations.relation_category_id = /*_ID categories relation/member _*/
 		WHERE ISNULL(organisationen.end_date)
 		AND NOT ISNULL(latitude) AND NOT ISNULL(longitude)
-		AND categories.parameters LIKE "%%&organisation=1%%"
+		AND categories.parameters LIKE "%%&contacts_organisation=1%%"
 		%s
 	';
 	$csql = sprintf($sql
@@ -220,7 +220,7 @@ function mod_clubs_get_clubs_federation($identifier) {
 		LEFT JOIN categories
 			ON contacts.contact_category_id = categories.category_id
 		WHERE identifier = "%s"
-		AND categories.parameters LIKE "%%&organisation=1%%"';
+		AND categories.parameters LIKE "%%&contacts_organisation=1%%"';
 	$sql = sprintf($sql, wrap_db_escape($identifier));
 	return wrap_db_fetch($sql);
 }
