@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Zugzwang Project -- clubs module\n"
-"POT-Creation-Date: 2026-08-13 19:32+0000\n"
+"POT-Creation-Date: 2026-08-20 10:08+0000\n"
 "PO-Revision-Date: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -48,23 +48,27 @@ msgstr ""
 msgid "Show this category on the clubs map (sidebar link and map view)"
 msgstr ""
 
-#: configuration/settings.cfg:44
+#: configuration/settings.cfg:45
+msgid "Monthly (not weekly) meeting type (nth weekday per month)"
+msgstr ""
+
+#: configuration/settings.cfg:51
 msgid "Contact has a public club page"
 msgstr ""
 
-#: configuration/settings.cfg:49
+#: configuration/settings.cfg:56
 msgid "Minimum number of members to show statistics in club data"
 msgstr ""
 
-#: configuration/settings.cfg:53
+#: configuration/settings.cfg:60
 msgid "List of URL endings that point to files, nothing someone would ever really search for, so return immediately with 404"
 msgstr ""
 
-#: configuration/settings.cfg:139
+#: configuration/settings.cfg:146
 msgid "List of the beginning of URL paths that nobody searchs for, so return immediately with 404"
 msgstr ""
 
-#: configuration/settings.cfg:164
+#: configuration/settings.cfg:171
 msgid "Category for weekly club meeting entries"
 msgstr ""
 

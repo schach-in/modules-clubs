@@ -20,3 +20,4 @@
 /* 2026-08-10-2 */	UPDATE categories SET parameters = REPLACE(parameters, '&clubpage=', '&clubs_public_page=') WHERE parameters LIKE '%&clubpage=%';
 /* 2026-08-10-3 */	UPDATE categories SET parameters = REPLACE(parameters, '&foundation_date=', '&contacts_start_date=') WHERE parameters LIKE '%&foundation_date=%';
 /* 2026-08-13-1 */	UPDATE categories SET parameters = REPLACE(parameters, '&organisation=1', '&clubs_map=1') WHERE path LIKE 'tags/%' AND parameters LIKE '%&organisation=1%';
+/* 2026-08-20-1 */	UPDATE categories SET parameters = REPLACE(parameters, '&monat=1', '&clubs_monthly_events=1') WHERE path LIKE 'wochentermine/%' AND parameters LIKE '%&monat=1%';

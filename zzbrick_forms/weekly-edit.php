@@ -37,7 +37,7 @@ switch ($brick['vars'][1]) {
 			LEFT JOIN wochentermine
 				ON wochentermine.wochentermin_category_id = categories.category_id
 			WHERE wochentermin_id = %d
-			AND parameters LIKE "%%&monat=1%%"';
+			AND parameters LIKE "%%&clubs_monthly_events=1%%"';
 		$sql = sprintf($sql, $brick['vars'][2]);
 		$parameter = wrap_db_fetch($sql, '', 'single value');
 		$mode = $parameter ? 'month' : 'week';
@@ -58,12 +58,12 @@ $zz['fields'][2]['hide_in_form'] = true;
 if ($mode !== 'month') {
 	$zz['fields'][6]['sql'] = 'SELECT category_id, category, main_category_id
 		FROM categories
-		WHERE (ISNULL(parameters) OR parameters NOT LIKE "%&monat=1%")
+		WHERE (ISNULL(parameters) OR parameters NOT LIKE "%&clubs_monthly_events=1%")
 		ORDER BY sequence';
 } else {
 	$zz['fields'][6]['sql'] = 'SELECT category_id, category, main_category_id
 		FROM categories
-		WHERE parameters LIKE "%&monat=1%"
+		WHERE parameters LIKE "%&clubs_monthly_events=1%"
 		ORDER BY sequence';
 }
 
