@@ -41,7 +41,7 @@ function mod_clubs_clubsapi($params, $settings = []) {
 
 	$data = wrap_db_fetch($sql, 'contact_id');
 	wrap_include('data', 'zzwrap');
-	$data = wrap_data('contacts', $data);
+	$data = wrap_data('contacts', $data, ['published' => 1]);
 	if (!$data) return false;
 	$data = wrap_data_cleanup($data);
 

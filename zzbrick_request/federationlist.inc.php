@@ -36,7 +36,7 @@ function mod_clubs_federationlist($params) {
 		}
 		return brick_format('%%% request clublist '.$params[0].' %%%');
 	}
-	$data += mf_contacts_contactdetails($data['contact_id'], ['hidden' => false]);
+	$data += mf_contacts_contactdetails($data['contact_id'], ['published' => 1]);
 
 	$sql = 'SELECT contacts.contact_id, contact, category, contacts.identifier
 			, (SELECT COUNT(*) FROM contacts_contacts

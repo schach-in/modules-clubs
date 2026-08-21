@@ -112,7 +112,7 @@ function mod_clubs_clublist($params) {
 	}
 
 	if (!empty($data['with_usernames'])) {
-		$contactdetails = mf_contacts_contactdetails(array_keys($data['vereine']));
+		$contactdetails = mf_contacts_contactdetails(array_keys($data['vereine']), ['published' => 1]);
 		foreach ($contactdetails as $contact_id => $details) {
 			if (empty($details['username'])) continue;
 			foreach ($details['username'] as $username) {
@@ -149,7 +149,7 @@ function mod_clubs_clublist($params) {
 	array_unshift($data['vereine'], $top);
 
 	if ($verband) {
-		$data += mf_contacts_contactdetails($verband['contact_id'], ['hidden' => false]);
+		$data += mf_contacts_contactdetails($verband['contact_id'], ['published' => 1]);
 		$data['parent_orgs'] = mf_clubs_parent_orgs($top['contact_id']);
 	}
 	if (!empty($top['description'])) $data['description'] = $top['description'];

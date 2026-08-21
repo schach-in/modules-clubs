@@ -82,7 +82,7 @@ function mod_clubs_club($params, $settings) {
 		parse_str($org['contact_parameters'], $org['contact_parameters']);
 	else
 		$org['contact_parameters'] = [];
-	$org += mf_contacts_contactdetails($org['contact_id'], ['hidden' => false]);
+	$org += mf_contacts_contactdetails($org['contact_id'], ['published' => 1]);
 	if ($org['members'] < wrap_setting('clubs_stats_min_members'))
 		$org['keine_statistik'] = true;
 	$org['edit'] = $edit;
@@ -134,12 +134,12 @@ function mod_clubs_club($params, $settings) {
 			ORDER BY sequence, places.contact, postcode, place, address';
 		$sql = sprintf($sql, $org['contact_id']);
 		$org['places'] = wrap_db_fetch($sql, 'contact_id');
-		$details = mf_contacts_contactdetails(array_keys($org['places']));
+		$details = mf_contacts_contactdetails(array_keys($org['places']), ['published' => 1]);
 	} else {
-		$addresses = mf_contacts_addresses($org['contact_id']);
+		$addresses = mf_contacts_addresses($org['contact_id'], ['published' => 1]);
 		if ($addresses)
 			$org['places'][$org['contact_id']] = reset($addresses); // only one = @todo change key to address_id
-		$details[$org['contact_id']] = mf_contacts_contactdetails($org['contact_id']);
+		$details[$org['contact_id']] = mf_contacts_contactdetails($org['contact_id'], ['published' => 1]);
 	}
 
 	// website, telefon, telefax, e_mail
