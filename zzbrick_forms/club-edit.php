@@ -14,7 +14,12 @@
 
 
 mf_clubs_editform($brick['data']);
+
 $values['contact_category_id'] = $brick['data']['contact_category_id'];
+$values['addresses'] = [];
+$values['relations'] = [];
+$values['context']['contactdetails'] = 'contacts_organisations';
+
 $zz = zzform_include('contacts', $values, 'forms');
 
 unset($zz['filter']);

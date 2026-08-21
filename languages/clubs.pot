@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Zugzwang Project -- clubs module\n"
-"POT-Creation-Date: 2026-07-27 09:10+0000\n"
+"POT-Creation-Date: 2026-08-21 07:28+0000\n"
 "PO-Revision-Date: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -80,27 +80,27 @@ msgstr ""
 msgid "Total no. of records without this data: %s"
 msgstr ""
 
-#: zzbrick_forms/club-edit.php:42
+#: zzbrick_forms/club-edit.php:47
 msgid "Name"
 msgstr ""
 
-#: zzbrick_forms/club-edit.php:46
+#: zzbrick_forms/club-edit.php:51
 msgid "Type"
 msgstr ""
 
-#: zzbrick_forms/club-edit.php:54
+#: zzbrick_forms/club-edit.php:59
 msgid "A little about your club (optional)"
 msgstr ""
 
-#: zzbrick_forms/club-edit.php:59
+#: zzbrick_forms/club-edit.php:64
 msgid "Founding or similar"
 msgstr ""
 
-#: zzbrick_forms/club-edit.php:62
+#: zzbrick_forms/club-edit.php:67
 msgid "If known: Date or year of founding"
 msgstr ""
 
-#: zzbrick_forms/club-edit.php:68
+#: zzbrick_forms/club-edit.php:73
 #: zzbrick_forms/school-add.php:65
 msgid "State"
 msgstr ""
