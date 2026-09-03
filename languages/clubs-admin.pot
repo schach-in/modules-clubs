@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Zugzwang Project -- clubs module\n"
-"POT-Creation-Date: 2026-08-20 10:08+0000\n"
+"POT-Creation-Date: 2026-09-03 10:02+0000\n"
 "PO-Revision-Date: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -64,11 +64,11 @@ msgstr ""
 msgid "List of URL endings that point to files, nothing someone would ever really search for, so return immediately with 404"
 msgstr ""
 
-#: configuration/settings.cfg:146
+#: configuration/settings.cfg:148
 msgid "List of the beginning of URL paths that nobody searchs for, so return immediately with 404"
 msgstr ""
 
-#: configuration/settings.cfg:171
+#: configuration/settings.cfg:177
 msgid "Category for weekly club meeting entries"
 msgstr ""
 
