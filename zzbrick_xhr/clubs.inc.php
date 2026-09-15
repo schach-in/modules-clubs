@@ -28,7 +28,7 @@ function mod_clubs_xhr_clubs($request, $parameters) {
 		LEFT JOIN contacts_identifiers
 			ON contacts_identifiers.contact_id = contacts.contact_id
 			AND contacts_identifiers.current = "yes"
-			AND contacts_identifiers.identifier_category_id = /*_ID categories identifiers/pass_dsb _*/
+			AND contacts_identifiers.identifier_category_id = /*_ID categories identifiers/pass-dsb _*/
 		WHERE ISNULL(end_date)
 		AND contact_category_id IN (
 			/*_ID categories contact/club _*/,

@@ -57,7 +57,7 @@ function mod_clubs_stateorglist($params, $settings) {
 		LEFT JOIN contacts_identifiers
 			ON contacts_identifiers.contact_id = contacts.contact_id
 			AND contacts_identifiers.current = "yes"
-			AND contacts_identifiers.identifier_category_id = /*_ID categories identifiers/pass_dsb _*/
+			AND contacts_identifiers.identifier_category_id = /*_ID categories identifiers/pass-dsb _*/
 		LEFT JOIN clubstats ON clubstats.contact_id = contacts.contact_id
 		LEFT JOIN awards ON awards.contact_id = contacts.contact_id
 		WHERE country_id = %d

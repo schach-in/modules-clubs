@@ -62,7 +62,7 @@ function mod_clubs_club($params, $settings) {
 		LEFT JOIN clubstats USING (contact_id)
 		LEFT JOIN contacts_identifiers ok
 			ON ok.contact_id = org.contact_id
-			AND ok.identifier_category_id = /*_ID categories identifiers/pass_dsb _*/
+			AND ok.identifier_category_id = /*_ID categories identifiers/pass-dsb _*/
 			AND NOT ISNULL(ok.current)
 		LEFT JOIN countries
 			ON org.country_id = countries.country_id

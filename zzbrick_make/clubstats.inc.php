@@ -63,7 +63,7 @@ function mod_clubs_make_clubstats() {
 					, dwz_spieler.ZPS)
 				) = contacts_identifiers.identifier
 			AND contacts_identifiers.current = "yes"
-			AND contacts_identifiers.identifier_category_id = /*_ID categories identifiers/pass_dsb _*/
+			AND contacts_identifiers.identifier_category_id = /*_ID categories identifiers/pass-dsb _*/
 		GROUP BY contact_id';
 	$result = wrap_db_query($sql);
 	if (!$result) {
@@ -100,7 +100,7 @@ function mod_clubs_make_clubstats_new() {
 					, dwz_spieler.ZPS)
 				) = contacts_identifiers.identifier
 			AND contacts_identifiers.current = "yes"
-			AND contacts_identifiers.identifier_category_id = /*_ID categories identifiers/pass_dsb _*/
+			AND contacts_identifiers.identifier_category_id = /*_ID categories identifiers/pass-dsb _*/
 		WHERE ISNULL(contact_id)';
 	$data = wrap_db_fetch($sql, 'code');
 	if (!$data) return false;
@@ -212,7 +212,7 @@ function mod_clubs_make_clubstats_contact_by_zps($code) {
 	$sql = 'SELECT c.contact_id, c.contact, c.end_date
 		FROM contacts c
 		INNER JOIN contacts_identifiers ci ON ci.contact_id = c.contact_id
-		WHERE ci.identifier_category_id = /*_ID categories identifiers/pass_dsb _*/
+		WHERE ci.identifier_category_id = /*_ID categories identifiers/pass-dsb _*/
 		AND ci.current = "yes"
 		AND c.contact_category_id IN (
 			/*_ID categories contact/club _*/,

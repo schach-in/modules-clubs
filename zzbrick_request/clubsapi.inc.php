@@ -29,7 +29,7 @@ function mod_clubs_clubsapi($params, $settings = []) {
 			FROM contacts_identifiers
 			LEFT JOIN contacts USING (contact_id)
 			WHERE contacts_identifiers.identifier LIKE "%s%%"
-			AND identifier_category_id = /*_ID categories identifiers/pass_dsb _*/
+			AND identifier_category_id = /*_ID categories identifiers/pass-dsb _*/
 			AND current = "yes"
 			AND contact_category_id != /*_ID categories contact/person _*/
 			ORDER BY contacts_identifiers.identifier';
