@@ -8,7 +8,7 @@
  * https://www.zugzwang.org/modules/clubs
  *
  * @author Gustaf Mossakowski <gustaf@koenige.org>
- * @copyright Copyright © 2017-2022, 2024 Gustaf Mossakowski
+ * @copyright Copyright © 2017-2022, 2024, 2026 Gustaf Mossakowski
  * @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
  */
 
@@ -33,7 +33,7 @@ function mod_clubs_zps($params) {
 	$sql = 'SELECT contacts.identifier
 		FROM contacts
 		LEFT JOIN contacts_identifiers ok USING (contact_id)
-		WHERE identifier_category_id = /*_ID categories identifiers/pass-dsb */
+		WHERE identifier_category_id = /*_ID categories identifiers/pass-dsb _*/
 		AND ok.identifier = "%s"';
 	$sql = sprintf($sql, wrap_db_escape($code));
 	$identifier = wrap_db_fetch($sql, '', 'single value');
