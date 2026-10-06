@@ -134,7 +134,7 @@ function mod_clubs_make_clubstats_deleted() {
 		FROM dwz_vereine
 		LEFT JOIN dwz_spieler USING (ZPS)
 		LEFT JOIN nuliga_clubs nc ON nc.zps = dwz_vereine.ZPS
-		WHERE ISNULL(dwz_spieler.PID)';
+		WHERE ISNULL(dwz_spieler.ZPS)';
 	$clubs = wrap_db_fetch($sql, 'code');
 	if (!$clubs) return false;
 
