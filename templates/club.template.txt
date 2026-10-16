@@ -269,6 +269,7 @@ Hier finden Sie aktuelle Informationen: <a href="../%%% item nachfolger_kennung 
 %%% unless end_date %%%
 %%% if verein | schachabteilung %%%
 <form method="post" action="bearbeiten/" class="edit"><input type="submit" value="Daten ergänzen oder korrigieren" name="button"></form>
+%%% script default/form-submit-once.js %%%
 %%% endif %%%
 %%% endif %%%
 %%% endif %%%

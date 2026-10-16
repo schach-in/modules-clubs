@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Zugzwang Project -- clubs module\n"
-"POT-Creation-Date: 2026-08-21 07:28+0000\n"
+"POT-Creation-Date: 2026-10-16 12:10+0000\n"
 "PO-Revision-Date: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -36,15 +36,15 @@ msgid_plural "Venues"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/clubs.template.txt:166
+#: templates/clubs.template.txt:167
 msgid "Minimum members"
 msgstr ""
 
-#: templates/clubs.template.txt:167
+#: templates/clubs.template.txt:168
 msgid "Minimum U25 members"
 msgstr ""
 
-#: templates/clubs.template.txt:168
+#: templates/clubs.template.txt:169
 msgid "Minimum female members"
 msgstr ""
 

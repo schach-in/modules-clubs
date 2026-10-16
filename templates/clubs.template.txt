@@ -68,6 +68,7 @@ Schachvereine und Schulschachgruppen
 <p class="explanation">Postleitzahl (oder Beginn davon, wie z. B. 28 = Bremen)
 oder Ortsname</p>
 </form>
+%%% script default/form-submit-once.js %%%
 </div>
 <div class="innerbox_detail">
 
