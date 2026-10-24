@@ -387,6 +387,7 @@ function mod_clubs_get_clubs_geocode($path, $q, $wanted = []) {
 		return [];
 	}
 	$bad_user_agent = empty($_SERVER['HTTP_USER_AGENT']);
+	if (!$bad_user_agent AND wrap_http_is_bot()) $bad_user_agent = true;
 	if (!$bad_user_agent) {
 		foreach (wrap_setting('clubs_geocode_deny_user_agents') as $deny_pattern) {
 			if (!fnmatch($deny_pattern, $_SERVER['HTTP_USER_AGENT'])) continue;
