@@ -34,9 +34,7 @@ if (!$zz['where']['wochentermin_id']) {
 	wrap_quit(404);
 }
 
-// @todo: $zz['access'] = 'delete_only';
-if (empty($_POST)) $_GET['mode'] = 'delete';
-elseif (empty($_POST['zz_action']) OR $_POST['zz_action'] !== 'delete') wrap_quit(403);
+$zz['access'] = 'delete_only';
 
 $zz['page']['dont_show_title_as_breadcrumb'] = true;
 $zz['page']['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];

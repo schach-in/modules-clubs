@@ -59,9 +59,7 @@ $zz['fields'][9]['title'] = 'Note <br>club';
 // published
 $zz['fields'][10]['hide_in_form'] = true;
 
-// @todo $zz['access'] = 'delete_only';
-if (empty($_POST)) $_GET['mode'] = 'delete';
-elseif (empty($_POST['zz_action']) OR $_POST['zz_action'] !== 'delete') wrap_quit(403);
+$zz['access'] = 'delete_only';
 
 if (empty($_SESSION['login_id'])) {
 	$zz['revisions_only'] = true;
