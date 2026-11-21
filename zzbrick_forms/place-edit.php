@@ -182,7 +182,7 @@ if (empty($_SESSION['login_id'])) {
 	$zz['hooks']['after_insert'] = 'mf_clubs_add_revision_public';
 }
 
-$zz['revisions_url'] = '/orte/'; // @todo solve differently, with path and 'area'
+$zz['revisions_url'] = '/orte/'; // @todo solve differently, with path and 'route'
 
 $zz['page']['dont_show_title_as_breadcrumb'] = true;
 $zz['page']['meta'][] = ['name' => 'robots', 'content' => 'noindex, follow, noarchive'];
