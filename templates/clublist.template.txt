@@ -71,7 +71,11 @@
 %%% item share_members_female format=percent %%%
 %%% else %%%–%%% endif %%%</td>
 <td>%%% unless end_date %%%
-<a href="https://www.schachbund.de/verein/%%% item zps_code %%%.html">%%% item zps_code %%%</a>
+%%% if path ratings_dsb_club & zps_code %%%
+<a href="%%% path ratings_dsb_club zps_code %%%">%%% item zps_code %%%</a>
+%%% else %%%
+%%% item zps_code %%%
+%%% endif %%%
 %%% endif %%%</td>
 %%% endif %%%
 %%% if with_awards %%%
