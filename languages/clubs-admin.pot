@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Zugzwang Project -- clubs module\n"
-"POT-Creation-Date: 2026-09-03 10:02+0000\n"
+"POT-Creation-Date: 2026-11-23 22:11+0000\n"
 "PO-Revision-Date: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -21,15 +21,23 @@ msgid "Publicly edit contact data"
 msgstr ""
 
 #: configuration/routes.cfg:18
-msgid "Add venue for club"
+msgid "GeoJSON URL"
 msgstr ""
 
 #: configuration/routes.cfg:23
-msgid "Edit venue for club"
+msgid "Add a kindergarten"
 msgstr ""
 
 #: configuration/routes.cfg:28
-msgid "GeoJSON URL"
+msgid "Add venue for club"
+msgstr ""
+
+#: configuration/routes.cfg:33
+msgid "Edit venue for club"
+msgstr ""
+
+#: configuration/routes.cfg:38
+msgid "Add a school"
 msgstr ""
 
 #: configuration/settings.cfg:21

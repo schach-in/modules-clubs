@@ -1,3 +1,18 @@
+<!--
+# clubs module
+# Adding and editing data, German
+#
+# Part of »Zugzwang Project«
+# https://www.zugzwang.org/modules/clubs
+#
+# @author Gustaf Mossakowski <gustaf@koenige.org>
+# @copyright Copyright © 2026 Gustaf Mossakowski
+# @license http://opensource.org/licenses/lgpl-3.0.html LGPL-3.0
+#
+# Variables
+# execute_bricks = if path clubs_school_add, path clubs_school_add, endif, if path clubs_kindergarten_add, path clubs_kindergarten_add, endif
+-->
+
 # Eintragen und Bearbeiten von Daten
 
 Unter schach.in/deutschland kannst du alle **Schachvereine**, die dem
@@ -24,7 +39,9 @@ Schachangebote oder auch nur Teilnahmen an lokalen Schulschachturnieren.
 Oft bestehen diese Angebote auch nur kurzzeitig. Da es keine zentralen
 Listen gibt, sind wir hier auf deine Mitarbeit angewiesen:
 
-[Meine Schule hinzufügen](/neue-schule/)
+%%% if path clubs_school_add %%%
+[Meine Schule hinzufügen](%%% path clubs_school_add %%%)
+%%% endif %%%
 
 Korrekturen an den bereits vorhandenen Daten können auf jeder Schulseite
 unten unter »Daten bearbeiten« vorgenommen werden.
@@ -34,7 +51,9 @@ unten unter »Daten bearbeiten« vorgenommen werden.
 Auch für die Kleinsten gibt es schon spielerische Schachangebote. Hier
 haben wir aber nur wenige Daten, da es keine organisierten Wettkämpfe gibt.
 
-[Meinen Kindergarten oder meine Kindertagesstätte hinzufügen](/neue-kita/)
+%%% if path clubs_kindergarten_add %%%
+[Meinen Kindergarten oder meine Kindertagesstätte hinzufügen](%%% path clubs_kindergarten_add %%%)
+%%% endif %%%
 
 Korrekturen an den bereits vorhandenen Daten können auf jeder
 Kindergarten- oder Kitaseite unten unter »Daten bearbeiten«
