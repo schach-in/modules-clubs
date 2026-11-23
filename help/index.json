@@ -1,4 +1,15 @@
 {
+    "adding-and-editing-data": [
+        {
+            "title": "Eintragen und Bearbeiten von Daten",
+            "language": "de",
+            "package": "clubs",
+            "filename": "help/Adding and Editing Data-de.md",
+            "identifier": "adding-and-editing-data",
+            "type": "md",
+            "audience": []
+        }
+    ],
     "search-hints": [
         {
             "title": "So können Sie suchen",
